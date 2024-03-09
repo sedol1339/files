@@ -312,9 +312,20 @@ Hochreiter, S., & Schmidhuber, J. (1997). Flat Minima. Neural Comput., 9(1), 1�
 
 Bengio, Y., Paiement, J.-f., Vincent, P., Delalleau, O., Roux, N., & Ouimet, M. (2003). Out-of-Sample Extensions for LLE, Isomap, MDS, Eigenmaps, and Spectral Clustering. Advances in Neural Information Processing Systems, 16. Retrieved from https://papers.nips.cc/paper_files/paper/2003/hash/cf05968255451bdefe3c5bc64d550517-Abstract.html
 
+    - We consider five types of unsupervised learning algorithms based on a spectral embedding
+    - They are MDS, spectral clustering, Laplacian eigenmaps, Isomap and LLE
+    - We present an extension for these methods
+    - It allows one to apply a trained model to out-of-sample points without having to recompute eigenvectors
+    - It introduces a notion of function induction and generalization error for these algorithms
+    - We experiment on real high-dimensional data
+
 ## 2004
 
 Grandvalet, Y., & Bengio, Y. (2004). Semi-supervised Learning by Entropy Minimization. Advances in Neural Information Processing Systems, 17. Retrieved from https://papers.nips.cc/paper_files/paper/2004/hash/96f2b50b5d3613adf9c27049b2a888c7-Abstract.html
+
+    - We present minimum entropy regularization for semi-supervised learning for any probabilistic classifier
+    - Unlabeled examples are mostly beneficial when classes have small overlap
+    - Experiments suggest that the minimum entropy regularization may be a serious contender to generative models
 
 ## 2006
 
@@ -331,7 +342,7 @@ Hinton, G. E., Osindero, S., & Teh, Y.-W. (2006). A fast learning algorithm for 
     - We propose an algorithm to learn DBNs one layer at a time
     - The top two layers form an undirected associative memory
     - Our 3-layer network forms a good generative model of the joint distribution of MNIST
-    - The low-dimensional data manifolds are modeled by long ravines in the free-energy landscape of the top-level associative memory, and it is easy to explore these ravines
+    - The low-dimensional data manifolds are modeled by long ravines in the free-energy landscape of the top-level associative memory, and it is easy to explore these ravines 
 
 ## 2007
 
@@ -343,12 +354,17 @@ Bengio, Y., Lamblin, P., Popovici, D., Larochelle, H., & Montreal, U. (2007). Gr
 
 Bengio, Y., & LeCun, Y. (2007). Scaling learning algorithms towards AI. Retrieved from https://www.iro.umontreal.ca/~lisa/pointeurs/bengio+lecun_chapter2007.pdf
 
+    - Kernel methods are fundamentally limited in their ability to learn complex high-dimensional functions
+    - Kernel machines are shallow architectures, they can be very sample-inefficient
+    - We analyze a limitation of kernel machines with a local kernel
+    - We argue that deep architectures have the potential to generalize beyond immediate neighbors
+
 Ranzato, M., Poultney, C., Chopra, S., & Cun, Y. (2006). Efficient Learning of Sparse Representations with an Energy-Based Model. Advances in Neural Information Processing Systems, 19. Retrieved from https://proceedings.neurips.cc/paper/2006/hash/87f4d79e36d68c3031ccf6c55e9bbd39-Abstract.html
 
     - We train a linear encoder-decoder with sparsifying non-linearity in unsupervised way
     - The non-linearity turns a code vector into a quasi-binary sparse code vector
     - Learning proceeds in a two-phase EM-like fashion
-    - We use the proposed method to initialize the first CNNlayer to achieve SOTA on MNIST
+    - We use the proposed method to initialize the first CNN layer to achieve SOTA on MNIST
 
 ## 2008
 
@@ -358,9 +374,20 @@ Lee, H., Ekanadham, C., & Ng, A. (2007). Sparse deep belief net model for visual
     - The first layer, similar to prior work on sparse coding and ICA, results in edge filters
     - The second layer learns "corner" features that mimic properties of visual cortical area V2
 
-Le Roux, N., & Bengio, Y. (2008). Representational power of restricted boltzmann machines and deep belief networks. arXiv, 18254699. Retrieved from https://pubmed.ncbi.nlm.nih.gov/18254699
+Le Roux, N., & Bengio, Y. (2008). Representational power of restricted boltzmann machines and deep belief networks. arXiv, 18254699. Retrieved from https://www.cl.uni-heidelberg.de/courses/ws14/deepl/LeRouxBengio07.pdf
 
-Vincent, P., Larochelle, H., Bengio, Y., & Manzagol, P.-A. (2008). Extracting and composing robust features with denoising autoencoders. Proceedings of the 25th International Conference on Machine Learning, 1096–1103. Retrieved from https://www.cl.uni-heidelberg.de/courses/ws14/deepl/LeRouxBengio07.pdf
+    - We show that Restricted Boltzmann Machines are universal approximators of discrete distributions
+    - Do we need a lot of layers in Deep Belief Networks?
+    - Maybe the answer lies in the ability of a DBN to generalize better by having a more compact representation
+    - The analysis suggests to investigate KL as an alternative to Contrastive Divergence for training each layer
+    - Because it would take into account that more layers will be added
+
+Vincent, P., Larochelle, H., Bengio, Y., & Manzagol, P.-A. (2008). Extracting and composing robust features with denoising autoencoders. Proceedings of the 25th International Conference on Machine Learning, 1096–1103. Retrieved from https://www.cs.toronto.edu/~larocheh/publications/icml-2008-denoising-autoencoders.pdf
+
+    - We propose a recipe for unsupervised learning based on the robustness to partial corruption of the input
+    - Denoising autoencoders can be stacked to initialize deep architectures
+    - We motivate this from a manifold learning, information theoretic and generative model perspectives
+    - Experiments clearly show the surprising advantage of corrupting the input of autoencoders
 
 ## 2009
 
@@ -372,7 +399,16 @@ Bengio, Y. (2009). Learning Deep Architectures for AI. Foundations, 2(1), 1–55
 
 Erhan, D., Manzagol, P.-A., Bengio, Y., Bengio, S., & Vincent, P. (2009). The Difficulty of Training Deep Architectures and the Effect of Unsupervised Pre-Training. Artificial Intelligence and Statistics. PMLR. Retrieved from https://proceedings.mlr.press/v5/erhan09a.html
 
+    - Our experiments the positive effect of unsupervised pre-training and its role as a regularizer
+
 Larochelle, H., Bengio, Y., Louradour, J., & Lamblin, P. (2009). Exploring Strategies for Training Deep Neural Networks. Journal of Machine Learning Research, 1, 140. Retrieved from https://jmlr.org/papers/volume10/larochelle09a/larochelle09a.pdf
+
+    - We confirmthat the greedy layer-wise unsupervised training strategy helps the optimization by
+    - 1) Initializing weights in a region near a good local minimum
+    - 2) Implicitly acts as a sort of regularization for high-level abstractions
+    - We present a series of experiments demonstrating, for example, where the addition of more depth helps
+    - We empirically explore simple variants of training algorithms
+    - Highle resembles the paper "Greedy layer-wise training of deep networks"
 
 ## 2010
 
@@ -897,7 +933,77 @@ Súkeník, P., Mondelli, M., & Lampert, C. (2023). Deep Neural Collapse Is Prova
 
 Guo, L., Ross, K., Zhao, Z., Andriopoulos, G., Ling, S., Xu, Y., & Dong, Z. (2024). Cross Entropy versus Label Smoothing: A Neural Collapse Perspective. arXiv, 2402.03979. Retrieved from https://arxiv.org/abs/2402.03979v2
 
+## OOD
 
+Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. M. (2017). Deeper, Broader and Artier Domain Generalization. arXiv, 1710.03077. Retrieved from https://arxiv.org/abs/1710.03077v1
+
+    - A problem is to learn domain-agnostic model from multiple training domains, and apply to unseen domain
+    - Motivation: target domains may have sparse data for training
+    - We develop a low-rank parameterized CNN model for end-to-end Domain Generalization
+    - This model is based on Tucker decomposition to reduce number of parameters
+    - Every weight tensor for a given domain is the sum of a domain specific tensor and a domain agnostic tensor
+    - We develop a Domain Generalization benchmark covering photo, sketch, cartoon and painting domains
+    - Our method outperforms existing DG alternatives
+
+Peng, X., Bai, Q., Xia, X., Huang, Z., Saenko, K., & Wang, B. (2018). Moment Matching for Multi-Source Domain Adaptation. arXiv, 1812.01754. Retrieved from https://arxiv.org/abs/1812.01754v4
+
+    - We aim to transfer knowledge learned from multiple labeled source domains to an unlabeled target domain
+    - We collect a DomainNet dataset with 6 domains, ~0.6 million images, 345 categories
+    - We propose Moment Matching for Multi-Source Domain Adaptation (M3SDA)
+    - It consists of three components: feature extractor, moment matching component, and classifiers
+    - Moment matching component dynamically aligns moments of domains feature distributions (fig. 3)
+
+Arjovsky, M., Bottou, L., Gulrajani, I., & Lopez-Paz, D. (2019). Invariant Risk Minimization. arXiv, 1907.02893. Retrieved from https://arxiv.org/abs/1907.02893v3
+
+    - Problem: training data may contain spurious correlations (we do not expect them to hold in the future)
+    - We assume that the training data is collected into distinct, separate environments
+    - We want to learn correlations that are stable across training environments
+    - We propose Invariant Risk Minimization (IRM) with the idea: to learn invariances across environments, find a data representation such that the optimal classifier on top of that representation matches for all environments
+    - We pose the constrained optimization problem and simplify it into the practical version
+
+Krueger, D., Caballero, E., Jacobsen, J.-H., Zhang, A., Binas, J., Zhang, D., ...Courville, A. (2020). Out-of-Distribution Generalization via Risk Extrapolation (REx). arXiv, 2003.00688. Retrieved from https://arxiv.org/abs/2003.00688v5
+
+    - We point out that shifts at test time may be more extreme in magnitude than shifts between training domains
+    - We formulate domain generalization (or OOD generalization) as optimizing the worst-case performance over a perturbation set of possible test domains
+    - Our method minimax Risk Extrapolation is an extension of distributionally robust optimization (fig. 1)
+    - It can uncover invariant relationships between X and Y (maintained across all domains)
+    - We demonstrate that REx solves invariant prediction tasks where IRM fails due to covariate shift
+
+Gulrajani, I., & Lopez-Paz, D. (2020). In Search of Lost Domain Generalization. arXiv, 2007.01434. Retrieved from https://arxiv.org/abs/2007.01434v1
+
+    - We point at inconsistencies in experimental conditions for testing various Domain Generalization methods
+    - We realize that model selection is non-trivial for domain generalization tasks
+    - A domain generalization algorithm should be responsible for specifying a model selection method
+    - A model selection policy should have no access to the test domain
+    - We implement DOMAINBED, a testbed for domain generalization
+    - It includes 7 multi-domain datasets, 9 baseline algorithms, and 3 model selection criteria
+    - Carefully designed ERM shows SOTA performance across all datasets
+
+Wortsman, M., Ilharco, G., Kim, J. W., Li, M., Kornblith, S., Roelofs, R., ...Schmidt, L. (2021). Robust fine-tuning of zero-shot models. arXiv, 2109.01903. Retrieved from https://arxiv.org/abs/2109.01903v3
+
+    - Problem: fine-tuning CLIP or ALIGN reduce robustness to distribution shifts
+    - We propose to ensemble the weights of the zero-shot and fine-tuned models (WiSE-FT)
+    - We test it on a set of image distribution shifts
+    - This comes at no additional computational cost during fine-tuning or inference
+
+Arpit, D., Wang, H., Zhou, Y., & Xiong, C. (2021). Ensemble of Averages: Improving Model Selection and Boosting Performance in Domain Generalization. arXiv, 2110.10832. Retrieved from https://arxiv.org/abs/2110.10832v4
+
+Cha, J., Chun, S., Lee, K., Cho, H.-C., Park, S., Lee, Y., & Park, S. (2021). SWAD: Domain Generalization by Seeking Flat Minima. arXiv, 2102.08604. Retrieved from https://arxiv.org/abs/2102.08604v4
+
+Zhang, J., & Bottou, L. (2022). Learning useful representations for shifting tasks and distributions. arXiv, 2212.07346. Retrieved from https://arxiv.org/abs/2212.07346v3
+
+Ramé, A., Kirchmeyer, M., Rahier, T., Rakotomamonjy, A., Gallinari, P., & Cord, M. (2022). Diverse Weight Averaging for Out-of-Distribution Generalization. arXiv, 2205.09739. Retrieved from https://arxiv.org/abs/2205.09739v2
+
+Zhang, J., & Bottou, L. (2024). Fine-tuning with Very Large Dropout. arXiv, 2403.00946. Retrieved from https://arxiv.org/abs/2403.00946v1
+
+    - It is known that nsemble techniques involving multiple data distributions gives richer representations 
+    - We investigate the use of very high dropout rates instead of ensembles to obtain such rich representations
+    - Training a DNN from scratch using such dropout rates is virtually impossible
+    - However, fine-tuning under such conditions is possible
+    - It achieves out-of-distribution performances that exceed those of both ensembles and weight averaging
+    - We also provide interesting insights on representations and intrinsically linear nature of fine-tuning
+
+## Other TODO
 
 Dudzik, A., & Veličković, P. (2022). Graph Neural Networks are Dynamic Programmers. arXiv, 2203.15544. Retrieved from https://arxiv.org/abs/2203.15544v3
 
