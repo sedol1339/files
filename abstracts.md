@@ -175,6 +175,8 @@ Friston, K. J. (2005). A theory of cortical responses. Philosophical Transaction
 
 ## 2006
 
+Crammer, K., Dekel, O., Keshet, J., Shalev-Shwartz, S., & Singer, Y. (2006). Online Passive-Aggressive Algorithms. Journal of Machine Learning Research, 7(19), 551–585. Retrieved from https://jmlr.csail.mit.edu/papers/v7/crammer06a.html
+
 Friston, K. J., Kilner, J., & Harrison, L. (2006). A free energy principle for the brain. J. Physiol.-Paris. Retrieved from https://www.semanticscholar.org/paper/A-free-energy-principle-for-the-brain-Friston-Kilner/641a9d87b9636d4ef2e353a569ddede68bd29131
 
 Hinton, G. E., & Salakhutdinov, R. R. (2006). Reducing the Dimensionality of Data with Neural Networks. Science, 313(5786), 504–507. Retrieved from https://www.cs.toronto.edu/~hinton/absps/science.pdf
@@ -487,6 +489,8 @@ Goodfellow, I. J., Warde-Farley, D., Mirza, M., Courville, A., & Bengio, Y. (201
 
 Goodfellow, I. J., Erhan, D., Carrier, P. L., Courville, A., Mirza, M., Hamner, B., ...Bengio, Y. (2013). Challenges in Representation Learning: A report on three machine learning contests. arXiv, 1307.0414. Retrieved from https://arxiv.org/abs/1307.0414v1
 
+Gregor, K., Danihelka, I., Mnih, A., Blundell, C., & Wierstra, D. (2013). Deep AutoRegressive Networks. arXiv, 1310.8499. Retrieved from https://arxiv.org/abs/1310.8499v2
+
 Kingma, D. P., & Welling, M. (2013). Auto-Encoding Variational Bayes. arXiv, 1312.6114. Retrieved from https://arxiv.org/abs/1312.6114v11
 
     - We aim to learn a directed probabilistic model with continuous latent variables
@@ -504,6 +508,8 @@ Saxe, A. M., McClelland, J. L., & Ganguli, S. (2013). Exact solutions to the non
     - Propose orthonormal initialization
     - Faithful gradient propagation occurs in a special regime known as the edge of chaos
 
+Uria, B., Murray, I., & Larochelle, H. (2013). A Deep and Tractable Density Estimator. arXiv, 1310.1757. Retrieved from https://arxiv.org/abs/1310.1757v2
+
 Wager, S., Wang, S., & Liang, P. (2013). Dropout Training as Adaptive Regularization. arXiv, 1307.1493. Retrieved from https://arxiv.org/abs/1307.1493v2
 
 Wang, S., & Manning, C. (2013). Fast dropout training. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v28/wang13a.html
@@ -511,6 +517,8 @@ Wang, S., & Manning, C. (2013). Fast dropout training. International Conference 
 ## 2014
 
 Bach, F. (2014). Breaking the Curse of Dimensionality with Convex Neural Networks. arXiv, 1412.8690. Retrieved from https://arxiv.org/abs/1412.8690v2
+
+Bahdanau, D., Cho, K., & Bengio, Y. (2014). Neural Machine Translation by Jointly Learning to Align and Translate. arXiv, 1409.0473. Retrieved from https://arxiv.org/abs/1409.0473v7
 
 Bengio, Y. (2014). How Auto-Encoders Could Provide Credit Assignment in Deep Networks via Target Propagation. arXiv, 1407.7906. Retrieved from https://arxiv.org/abs/1407.7906v3
 
@@ -555,7 +563,13 @@ Friston, K. J., Sengupta, B., & Auletta, G. (2014). Cognitive Dynamics: From Att
 
 Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., ...Bengio, Y. (2014). Generative Adversarial Networks. arXiv, 1406.2661. Retrieved from https://arxiv.org/abs/1406.2661v1
 
+Graves, A., Wayne, G., & Danihelka, I. (2014). Neural Turing Machines. arXiv, 1410.5401. Retrieved from https://arxiv.org/abs/1410.5401v2
+
 Kingma, D. P., & Welling, M. (2014). Efficient Gradient-Based Inference through Transformations between Bayes Nets and Neural Nets. arXiv, 1402.0480. Retrieved from https://arxiv.org/abs/1402.0480v5
+
+Kingma, D. P., & Ba, J. (2014). Adam: A Method for Stochastic Optimization. arXiv, 1412.6980. Retrieved from https://arxiv.org/abs/1412.6980v9
+
+Koutník, J., Greff, K., Gomez, F., & Schmidhuber, J. (2014). A Clockwork RNN. arXiv, 1402.3511. Retrieved from https://arxiv.org/abs/1402.3511v1
 
 Lillicrap, T. P., Cownden, D., Tweed, D. B., & Akerman, C. J. (2014). Random feedback weights support learning in deep neural networks. arXiv, 1411.0247. Retrieved from https://arxiv.org/abs/1411.0247v1
 
@@ -598,6 +612,8 @@ Barrett, L. F., & Simmons, K. (2015). Interoceptive predictions in the brain. Na
 
 Chung, J., Kastner, K., Dinh, L., Goel, K., Courville, A., & Bengio, Y. (2015). A Recurrent Latent Variable Model for Sequential Data. arXiv, 1506.02216. Retrieved from https://arxiv.org/abs/1506.02216v6
 
+Clevert, D.-A., Unterthiner, T., & Hochreiter, S. (2015). Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs). arXiv, 1511.07289. Retrieved from https://arxiv.org/abs/1511.07289v5
+
 Courbariaux, M., Bengio, Y., & David, J.-P. (2015). BinaryConnect: Training Deep Neural Networks with binary weights during propagations. arXiv, 1511.00363. Retrieved from https://arxiv.org/abs/1511.00363v3
 
 Friston, K. J., Rigoli, F., Ognibene, D., Mathys, C., FitzGerald, T. H. B., & Pezzulo, G. (2015). Active inference and epistemic value. Cognitive neuroscience. Retrieved from https://www.semanticscholar.org/paper/Active-inference-and-epistemic-value-Friston-Rigoli/57620e357ee348cd5ffa8eafa480e002a2aba06a
@@ -605,6 +621,12 @@ Friston, K. J., Rigoli, F., Ognibene, D., Mathys, C., FitzGerald, T. H. B., & Pe
 Friston, K. J., Levin, M., Sengupta, B., & Pezzulo, G. (2015). Knowing one's place: a free-energy approach to pattern regulation. J. R. Soc. Interface. Retrieved from https://www.semanticscholar.org/paper/Knowing-one's-place%3A-a-free-energy-approach-to-Friston-Levin/2c13294ccc0045d24fe0ae01a5ff6dd21d0566d1
 
 Ge, R., Huang, F., Jin, C., & Yuan, Y. (2015). Escaping From Saddle Points --- Online Stochastic Gradient for Tensor Decomposition. arXiv, 1503.02101. Retrieved from https://arxiv.org/abs/1503.02101v1
+
+He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. arXiv, 1512.03385. Retrieved from https://arxiv.org/abs/1512.03385v1
+
+He, K., Zhang, X., Ren, S., & Sun, J. (2015). Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification. arXiv, 1502.01852. Retrieved from https://arxiv.org/abs/1502.01852v1
+
+Ioffe, S., & Szegedy, C. (2015). Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift. arXiv, 1502.03167. Retrieved from https://arxiv.org/abs/1502.03167v3
 
 Mishkin, D., & Matas, J. (2015). All you need is a good init. arXiv, 1511.06422. Retrieved from https://arxiv.org/abs/1511.06422v7
 
@@ -666,11 +688,17 @@ Hohwy, J. (2016). The self-evidencing brain. Noûs. Retrieved from https://www.s
 
 Im, D. J., Tao, M., & Branson, K. (2016). An empirical analysis of the optimization of deep network loss surfaces. arXiv, 1612.04010. Retrieved from https://arxiv.org/abs/1612.04010v4
 
+Jang, E., Gu, S., & Poole, B. (2016). Categorical Reparameterization with Gumbel-Softmax. arXiv, 1611.01144. Retrieved from https://arxiv.org/abs/1611.01144v5
+
+Kaiser, Ł., & Bengio, S. (2016). Can Active Memory Replace Attention? arXiv, 1610.08613. Retrieved from https://arxiv.org/abs/1610.08613v2
+
 Kawaguchi, K. (2016). Deep Learning without Poor Local Minima. arXiv, 1605.07110. Retrieved from https://arxiv.org/abs/1605.07110v3
 
 Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (2016). On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima. arXiv, 1609.04836. Retrieved from https://arxiv.org/abs/1609.04836v2
 
 Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A. A., ...Hadsell, R. (2016). Overcoming catastrophic forgetting in neural networks. arXiv, 1612.00796. Retrieved from https://arxiv.org/abs/1612.00796v2
+
+Liao, Q., & Poggio, T. (2016). Bridging the Gaps Between Residual Learning, Recurrent Neural Networks and Visual Cortex. arXiv, 1604.03640. Retrieved from https://arxiv.org/abs/1604.03640v2
 
 Lillicrap, T. P., Cownden, D., Tweed, D. B., & Akerman, C. J. (2016). Random synaptic feedback weights support error backpropagation for deep learning. Nat. Commun., 7(13276), 1–10. Retrieved from https://www.nature.com/articles/ncomms13276
 
@@ -679,6 +707,10 @@ Novikov, A., Trofimov, M., & Oseledets, I. (2016). Exponential Machines. arXiv, 
     - Exponential Machines (ExM), a predictor that models all interactions of every order
     - The Tensor Train format regularizes an exponentially large tensor of parameters
     - SOTA performance on synthetic data with high-order interactions
+
+Parikh, A. P., Täckström, O., Das, D., & Uszkoreit, J. (2016). A Decomposable Attention Model for Natural Language Inference. arXiv, 1606.01933. Retrieved from https://arxiv.org/abs/1606.01933v2
+
+Rolfe, J. T. (2016). Discrete Variational Autoencoders. arXiv, 1609.02200. Retrieved from https://arxiv.org/abs/1609.02200v2
 
 Salimans, T., & Kingma, D. P. (2016). Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks. arXiv, 1602.07868. Retrieved from https://arxiv.org/abs/1602.07868v3
 
@@ -693,6 +725,8 @@ Stoudenmire, E. M., & Schwab, D. J. (2016). Supervised Learning with Quantum-Ins
 
     - Algorithms for optimizin Tensor networks can be adapted to supervised learning tasks
 
+Ulyanov, D., Vedaldi, A., & Lempitsky, V. (2016). Instance Normalization: The Missing Ingredient for Fast Stylization. arXiv, 1607.08022. Retrieved from https://arxiv.org/abs/1607.08022v3
+
 Xie, B., Liang, Y., & Song, L. (2016). Diverse Neural Network Learns True Target Functions. arXiv, 1611.03131. Retrieved from https://arxiv.org/abs/1611.03131v3
 
 Zhang, C., Bengio, S., Hardt, M., Recht, B., & Vinyals, O. (2016). Understanding deep learning requires rethinking generalization. arXiv, 1611.03530. Retrieved from https://arxiv.org/abs/1611.03530v2
@@ -704,6 +738,8 @@ Arpit, D., Jastrzębski, S., Ballas, N., Krueger, D., Bengio, E., Kanwal, M. S.,
 Balan, R., Singh, M., & Zou, D. (2017). Lipschitz Properties for Deep Convolutional Networks. arXiv, 1701.05217. Retrieved from https://arxiv.org/abs/1701.05217v1
 
 Bartlett, P., Foster, D. J., & Telgarsky, M. (2017). Spectrally-normalized margin bounds for neural networks. arXiv, 1706.08498. Retrieved from https://arxiv.org/abs/1706.08498v2
+
+Bengio, Y. (2017). The Consciousness Prior. arXiv, 1709.08568. Retrieved from https://arxiv.org/abs/1709.08568v2
 
 Bojarski, M., Yeres, P., Choromanska, A., Choromanski, K., Firner, B., Jackel, L., & Muller, U. (2017). Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car. arXiv, 1704.07911. Retrieved from https://arxiv.org/abs/1704.07911v1
 
@@ -724,6 +760,8 @@ Du, S. S., Lee, J. D., Tian, Y., Poczos, B., & Singh, A. (2017). Gradient Descen
 
 Gomez, A. N., Ren, M., Urtasun, R., & Grosse, R. B. (2017). The Reversible Residual Network: Backpropagation Without Storing Activations. arXiv, 1707.04585. Retrieved from https://arxiv.org/abs/1707.04585v1
 
+Goyal, P., Dollár, P., Girshick, R., Noordhuis, P., Wesolowski, L., Kyrola, A., ...He, K. (2017). Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour. arXiv, 1706.02677. Retrieved from https://arxiv.org/abs/1706.02677v2
+
 Guerguiev, J., Lillicrap, T. P., & Richards, B. A. (2017). Towards deep learning with segregated dendrites. eLife. Retrieved from https://elifesciences.org/articles/22901
 
 Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On Calibration of Modern Neural Networks. arXiv, 1706.04599. Retrieved from https://arxiv.org/abs/1706.04599v2
@@ -734,7 +772,13 @@ Huang, G., Li, Y., Pleiss, G., Liu, Z., Hopcroft, J. E., & Weinberger, K. Q. (20
 
 Huang, F., Ash, J., Langford, J., & Schapire, R. (2017). Learning Deep ResNet Blocks Sequentially using Boosting Theory. arXiv, 1706.04964. Retrieved from https://arxiv.org/abs/1706.04964v4
 
+Ioffe, S. (2017). Batch Renormalization: Towards Reducing Minibatch Dependence in Batch-Normalized Models. arXiv, 1702.03275. Retrieved from https://arxiv.org/abs/1702.03275v2
+
 Jastrzębski, S., Kenton, Z., Arpit, D., Ballas, N., Fischer, A., Bengio, Y., & Storkey, A. (2017). Three Factors Influencing Minima in SGD. arXiv, 1711.04623. Retrieved from https://arxiv.org/abs/1711.04623v3
+
+Kaiser, L., Gomez, A. N., Shazeer, N., Vaswani, A., Parmar, N., Jones, L., & Uszkoreit, J. (2017). One Model To Learn Them All. arXiv, 1706.05137. Retrieved from https://arxiv.org/abs/1706.05137v1
+
+Kaiser, Ł., Nachum, O., Roy, A., & Bengio, S. (2017). Learning to Remember Rare Events. arXiv, 1703.03129. Retrieved from https://arxiv.org/abs/1703.03129v1
 
 Khrulkov, V., & Oseledets, I. (2017). Art of singular vectors and universal adversarial perturbations. arXiv, 1709.03582. Retrieved from https://arxiv.org/abs/1709.03582v2
 
@@ -747,6 +791,8 @@ Khrulkov, V., Novikov, A., & Oseledets, I. (2017). Expressive power of recurrent
     - We prove the same for RNNs with Tensor Train (TT) decomposition
     - We compare expressive powers of the HT- and TT-Networks
     - We implement the recurrent TT-Networks and provide numerical evidence of their expressivity
+
+Klambauer, G., Unterthiner, T., Mayr, A., & Hochreiter, S. (2017). Self-Normalizing Neural Networks. arXiv, 1706.02515. Retrieved from https://arxiv.org/abs/1706.02515v5
 
 Laurent, T., & von Brecht, J. (2017). Deep linear neural networks with arbitrary loss: All local minima are global. arXiv, 1712.01473. Retrieved from https://arxiv.org/abs/1712.01473v2
 
@@ -763,6 +809,8 @@ Li, H., Xu, Z., Taylor, G., Studer, C., & Goldstein, T. (2017). Visualizing the 
 
 Liu, T., Lugosi, G., Neu, G., & Tao, D. (2017). Algorithmic stability and hypothesis complexity. arXiv, 1702.08712. Retrieved from https://arxiv.org/abs/1702.08712v2
 
+Loshchilov, I., & Hutter, F. (2017). Decoupled Weight Decay Regularization. arXiv, 1711.05101. Retrieved from https://arxiv.org/abs/1711.05101v3
+
 Lu, Y., Zhong, A., Li, Q., & Dong, B. (2017). Beyond Finite Layer Neural Networks: Bridging Deep Architectures and Numerical Differential Equations. arXiv, 1710.10121. Retrieved from https://arxiv.org/abs/1710.10121v3
 
 Ma, S., Bassily, R., & Belkin, M. (2017). The Power of Interpolation: Understanding the Effectiveness of SGD in Modern Over-parametrized Learning. arXiv, 1712.06559. Retrieved from https://arxiv.org/abs/1712.06559v3
@@ -770,6 +818,10 @@ Ma, S., Bassily, R., & Belkin, M. (2017). The Power of Interpolation: Understand
 Molchanov, D., Ashukha, A., & Vetrov, D. (2017). Variational Dropout Sparsifies Deep Neural Networks. arXiv, 1701.05369. Retrieved from https://arxiv.org/abs/1701.05369v3
 
 Nguyen, Q., & Hein, M. (2017). The loss surface of deep and wide neural networks. arXiv, 1704.08045. Retrieved from https://arxiv.org/abs/1704.08045v2
+
+Oord, A. v. d., Vinyals, O., & Kavukcuoglu, K. (2017). Neural Discrete Representation Learning. arXiv, 1711.00937. Retrieved from https://arxiv.org/abs/1711.00937v2
+
+Peng, K.-C., Wu, Z., & Ernst, J. (2017). Zero-Shot Deep Domain Adaptation. arXiv, 1707.01922. Retrieved from https://arxiv.org/abs/1707.01922v5
 
 Pennington, J., Schoenholz, S. S., & Ganguli, S. (2017). Resurrecting the sigmoid in deep learning through dynamical isometry: theory and practice. arXiv, 1711.04735. Retrieved from https://arxiv.org/abs/1711.04735v1
 
@@ -804,6 +856,10 @@ Taki, M. (2017). Deep Residual Networks and Weight Initialization. arXiv, 1709.0
     - how batch normalization improves backpropagation in ResNet
     - we propose new weight initialization distribution to prevent exploding gradients
 
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ...Polosukhin, I. (2017). Attention Is All You Need. arXiv, 1706.03762. Retrieved from https://arxiv.org/abs/1706.03762v7
+
+Veličković, P., Cucurull, G., Casanova, A., Romero, A., Liò, P., & Bengio, Y. (2017). Graph Attention Networks. arXiv, 1710.10903. Retrieved from https://arxiv.org/abs/1710.10903v3
+
 Wiatowski, T., Grohs, P., & Bölcskei, H. (2017). Energy Propagation in Deep Convolutional Neural Networks. arXiv, 1704.03636. Retrieved from https://arxiv.org/abs/1704.03636v3
 
 Wu, L., Zhu, Z., & E, W. (2017). Towards Understanding Generalization of Deep Learning: Perspective of Loss Landscapes. arXiv, 1706.10239. Retrieved from https://arxiv.org/abs/1706.10239v2
@@ -814,6 +870,8 @@ Xie, D., Xiong, J., & Pu, S. (2017). All You Need is Beyond a Good Init: Explori
     - Solution: regularizer which utilizes orthonormality and a backward error modulation mechanism.
 
 You, Y., Zhang, Z., Hsieh, C.-J., Demmel, J., & Keutzer, K. (2017). ImageNet Training in Minutes. arXiv, 1709.05011. Retrieved from https://arxiv.org/abs/1709.05011v10
+
+Zaheer, M., Kottur, S., Ravanbakhsh, S., Poczos, B., Salakhutdinov, R., & Smola, A. (2017). Deep Sets. arXiv, 1703.06114. Retrieved from https://arxiv.org/abs/1703.06114v3
 
 ## 2018
 
@@ -854,9 +912,15 @@ Chen, R. T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. (2018). Neural Ord
     - Adapt evaluation strategy to each input
     - Can explicitly trade numerical precision for speed
 
+Chevalier-Boisvert, M., Bahdanau, D., Lahlou, S., Willems, L., Saharia, C., Nguyen, T. H., & Bengio, Y. (2018). BabyAI: A Platform to Study the Sample Efficiency of Grounded Language Learning. arXiv, 1810.08272. Retrieved from https://arxiv.org/abs/1810.08272v4
+
 Cooper, Y. (2018). The loss landscape of overparameterized neural networks. arXiv, 1804.10200. Retrieved from https://arxiv.org/abs/1804.10200v1
 
+Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., & Kaiser, Ł. (2018). Universal Transformers. arXiv, 1807.03819. Retrieved from https://arxiv.org/abs/1807.03819v3
+
 Draxler, F., Veschgini, K., Salmhofer, M., & Hamprecht, F. A. (2018). Essentially No Barriers in Neural Network Energy Landscape. arXiv, 1803.00885. Retrieved from https://arxiv.org/abs/1803.00885v5
+
+Du, S. S., Hu, W., & Lee, J. D. (2018). Algorithmic Regularization in Learning Deep Homogeneous Models: Layers are Automatically Balanced. arXiv, 1806.00900. Retrieved from https://arxiv.org/abs/1806.00900v2
 
 Fort, S., & Scherlis, A. (2018). The Goldilocks zone: Towards better understanding of neural network loss landscapes. arXiv, 1807.02581. Retrieved from https://arxiv.org/abs/1807.02581v2
 
@@ -869,6 +933,8 @@ Galloway, A., Tanay, T., & Taylor, G. W. (2018). Adversarial Training Versus Wei
 Golmant, N., Vemuri, N., Yao, Z., Feinberg, V., Gholami, A., Rothauge, K., ...Gonzalez, J. (2018). On the Computational Inefficiency of Large Batch Sizes for Stochastic Gradient Descent. arXiv, 1811.12941. Retrieved from https://arxiv.org/abs/1811.12941v1
 
 Gotmare, A., Keskar, N. S., Xiong, C., & Socher, R. (2018). A Closer Look at Deep Learning Heuristics: Learning rate restarts, Warmup and Distillation. arXiv, 1810.13243. Retrieved from https://arxiv.org/abs/1810.13243v1
+
+Gu, J., Hassan, H., Devlin, J., & Li, V. O. K. (2018). Universal Neural Machine Translation for Extremely Low Resource Languages. arXiv, 1802.05368. Retrieved from https://arxiv.org/abs/1802.05368v2
 
 Hahn, S., & Choi, H. (2018). Understanding Dropout as an Optimization Trick. arXiv, 1806.09783. Retrieved from https://arxiv.org/abs/1806.09783v3
 
@@ -887,6 +953,8 @@ Hjelm, R. D., Fedorov, A., Lavoie-Marchildon, S., Grewal, K., Bachman, P., Trisc
 Izmailov, P., Podoprikhin, D., Garipov, T., Vetrov, D., & Wilson, A. G. (2018). Averaging Weights Leads to Wider Optima and Better Generalization. arXiv, 1803.05407. Retrieved from https://arxiv.org/abs/1803.05407v3
 
 Jacot, A., Gabriel, F., & Hongler, C. (2018). Neural Tangent Kernel: Convergence and Generalization in Neural Networks. arXiv, 1806.07572. Retrieved from https://arxiv.org/abs/1806.07572v4
+
+Kaiser, Ł., & Bengio, S. (2018). Discrete Autoencoders for Sequence Models. arXiv, 1801.09797. Retrieved from https://arxiv.org/abs/1801.09797v1
 
 Karakida, R., Akaho, S., & Amari, S.-i. (2018). Universal Statistics of Fisher Information in Deep Neural Networks: Mean Field Approach. arXiv, 1806.01316. Retrieved from https://arxiv.org/abs/1806.01316v3
 
@@ -918,6 +986,8 @@ Neal, B., Mittal, S., Baratin, A., Tantia, V., Scicluna, M., Lacoste-Julien, S.,
 
 Nouiehed, M., & Razaviyayn, M. (2018). Learning Deep Models: Critical Points and Local Openness. arXiv, 1803.02968. Retrieved from https://arxiv.org/abs/1803.02968v2
 
+Parmar, N., Vaswani, A., Uszkoreit, J., Kaiser, Ł., Shazeer, N., Ku, A., & Tran, D. (2018). Image Transformer. arXiv, 1802.05751. Retrieved from https://arxiv.org/abs/1802.05751v3
+
 Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. arXiv, 1804.08771. Retrieved from https://arxiv.org/abs/1804.08771v2
 
     - BLEU is a parameterized metric
@@ -927,9 +997,13 @@ Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. arXiv, 1804.08771.
 
 Ruthotto, L., & Haber, E. (2018). Deep Neural Networks Motivated by Partial Differential Equations. arXiv, 1804.04272. Retrieved from https://arxiv.org/abs/1804.04272v2
 
+Santurkar, S., Tsipras, D., Ilyas, A., & Madry, A. (2018). How Does Batch Normalization Help Optimization? arXiv, 1805.11604. Retrieved from https://arxiv.org/abs/1805.11604v5
+
 Scaman, K., & Virmaux, A. (2018). Lipschitz regularity of deep neural networks: analysis and efficient estimation. arXiv, 1805.10965. Retrieved from https://arxiv.org/abs/1805.10965v2
 
 Shamir, O. (2018). Are ResNets Provably Better than Linear Predictors? arXiv, 1804.06739. Retrieved from https://arxiv.org/abs/1804.06739v4
+
+Shaw, P., Uszkoreit, J., & Vaswani, A. (2018). Self-Attention with Relative Position Representations. arXiv, 1803.02155. Retrieved from https://arxiv.org/abs/1803.02155v2
 
 Tarnowski, W., Warchoł, P., Jastrzębski, S., Tabor, J., & Nowak, M. A. (2018). Dynamical Isometry is Achieved in Residual Networks in a Universal Way for any Activation Function. arXiv, 1809.08848. Retrieved from https://arxiv.org/abs/1809.08848v3
 
@@ -947,6 +1021,8 @@ Wang, W., Sun, Y., Eriksson, B., Wang, W., & Aggarwal, V. (2018). Wide Compressi
     - Tensor Ring (TR) factorizations to compress existing MLPs and CNNs
     - with little or no quality degredation on image classification
 
+Wu, Y., & He, K. (2018). Group Normalization. arXiv, 1803.08494. Retrieved from https://arxiv.org/abs/1803.08494v3
+
 Xiao, L., Bahri, Y., Sohl-Dickstein, J., Schoenholz, S. S., & Pennington, J. (2018). Dynamical Isometry and a Mean Field Theory of CNNs: How to Train 10,000-Layer Vanilla Convolutional Neural Networks. arXiv, 1806.05393. Retrieved from https://arxiv.org/abs/1806.05393v2
 
     - Are residual connections and batch normalization necessary for very deep nets?
@@ -954,6 +1030,8 @@ Xiao, L., Bahri, Y., Sohl-Dickstein, J., Schoenholz, S. S., & Pennington, J. (20
     - This research is based on a mean field theory and dynamical isometry (https://arxiv.org/abs/1312.6120)
 
 Xing, C., Arpit, D., Tsirigotis, C., & Bengio, Y. (2018). A Walk with SGD. arXiv, 1802.08770. Retrieved from https://arxiv.org/abs/1802.08770v4
+
+Yuille, A. L., & Liu, C. (2018). Deep Nets: What have they ever done for Vision? arXiv, 1805.04025. Retrieved from https://arxiv.org/abs/1805.04025v4
 
 Yun, C., Sra, S., & Jadbabaie, A. (2018). Small nonlinearities in activation functions create bad local minima in neural networks. arXiv, 1802.03487. Retrieved from https://arxiv.org/abs/1802.03487v4
 
@@ -985,6 +1063,8 @@ Belkin, M., Hsu, D., & Xu, J. (2019). Two models of double descent for weak feat
 
 Bengio, Y., Deleu, T., Rahaman, N., Ke, R., Lachapelle, S., Bilaniuk, O., ...Pal, C. (2019). A Meta-Transfer Objective for Learning to Disentangle Causal Mechanisms. arXiv, 1901.10912. Retrieved from https://arxiv.org/abs/1901.10912v2
 
+Dean, T., Fan, C., Lewis, F. E., & Sano, M. (2019). Biological Blueprints for Next Generation AI Systems. arXiv, 1912.00421. Retrieved from https://arxiv.org/abs/1912.00421v1
+
 Ding, T., Li, D., & Sun, R. (2019). Sub-Optimal Local Minima Exist for Neural Networks with Almost All Non-Linear Activations. arXiv, 1911.01413. Retrieved from https://arxiv.org/abs/1911.01413v3
 
 Farquhar, S., & Gal, Y. (2019). A Unifying Bayesian View of Continual Learning. arXiv, 1902.06494. Retrieved from https://arxiv.org/abs/1902.06494v1
@@ -998,6 +1078,8 @@ Fort, S., Hu, H., & Lakshminarayanan, B. (2019). Deep Ensembles: A Loss Landscap
 Fort, S., Nowak, P. K., Jastrzebski, S., & Narayanan, S. (2019). Stiffness: A New Perspective on Generalization in Neural Networks. arXiv, 1901.09491. Retrieved from https://arxiv.org/abs/1901.09491v3
 
 Ghorbani, B., Krishnan, S., & Xiao, Y. (2019). An Investigation into Neural Net Optimization via Hessian Eigenvalue Density. arXiv, 1901.10159. Retrieved from https://arxiv.org/abs/1901.10159v1
+
+Gu, J., Wang, Y., Cho, K., & Li, V. O. K. (2019). Improved Zero-shot Neural Machine Translation via Ignoring Spurious Correlations. arXiv, 1906.01181. Retrieved from https://arxiv.org/abs/1906.01181v1
 
 Hastie, T., Montanari, A., Rosset, S., & Tibshirani, R. J. (2019). Surprises in High-Dimensional Ridgeless Least Squares Interpolation. arXiv, 1903.08560. Retrieved from https://arxiv.org/abs/1903.08560v5
 
@@ -1033,6 +1115,8 @@ Liang, S., Sun, R., & Srikant, R. (2019). Revisiting Landscape Analysis in Deep 
 
 Liu, T., Chen, M., Zhou, M., Du, S. S., Zhou, E., & Zhao, T. (2019). Towards Understanding the Importance of Shortcut Connections in Residual Networks. arXiv, 1909.04653. Retrieved from https://arxiv.org/abs/1909.04653v3
 
+Liu, L., Jiang, H., He, P., Chen, W., Liu, X., Gao, J., & Han, J. (2019). On the Variance of the Adaptive Learning Rate and Beyond. arXiv, 1908.03265. Retrieved from https://arxiv.org/abs/1908.03265v4
+
 Ma, X., Zhang, P., Zhang, S., Duan, N., Hou, Y., Song, D., & Zhou, M. (2019). A Tensorized Transformer for Language Modeling. arXiv, 1906.09777. Retrieved from https://arxiv.org/abs/1906.09777v3
 
     - We propose Multi-linear attention with Block-Term Tensor Decomposition (BTD)
@@ -1052,6 +1136,8 @@ Peluchetti, S., & Favaro, S. (2019). Infinitely deep neural networks as diffusio
     - Under some assumptions, infinitely deep ResNets converge to SDEs (diffusion processes)
     - They do not suffer from the above property
 
+Qiao, S., Wang, H., Liu, C., Shen, W., & Yuille, A. (2019). Micro-Batch Training with Batch-Channel Normalization and Weight Standardization. arXiv, 1903.10520. Retrieved from https://arxiv.org/abs/1903.10520v2
+
 Rangamani, A., Nguyen, N. H., Kumar, A., Phan, D., Chin, S. H., & Tran, T. D. (2019). A Scale Invariant Flatness Measure for Deep Network Minima. arXiv, 1902.02434. Retrieved from https://arxiv.org/abs/1902.02434v1
 
 Shen, X., Tian, X., Liu, T., Xu, F., & Tao, D. (2019). Continuous Dropout. arXiv, 1911.12675. Retrieved from https://arxiv.org/abs/1911.12675v1
@@ -1061,6 +1147,8 @@ Simsekli, U., Sagun, L., & Gurbuzbalaban, M. (2019). A Tail-Index Analysis of St
 Siu, C. (2019). Residual Networks Behave Like Boosting Algorithms. arXiv, 1909.11790. Retrieved from https://arxiv.org/abs/1909.11790v1
 
 Sohl-Dickstein, J., & Kawaguchi, K. (2019). Eliminating all bad Local Minima from Loss Landscapes without even adding an Extra Unit. arXiv, 1901.03909. Retrieved from https://arxiv.org/abs/1901.03909v1
+
+Wang, Q., Li, B., Xiao, T., Zhu, J., Li, C., Wong, D. F., & Chao, L. S. (2019). Learning Deep Transformer Models for Machine Translation. arXiv, 1906.01787. Retrieved from https://arxiv.org/abs/1906.01787v1
 
 Wang, J., Chen, Y., Chakraborty, R., & Yu, S. X. (2019). Orthogonal Convolutional Neural Networks. arXiv, 1911.12207. Retrieved from https://arxiv.org/abs/1911.12207v3
 
@@ -1075,19 +1163,29 @@ Yang, G. (2019). Tensor Programs I: Wide Feedforward or Recurrent Neural Network
 
 Yun, C., Sra, S., & Jadbabaie, A. (2019). Are deep ResNets provably better than linear predictors? arXiv, 1907.03922. Retrieved from https://arxiv.org/abs/1907.03922v2
 
+Zhang, H., Dauphin, Y. N., & Ma, T. (2019). Fixup Initialization: Residual Learning Without Normalization. arXiv, 1901.09321. Retrieved from https://arxiv.org/abs/1901.09321v2
+
+Zhang, J., Karimireddy, S. P., Veit, A., Kim, S., Reddi, S. J., Kumar, S., & Sra, S. (2019). Why are Adaptive Methods Good for Attention Models? arXiv, 1912.03194. Retrieved from https://arxiv.org/abs/1912.03194v2
+
 ## 2020
 
 Agarwal, C., D'souza, D., & Hooker, S. (2020). Estimating Example Difficulty Using Variance of Gradients. arXiv, 2008.11600. Retrieved from https://arxiv.org/abs/2008.11600v4
 
+Bachlechner, T., Majumder, B. P., Mao, H. H., Cottrell, G. W., & McAuley, J. (2020). ReZero is All You Need: Fast Convergence at Large Depth. arXiv, 2003.04887. Retrieved from https://arxiv.org/abs/2003.04887v2
+
 Chan, K. H. R., Yu, Y., You, C., Qi, H., Wright, J., & Ma, Y. (2020). Deep Networks from the Principle of Rate Reduction. arXiv, 2010.14765. Retrieved from https://arxiv.org/abs/2010.14765v1
 
 Chen, L., Min, Y., Belkin, M., & Karbasi, A. (2020). Multiple Descent: Design Your Own Generalization Curve. arXiv, 2008.01036. Retrieved from https://arxiv.org/abs/2008.01036v7
+
+Chen, Z., Deng, L., Wang, B., Li, G., & Xie, Y. (2020). A Comprehensive and Modularized Statistical Framework for Gradient Norm Equality in Deep Neural Networks. arXiv, 2001.00254. Retrieved from https://arxiv.org/abs/2001.00254v1
 
 Choe, Y. J., Ham, J., & Park, K. (2020). An Empirical Study of Invariant Risk Minimization. arXiv, 2004.05007. Retrieved from https://arxiv.org/abs/2004.05007v2
 
 D'Ascoli, S., Refinetti, M., Biroli, G., & Krzakala, F. (2020). Double Trouble in Double Descent : Bias and Variance(s) in the Lazy Regime. arXiv, 2003.01054. Retrieved from https://arxiv.org/abs/2003.01054v2
 
 Domingos, P. (2020). Every Model Learned by Gradient Descent Is Approximately a Kernel Machine. arXiv, 2012.00152. Retrieved from https://arxiv.org/abs/2012.00152v1
+
+Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., ...Houlsby, N. (2020). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. arXiv, 2010.11929. Retrieved from https://arxiv.org/abs/2010.11929v2
 
 Faghri, F., Duvenaud, D., Fleet, D. J., & Ba, J. (2020). A Study of Gradient Variance in Deep Learning. arXiv, 2007.04532. Retrieved from https://arxiv.org/abs/2007.04532v1
 
@@ -1098,6 +1196,10 @@ Fang, C., Lee, J. D., Yang, P., & Zhang, T. (2020). Modeling from Features: a Me
     - Global convergence proof for over-parameterized DNN in the mean-field regime
 
 Fort, S., Dziugaite, G. K., Paul, M., Kharaghani, S., Roy, D. M., & Ganguli, S. (2020). Deep learning versus kernel learning: an empirical study of loss landscape geometry and the time evolution of the Neural Tangent Kernel. arXiv, 2010.15110. Retrieved from https://arxiv.org/abs/2010.15110v1
+
+Furrer, D., van Zee, M., Scales, N., & Schärli, N. (2020). Compositional Generalization in Semantic Parsing: Pre-training vs. Specialized Architectures. arXiv, 2007.08970. Retrieved from https://arxiv.org/abs/2007.08970v3
+
+Gorbunov, E., Danilova, M., & Gasnikov, A. (2020). Stochastic Optimization with Heavy-Tailed Noise via Accelerated Gradient Clipping. arXiv, 2005.10785. Retrieved from https://arxiv.org/abs/2005.10785v2
 
 Hu, W., Xiao, L., & Pennington, J. (2020). Provable Benefit of Orthogonal Initialization in Optimizing Deep Linear Networks. arXiv, 2001.05992. Retrieved from https://arxiv.org/abs/2001.05992v1
 
@@ -1118,6 +1220,8 @@ Kidger, P., Morrill, J., Foster, J., & Lyons, T. (2020). Neural Controlled Diffe
     - Theoretical results demonstrating universal approximation
 
 Lengerich, B., Xing, E. P., & Caruana, R. (2020). Dropout as a Regularizer of Interaction Effects. arXiv, 2007.00823. Retrieved from https://arxiv.org/abs/2007.00823v2
+
+Liu, L., Liu, X., Gao, J., Chen, W., & Han, J. (2020). Understanding the Difficulty of Training Transformers. arXiv, 2004.08249. Retrieved from https://arxiv.org/abs/2004.08249v3
 
 Liu, C., Zhu, L., & Belkin, M. (2020). Loss landscapes and optimization in over-parameterized non-linear systems and neural networks. arXiv, 2003.00307. Retrieved from https://arxiv.org/abs/2003.00307v2
 
@@ -1160,6 +1264,8 @@ Queiruga, A. F., Erichson, N. B., Taylor, D., & Mahoney, M. W. (2020). Continuou
 
 Sankar, A. R., Khasbage, Y., Vigneswaran, R., & Balasubramanian, V. N. (2020). A Deeper Look at the Hessian Eigenspectrum of Deep Neural Networks and its Applications to Regularization. arXiv, 2012.03801. Retrieved from https://arxiv.org/abs/2012.03801v2
 
+Shen, D., Zheng, M., Shen, Y., Qu, Y., & Chen, W. (2020). A Simple but Tough-to-Beat Data Augmentation Approach for Natural Language Understanding and Generation. arXiv, 2009.13818. Retrieved from https://arxiv.org/abs/2009.13818v2
+
 Sun, R., Li, D., Liang, S., Ding, T., & Srikant, R. (2020). The Global Landscape of Neural Networks: An Overview. arXiv, 2007.01429. Retrieved from https://arxiv.org/abs/2007.01429v1
 
 Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Reinforcement Learning through Active Inference. arXiv, 2002.12636. Retrieved from https://arxiv.org/abs/2002.12636v1
@@ -1167,6 +1273,8 @@ Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Reinforcement 
 Wang, L., Shen, B., Zhao, N., & Zhang, Z. (2020). Is the Skip Connection Provable to Reform the Neural Network Loss Landscape? arXiv, 2006.05939. Retrieved from https://arxiv.org/abs/2006.05939v1
 
 Wilson, A. G., & Izmailov, P. (2020). Bayesian Deep Learning and a Probabilistic Perspective of Generalization. arXiv, 2002.08791. Retrieved from https://arxiv.org/abs/2002.08791v4
+
+Xiong, R., Yang, Y., He, D., Zheng, K., Zheng, S., Xing, C., ...Liu, T.-Y. (2020). On Layer Normalization in the Transformer Architecture. arXiv, 2002.04745. Retrieved from https://arxiv.org/abs/2002.04745v2
 
 Yang, G. (2020). Tensor Programs II: Neural Tangent Kernel for Any Architecture. arXiv, 2006.14548. Retrieved from https://arxiv.org/abs/2006.14548v4
 
@@ -1217,6 +1325,8 @@ Federici, M., Tomioka, R., & Forré, P. (2021). An Information-theoretic Approac
 
 Fortuin, V. (2021). Priors in Bayesian Deep Learning: A Review. arXiv, 2105.06868. Retrieved from https://arxiv.org/abs/2105.06868v3
 
+Gilmer, J., Ghorbani, B., Garg, A., Kudugunta, S., Neyshabur, B., Cardoze, D., ...Firat, O. (2021). A Loss Curvature Perspective on Training Instability in Deep Learning. arXiv, 2110.04369. Retrieved from https://arxiv.org/abs/2110.04369v1
+
 Hinton, G. (2021). How to represent part-whole hierarchies in a neural network. arXiv, 2102.12627. Retrieved from https://arxiv.org/abs/2102.12627v1
 
 Han, X. Y., Papyan, V., & Donoho, D. L. (2021). Neural Collapse Under MSE Loss: Proximity to and Dynamics on the Central Path. arXiv, 2106.02073. Retrieved from https://arxiv.org/abs/2106.02073v4
@@ -1237,7 +1347,11 @@ Meunier, L., Delattre, B., Araujo, A., & Allauzen, A. (2021). A Dynamical System
 
 Millidge, B., Seth, A., & Buckley, C. L. (2021). Predictive Coding: a Theoretical and Experimental Review. arXiv, 2107.12979. Retrieved from https://arxiv.org/abs/2107.12979v4
 
+Nado, Z., Gilmer, J. M., Shallue, C. J., Anil, R., & Dahl, G. E. (2021). A Large Batch Optimizer Reality Check: Traditional, Generic Optimizers Suffice Across Batch Sizes. arXiv, 2102.06356. Retrieved from https://arxiv.org/abs/2102.06356v3
+
 Ørebæk, O.-E., & Geitle, M. (2021). Exploring the Hyperparameters of XGBoost Through 3D Visualizations. AAAI Spring Symposium Combining Machine Learning with Knowledge Engineering. Retrieved from https://www.semanticscholar.org/paper/Exploring-the-Hyperparameters-of-XGBoost-Through-3D-%C3%98reb%C3%A6k-Geitle/4b5895a52efa17c60b6bbd693f80594c0e10440c
+
+Ortiz, J., Evans, T., & Davison, A. J. (2021). A visual introduction to Gaussian Belief Propagation. arXiv, 2107.02308. Retrieved from https://arxiv.org/abs/2107.02308v1
 
 Rame, A., Dancette, C., & Cord, M. (2021). Fishr: Invariant Gradient Variances for Out-of-Distribution Generalization. arXiv, 2109.02934. Retrieved from https://arxiv.org/abs/2109.02934v3
 
@@ -1245,15 +1359,21 @@ Roberts, D. A., Yaida, S., & Hanin, B. (2021). The Principles of Deep Learning T
 
 Sander, M. E., Ablin, P., Blondel, M., & Peyré, G. (2021). Momentum Residual Neural Networks. arXiv, 2102.07870. Retrieved from https://arxiv.org/abs/2102.07870v3
 
+Schlag, I., Irie, K., & Schmidhuber, J. (2021). Linear Transformers Are Secretly Fast Weight Programmers. arXiv, 2102.11174. Retrieved from https://arxiv.org/abs/2102.11174v3
+
 Schneider, F., Dangel, F., & Hennig, P. (2021). Cockpit: A Practical Debugging Tool for the Training of Deep Neural Networks. arXiv, 2102.06604. Retrieved from https://arxiv.org/abs/2102.06604v2
 
 Schölkopf, B., Locatello, F., Bauer, S., Ke, N. R., Kalchbrenner, N., Goyal, A., & Bengio, Y. (2021). Towards Causal Representation Learning. arXiv, 2102.11107. Retrieved from https://arxiv.org/abs/2102.11107v1
 
 Shang, Y., Duan, B., Zong, Z., Nie, L., & Yan, Y. (2021). Lipschitz Continuity Guided Knowledge Distillation. arXiv, 2108.12905. Retrieved from https://arxiv.org/abs/2108.12905v1
 
-Schlag, I., Irie, K., & Schmidhuber, J. (2021). Linear Transformers Are Secretly Fast Weight Programmers. arXiv, 2102.11174. Retrieved from https://arxiv.org/abs/2102.11174v3
+Shleifer, S., Weston, J., & Ott, M. (2021). NormFormer: Improved Transformer Pretraining with Extra Normalization. arXiv, 2110.09456. Retrieved from https://arxiv.org/abs/2110.09456v2
+
+Silver, D., Singh, S., Precup, D., & Sutton, R. (2021). Reward is enough. Artif. Intell. Retrieved from https://web.eecs.umich.edu/~baveja/Papers/RewardIsEnough.pdf
 
 Smith, S. L., Dherin, B., Barrett, D. G. T., & De, S. (2021). On the Origin of Implicit Regularization in Stochastic Gradient Descent. arXiv, 2101.12176. Retrieved from https://arxiv.org/abs/2101.12176v1
+
+Tolstikhin, I., Houlsby, N., Kolesnikov, A., Beyer, L., Zhai, X., Unterthiner, T., ...Dosovitskiy, A. (2021). MLP-Mixer: An all-MLP Architecture for Vision. arXiv, 2105.01601. Retrieved from https://arxiv.org/abs/2105.01601v4
 
 Yang, G., & Hu, E. J. (2021). Tensor Programs IV: Feature Learning in Infinite-Width Neural Networks. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v139/yang21c.html
 
@@ -1263,6 +1383,8 @@ Yin, M., Sui, Y., Liao, S., & Yuan, B. (2021). Towards Efficient Tensor Decompos
     - A new approach requires a specific training procedure
     - very high compression performance with high accuracy
     - Also works for RNNs
+
+Zhao, M., Liu, Z., Luan, S., Zhang, S., Precup, D., & Bengio, Y. (2021). A Consciousness-Inspired Planning Agent for Model-Based Reinforcement Learning. arXiv, 2106.02097. Retrieved from https://arxiv.org/abs/2106.02097v3
 
 Zhu, Z., Ding, T., Zhou, J., Li, X., You, C., Sulam, J., & Qu, Q. (2021). A Geometric Analysis of Neural Collapse with Unconstrained Features. arXiv, 2105.02375. Retrieved from https://arxiv.org/abs/2105.02375v1
 
@@ -1280,6 +1402,8 @@ Bai, Q., Rosenberg, S., & Xu, W. (2022). A Geometric Understanding of Natural Gr
 
 Christof, C., & Kowalczyk, J. (2022). On the Omnipresence of Spurious Local Minima in Certain Neural Network Training Problems. arXiv, 2202.12262. Retrieved from https://arxiv.org/abs/2202.12262v2
 
+Cohen, J. M., Ghorbani, B., Krishnan, S., Agarwal, N., Medapati, S., Badura, M., ...Gilmer, J. (2022). Adaptive Gradient Methods at the Edge of Stability. arXiv, 2207.14484. Retrieved from https://arxiv.org/abs/2207.14484v1
+
 Ergen, T., Neyshabur, B., & Mehta, H. (2022). Convexifying Transformers: Improving optimization and understanding of transformer networks. arXiv, 2211.11052. Retrieved from https://arxiv.org/abs/2211.11052v1
 
 Fedus, W., Dean, J., & Zoph, B. (2022). A Review of Sparse Expert Models in Deep Learning. arXiv, 2209.01667. Retrieved from https://arxiv.org/abs/2209.01667v1
@@ -1292,17 +1416,29 @@ Friston, K., Da Costa, L., Sajid, N., Heins, C., Ueltzhoffer, K., Pavliotis, G.,
 
 Isomura, T., Shimazaki, H., & Friston, K. J. (2022). Canonical neural networks perform active inference. Commun. Biol., 5(55), 1–15. Retrieved from https://www.nature.com/articles/s42003-021-02994-2
 
+Hafner, D., Lee, K.-H., Fischer, I., & Abbeel, P. (2022). Deep Hierarchical Planning from Pixels. arXiv, 2206.04114. Retrieved from https://arxiv.org/abs/2206.04114v1
+
 Hinton, G. (2022). The Forward-Forward Algorithm: Some Preliminary Investigations. arXiv, 2212.13345. Retrieved from https://arxiv.org/abs/2212.13345v1
 
 Juneja, J., Bansal, R., Cho, K., Sedoc, J., & Saphra, N. (2022). Linear Connectivity Reveals Generalization Strategies. arXiv, 2205.12411. Retrieved from https://arxiv.org/abs/2205.12411v5
+
+Li, Y. (2022). A Short Survey of Systematic Generalization. arXiv, 2211.11956. Retrieved from https://arxiv.org/abs/2211.11956v1
 
 Li, Z., You, C., Bhojanapalli, S., Li, D., Rawat, A. S., Reddi, S. J., ...Kumar, S. (2022). The Lazy Neuron Phenomenon: On Emergence of Activation Sparsity in Transformers. arXiv, 2210.06313. Retrieved from https://arxiv.org/abs/2210.06313v2
 
 Liu, Z., Michaud, E. J., & Tegmark, M. (2022). Omnigrok: Grokking Beyond Algorithmic Data. arXiv, 2210.01117. Retrieved from https://arxiv.org/abs/2210.01117v2
 
+Malladi, S., Wettig, A., Yu, D., Chen, D., & Arora, S. (2022). A Kernel-Based View of Language Model Fine-Tuning. arXiv, 2210.05643. Retrieved from https://arxiv.org/abs/2210.05643v4
+
 Millidge, B., Salvatori, T., Song, Y., Bogacz, R., & Lukasiewicz, T. (2022). Predictive Coding: Towards a Future of Deep Learning beyond Backpropagation? arXiv, 2202.09467. Retrieved from https://arxiv.org/abs/2202.09467v1
 
+Mohamadi, M. A., Bae, W., & Sutherland, D. J. (2022). A Fast, Well-Founded Approximation to the Empirical Neural Tangent Kernel. arXiv, 2206.12543. Retrieved from https://arxiv.org/abs/2206.12543v3
+
 Power, A., Burda, Y., Edwards, H., Babuschkin, I., & Misra, V. (2022). Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets. arXiv, 2201.02177. Retrieved from https://arxiv.org/abs/2201.02177v1
+
+Rangwani, H., Aithal, S. K., Mishra, M., & Babu, R. V. (2022). Escaping Saddle Points for Effective Generalization on Class-Imbalanced Data. arXiv, 2212.13827. Retrieved from https://arxiv.org/abs/2212.13827v1
+
+Ramesh, A., Kirsch, L., van Steenkiste, S., & Schmidhuber, J. (2022). Exploring through Random Curiosity with General Value Functions. arXiv, 2211.10282. Retrieved from https://arxiv.org/abs/2211.10282v1
 
 Ramstead, M. J. D., Sakthivadivel, D. A. R., Heins, C., Koudahl, M., Millidge, B., Da Costa, L., ...Friston, K. J. (2022). On Bayesian Mechanics: A Physics of and by Beliefs. arXiv, 2205.11543. Retrieved from https://arxiv.org/abs/2205.11543v4
 
@@ -1314,13 +1450,23 @@ Sander, M. E., Ablin, P., & Peyré, G. (2022). Do Residual Neural Networks discr
     - Recover the approximated activations during the backward pass by using a reverse-time Euler scheme
     - Fine-tuning very deep ResNets without memory consumption in the residual layers
 
+Sutton, R. S., Bowling, M., & Pilarski, P. M. (2022). The Alberta Plan for AI Research. arXiv, 2208.11173. Retrieved from https://arxiv.org/abs/2208.11173v3
+
+Sutton, R. S., Machado, M. C., Holland, G. Z., Szepesvari, D., Timbers, F., Tanner, B., & White, A. (2022). Reward-Respecting Subtasks for Model-Based Reinforcement Learning. arXiv, 2202.03466. Retrieved from https://arxiv.org/abs/2202.03466v4
+
 Vanchurin, V., Wolf, Y. I., Katsnelson, M. I., & Koonin, E. V. (2022). Toward a theory of evolution as multilevel learning. Proc. Natl. Acad. Sci. U.S.A., 119(6), e2120037119. Retrieved from https://doi.org/10.1073/pnas.2120037119
+
+Wang, H., Ma, S., Huang, S., Dong, L., Wang, W., Peng, Z., ...Wei, F. (2022). Foundation Transformers. arXiv, 2210.06423. Retrieved from https://arxiv.org/abs/2210.06423v2
+
+Wang, H., Ma, S., Dong, L., Huang, S., Zhang, D., & Wei, F. (2022). DeepNet: Scaling Transformers to 1,000 Layers. arXiv, 2203.00555. Retrieved from https://arxiv.org/abs/2203.00555v1
 
 Yang, G., Hu, E. J., Babuschkin, I., Sidor, S., Liu, X., Farhi, D., ...Gao, J. (2022). Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer. arXiv, 2203.03466. Retrieved from https://arxiv.org/abs/2203.03466v2
 
 Zhou, J., You, C., Li, X., Liu, K., Liu, S., Qu, Q., & Zhu, Z. (2022). Are All Losses Created Equal: A Neural Collapse Perspective. arXiv, 2210.02192. Retrieved from https://arxiv.org/abs/2210.02192v2
 
 Zhou, J., Li, X., Ding, T., You, C., Qu, Q., & Zhu, Z. (2022). On the Optimization Landscape of Neural Collapse under MSE Loss: Global Optimality with Unconstrained Features. arXiv, 2203.01238. Retrieved from https://arxiv.org/abs/2203.01238v2
+
+Zhu, Z., Liu, F., Chrysos, G. G., & Cevher, V. (2022). Robustness in deep learning: The good (width), the bad (depth), and the ugly (initialization). arXiv, 2209.07263. Retrieved from https://arxiv.org/abs/2209.07263v4
 
 ## 2023
 
@@ -1330,7 +1476,13 @@ Andriushchenko, M., Croce, F., Müller, M., Hein, M., & Flammarion, N. (2023). A
 
 Araujo, A., Havens, A., Delattre, B., Allauzen, A., & Hu, B. (2023). A Unified Algebraic Perspective on Lipschitz Neural Networks. arXiv, 2303.03169. Retrieved from https://arxiv.org/abs/2303.03169v2
 
+Arbel, J., Pitas, K., Vladimirova, M., & Fortuin, V. (2023). A Primer on Bayesian Neural Networks: Review and Debates. arXiv, 2309.16314. Retrieved from https://arxiv.org/abs/2309.16314v1
+
+Bombari, S., Kiyani, S., & Mondelli, M. (2023). Beyond the Universal Law of Robustness: Sharper Laws for Random Features and Neural Tangent Kernels. arXiv, 2302.01629. Retrieved from https://arxiv.org/abs/2302.01629v2
+
 Isomura, T. (2023). Bayesian mechanics of self-organising systems. arXiv, 2311.10216. Retrieved from https://arxiv.org/abs/2311.10216v1
+
+Cai, C., Hy, T. S., Yu, R., & Wang, Y. (2023). On the Connection Between MPNN and Graph Transformer. arXiv, 2301.11956. Retrieved from https://arxiv.org/abs/2301.11956v4
 
 Chen, L., Lukasik, M., Jitkrittum, W., You, C., & Kumar, S. (2023). It's an Alignment, Not a Trade-off: Revisiting Bias and Variance in Deep Models. arXiv, 2310.09250. Retrieved from https://arxiv.org/abs/2310.09250v1
 
@@ -1342,6 +1494,8 @@ Cirone, N. M., Lemercier, M., & Salvi, C. (2023). Neural signature kernels as in
 Dang, H., Tran, T., Osher, S., Tran-The, H., Ho, N., & Nguyen, T. (2023). Neural Collapse in Deep Linear Networks: From Balanced to Imbalanced Data. arXiv, 2301.00437. Retrieved from https://arxiv.org/abs/2301.00437v5
 
 Dubois, Y., Hashimoto, T., & Liang, P. (2023). Evaluating Self-Supervised Learning via Risk Decomposition. arXiv, 2302.03068. Retrieved from https://arxiv.org/abs/2302.03068v3
+
+Fu, S., & Wang, D. (2023). Theoretical Analysis of Robust Overfitting for Wide DNNs: An NTK Approach. arXiv, 2310.06112. Retrieved from https://arxiv.org/abs/2310.06112v2
 
 Gardner, J., Popovic, Z., & Schmidt, L. (2023). Benchmarking Distribution Shift in Tabular Data with TableShift. arXiv, 2312.07577. Retrieved from https://arxiv.org/abs/2312.07577v3
 
@@ -1359,7 +1513,11 @@ Isomura, T., Kotani, K., Jimbo, Y., & Friston, K. J. (2023). Experimental valida
 
 Jordan, K. (2023). Calibrated Chaos: Variance Between Runs of Neural Network Training is Harmless and Inevitable. arXiv, 2304.01910. Retrieved from https://arxiv.org/abs/2304.01910v1
 
+Kreisler, I., Nacson, M. S., Soudry, D., & Carmon, Y. (2023). Gradient Descent Monotonically Decreases the Sharpness of Gradient Flow Solutions in Scalar Networks and Beyond. arXiv, 2305.13064. Retrieved from https://arxiv.org/abs/2305.13064v1
+
 Laurent, O., Aldea, E., & Franchi, G. (2023). A Symmetry-Aware Exploration of Bayesian Neural Network Posteriors. arXiv, 2310.08287. Retrieved from https://arxiv.org/abs/2310.08287v1
+
+Lee, J. H., & Vijayan, S. (2023). Having Second Thoughts? Let's hear it. arXiv, 2311.15356. Retrieved from https://arxiv.org/abs/2311.15356v1
 
 Li, W., Peng, Y., Zhang, M., Ding, L., Hu, H., & Shen, L. (2023). Deep Model Fusion: A Survey. arXiv, 2309.15698. Retrieved from https://arxiv.org/abs/2309.15698v1
 
@@ -1397,13 +1555,21 @@ Wang, M., Pan, Y., Xu, Z., Yang, X., Li, G., & Cichocki, A. (2023). Tensor Netwo
     - Three primary aspects: network compression, information fusion, and quantum circuit simulation
     - Methods for improving TNNs, implementing TNNs, future directions
 
+Xie, L., Wei, L., Zhang, X., Bi, K., Gu, X., Chang, J., & Tian, Q. (2023). Towards AGI in Computer Vision: Lessons Learned from GPT and Large Language Models. arXiv, 2306.08641. Retrieved from https://arxiv.org/abs/2306.08641v1
+
 Xu, Z., Wang, Y., Frei, S., Vardi, G., & Hu, W. (2023). Benign Overfitting and Grokking in ReLU Networks for XOR Cluster Data. arXiv, 2310.02541. Retrieved from https://arxiv.org/abs/2310.02541v1
 
 Yang, G., & Littwin, E. (2023). Tensor Programs IVb: Adaptive Optimization in the Infinite-Width Limit. arXiv, 2308.01814. Retrieved from https://arxiv.org/abs/2308.01814v2
 
 Yang, G., Yu, D., Zhu, C., & Hayou, S. (2023). Tensor Programs VI: Feature Learning in Infinite-Depth Neural Networks. arXiv, 2310.02244. Retrieved from https://arxiv.org/abs/2310.02244v5
 
+Ye, J., Zhu, Z., Liu, F., Shokri, R., & Cevher, V. (2023). Initialization Matters: Privacy-Utility Analysis of Overparameterized Neural Networks. arXiv, 2310.20579. Retrieved from https://arxiv.org/abs/2310.20579v1
+
+Zhao, M., Alver, S., van Seijen, H., Laroche, R., Precup, D., & Bengio, Y. (2023). Consciousness-Inspired Spatio-Temporal Abstractions for Better Generalization in Reinforcement Learning. arXiv, 2310.00229. Retrieved from https://arxiv.org/abs/2310.00229v3
+
 Zheng, C., Wu, G., Bao, F., Cao, Y., Li, C., & Zhu, J. (2023). Revisiting Discriminative vs. Generative Classifiers: Theory and Implications. arXiv, 2302.02334. Retrieved from https://arxiv.org/abs/2302.02334v2
+
+Zhu, L., Liu, C., Radhakrishnan, A., & Belkin, M. (2023). Catapults in SGD: spikes in the training loss and their impact on generalization through feature learning. arXiv, 2306.04815. Retrieved from https://arxiv.org/abs/2306.04815v2
 
 ## 2024
 
@@ -1411,7 +1577,11 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
 
 Guo, L., Ross, K., Zhao, Z., Andriopoulos, G., Ling, S., Xu, Y., & Dong, Z. (2024). Cross Entropy versus Label Smoothing: A Neural Collapse Perspective. arXiv, 2402.03979. Retrieved from https://arxiv.org/abs/2402.03979v2
 
+Huang, Q., Wake, N., Sarkar, B., Durante, Z., Gong, R., Taori, R., ...Gao, J. (2024). Position Paper: Agent AI Towards a Holistic Intelligence. arXiv, 2403.00833. Retrieved from https://arxiv.org/abs/2403.00833v1
+
 Humayun, A. I., Balestriero, R., & Baraniuk, R. (2024). Deep Networks Always Grok and Here is Why. arXiv, 2402.15555. Retrieved from https://arxiv.org/abs/2402.15555v1
+
+Paolo, G., Gonzalez-Billandon, J., & Kégl, B. (2024). A call for embodied AI. arXiv, 2402.03824. Retrieved from https://arxiv.org/abs/2402.03824v1
 
 Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (2024). Inferring neural activity before plasticity as a foundation for learning beyond backpropagation. Nat. Neurosci., 27, 348–358. Retrieved from https://www.nature.com/articles/s41593-023-01514-1
 
