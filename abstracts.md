@@ -653,6 +653,8 @@ Friston, K. J., Sengupta, B., & Auletta, G. (2014). Cognitive Dynamics: From Att
 
 Goodfellow, I. J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., ...Bengio, Y. (2014). Generative Adversarial Networks. arXiv, 1406.2661. Retrieved from https://arxiv.org/abs/1406.2661v1
 
+Goodfellow, I. J., Vinyals, O., & Saxe, A. M. (2014). Qualitatively characterizing neural network optimization problems. arXiv, 1412.6544. Retrieved from https://arxiv.org/abs/1412.6544v6
+
 Graves, A., Wayne, G., & Danihelka, I. (2014). Neural Turing Machines. arXiv, 1410.5401. Retrieved from https://arxiv.org/abs/1410.5401v2
 
 Kingma, D. P., & Welling, M. (2014). Efficient Gradient-Based Inference through Transformations between Bayes Nets and Neural Nets. arXiv, 1402.0480. Retrieved from https://arxiv.org/abs/1402.0480v5
@@ -665,6 +667,8 @@ Kingma, D. P., & Ba, J. (2014). Adam: A Method for Stochastic Optimization. arXi
     - We provide a theoretical analysis of Adam’s convergence in online convex programming
     - We discuss AdaMax, a variant of Adam based on the infinity norm
 
+Kingma, D. P., Rezende, D. J., Mohamed, S., & Welling, M. (2014). Semi-Supervised Learning with Deep Generative Models. arXiv, 1406.5298. Retrieved from https://arxiv.org/abs/1406.5298v2
+
 Koutník, J., Greff, K., Gomez, F., & Schmidhuber, J. (2014). A Clockwork RNN. arXiv, 1402.3511. Retrieved from https://arxiv.org/abs/1402.3511v1
 
 Lillicrap, T. P., Cownden, D., Tweed, D. B., & Akerman, C. J. (2014). Random feedback weights support learning in deep neural networks. arXiv, 1411.0247. Retrieved from https://arxiv.org/abs/1411.0247v1
@@ -674,6 +678,8 @@ Lillicrap, T. P., Cownden, D., Tweed, D. B., & Akerman, C. J. (2014). Random fee
     - This means replacing W^T by a matrix of fixed random weights
     - We call this feedback alignment
     - This new mechanism performs as quickly and accurately as backpropagation on a variety of problems
+
+Maddison, C. J., Tarlow, D., & Minka, T. (2014). A* Sampling. arXiv, 1411.0030. Retrieved from https://arxiv.org/abs/1411.0030v2
 
 Maeda, S.-i. (2014). A Bayesian encourages dropout. arXiv, 1412.7003. Retrieved from https://arxiv.org/abs/1412.7003v3
 
@@ -711,7 +717,8 @@ Schmidhuber, J. (2014). Deep Learning in Neural Networks: An Overview. arXiv, 14
 
 Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., & Salakhutdinov, R. (2014). Dropout: A Simple Way to Prevent Neural Networks from Overfitting. Journal of Machine Learning Research, 15(56), 1929–1958. Retrieved from https://jmlr.org/papers/v15/srivastava14a.html
 
-    - We show that recently proposed dropout improves the performance of NNss on supervised learning, tasks in vision, speech recognition, document classification and computational biology
+    - We propose a Gaussian Dropout that multiplies the outputs of the neurons by Gaussian random noise
+    - We show that dropout improves the performance of NNss on supervised learning, tasks in vision, speech recognition, document classification and computational biology
 
 Yosinski, J., Clune, J., Bengio, Y., & Lipson, H. (2014). How transferable are features in deep neural networks? arXiv, 1411.1792. Retrieved from https://arxiv.org/abs/1411.1792v1
 
@@ -750,6 +757,8 @@ Friston, K. J., Rigoli, F., Ognibene, D., Mathys, C., FitzGerald, T. H. B., & Pe
 
 Friston, K. J., Levin, M., Sengupta, B., & Pezzulo, G. (2015). Knowing one's place: a free-energy approach to pattern regulation. J. R. Soc. Interface. Retrieved from https://www.semanticscholar.org/paper/Knowing-one's-place%3A-a-free-energy-approach-to-Friston-Levin/2c13294ccc0045d24fe0ae01a5ff6dd21d0566d1
 
+Gal, Y., & Ghahramani, Z. (2015). Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning. arXiv, 1506.02142. Retrieved from https://arxiv.org/abs/1506.02142v6
+
 Ge, R., Huang, F., Jin, C., & Yuan, Y. (2015). Escaping From Saddle Points --- Online Stochastic Gradient for Tensor Decomposition. arXiv, 1503.02101. Retrieved from https://arxiv.org/abs/1503.02101v1
 
     - We consider non-convex functions with exponentially many local minima and saddle points, for example, orthogonal tensor decomposition problem, that is the key step in spectral learning for many latent variable models
@@ -766,6 +775,8 @@ Ioffe, S., & Szegedy, C. (2015). Batch Normalization: Accelerating Deep Network 
 Joulin, A., & Mikolov, T. (2015). Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets. arXiv, 1503.01007. Retrieved from https://arxiv.org/abs/1503.01007v4
 
 Kaiser, Ł., & Sutskever, I. (2015). Neural GPUs Learn Algorithms. arXiv, 1511.08228. Retrieved from https://arxiv.org/abs/1511.08228v3
+
+Lee, T. S. (2015). The visual system's internal model of the world. Proc. IEEE Inst. Electr. Electron. Eng., 26566294. Retrieved from https://pubmed.ncbi.nlm.nih.gov/26566294
 
 Mishkin, D., & Matas, J. (2015). All you need is a good init. arXiv, 1511.06422. Retrieved from https://arxiv.org/abs/1511.06422v7
 
@@ -872,14 +883,20 @@ Im, D. J., Tao, M., & Branson, K. (2016). An empirical analysis of the optimizat
 
 Jang, E., Gu, S., & Poole, B. (2016). Categorical Reparameterization with Gumbel-Softmax. arXiv, 1611.01144. Retrieved from https://arxiv.org/abs/1611.01144v5
 
+    - Stochastic NNs rarely use categorical latent variables due to the inability to backpropagate through samples
+    - We introduce Gumbel-Softmax, a continuous distribution on the simplex that can approximate categorical samples
+    - Its gradients can be easily computed via the reparameterization trick
+    - It can be used to efficiently train semi-supervised models
+
 Kaiser, Ł., & Bengio, S. (2016). Can Active Memory Replace Attention? arXiv, 1610.08613. Retrieved from https://arxiv.org/abs/1610.08613v2
 
 Kawaguchi, K. (2016). Deep Learning without Poor Local Minima. arXiv, 1605.07110. Retrieved from https://arxiv.org/abs/1605.07110v3
 
-    - We prove the following statements for linear DNNs (and non-linear DNNs with the independence assumption) with squared loss function:
+    - We prove the following statements for linear DNNs  with squared loss function:
     - 1) the function is non-convex and non-concave
     - 2) there are only global minima and saddle points, no local minima
     - 3) there exist "bad" saddle points (where the Hessian has no negative eigenvalue) for deep networks
+    - The bad local minima would arise in a deep nonlinear model but only as an effect of adding nonlinearities
 
 Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (2016). On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima. arXiv, 1609.04836. Retrieved from https://arxiv.org/abs/1609.04836v2
 
@@ -955,14 +972,13 @@ Arpit, D., Jastrzębski, S., Ballas, N., Krueger, D., Bengio, E., Kanwal, M. S.,
 Balan, R., Singh, M., & Zou, D. (2017). Lipschitz Properties for Deep Convolutional Networks. arXiv, 1701.05217. Retrieved from https://arxiv.org/abs/1701.05217v1
 
     - We hope to see a small change in the feature vector with respect to a deformation on the input signal
-    - The key step is to derive the Lipschitz properties
-    - It is desired to have a formula to compute the Lipschitz bound
+    - The key step is to derive the Lipschitz properties, tt is desired to have a formula for the Lipschitz bound
     - We compare different methods for computing the Lipschitz constants
 
 Bartlett, P., Foster, D. J., & Telgarsky, M. (2017). Spectrally-normalized margin bounds for neural networks. arXiv, 1706.08498. Retrieved from https://arxiv.org/abs/1706.08498v2
 
     - We calculate DNN's Lipschitz constant: the product of the spectral norms of the weight matrices
-    - It highly correlates with a generalization bound (difference between train and test scores)
+    - It highly correlates with a generalization bound (difference between train and test scores?)
     - We experiment on data with original or random labels
     - SGD selects predictors whose complexity scales with the difficulty of the learning task
 
@@ -998,8 +1014,18 @@ Du, S. S., Lee, J. D., Tian, Y., Poczos, B., & Singh, A. (2017). Gradient Descen
 
     - We consider 1-layer CNN with ReLU and take the same network with fixed weights as target function
     - We prove that with Gaussian input, there is a spurious local minimizer
-    - GD with weight normalization converges to global minimum or to this bad local minimum
+    - GD with weight normalization converges to global minimum or to bad local minimum
     - We see that GD dynamics has two phases: it starts off slow, but converges much faster after several iterations
+
+George, D., Lehrach, W., Kansky, K., Lázaro-Gredilla, M., Laan, C., Marthi, B., ...Phoenix, D. (2017). A generative vision model that trains with high data efficiency and breaks text-based CAPTCHAs. Science. Retrieved from https://www.cs.jhu.edu/~ayuille/JHUcourses/ProbabilisticModelsOfVisualCognition2019/Lec23/nov19lecture/GeorgeCAPCHAS.pdf
+
+    - We introduce a hierarchical probabilistic generative model called the Recursive Cortical Network (RCN)
+    - RCN incorporates message-passing based inference based on neuroscience insights
+    - RCN handles recognition, segmentation and reasoning
+    - To parse a scene, RCN maintains hierarchical graphs for object instances at multiple locations
+    - A backward pass can reject many object hypotheses that were falsely identified in the forward pass
+    - It outperforms DNNs on a scene text recognition benchmark while being 300-fold more data efficient
+    - It breaks the defense of modern text-based CAPTCHAs
 
 Gomez, A. N., Ren, M., Urtasun, R., & Grosse, R. B. (2017). The Reversible Residual Network: Backpropagation Without Storing Activations. arXiv, 1707.04585. Retrieved from https://arxiv.org/abs/1707.04585v1
 
@@ -1017,20 +1043,35 @@ Hoffer, E., Hubara, I., & Soudry, D. (2017). Train longer, generalize better: cl
 
 Huang, G., Li, Y., Pleiss, G., Liu, Z., Hopcroft, J. E., & Weinberger, K. Q. (2017). Snapshot Ensembles: Train 1, get M for free. arXiv, 1704.00109. Retrieved from https://arxiv.org/abs/1704.00109v1
 
+    - We train a single neural network, converging to several local minima along its optimization path
+    - We leverage recent work on cyclic learning rate schedules to obtain repeated rapid convergence
+    - The resulting technique, Snapshot Ensembling, compares favorably with traditional network ensembles
+
 Huang, F., Ash, J., Langford, J., & Schapire, R. (2017). Learning Deep ResNet Blocks Sequentially using Boosting Theory. arXiv, 1706.04964. Retrieved from https://arxiv.org/abs/1706.04964v4
 
 Ioffe, S. (2017). Batch Renormalization: Towards Reducing Minibatch Dependence in Batch-Normalized Models. arXiv, 1702.03275. Retrieved from https://arxiv.org/abs/1702.03275v2
 
 Jastrzębski, S., Kenton, Z., Arpit, D., Ballas, N., Fischer, A., Bengio, Y., & Storkey, A. (2017). Three Factors Influencing Minima in SGD. arXiv, 1711.04623. Retrieved from https://arxiv.org/abs/1711.04623v3
 
+    - We investigate the previously proposed approximation of SGD by a stochastic differential equation (SDE)
+    - Higher values of the ratio of learning rate to batch size lead to wider minima and often better generalization
+    - We study this theoretically and confirm experimentally
+    - Learning rate schedules can be replaced with batch size schedules
+
 Kaiser, L., Gomez, A. N., Shazeer, N., Vaswani, A., Parmar, N., Jones, L., & Uszkoreit, J. (2017). One Model To Learn Them All. arXiv, 1706.05137. Retrieved from https://arxiv.org/abs/1706.05137v1
 
 Kaiser, Ł., Nachum, O., Roy, A., & Bengio, S. (2017). Learning to Remember Rare Events. arXiv, 1703.03129. Retrieved from https://arxiv.org/abs/1703.03129v1
 
+    - How to make memory-augmented DNNs better at life-long and one-shot learning of rare events?
+    - We present a large-scale life-long memory module that exploits fast nearest-neighbor algorithms
+    - It provide the ability to remember and do life-long one-shot learning: it can remember training examples shown many thousands of steps in the past and it can successfully generalize from them
+    - We try it with RNNs and image classification CNNs
+    - We set a new SOTA for one-shot learning on the Omniglot dataset
+
 Khrulkov, V., & Oseledets, I. (2017). Art of singular vectors and universal adversarial perturbations. arXiv, 1709.03582. Retrieved from https://arxiv.org/abs/1709.03582v2
 
-    -  A new algorithm for constructing adversarial perturbations
-    -  Computing (p, q)-singular vectors of the Jacobian matrices of hidden layers of a network
+    -  We propose a new algorithm for constructing adversarial perturbations
+    -  To do this we compute (p, q)-singular vectors of the Jacobian matrices of hidden layers of a network
 
 Khrulkov, V., Novikov, A., & Oseledets, I. (2017). Expressive power of recurrent neural networks. arXiv, 1711.00811. Retrieved from https://arxiv.org/abs/1711.00811v2
 
@@ -1041,9 +1082,29 @@ Khrulkov, V., Novikov, A., & Oseledets, I. (2017). Expressive power of recurrent
 
 Klambauer, G., Unterthiner, T., Mayr, A., & Hochreiter, S. (2017). Self-Normalizing Neural Networks. arXiv, 1706.02515. Retrieved from https://arxiv.org/abs/1706.02515v5
 
-Laurent, T., & von Brecht, J. (2017). Deep linear neural networks with arbitrary loss: All local minima are global. arXiv, 1712.01473. Retrieved from https://arxiv.org/abs/1712.01473v2
+    - We propose self-normalizing neural networks (SNNs) with SELU activation function
+    - Given some (not very realistic) assumptions about input independence we prove that in SNNs activations close to zero mean and unit variance that are propagated through many network layers will converge towards zero mean and unit variance, and vanishing and exploding gradients are impossible
+    - This enables to train FCNs with many layers
+    - SNNs significantly outperformed all competing FNN methods at 121 UCI tasks
+
+Laurent, T., & Brecht, J. (2018). Deep Linear Networks with Arbitrary Loss: All Local Minima Are Global. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v80/laurent18a.html
+
+    - Consider a DNN with the following properties:
+    - 1) Arbitrary convex differentiable loss
+    - 2) Hidden layers are either at least as wide as the input layer, or at least as wide as the output layer
+    - We proof that in this case all local minima are global minima
+    - If the loss is convex and Lipschitz but not differentiable then DNN can have sub-optimal local minima
 
 Lee, J., Bahri, Y., Novak, R., Schoenholz, S. S., Pennington, J., & Sohl-Dickstein, J. (2017). Deep Neural Networks as Gaussian Processes. arXiv, 1711.00165. Retrieved from https://arxiv.org/abs/1711.00165v3
+
+    - It is known that shallow infinite-width NNs are equivalent to gaussian processes (GP)
+    - We derive the exact equivalence between infinitely wide deep networks and GPs
+    - We develop a computationally efficient pipeline to compute the covariance function for these GPs
+    - We use the resulting NNGPs to perform Bayesian inference for wide DNNs on MNIST and CIFAR10
+    - GP predictions typically outperform those of finite-width networks
+    - One benefit in using a GP is that, due to its Bayesian nature, all predictions have uncertainty estimates
+    - We observe that the NNGP uncertainty estimate is highly correlated with prediction error
+    - We intend to look into scalability for larger learning tasks
 
 Li, H., Xu, Z., Taylor, G., Studer, C., & Goldstein, T. (2017). Visualizing the Loss Landscape of Neural Nets. arXiv, 1712.09913. Retrieved from https://arxiv.org/abs/1712.09913v3
 
@@ -1058,9 +1119,21 @@ Liu, T., Lugosi, G., Neu, G., & Tao, D. (2017). Algorithmic stability and hypoth
 
 Loshchilov, I., & Hutter, F. (2017). Decoupled Weight Decay Regularization. arXiv, 1711.05101. Retrieved from https://arxiv.org/abs/1711.05101v3
 
+    - Common implementations of adaptive GD algorithms employ L2 regularization, often calling it "weight decay"
+    - However, weight decay is equivalent to L2 regularization only for standard SGD
+    - We propose to decouple the weight decay from the optimization steps taken w.r.t. the loss function
+    - It decouples the optimal choice of weight decay factor from the setting of the LR for SGD and Adam
+    - It substantially improves Adam’s generalization performance (AdamW), allowing it to compete with SGD with momentum on image classification datasets (on which it was previously typically outperformed by the latter)
+
 Lu, Y., Zhong, A., Li, Q., & Dong, B. (2017). Beyond Finite Layer Neural Networks: Bridging Deep Architectures and Numerical Differential Equations. arXiv, 1710.10121. Retrieved from https://arxiv.org/abs/1710.10121v3
 
 Ma, S., Bassily, R., & Belkin, M. (2017). The Power of Interpolation: Understanding the Effectiveness of SGD in Modern Over-parametrized Learning. arXiv, 1712.06559. Retrieved from https://arxiv.org/abs/1712.06559v3
+
+    - We study why SGD converges so fast
+    - We show that there is a critical batch size m∗ such that:
+    - 1) SGD iteration with mini-batch size m ≤ m∗ is nearly equivalent to m iterations of mini-batch size 1 (linear scaling regime). Doubling the batch size in this regime will roughly halve the number of iterations needed
+    - 2) SGD iteration with mini-batch m > m∗ is nearly equivalent to a full gradient descent iteration (saturation regime). Increasing batch size in this regime becomes much less beneficial
+    - A critical batch size is nearly independent of the data size
 
 Mahsereci, M., Balles, L., Lassner, C., & Hennig, P. (2017). Early Stopping without a Validation Set. arXiv, 1703.09580. Retrieved from https://arxiv.org/abs/1703.09580v3
 
@@ -1070,7 +1143,20 @@ Mahsereci, M., Balles, L., Lassner, C., & Hennig, P. (2017). Early Stopping with
 
 Molchanov, D., Ashukha, A., & Vetrov, D. (2017). Variational Dropout Sparsifies Deep Neural Networks. arXiv, 1701.05369. Retrieved from https://arxiv.org/abs/1701.05369v3
 
+    - We extend a recently proposed Variational Dropout to the case when dropout rates are unbounded
+    - We propose a way to reduce the variance of the gradient estimator
+    - Individual dropout rates per weight leads to extremely sparse solutions both in FCNs and CNNs
+    - This effect is similar to automatic relevance determination
+    - We reduce the number of parameters up to 68 times on VGG with a negligible decrease of accuracy
+
 Nguyen, Q., & Hein, M. (2017). The loss surface of deep and wide neural networks. arXiv, 1704.08045. Retrieved from https://arxiv.org/abs/1704.08045v2
+
+    - Consider a FCN with the following properties:
+    - 1) squared loss
+    - 2) analytic activation function
+    - 3) the number of hidden units of one layer is larger than the number of training points
+    - 4) the network structure from this layer on is pyramidal
+    - We prove that in this case all local minima are global
 
 Oord, A. v. d., Vinyals, O., & Kavukcuoglu, K. (2017). Neural Discrete Representation Learning. arXiv, 1711.00937. Retrieved from https://arxiv.org/abs/1711.00937v2
 
@@ -1078,7 +1164,7 @@ Peng, K.-C., Wu, Z., & Ernst, J. (2017). Zero-Shot Deep Domain Adaptation. arXiv
 
 Pennington, J., Schoenholz, S. S., & Ganguli, S. (2017). Resurrecting the sigmoid in deep learning through dynamical isometry: theory and practice. arXiv, 1711.04735. Retrieved from https://arxiv.org/abs/1711.04735v1
 
-    - Authors compute analytically the entire singular value distribution of a DNN’s input-output Jacobian
+    - We compute analytically the entire singular value distribution of a DNN’s input-output Jacobian
     - ReLU networks are incapable of dynamical isometry (see https://arxiv.org/abs/1312.6120)
     - Sigmoidal networks with orthogonal weight initialization can achieve isometry and outperform ReLU nets
     - DNNs achieving dynamical isometry learn orders of magnitude faster than networks that do not
@@ -1087,29 +1173,68 @@ Ramstead, M., Badcock, P. B., & Friston, K. J. (2017). Answering Schrödinger's 
 
 Reddi, S. J., Zaheer, M., Sra, S., Poczos, B., Bach, F., Salakhutdinov, R., & Smola, A. J. (2017). A Generic Approach for Escaping Saddle points. arXiv, 1709.01434. Retrieved from https://arxiv.org/abs/1709.01434v1
 
+    - Problem: second-order methods effectively escape saddle points, but require expensive Hessian-based computations
+    - We alternate between a first-order and a second-order optimizers, using the latter only close to saddle points
+    - This minimizes Hessian-based computations and yields convergence results competitive to SOTA
+
 Sagun, L., Evci, U., Guney, V. U., Dauphin, Y., & Bottou, L. (2017). Empirical Analysis of the Hessian of Over-Parametrized Neural Networks. arXiv, 1706.04454. Retrieved from https://arxiv.org/abs/1706.04454v3
+
+    - In DL, we empirically show that the spectrum of the Hessian is composed of two parts:
+    - 1) The bulk centered near zero, and 2) outliers away from the bulk
+    - We analyze sevaral findings, hoping it would shed light on the geometry of high-dimensional non-convex spaces
+    - Small and large batch gradient descent appear to converge to different basins of attraction but we show that they are in fact connected through their flat region and so belong to the same basin
 
 Safran, I., & Shamir, O. (2017). Spurious Local Minima are Common in Two-Layer ReLU Neural Networks. arXiv, 1712.08968. Retrieved from https://arxiv.org/abs/1712.08968v3
 
+    - We consider ReLU networks with one hidden layer and squared loss
+    - We study spurious local minima in this case (not clearly described). The results imply that in high input dimensions, nearly all target networks (what is this?) of the relevant sizes lead to spurious local minima
+
 Shalev-Shwartz, S., Shamir, O., & Shammah, S. (2017). Failures of Gradient-Based Deep Learning. arXiv, 1703.07950. Retrieved from https://arxiv.org/abs/1703.07950v2
+
+    - We describe 4 types of simple problems, for which gradient descent suffers from significant difficulties
+    - These difficulties are not necessarily related to local minima or saddle points, but are related to:
+    - 1) Insufficient information in the gradients about the underlying target function
+    - 2) Low signal-to-noise ratio
+    - 3) Bad conditioning
+    - 4) Flatness in the activations
 
 Shin, H., Lee, J. K., Kim, J., & Kim, J. (2017). Continual Learning with Deep Generative Replay. arXiv, 1705.08690. Retrieved from https://arxiv.org/abs/1705.08690v3
 
 Smith, L. N., & Topin, N. (2017). Exploring loss function topology with cyclical learning rates. arXiv, 1702.04283. Retrieved from https://arxiv.org/abs/1702.04283v1
 
+    - We apply Cyclical Learning Rates (CLR) and linear network interpolation between checkpoints, and observe counterintuitive increases and decreases in training loss and instances of rapid training
+    - Cyclical Learning Rates can produce greater testing accuracy than traditional training 
+
 Smith, L. N., & Topin, N. (2017). Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates. arXiv, 1708.07120. Retrieved from https://arxiv.org/abs/1708.07120v3
+
+    - We describe "super-convergence", where CNNs can be trained an order of magnitude faster than with standard methods
+    - We train NNs with one LR cycle and a large maximum LR
+    - Large LRs regularize the training, hence requiring a reduction of all other forms of regularization, because the amount of regularization must be balanced for each dataset and architecture
+    - We derive a method to compute an estimate of the optimal learning rate
+    - Super-convergence provides a greater boost in performance when the amount of labeled training data is limited
+    - The philosophy behind CLR is a combination of curriculum learning and simulated annealing
 
 Smith, S. L., & Le, Q. V. (2017). A Bayesian Perspective on Generalization and Stochastic Gradient Descent. arXiv, 1710.06451. Retrieved from https://arxiv.org/abs/1710.06451v3
 
+    - Why NNs can easily memorize randomly labeled training data, but generalizing well on real labels?
+    - We show that the same phenomenon occurs in small linear models
+    - This is because Bayesian evidence penalizes sharp minima but is invariant to model parameterization
+    - The noise introduced by small mini-batches drives the parameters towards minima whose evidence is large
+    - We show that the optimum batch size is proportional to both the learning rate and the size of the training set
+
 Smith, S. L., Kindermans, P.-J., Ying, C., & Le, Q. V. (2017). Don't Decay the Learning Rate, Increase the Batch Size. arXiv, 1711.00489. Retrieved from https://arxiv.org/abs/1711.00489v2
+
+    - Decaying the learning rate is simulated annealing
+    - Instead, we propose to increase the batch size during training
+    - This has the potential to dramatically reduce model training times
 
 Soudry, D., & Hoffer, E. (2017). Exponentially vanishing sub-optimal local minima in multilayer neural networks. arXiv, 1702.05777. Retrieved from https://arxiv.org/abs/1702.05777v5
 
 Taki, M. (2017). Deep Residual Networks and Weight Initialization. arXiv, 1709.02956. Retrieved from https://arxiv.org/abs/1709.02956v1
 
     - ResNets are relatively insensitive to choice of initial weights
-    - how batch normalization improves backpropagation in ResNet
-    - we propose new weight initialization distribution to prevent exploding gradients
+    - How does batch normalization improve backpropagation in ResNet?
+    - We propose a new weight initialization distribution to prevent exploding gradients
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ...Polosukhin, I. (2017). Attention Is All You Need. arXiv, 1706.03762. Retrieved from https://arxiv.org/abs/1706.03762v7
 
@@ -1119,10 +1244,15 @@ Wiatowski, T., Grohs, P., & Bölcskei, H. (2017). Energy Propagation in Deep Con
 
 Wu, L., Zhu, Z., & E, W. (2017). Towards Understanding Generalization of Deep Learning: Perspective of Loss Landscapes. arXiv, 1706.10239. Retrieved from https://arxiv.org/abs/1706.10239v2
 
+    - We find that local minima with large volume of attractors often lead good generalization performance
+    - We show that the volume of basin of attraction of good minima dominates over that of poor minima, which guarantees optimization methods with random initialization to converge to good minima
+    - This is irrelevant with the types of optimization methods, in contrast with previous understanding which attribute a good generalization to some particular optimizers (SGD) or regularizations (dropout)
+    - Low-complexity solutions have a small norm of Hessian matrix with respect to model parameters
+
 Xie, D., Xiong, J., & Pu, S. (2017). All You Need is Beyond a Good Init: Exploring Better Solution for Training Extremely Deep Convolutional Neural Networks with Orthonormality and Modulation. arXiv, 1703.01827. Retrieved from https://arxiv.org/abs/1703.01827v3
 
     - Problem: how to train deep nets without any shortcuts/identity mappings?
-    - Solution: regularizer which utilizes orthonormality and a backward error modulation mechanism.
+    - Solution: regularizer which utilizes orthonormality and a backward error modulation mechanism
 
 You, Y., Zhang, Z., Hsieh, C.-J., Demmel, J., & Keutzer, K. (2017). ImageNet Training in Minutes. arXiv, 1709.05011. Retrieved from https://arxiv.org/abs/1709.05011v10
 
@@ -1173,6 +1303,12 @@ Cooper, Y. (2018). The loss landscape of overparameterized neural networks. arXi
 
 Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., & Kaiser, Ł. (2018). Universal Transformers. arXiv, 1807.03819. Retrieved from https://arxiv.org/abs/1807.03819v3
 
+George, D., Lavin, A., Guntupalli, J. S., Mely, D., Hay, N., & Lazaro-Gredilla, M. (2018). Cortical Microcircuits from a Generative Vision Model. arXiv, 1808.01058. Retrieved from https://arxiv.org/abs/1808.01058v1
+
+    - Based on RCN, we derive a family of anatomically instantiated and functional cortical circuit models
+    - It is derived by comparing the computational requirements with known anatomical constraints
+    - It suggests precise functional roles for the feedforward, feedback and lateral connections
+
 Draxler, F., Veschgini, K., Salmhofer, M., & Hamprecht, F. A. (2018). Essentially No Barriers in Neural Network Energy Landscape. arXiv, 1803.00885. Retrieved from https://arxiv.org/abs/1803.00885v5
 
 Du, S. S., Hu, W., & Lee, J. D. (2018). Algorithmic Regularization in Learning Deep Homogeneous Models: Layers are Automatically Balanced. arXiv, 1806.00900. Retrieved from https://arxiv.org/abs/1806.00900v2
@@ -1202,6 +1338,8 @@ Hanin, B., & Rolnick, D. (2018). How to Start Training: The Effect of Initializa
     - For ResNets, the cure of 1) require a specific scaling, then 2) also gets cured
 
 Hernández-García, A., & König, P. (2018). Do deep nets really need weight decay and dropout? arXiv, 1802.07042. Retrieved from https://arxiv.org/abs/1802.07042v3
+
+Hewitt, L. B., Nye, M. I., Gane, A., Jaakkola, T., & Tenenbaum, J. B. (2018). The Variational Homoencoder: Learning to learn high capacity generative models from few examples. arXiv, 1807.08919. Retrieved from https://arxiv.org/abs/1807.08919v1
 
 Hjelm, R. D., Fedorov, A., Lavoie-Marchildon, S., Grewal, K., Bachman, P., Trischler, A., & Bengio, Y. (2018). Learning deep representations by mutual information estimation and maximization. arXiv, 1808.06670. Retrieved from https://arxiv.org/abs/1808.06670v5
 
@@ -1334,6 +1472,8 @@ Fort, S., Nowak, P. K., Jastrzebski, S., & Narayanan, S. (2019). Stiffness: A Ne
 
 Ghorbani, B., Krishnan, S., & Xiao, Y. (2019). An Investigation into Neural Net Optimization via Hessian Eigenvalue Density. arXiv, 1901.10159. Retrieved from https://arxiv.org/abs/1901.10159v1
 
+Greff, K., Kaufman, R. L., Kabra, R., Watters, N., Burgess, C., Zoran, D., ...Lerchner, A. (2019). Multi-Object Representation Learning with Iterative Variational Inference. arXiv, 1903.00450. Retrieved from https://arxiv.org/abs/1903.00450v3
+
 Gu, J., Wang, Y., Cho, K., & Li, V. O. K. (2019). Improved Zero-shot Neural Machine Translation via Ignoring Spurious Correlations. arXiv, 1906.01181. Retrieved from https://arxiv.org/abs/1906.01181v1
 
 Hastie, T., Montanari, A., Rosset, S., & Tibshirani, R. J. (2019). Surprises in High-Dimensional Ridgeless Least Squares Interpolation. arXiv, 1903.08560. Retrieved from https://arxiv.org/abs/1903.08560v5
@@ -1341,6 +1481,8 @@ Hastie, T., Montanari, A., Rosset, S., & Tibshirani, R. J. (2019). Surprises in 
 He, F., Liu, T., & Tao, D. (2019). Why ResNet Works? Residuals Generalize. arXiv, 1904.01367. Retrieved from https://arxiv.org/abs/1904.01367v1
 
 Jiang, A. H., Wong, D. L.-K., Zhou, G., Andersen, D. G., Dean, J., Ganger, G. R., ...Pillai, P. (2019). Accelerating Deep Learning by Focusing on the Biggest Losers. arXiv, 1910.00762. Retrieved from https://arxiv.org/abs/1910.00762v1
+
+Jiao, L., & Zhao, J. (2019). A Survey on the New Generation of Deep Learning in Image Processing. IEEE Access, 7, 172231–172263. Retrieved from https://ieeexplore.ieee.org/document/8917633
 
 Izmailov, P., Maddox, W. J., Kirichenko, P., Garipov, T., Vetrov, D., & Wilson, A. G. (2019). Subspace Inference for Bayesian Deep Learning. arXiv, 1907.07504. Retrieved from https://arxiv.org/abs/1907.07504v1
 
@@ -1356,6 +1498,8 @@ Khrulkov, V., Mirvakhabova, L., Ustinova, E., Oseledets, I., & Lempitsky, V. (20
 Kosiorek, A. R., Sabour, S., Teh, Y. W., & Hinton, G. E. (2019). Stacked Capsule Autoencoders. arXiv, 1906.06818. Retrieved from https://arxiv.org/abs/1906.06818v2
 
 Labach, A., Salehinejad, H., & Valaee, S. (2019). Survey of Dropout Methods for Deep Neural Networks. arXiv, 1904.13310. Retrieved from https://arxiv.org/abs/1904.13310v2
+
+Lake, B. M., Salakhutdinov, R., & Tenenbaum, J. B. (2019). The Omniglot challenge: a 3-year progress report. arXiv, 1902.03477. Retrieved from https://arxiv.org/abs/1902.03477v2
 
 Lee, J., Xiao, L., Schoenholz, S. S., Bahri, Y., Novak, R., Sohl-Dickstein, J., & Pennington, J. (2019). Wide Neural Networks of Any Depth Evolve as Linear Models Under Gradient Descent. arXiv, 1902.06720. Retrieved from https://arxiv.org/abs/1902.06720v4
 
@@ -1444,6 +1588,8 @@ Domingos, P. (2020). Every Model Learned by Gradient Descent Is Approximately a 
 
 Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., ...Houlsby, N. (2020). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. arXiv, 2010.11929. Retrieved from https://arxiv.org/abs/2010.11929v2
 
+Ellis, K., Wong, C., Nye, M., Sable-Meyer, M., Cary, L., Morales, L., ...Tenenbaum, J. B. (2020). DreamCoder: Growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning. arXiv, 2006.08381. Retrieved from https://arxiv.org/abs/2006.08381v1
+
 Faghri, F., Duvenaud, D., Fleet, D. J., & Ba, J. (2020). A Study of Gradient Variance in Deep Learning. arXiv, 2007.04532. Retrieved from https://arxiv.org/abs/2007.04532v1
 
 Fang, C., Lee, J. D., Yang, P., & Zhang, T. (2020). Modeling from Features: a Mean-field Framework for Over-parameterized Deep Neural Networks. arXiv, 2007.01452. Retrieved from https://arxiv.org/abs/2007.01452v1
@@ -1455,6 +1601,8 @@ Fang, C., Lee, J. D., Yang, P., & Zhang, T. (2020). Modeling from Features: a Me
 Fort, S., Dziugaite, G. K., Paul, M., Kharaghani, S., Roy, D. M., & Ganguli, S. (2020). Deep learning versus kernel learning: an empirical study of loss landscape geometry and the time evolution of the Neural Tangent Kernel. arXiv, 2010.15110. Retrieved from https://arxiv.org/abs/2010.15110v1
 
 Furrer, D., van Zee, M., Scales, N., & Schärli, N. (2020). Compositional Generalization in Semantic Parsing: Pre-training vs. Specialized Architectures. arXiv, 2007.08970. Retrieved from https://arxiv.org/abs/2007.08970v3
+
+George, D., Lázaro-Gredilla, M., & Guntupalli, J. S. (2020). From CAPTCHA to Commonsense: How Brain Can Teach Us About Artificial Intelligence. Front. Comput. Neurosci., 14, 554097. Retrieved from https://www.frontiersin.org/articles/10.3389/fncom.2020.554097/full
 
 Gorbunov, E., Danilova, M., & Gasnikov, A. (2020). Stochastic Optimization with Heavy-Tailed Noise via Accelerated Gradient Clipping. arXiv, 2005.10785. Retrieved from https://arxiv.org/abs/2005.10785v2
 
@@ -1526,6 +1674,8 @@ Shen, D., Zheng, M., Shen, Y., Qu, Y., & Chen, W. (2020). A Simple but Tough-to-
 Sun, R., Li, D., Liang, S., Ding, T., & Srikant, R. (2020). The Global Landscape of Neural Networks: An Overview. arXiv, 2007.01429. Retrieved from https://arxiv.org/abs/2007.01429v1
 
 Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Reinforcement Learning through Active Inference. arXiv, 2002.12636. Retrieved from https://arxiv.org/abs/2002.12636v1
+
+Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Control as Hybrid Inference. arXiv, 2007.05838. Retrieved from https://arxiv.org/abs/2007.05838v1
 
 Wang, L., Shen, B., Zhao, N., & Zhang, Z. (2020). Is the Skip Connection Provable to Reform the Neural Network Loss Landscape? arXiv, 2006.05939. Retrieved from https://arxiv.org/abs/2006.05939v1
 
@@ -1675,6 +1825,8 @@ Friston, K., Da Costa, L., Sajid, N., Heins, C., Ueltzhoffer, K., Pavliotis, G.,
 
 Isomura, T., Shimazaki, H., & Friston, K. J. (2022). Canonical neural networks perform active inference. Commun. Biol., 5(55), 1–15. Retrieved from https://www.nature.com/articles/s42003-021-02994-2
 
+Ivanova, A. A., Schrimpf, M., Anzellotti, S., Zaslavsky, N., Fedorenko, E., & Isik, L. (2022). Beyond linear regression: mapping models in cognitive neuroscience should align with research goals. arXiv, 2208.10668. Retrieved from https://arxiv.org/abs/2208.10668v1
+
 Hafner, D., Lee, K.-H., Fischer, I., & Abbeel, P. (2022). Deep Hierarchical Planning from Pixels. arXiv, 2206.04114. Retrieved from https://arxiv.org/abs/2206.04114v1
 
 Hinton, G. (2022). The Forward-Forward Algorithm: Some Preliminary Investigations. arXiv, 2212.13345. Retrieved from https://arxiv.org/abs/2212.13345v1
@@ -1693,11 +1845,15 @@ Millidge, B., Salvatori, T., Song, Y., Bogacz, R., & Lukasiewicz, T. (2022). Pre
 
 Mohamadi, M. A., Bae, W., & Sutherland, D. J. (2022). A Fast, Well-Founded Approximation to the Empirical Neural Tangent Kernel. arXiv, 2206.12543. Retrieved from https://arxiv.org/abs/2206.12543v3
 
+Novak, R., Sohl-Dickstein, J., & Schoenholz, S. S. (2022). Fast Finite Width Neural Tangent Kernel. arXiv, 2206.08720. Retrieved from https://arxiv.org/abs/2206.08720v1
+
 Power, A., Burda, Y., Edwards, H., Babuschkin, I., & Misra, V. (2022). Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets. arXiv, 2201.02177. Retrieved from https://arxiv.org/abs/2201.02177v1
 
 Rangwani, H., Aithal, S. K., Mishra, M., & Babu, R. V. (2022). Escaping Saddle Points for Effective Generalization on Class-Imbalanced Data. arXiv, 2212.13827. Retrieved from https://arxiv.org/abs/2212.13827v1
 
 Ramesh, A., Kirsch, L., van Steenkiste, S., & Schmidhuber, J. (2022). Exploring through Random Curiosity with General Value Functions. arXiv, 2211.10282. Retrieved from https://arxiv.org/abs/2211.10282v1
+
+Rissanen, S., Heinonen, M., & Solin, A. (2022). Generative Modelling With Inverse Heat Dissipation. arXiv, 2206.13397. Retrieved from https://arxiv.org/abs/2206.13397v7
 
 Ramstead, M. J. D., Sakthivadivel, D. A. R., Heins, C., Koudahl, M., Millidge, B., Da Costa, L., ...Friston, K. J. (2022). On Bayesian Mechanics: A Physics of and by Beliefs. arXiv, 2205.11543. Retrieved from https://arxiv.org/abs/2205.11543v4
 
@@ -1736,6 +1892,8 @@ Andriushchenko, M., Croce, F., Müller, M., Hein, M., & Flammarion, N. (2023). A
 Araujo, A., Havens, A., Delattre, B., Allauzen, A., & Hu, B. (2023). A Unified Algebraic Perspective on Lipschitz Neural Networks. arXiv, 2303.03169. Retrieved from https://arxiv.org/abs/2303.03169v2
 
 Arbel, J., Pitas, K., Vladimirova, M., & Fortuin, V. (2023). A Primer on Bayesian Neural Networks: Review and Debates. arXiv, 2309.16314. Retrieved from https://arxiv.org/abs/2309.16314v1
+
+Barabási, D. L., Bianconi, G., Bullmore, E., Burgess, M., Chung, S., Eliassi-Rad, T., ...Buzsáki, G. (2023). Neuroscience needs Network Science. arXiv, 2305.06160. Retrieved from https://arxiv.org/abs/2305.06160v2
 
 Bombari, S., Kiyani, S., & Mondelli, M. (2023). Beyond the Universal Law of Robustness: Sharper Laws for Random Features and Neural Tangent Kernels. arXiv, 2302.01629. Retrieved from https://arxiv.org/abs/2302.01629v2
 
@@ -1816,6 +1974,8 @@ Wang, M., Pan, Y., Xu, Z., Yang, X., Li, G., & Cichocki, A. (2023). Tensor Netwo
     - Three primary aspects: network compression, information fusion, and quantum circuit simulation
     - Methods for improving TNNs, implementing TNNs, future directions
 
+Wu, J., Yang, T., Hao, X., Hao, J., Zheng, Y., Wang, W., & Taylor, M. E. (2023). PORTAL: Automatic Curricula Generation for Multiagent Reinforcement Learning. AAMAS '23: Proceedings of the 2023 International Conference on Autonomous Agents and Multiagent Systems. International Foundation for Autonomous Agents and Multiagent Systems. Retrieved from https://dl.acm.org/doi/10.5555/3545946.3598967
+
 Xie, L., Wei, L., Zhang, X., Bi, K., Gu, X., Chang, J., & Tian, Q. (2023). Towards AGI in Computer Vision: Lessons Learned from GPT and Large Language Models. arXiv, 2306.08641. Retrieved from https://arxiv.org/abs/2306.08641v1
 
 Xu, Z., Wang, Y., Frei, S., Vardi, G., & Hu, W. (2023). Benign Overfitting and Grokking in ReLU Networks for XOR Cluster Data. arXiv, 2310.02541. Retrieved from https://arxiv.org/abs/2310.02541v1
@@ -1843,6 +2003,10 @@ Huang, Q., Wake, N., Sarkar, B., Durante, Z., Gong, R., Taori, R., ...Gao, J. (2
 Humayun, A. I., Balestriero, R., & Baraniuk, R. (2024). Deep Networks Always Grok and Here is Why. arXiv, 2402.15555. Retrieved from https://arxiv.org/abs/2402.15555v1
 
 Paolo, G., Gonzalez-Billandon, J., & Kégl, B. (2024). A call for embodied AI. arXiv, 2402.03824. Retrieved from https://arxiv.org/abs/2402.03824v1
+
+Peters, B., DiCarlo, J. J., Gureckis, T., Haefner, R., Isik, L., Tenenbaum, J., ...Kriegeskorte, N. (2024). How does the primate brain combine generative and discriminative computations in vision? arXiv, 2401.06005. Retrieved from https://arxiv.org/abs/2401.06005v1
+
+Sohl-Dickstein, J. (2024). The boundary of neural network trainability is fractal. arXiv, 2402.06184. Retrieved from https://arxiv.org/abs/2402.06184v1
 
 Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (2024). Inferring neural activity before plasticity as a foundation for learning beyond backpropagation. Nat. Neurosci., 27, 348–358. Retrieved from https://www.nature.com/articles/s41593-023-01514-1
 
