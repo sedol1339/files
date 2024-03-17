@@ -1598,29 +1598,47 @@ Ruthotto, L., & Haber, E. (2018). Deep Neural Networks Motivated by Partial Diff
 
 Santurkar, S., Tsipras, D., Ilyas, A., & Madry, A. (2018). How Does Batch Normalization Help Optimization? arXiv, 1805.11604. Retrieved from https://arxiv.org/abs/1805.11604v5
 
+    - We find that in a certain sense BatchNorm does not reduce internal covariate shift
+    - We find that BatchNorm makes the optimization landscape significantly more smooth, so we can use larger LR
+    - The Lipschitzness of both the loss and the gradients are improved with BatchNorm
+    - A number of other natural normalization techniques have a similar (and, sometime, even stronger) effect
+    - It could be the case that the smoothening effect of BatchNorm’s encourages converging to more flat minima
+
 Scaman, K., & Virmaux, A. (2018). Lipschitz regularity of deep neural networks: analysis and efficient estimation. arXiv, 1805.10965. Retrieved from https://arxiv.org/abs/1805.10965v2
 
 Shamir, O. (2018). Are ResNets Provably Better than Linear Predictors? arXiv, 1804.06739. Retrieved from https://arxiv.org/abs/1804.06739v4
+
+    - We prove that that ResNet optimization landscape contains NO local minima with value above what can be obtained with a linear predictor (namely a 1-layer network)
+    - We use minimal or no assumptions on the network architecture, data distribution, or loss function
+    - We show a certain architectural tweak that allows SGD to achieve loss close or better than any linear predictor
 
 Shaw, P., Uszkoreit, J., & Vaswani, A. (2018). Self-Attention with Relative Position Representations. arXiv, 1803.02155. Retrieved from https://arxiv.org/abs/1803.02155v2
 
 Tarnowski, W., Warchoł, P., Jastrzębski, S., Tabor, J., & Nowak, M. A. (2018). Dynamical Isometry is Achieved in Residual Networks in a Universal Way for any Activation Function. arXiv, 1809.08848. Retrieved from https://arxiv.org/abs/1809.08848v3
 
     - In ResNets dynamical isometry (https://arxiv.org/abs/1312.6120) is achievable for any activation function
-    - We ise Free Probability and Random Matrix Theories (FPT & RMT)
+    - We use Free Probability and Random Matrix Theories (FPT & RMT)
     - We study initial and late phases of the learning processes
 
 Thorpe, M., & van Gennip, Y. (2018). Deep Limits of Residual Neural Networks. arXiv, 1810.11741. Retrieved from https://arxiv.org/abs/1810.11741v4
 
     - We study ResNet as a discretisation of an ODE
-    - Some convergence studies that connect the discrete setting to a continuum problem
+    - We study convergence to connect the discrete setting to a continuum problem
 
 Wang, W., Sun, Y., Eriksson, B., Wang, W., & Aggarwal, V. (2018). Wide Compression: Tensor Ring Nets. arXiv, 1802.09052. Retrieved from https://arxiv.org/abs/1802.09052v1
 
-    - Tensor Ring (TR) factorizations to compress existing MLPs and CNNs
-    - with little or no quality degredation on image classification
+    - We propose Tensor Ring (TR) factorizations to compress existing MLPs and CNNs
+    - It compresses with little or no quality degredation on image classification
 
 Wu, Y., & He, K. (2018). Group Normalization. arXiv, 1803.08494. Retrieved from https://arxiv.org/abs/1803.08494v3
+
+    - Problem: Batch Normalization (BN) works poorly with small batches
+    - We present Group Normalization (GN) as a simple alternative to BN
+    - GN divides the channels into groups and computes within each group the mean and variance for normalization
+    - This computation is independent of batch size
+    - On ResNet-50 trained in ImageNet with batch size of 2, GN has 10.6% lower error than its BN counterpart
+    - When using typical batch sizes, GN is comparably good with BN
+    - GN can be naturally transferred from pre-training to fine-tuning (while fine-tuning BN works poorly)
 
 Xiao, L., Bahri, Y., Sohl-Dickstein, J., Schoenholz, S. S., & Pennington, J. (2018). Dynamical Isometry and a Mean Field Theory of CNNs: How to Train 10,000-Layer Vanilla Convolutional Neural Networks. arXiv, 1806.05393. Retrieved from https://arxiv.org/abs/1806.05393v2
 
@@ -1639,19 +1657,47 @@ Yuille, A. L., & Liu, C. (2018). Deep Nets: What have they ever done for Vision?
 
 Yun, C., Sra, S., & Jadbabaie, A. (2018). Small nonlinearities in activation functions create bad local minima in neural networks. arXiv, 1802.03487. Retrieved from https://arxiv.org/abs/1802.03487v4
 
+    - We prove that for ReLU DNNs and almost all practical datasets (specifically, if linear models cannot perfectly fit the data) there exist infinitely many local minima that are not global
+    - We summarize what is known so far, and in our paper we make the least restrictive assumptions
+    - We also tackle more general nonlinear activation functions
+    - We present some other theoretical results
+
 Yun, C., Sra, S., & Jadbabaie, A. (2018). Efficiently testing local optimality and escaping saddles for ReLU networks. arXiv, 1809.10858. Retrieved from https://arxiv.org/abs/1809.10858v2
 
+    - We provide a theoretical algorithm for checking local optimality and escaping saddles at nondifferentiable points of empirical risks of two-layer ReLU networks
+    - Such nondifferentiable points lie in a set of measure zero, so one may be tempted to overlook them as "non-generic", however, when studying critical points we cannot do so, as they are precisely such "non-generic" points
+
 Zaeemzadeh, A., Rahnavard, N., & Shah, M. (2018). Norm-Preservation: Why Residual Networks Can Become Extremely Deep? arXiv, 1805.07477. Retrieved from https://arxiv.org/abs/1805.07477v5
+
+    - We prove that the skip connections facilitate preserving the norm of the gradient, and lead to stable backprop
+    - As more residual blocks are stacked, the norm-preservation of the network is enhanced
+    - We validate this experimentally
+    - We propose Procrustes ResNets: an method to regularize the singular values of the convolution operator and making the ResNet’s transition layers extra norm-preserving
+    - This can be used as a guide for training deeper networks and can also inspire new deeper architectures
 
 Zhang, L., & Schaeffer, H. (2018). Forward Stability of ResNet and Its Variants. arXiv, 1811.09885. Retrieved from https://arxiv.org/abs/1811.09885v1
 
 Zhang, J., Liu, T., & Tao, D. (2018). An Information-Theoretic View for Deep Learning. arXiv, 1804.09060. Retrieved from https://arxiv.org/abs/1804.09060v8
+
+    - Question: does it always hold that a deeper network leads to better performance?
+    - We derive an upper bound on the expected generalization error depending on depth
+    - This shows that as depth increases, the expected generalization error will decrease exponentially
+    - Some more results
 
 Zhang, C., Öztireli, C., Mandt, S., & Salvi, G. (2018). Active Mini-Batch Sampling using Repulsive Point Processes. arXiv, 1804.02772. Retrieved from https://arxiv.org/abs/1804.02772v2
 
 ## 2019
 
 Allen-Zhu, Z., & Li, Y. (2019). What Can ResNet Learn Efficiently, Going Beyond Kernels? arXiv, 1905.10337. Retrieved from https://arxiv.org/abs/1905.10337v3
+
+    - We prove there are functions that with the same number of training examples, the test error obtained by NNs can be much smaller than any kernel method, including neural tangent kernels (NTK)
+    - The main intuition is that DNNs can implicitly perform hierarchical learning reducing the sample complexity
+    - 
+
+Allen-Zhu, Z., & Li, Y. (2019). Can SGD Learn Recurrent Neural Networks with Provable Generalization? arXiv, 1902.01028. Retrieved from https://arxiv.org/abs/1902.01028v2
+
+    - We discuss optimization and generalization capabilities of RNN
+    - We show that RNN with SGD can learn some notable concept class efficiently, meaning that both time and sample complexity scale polynomially in the input length
 
 Arjovsky, M., Bottou, L., Gulrajani, I., & Lopez-Paz, D. (2019). Invariant Risk Minimization. arXiv, 1907.02893. Retrieved from https://arxiv.org/abs/1907.02893v3
 
@@ -1779,6 +1825,8 @@ Zhang, J., Karimireddy, S. P., Veit, A., Kim, S., Reddi, S. J., Kumar, S., & Sra
 
 ## 2020
 
+Allen-Zhu, Z., & Li, Y. (2020). Backward Feature Correction: How Deep Learning Performs Deep (Hierarchical) Learning. arXiv, 2001.04413. Retrieved from https://arxiv.org/abs/2001.04413v6
+
 Agarwal, C., D'souza, D., & Hooker, S. (2020). Estimating Example Difficulty Using Variance of Gradients. arXiv, 2008.11600. Retrieved from https://arxiv.org/abs/2008.11600v4
 
 Alemi, A. A., Morningstar, W. R., Poole, B., Fischer, I., & Dillon, J. V. (2020). VIB is Half Bayes. arXiv, 2011.08711. Retrieved from https://arxiv.org/abs/2011.08711v1
@@ -1796,6 +1844,14 @@ Chen, Z., Deng, L., Wang, B., Li, G., & Xie, Y. (2020). A Comprehensive and Modu
 Choe, Y. J., Ham, J., & Park, K. (2020). An Empirical Study of Invariant Risk Minimization. arXiv, 2004.05007. Retrieved from https://arxiv.org/abs/2004.05007v2
 
 D'Ascoli, S., Refinetti, M., Biroli, G., & Krzakala, F. (2020). Double Trouble in Double Descent : Bias and Variance(s) in the Lazy Regime. arXiv, 2003.01054. Retrieved from https://arxiv.org/abs/2003.01054v2
+
+Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. arXiv, 2002.06305. Retrieved from https://arxiv.org/abs/2002.06305v1
+
+    - Problem: fine-tuning BERT is seed-dependent
+    - We examine the effects of random initialization and random training order on fine-tuning BERT
+    - We find that both contribute comparably, some weight initializations perform well across all tasks explored
+    - Many fine-tuning trials diverge part of the way through training
+    - We offer best practices for practitioners to stop training less promising runs early
 
 Domingos, P. (2020). Every Model Learned by Gradient Descent Is Approximately a Kernel Machine. arXiv, 2012.00152. Retrieved from https://arxiv.org/abs/2012.00152v1
 
@@ -1910,7 +1966,23 @@ Yang, G. (2020). Tensor Programs III: Neural Matrix Laws. arXiv, 2009.10685. Ret
 
 Yang, Z., Yu, Y., You, C., Steinhardt, J., & Ma, Y. (2020). Rethinking Bias-Variance Trade-off for Generalization of Neural Networks. arXiv, 2002.11328. Retrieved from https://arxiv.org/abs/2002.11328v3
 
+Zhao, M., Zhu, Y., Shareghi, E., Vulić, I., Reichart, R., Korhonen, A., & Schütze, H. (2020). A Closer Look at Few-Shot Crosslingual Transfer: The Choice of Shots Matters. arXiv, 2012.15682. Retrieved from https://arxiv.org/abs/2012.15682v2
+
+    - We conduct a largescale study of few-shot crosslingual transfer on diverse NLP tasks and languages
+    - We find that the model exhibits a high degree of sensitivity to the selection of few shots
+    - We provide an analysis of success and failure cases
+    - We find that a straightforward fine-tuning outperforms several SOTA few-shot approaches
+
 Zhao, P., Chen, P.-Y., Das, P., Ramamurthy, K. N., & Lin, X. (2020). Bridging Mode Connectivity in Loss Landscapes and Adversarial Robustness. arXiv, 2005.00060. Retrieved from https://arxiv.org/abs/2005.00060v2
+
+Zhou, W., Lin, B. Y., & Ren, X. (2020). IsoBN: Fine-Tuning BERT with Isotropic Batch Normalization. arXiv, 2005.02178. Retrieved from https://arxiv.org/abs/2005.02178v2
+
+    - It was shown that isotropic embeddings can significantly improve performance
+    - We study how isotropic (unit-variance and uncorrelated) are output [CLS] embeddings of pre-trained language models
+    - We find high variance in their standard deviation, and high correlation between different dimensions
+    - We propose isotropic batch normalization (IsoBN) regularization that penalizes dominating principal components
+    - IsoBN allows to learn more isotropic representations in fine-tuning
+    - We achieve improvement on the average of seven NLU tasks
 
 ## 2021
 
@@ -1931,6 +2003,13 @@ Bingham, G., & Miikkulainen, R. (2021). AutoInit: Analytic Signal-Preserving Wei
     - Improves performance of convolutional, residual, and transformer networks
 
 Bond-Taylor, S., Leach, A., Long, Y., & Willcocks, C. G. (2021). Deep Generative Modelling: A Comparative Review of VAEs, GANs, Normalizing Flows, Energy-Based and Autoregressive Models. arXiv, 2103.04922. Retrieved from https://arxiv.org/abs/2103.04922v4
+
+Brock, A., De, S., Smith, S. L., & Simonyan, K. (2021). High-Performance Large-Scale Image Recognition Without Normalization. arXiv, 2102.06171. Retrieved from https://arxiv.org/abs/2102.06171v1
+
+    - Problem: BatchNorm has many undesirable properties (is computationally expensive, perform poorly when the batch size is too small, introduces a train-test discrepancy, is often the cause of subtle implementation errors, cannot be used for some tasks due to interaction between training examples - we discuss it in Appendix B)
+    - Problem: Normalizer-Free networks are often unstable for large learning rates or strong data augmentations
+    - We propose NFNets: Normalizer-Free networks with an adaptive gradient clipping technique to overcome instabilities
+    - With our NFNets, we achieve SOTA on ImageNet, fast convergence, better fine-tuning performance
 
 Cao, S. (2021). Choose a Transformer: Fourier or Galerkin. arXiv, 2105.14995. Retrieved from https://arxiv.org/abs/2105.14995v4
 
@@ -1964,6 +2043,12 @@ Hua, T., Wang, W., Xue, Z., Ren, S., Wang, Y., & Zhao, H. (2021). On Feature Dec
 Izmailov, P., Nicholson, P., Lotfi, S., & Wilson, A. G. (2021). Dangers of Bayesian Model Averaging under Covariate Shift. arXiv, 2106.11905. Retrieved from https://arxiv.org/abs/2106.11905v2
 
 Izmailov, P., Vikram, S., Hoffman, M. D., & Wilson, A. G. (2021). What Are Bayesian Neural Network Posteriors Really Like? arXiv, 2104.14421. Retrieved from https://arxiv.org/abs/2104.14421v1
+
+Kanavati, F., & Tsuneki, M. (2021). Partial transfusion: on the expressive influence of trainable batch norm parameters for transfer learning. arXiv, 2102.05543. Retrieved from https://arxiv.org/abs/2102.05543v1
+
+    - It is typically recommended to fine-tune the model with the BatchNorm layers kept in inference mode
+    - We find that fine-tuning only the scale and shift weights of the BatchNorm leads to similar performance
+as to fine-tuning all of the weights, with the added benefit of faster convergence
 
 Lanillos, P., Meo, C., Pezzato, C., Meera, A. A., Baioumy, M., Ohata, W., ...Tani, J. (2021). Active Inference in Robotics and Artificial Agents: Survey and Challenges. arXiv, 2112.01871. Retrieved from https://arxiv.org/abs/2112.01871v1
 
@@ -2102,6 +2187,12 @@ Wortsman, M., Ilharco, G., Gadre, S. Y., Roelofs, R., Gontijo-Lopes, R., Morcos,
 
 Yang, G., Hu, E. J., Babuschkin, I., Sidor, S., Liu, X., Farhi, D., ...Gao, J. (2022). Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer. arXiv, 2203.03466. Retrieved from https://arxiv.org/abs/2203.03466v2
 
+Yuan, H., Yuan, Z., Tan, C., Huang, F., & Huang, S. (2022). HyPe: Better Pre-trained Language Model Fine-tuning with Hidden Representation Perturbation. arXiv, 2212.08853. Retrieved from https://arxiv.org/abs/2212.08853v2
+
+    - Problem: fine-tuning LMs poses problems such as over-fitting or representation collapse
+    - We propose HyPe fine-tuning technique: we inject random noise between transformer layers
+    - This outperforms vanilla fine-tuning with negligible computational overheads
+
 Zhou, J., You, C., Li, X., Liu, K., Liu, S., Qu, Q., & Zhu, Z. (2022). Are All Losses Created Equal: A Neural Collapse Perspective. arXiv, 2210.02192. Retrieved from https://arxiv.org/abs/2210.02192v2
 
 Zhou, J., Li, X., Ding, T., You, C., Qu, Q., & Zhu, Z. (2022). On the Optimization Landscape of Neural Collapse under MSE Loss: Global Optimality with Unconstrained Features. arXiv, 2203.01238. Retrieved from https://arxiv.org/abs/2203.01238v2
@@ -2137,6 +2228,13 @@ Cirone, N. M., Lemercier, M., & Salvi, C. (2023). Neural signature kernels as in
 
 Dang, H., Tran, T., Osher, S., Tran-The, H., Ho, N., & Nguyen, T. (2023). Neural Collapse in Deep Linear Networks: From Balanced to Imbalanced Data. arXiv, 2301.00437. Retrieved from https://arxiv.org/abs/2301.00437v5
 
+Du, Y., & Nguyen, D. (2023). Measuring the Instability of Fine-Tuning. arXiv, 2302.07778. Retrieved from https://arxiv.org/abs/2302.07778v2
+
+    - Problem: fine-tuning pre-trained LMs is sensitive to random seed, especially on small datasets
+    - Most previous studies measure only the standard deviation of performance scores between runs
+    - We analyze six other measures quantifying instability at different levels of granularity
+    - We reassess existing instability mitigation methods
+
 Dubois, Y., Hashimoto, T., & Liang, P. (2023). Evaluating Self-Supervised Learning via Risk Decomposition. arXiv, 2302.03068. Retrieved from https://arxiv.org/abs/2302.03068v3
 
 Fu, S., & Wang, D. (2023). Theoretical Analysis of Robust Overfitting for Wide DNNs: An NTK Approach. arXiv, 2310.06112. Retrieved from https://arxiv.org/abs/2310.06112v2
@@ -2160,6 +2258,12 @@ Isomura, T., Kotani, K., Jimbo, Y., & Friston, K. J. (2023). Experimental valida
 Jacobs, B., & Stein, D. (2023). Pearl's and Jeffrey's Update as Modes of Learning in Probabilistic Programming. arXiv, 2309.07053. Retrieved from https://arxiv.org/abs/2309.07053v2
 
 Jordan, K. (2023). Calibrated Chaos: Variance Between Runs of Neural Network Training is Harmless and Inevitable. arXiv, 2304.01910. Retrieved from https://arxiv.org/abs/2304.01910v1
+
+    - Problem: typical NN trainings have substantial variance in test-set performance between repeated runs
+    - This impedes hyperparameter comparison and training reproducibility
+    - We show that while variance on test-sets is high, variance on test-distributions is low
+    - This variance is harmless and unavoidable
+    - We conduct preliminary studies of distribution-shift, fine-tuning, data augmentation and learning rate through the lens of variance between runs
 
 Kreisler, I., Nacson, M. S., Soudry, D., & Carmon, Y. (2023). Gradient Descent Monotonically Decreases the Sharpness of Gradient Flow Solutions in Scalar Networks and Beyond. arXiv, 2305.13064. Retrieved from https://arxiv.org/abs/2305.13064v1
 
