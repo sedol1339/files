@@ -1209,6 +1209,14 @@ Nguyen, Q., & Hein, M. (2017). The loss surface of deep and wide neural networks
     - 4) the network structure from this layer on is pyramidal
     - We prove that in this case all local minima are global
 
+Nickel, M., & Kiela, D. (2017). Poincaré Embeddings for Learning Hierarchical Representations. arXiv, 1705.08039. Retrieved from https://arxiv.org/abs/1705.08039v2
+
+    - Problem: no method yet exists that is able to compute embeddings of large graph-structured data – such as social networks, knowledge graphs or taxonomies – without loss of information
+    - We propose to compute embeddings in hyperbolic space (the Poincaré ball)
+    - Informally, hyperbolic space can be thought of as a continuous version of trees
+    - It is naturally equipped to model hierarchical structures
+    - Poincaré embeddings are successful in lexical entailment on WordNet and in predicting links in graphs where they outperform Euclidean embeddings, especially in low dimensions
+
 Oord, A. v. d., Vinyals, O., & Kavukcuoglu, K. (2017). Neural Discrete Representation Learning. arXiv, 1711.00937. Retrieved from https://arxiv.org/abs/1711.00937v2
 
 Peng, K.-C., Wu, Z., & Ernst, J. (2017). Zero-Shot Deep Domain Adaptation. arXiv, 1707.01922. Retrieved from https://arxiv.org/abs/1707.01922v5
@@ -1837,6 +1845,11 @@ Bachlechner, T., Majumder, B. P., Mao, H. H., Cottrell, G. W., & McAuley, J. (20
 
 Chan, K. H. R., Yu, Y., You, C., Qi, H., Wright, J., & Ma, Y. (2020). Deep Networks from the Principle of Rate Reduction. arXiv, 2010.14765. Retrieved from https://arxiv.org/abs/2010.14765v1
 
+Chen, M., Bai, Y., Lee, J. D., Zhao, T., Wang, H., Xiong, C., & Socher, R. (2020). Towards Understanding Hierarchical Learning: Benefits of Neural Representations. arXiv, 2006.13436. Retrieved from https://arxiv.org/abs/2006.13436v2
+
+    - We demonstrate that intermediate neural representations add more flexibility to neural networks and can be advantageous over raw inputs
+    - Not easy to understand what happens in this paper, but seems like they use randomly initialized neural network as a source of deep features to train another (shallow) model
+
 Chen, L., Min, Y., Belkin, M., & Karbasi, A. (2020). Multiple Descent: Design Your Own Generalization Curve. arXiv, 2008.01036. Retrieved from https://arxiv.org/abs/2008.01036v7
 
 Chen, Z., Deng, L., Wang, B., Li, G., & Xie, Y. (2020). A Comprehensive and Modularized Statistical Framework for Gradient Norm Equality in Deep Neural Networks. arXiv, 2001.00254. Retrieved from https://arxiv.org/abs/2001.00254v1
@@ -2141,6 +2154,12 @@ Hinton, G. (2022). The Forward-Forward Algorithm: Some Preliminary Investigation
 
 Juneja, J., Bansal, R., Cho, K., Sedoc, J., & Saphra, N. (2022). Linear Connectivity Reveals Generalization Strategies. arXiv, 2205.12411. Retrieved from https://arxiv.org/abs/2205.12411v5
 
+Kusupati, A., Bhatt, G., Rege, A., Wallingford, M., Sinha, A., Ramanujan, V., ...Farhadi, A. (2022). Matryoshka Representation Learning. arXiv, 2205.13147. Retrieved from https://arxiv.org/abs/2205.13147v4
+
+    - We propose Matryoshka Representation Learning (MRL) to learn coarse-to-fine representations
+    - This allows shorter embeddings and improvements for long-tail few-shot classification
+    - This is a flexible representation that can adapt to multiple downstream tasks with varying computational resources
+
 Li, Y. (2022). A Short Survey of Systematic Generalization. arXiv, 2211.11956. Retrieved from https://arxiv.org/abs/2211.11956v1
 
 Li, Z., You, C., Bhojanapalli, S., Li, D., Rawat, A. S., Reddi, S. J., ...Kumar, S. (2022). The Lazy Neuron Phenomenon: On Emergence of Activation Sparsity in Transformers. arXiv, 2210.06313. Retrieved from https://arxiv.org/abs/2210.06313v2
@@ -2286,6 +2305,13 @@ Merrill, W., Tsilivis, N., & Shukla, A. (2023). A Tale of Two Circuits: Grokking
 Pan, L., & Cao, X. (2023). Towards Understanding Neural Collapse: The Effects of Batch Normalization and Weight Decay. arXiv, 2309.04644. Retrieved from https://arxiv.org/abs/2309.04644v2
 
 Peng, Z., Qi, L., Shi, Y., & Gao, Y. (2023). A Theoretical Explanation of Activation Sparsity through Flat Minima and Adversarial Robustness. arXiv, 2309.03004. Retrieved from https://arxiv.org/abs/2309.03004v4
+
+Shen, E., Farhadi, A., & Kusupati, A. (2023). Are "Hierarchical" Visual Representations Hierarchical? arXiv, 2311.05784. Retrieved from https://arxiv.org/abs/2311.05784v2
+
+    - We create HierNet, 12 datasets spanning 3 kinds of hierarchy from the BREEDs subset of ImageNet
+    - We evaluate Hyperbolic and Matryoshka Representations
+    - We conclude that they do not capture hierarchy better than the standard representations
+    - But they can assist in other aspects like search efficiency and interpretability
 
 Simon, J. B., Karkada, D., Ghosh, N., & Belkin, M. (2023). More is Better in Modern Machine Learning: when Infinite Overparameterization is Optimal and Overfitting is Obligatory. arXiv, 2311.14646. Retrieved from https://arxiv.org/abs/2311.14646v2
 
