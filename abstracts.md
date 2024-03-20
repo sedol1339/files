@@ -782,6 +782,12 @@ Friston, K. J., Levin, M., Sengupta, B., & Pezzulo, G. (2015). Knowing one's pla
 
 Gal, Y., & Ghahramani, Z. (2015). Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning. arXiv, 1506.02142. Retrieved from https://arxiv.org/abs/1506.02142v6
 
+    - We show that dropout training in DNNs is an approximate Bayesian inference in deep Gaussian processes
+    - We propose Monte Carlo dropout: N stochastic forward passes with averaging
+    - This allows to estimate the model uncertainty
+    - We show that model uncertainty is indispensable for classification tasks
+    - We also discuss model uncertainty in RL
+
 Ge, R., Huang, F., Jin, C., & Yuan, Y. (2015). Escaping From Saddle Points --- Online Stochastic Gradient for Tensor Decomposition. arXiv, 1503.02101. Retrieved from https://arxiv.org/abs/1503.02101v1
 
     - We consider non-convex functions with exponentially many local minima and saddle points, for example, orthogonal tensor decomposition problem, that is the key step in spectral learning for many latent variable models
@@ -960,6 +966,14 @@ Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (201
     -  We discuss strategies to improve large-batch training
 
 Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A. A., ...Hadsell, R. (2016). Overcoming catastrophic forgetting in neural networks. arXiv, 1612.00796. Retrieved from https://arxiv.org/abs/1612.00796v2
+
+Li, S., Jiao, J., Han, Y., & Weissman, T. (2016). Demystifying ResNet. arXiv, 1611.01186. Retrieved from https://arxiv.org/abs/1611.01186v2
+
+    - It was empirically observed that shortcuts that have depth 2 results in smaller training error, while it is not true for shortcut of depth 1 or 3
+    - We prove that shortcuts that have depth 2 yields depth-invariant condition number of the Hessian
+    - Shortcuts of higher depth result in an extremely flat (high-order) stationary point initially
+    - The shortcut 1 has a condition number exploding to infinity as the number of layers grows
+    - We experimentally show that initializing the network to small weights with shortcut 2 achieves significantly better results than random Gaussian Xavier initialization, orthogonal initialization, and shortcuts of deeper depth
 
 Liao, Q., & Poggio, T. (2016). Bridging the Gaps Between Residual Learning, Recurrent Neural Networks and Visual Cortex. arXiv, 1604.03640. Retrieved from https://arxiv.org/abs/1604.03640v2
 
@@ -1823,13 +1837,28 @@ Hastie, T., Montanari, A., Rosset, S., & Tibshirani, R. J. (2019). Surprises in 
 
 He, F., Liu, T., & Tao, D. (2019). Why ResNet Works? Residuals Generalize. arXiv, 1904.01367. Retrieved from https://arxiv.org/abs/1904.01367v1
 
+    - We prove that skip connections does not increase the hypothesis complexity (expressive power?) of the NNs
+    - We study some generalization bounds
+    - We conclude that we need to use regularization terms to control the magnitude of the norms of weight matrices not to increase too much, which justifes the standard technique of weight decay
+
 Jiang, A. H., Wong, D. L.-K., Zhou, G., Andersen, D. G., Dean, J., Ganger, G. R., ...Pillai, P. (2019). Accelerating Deep Learning by Focusing on the Biggest Losers. arXiv, 1910.00762. Retrieved from https://arxiv.org/abs/1910.00762v1
+
+    - We propose Selective-Backprop: prioritizing examples with high loss at each iteration, and skipping others
+    - This accelerates training by reducing the number of backprops
+    - Selective-Backprop converges to target error rates up to 3.5x faster than with standard SGD, and 1.02-1.8x faster than a SOTA importance sampling approach
+    - Further acceleration of 26% can be achieved by also skipping forward passes of low priority examples
 
 Jiao, L., & Zhao, J. (2019). A Survey on the New Generation of Deep Learning in Image Processing. IEEE Access, 7, 172231–172263. Retrieved from https://ieeexplore.ieee.org/document/8917633
 
 Izmailov, P., Maddox, W. J., Kirichenko, P., Garipov, T., Vetrov, D., & Wilson, A. G. (2019). Subspace Inference for Bayesian Deep Learning. arXiv, 1907.07504. Retrieved from https://arxiv.org/abs/1907.07504v1
 
+    - We construct low-dimensional subspaces of parameter space which contain diverse sets of high performing models
+    - We perform Bayesian model averaging over the induced posterior in these subspaces
+    - This produces accurate predictions and well calibrated predictive uncertainty for regression and classification
+
 Kawaguchi, K., Huang, J., & Kaelbling, L. P. (2019). Every Local Minimum Value is the Global Minimum Value of Induced Model in Non-convex Machine Learning. arXiv, 1904.03673. Retrieved from https://arxiv.org/abs/1904.03673v3
+
+    - We prove, under mild assumptions, that every local minimum achieves the globally optimal value of the perturbable gradient basis model at any differentiable point (what?)
 
 Khrulkov, V., Mirvakhabova, L., Ustinova, E., Oseledets, I., & Lempitsky, V. (2019). Hyperbolic Image Embeddings. arXiv, 1904.02239. Retrieved from https://arxiv.org/abs/1904.02239v2
 
@@ -1841,6 +1870,12 @@ Khrulkov, V., Mirvakhabova, L., Ustinova, E., Oseledets, I., & Lempitsky, V. (20
 Kosiorek, A. R., Sabour, S., Teh, Y. W., & Hinton, G. E. (2019). Stacked Capsule Autoencoders. arXiv, 1906.06818. Retrieved from https://arxiv.org/abs/1906.06818v2
 
 Labach, A., Salehinejad, H., & Valaee, S. (2019). Survey of Dropout Methods for Deep Neural Networks. arXiv, 1904.13310. Retrieved from https://arxiv.org/abs/1904.13310v2
+
+    - We provide an overview of dropout methods, including:
+    - We summarize approaches for theoretically explaining the function of dropout methods
+    - We describe dropout methods for CNNs
+    - We describe dropout for compressing NNs
+    - We describe Monte Carlo dropout and related work
 
 Lake, B. M., Salakhutdinov, R., & Tenenbaum, J. B. (2019). The Omniglot challenge: a 3-year progress report. arXiv, 1902.03477. Retrieved from https://arxiv.org/abs/1902.03477v2
 
@@ -1859,9 +1894,22 @@ Lezcano-Casado, M., & Martínez-Rubio, D. (2019). Cheap Orthogonal Constraints i
 
 Liang, S., Sun, R., & Srikant, R. (2019). Revisiting Landscape Analysis in Deep Neural Networks: Eliminating Decreasing Paths to Infinity. arXiv, 1912.13472. Retrieved from https://arxiv.org/abs/1912.13472v1
 
+    - We highlight that even without bad local minima, an optimization may diverge to infinity (extremely big parameter values) if there are paths leading to infinity, along which the loss function decreases
+    - If we restrict parameters, this may introduce additional bad local minima on the boundaries
+    - We consider a large class of over-parameterized deep neural networks with appropriate regularizers
+    - For them, we prove that the loss function has no bad local minima and no decreasing paths to infinity
+
 Liu, T., Chen, M., Zhou, M., Du, S. S., Zhou, E., & Zhao, T. (2019). Towards Understanding the Importance of Shortcut Connections in Residual Networks. arXiv, 1909.04653. Retrieved from https://arxiv.org/abs/1909.04653v3
 
+    - We study a two-layer non-overlapping convolutional ResNet
+    - The corresponding optimization problem has a spurious local optimum
+    - However, GD with proper normalization avoids it and converges to a global optimum in polynomial time
+
 Liu, L., Jiang, H., He, P., Chen, W., Liu, X., Gao, J., & Han, J. (2019). On the Variance of the Adaptive Learning Rate and Beyond. arXiv, 1908.03265. Retrieved from https://arxiv.org/abs/1908.03265v4
+
+    - Why warmup is essential for adaptive stochastic optimization algorithms like RMSprop and Adam?
+    - We show that their variance is problematically large in the early stage
+    - We propose Rectified Adam (RAdam) by introducing a term to rectify the variance of the adaptive LR
 
 Ma, X., Zhang, P., Zhang, S., Duan, N., Hou, Y., Song, D., & Zhou, M. (2019). A Tensorized Transformer for Language Modeling. arXiv, 1906.09777. Retrieved from https://arxiv.org/abs/1906.09777v3
 
@@ -1916,6 +1964,12 @@ Yang, G. (2019). Tensor Programs I: Wide Feedforward or Recurrent Neural Network
 Yun, C., Sra, S., & Jadbabaie, A. (2019). Are deep ResNets provably better than linear predictors? arXiv, 1907.03922. Retrieved from https://arxiv.org/abs/1907.03922v2
 
 Zhang, H., Dauphin, Y. N., & Ma, T. (2019). Fixup Initialization: Residual Learning Without Normalization. arXiv, 1901.09321. Retrieved from https://arxiv.org/abs/1901.09321v2
+
+    - Normalization layers are believed to stabilize training, enable higher LR, accelerate convergence, improve generalization
+    - We show that none of the perceived benefits is unique to normalization
+    - We propose Fixup initialization via properly rescaling a standard initialization
+    - Training ResNets with Fixup is as stable as training with normalization
+    - Fixup allows to achieve SOTA on image classification and NMT
 
 Zhang, J., Karimireddy, S. P., Veit, A., Kim, S., Reddi, S. J., Kumar, S., & Sra, S. (2019). Why are Adaptive Methods Good for Attention Models? arXiv, 1912.03194. Retrieved from https://arxiv.org/abs/1912.03194v2
 
