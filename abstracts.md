@@ -1487,6 +1487,13 @@ Garipov, T., Izmailov, P., Podoprikhin, D., Vetrov, D., & Wilson, A. G. (2018). 
     - We propose Fast Geometric Ensembling to train ensembles in the time required to train a single model
     - We surpass other Snapshot Ensembles techniques on CIFAR-10, CIFAR-100, and ImageNet
 
+Garriga-Alonso, A., Rasmussen, C. E., & Aitchison, L. (2018). Deep Convolutional Networks as shallow Gaussian Processes. arXiv, 1808.05587. Retrieved from https://arxiv.org/abs/1808.05587v2
+
+    - We draw a connection between infinitely-wide CNNs and a Gaussian process (GP)
+    - The equivalent kernel can be computed efficiently
+    - We demonstrate the performance increase coming from adding translation-invariant structure to the GP prior
+    - Without computing any gradients, and without augmenting the training set, we obtain 0.84% error rate on the MNIST, setting a new record for nonparametric GP-based methods
+
 Golmant, N., Vemuri, N., Yao, Z., Feinberg, V., Gholami, A., Rothauge, K., ...Gonzalez, J. (2018). On the Computational Inefficiency of Large Batch Sizes for Stochastic Gradient Descent. arXiv, 1811.12941. Retrieved from https://arxiv.org/abs/1811.12941v1
 
     - We empirically investigate large-batch training across wide range of network architectures and problem domains
@@ -1653,6 +1660,14 @@ Neal, B., Mittal, S., Baratin, A., Tantia, V., Scicluna, M., Lacoste-Julien, S.,
     - Variance due to optimization monotonically decreases with width in the over-parameterized regime
 
 Nouiehed, M., & Razaviyayn, M. (2018). Learning Deep Models: Critical Points and Local Openness. arXiv, 1803.02968. Retrieved from https://arxiv.org/abs/1803.02968v2
+
+Novak, R., Xiao, L., Lee, J., Bahri, Y., Yang, G., Hron, J., ...Sohl-Dickstein, J. (2018). Bayesian Deep Convolutional Networks with Many Channels are Gaussian Processes. arXiv, 1810.05148. Retrieved from https://arxiv.org/abs/1810.05148v4
+
+    - There is a previously identified equivalence between wide FCNs and Gaussian processes
+    - We derive an analogous equivalence for multi-layer CNNs both with and without pooling layers
+    - We also introduce a Monte Carlo method to estimate the GP corresponding to a given NN architecture
+    - Translation equivariance, beneficial in finite channel CNNs, is guaranteed to play no role in the Bayesian treatment of the infinite channel limit
+    - We confirm that regular SGD-trained CNNs can significantly outperform their corresponding GPs, suggesting advantages from SGD training compared to fully Bayesian parameter estimation
 
 Papyan, V. (2018). The Full Spectrum of Deepnet Hessians at Scale: Dynamics with SGD Training and Sample Size. arXiv, 1811.07062. Retrieved from https://arxiv.org/abs/1811.07062v2
 
@@ -1842,6 +1857,15 @@ Ghorbani, B., Krishnan, S., & Xiao, Y. (2019). An Investigation into Neural Net 
 
 Greff, K., Kaufman, R. L., Kabra, R., Watters, N., Burgess, C., Zoran, D., ...Lerchner, A. (2019). Multi-Object Representation Learning with Iterative Variational Inference. arXiv, 1903.00450. Retrieved from https://arxiv.org/abs/1903.00450v3
 
+Yang, G. (2019). Scaling Limits of Wide Neural Networks with Weight Sharing: Gaussian Process Behavior, Gradient Independence, and Neural Tangent Kernel Derivation. arXiv, 1902.04760. Retrieved from https://arxiv.org/abs/1902.04760v3
+
+    - We introduce a notion of a Tensor Program that can express most neural network computations
+    - This framework describes the convergence of random NNs (CNN, RNN, ResNet, attention, BN) to Gaussian processes
+    - We discuss the applicability of the gradient independence assumption
+    - The convergence of the Neural Tangent Kernel is also a part of our framework
+    - Our framework is general enough to rederive classical random matrix results as well as recent results in neural network Jacobian singular values
+    - We hope our work opens a way toward design of even stronger Gaussian Processess, initialization schemes and deeper understanding of SGD dynamics
+
 Gu, J., Wang, Y., Cho, K., & Li, V. O. K. (2019). Improved Zero-shot Neural Machine Translation via Ignoring Spurious Correlations. arXiv, 1906.01181. Retrieved from https://arxiv.org/abs/1906.01181v1
 
     - Problem: zero-shot translation (translating between language pairs on which a system has never been trained), is an emergent property; however, naive training for zero-shot translation easily fails and is sensitive to hyperparemeters; the performance typically lags far behind the more conventional pivot-based approach which translates twice using a third language as a pivot
@@ -1992,20 +2016,51 @@ Shen, X., Tian, X., Liu, T., Xu, F., & Tao, D. (2019). Continuous Dropout. arXiv
 
 Simsekli, U., Sagun, L., & Gurbuzbalaban, M. (2019). A Tail-Index Analysis of Stochastic Gradient Noise in Deep Neural Networks. arXiv, 1901.06053. Retrieved from https://arxiv.org/abs/1901.06053v1
 
+    - The gradient noise in SGD is often considered to be Gaussian
+    - This enables SGD to be analyzed as a stochastic differential equation (SDE) driven by a Brownian motion
+    - We show that in deep learning the gradient noise is highly non-Gaussian and admits heavy-tails
+    - We investigate this in varying network architectures and sizes, loss functions, and datasets
+    - Instead of Brownian motion, we e propose to analyze SGD as an SDE driven by a Lévy motion
+    - Such SDEs can incur "jumps", which force the SDE transition from narrow minima to wider minima
+    - This sheds more light on the belief that SGD prefers wide minima
+
 Siu, C. (2019). Residual Networks Behave Like Boosting Algorithms. arXiv, 1909.11790. Retrieved from https://arxiv.org/abs/1909.11790v1
+
+    - We show that ResNets with standard training are equivalent to boosting feature representation
+    - Inspired by Online Boosting, we modify the ResNet with an additional learnable shrinkage parameter
+    - We propose a ResNet-DT (neural decision tree residual network) and test it on the datasets from UCI repository
 
 Sohl-Dickstein, J., & Kawaguchi, K. (2019). Eliminating all bad Local Minima from Loss Landscapes without even adding an Extra Unit. arXiv, 1901.03909. Retrieved from https://arxiv.org/abs/1901.03909v1
 
+    - A one-list paper!
+    - We find a way to remove all bad local minima from any loss landscape, so long as the global minimum has a loss of zero (seems like they add two more learnable parameters)
+    - We leave it to the reader to judge whether removing local minima in this fashion is trivial, deep, or both
+    - Pathologies (diverging go infinity) can continue to exist in losses modified in a such fashion
+
 Wang, Q., Li, B., Xiao, T., Zhu, J., Li, C., Wong, D. F., & Chao, L. S. (2019). Learning Deep Transformer Models for Machine Translation. arXiv, 1906.01787. Retrieved from https://arxiv.org/abs/1906.01787v1
+
+    - We show that deep transformer encoders may outperform their wide counterparts
+    - The proper use of layer normalization is the key to learning deep encoders
+    - We propose an approach based on dynamic linear combination of layers (DLCL) to memorizing the features extracted from all preceding layers
+    - We successfully train a 30-layer encoder that is currently the deepest encoder in NMT
 
 Wang, J., Chen, Y., Chakraborty, R., & Yu, S. X. (2019). Orthogonal Convolutional Neural Networks. arXiv, 1911.12207. Retrieved from https://arxiv.org/abs/1911.12207v3
 
-    - Orthogonal convolution: filter orthogonality with doubly block-Toeplitz matrix representation
-    - Outperforms the kernel orthogonality, learns more diverse and expressive features
+    - We propose orthogonal convolution: filter orthogonality with doubly block-Toeplitz matrix representation
+    - It outperforms the kernel orthogonality, learns more diverse and expressive features
 
 Wen, Y., Luk, K., Gazeau, M., Zhang, G., Chan, H., & Ba, J. (2019). An Empirical Study of Large-Batch Stochastic Gradient Descent with Structured Covariance Noise. arXiv, 1902.08234. Retrieved from https://arxiv.org/abs/1902.08234v4
 
+    - We address the problem of improving generalization in large-batch training without elongating training duration
+    - We propose to add covariance noise to the gradients
+    - We do some theoretical studies
+
 Yang, G., Pennington, J., Rao, V., Sohl-Dickstein, J., & Schoenholz, S. S. (2019). A Mean Field Theory of Batch Normalization. arXiv, 1902.08129. Retrieved from https://arxiv.org/abs/1902.08129v2
+
+    - We show that the batch normalization (BN) itself is the cause of gradient explosion
+    - Vanilla BN networks without skip connections are not trainable at large depths for common initialization schemes
+    - Gradient explosion can be reduced by tuning the network close to the linear regime
+    - It is possible to perform exact Bayesian inference in the case of wide neural networks with BN
 
 Yang, G. (2019). Tensor Programs I: Wide Feedforward or Recurrent Neural Networks of Any Architecture are Gaussian Processes. arXiv, 1910.12478. Retrieved from https://arxiv.org/abs/1910.12478v3
 
