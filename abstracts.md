@@ -600,6 +600,11 @@ Saxe, A. M., McClelland, J. L., & Ganguli, S. (2013). Exact solutions to the non
 
 Sutskever, I., Martens, J., Dahl, G. E., & Hinton, G. E. (2013). On the importance of initialization and momentum in deep learning. International Conference on Machine Learning. Retrieved from https://www.cs.toronto.edu/~gdahl/papers/momentumNesterovDeepLearning.pdf
 
+    - We show that SGD with momentum can be successfully applied to train DNNs
+    - We use a well-designed random initialization and a particular type of slowly increasing schedule
+    - Poorly initialized networks cannot be trained with momentum
+    - Well-initialized networks perform worse when the momentum is absent or poorly tuned
+
 Uria, B., Murray, I., & Larochelle, H. (2013). A Deep and Tractable Density Estimator. arXiv, 1310.1757. Retrieved from https://arxiv.org/abs/1310.1757v2
 
 Wager, S., Wang, S., & Liang, P. (2013). Dropout Training as Adaptive Regularization. arXiv, 1307.1493. Retrieved from https://arxiv.org/abs/1307.1493v2
@@ -1132,6 +1137,13 @@ Huang, F., Ash, J., Langford, J., & Schapire, R. (2017). Learning Deep ResNet Bl
 
 Ioffe, S. (2017). Batch Renormalization: Towards Reducing Minibatch Dependence in Batch-Normalized Models. arXiv, 1702.03275. Retrieved from https://arxiv.org/abs/1702.03275v2
 
+Jain, P., Kakade, S. M., Kidambi, R., Netrapalli, P., & Sidford, A. (2017). Accelerating Stochastic Gradient Descent For Least Squares Regression. arXiv, 1704.08227. Retrieved from https://arxiv.org/abs/1704.08227v2
+
+    - We discuss least squares regression as a special case of stochastic approximation where we have access to a stochastic first order oracle (stochastic gradient)
+    - We rethink what acceleration (momentum?) has to offer when working with a stochastic gradient
+    - We propose an accelerated stochastic gradient method (ASGD)
+    - This paper presents the first known provable analysis of the claim that fast gradient methods are stable when dealing with statistical errors, in contrast to previous negative results
+
 Jastrzębski, S., Kenton, Z., Arpit, D., Ballas, N., Fischer, A., Bengio, Y., & Storkey, A. (2017). Three Factors Influencing Minima in SGD. arXiv, 1711.04623. Retrieved from https://arxiv.org/abs/1711.04623v3
 
     - We investigate the previously proposed approximation of SGD by a stochastic differential equation (SDE)
@@ -1500,6 +1512,14 @@ Gur-Ari, G., Roberts, D. A., & Dyer, E. (2018). Gradient Descent Happens in a Ti
     - This paper shows that the gradient over training time lies primarily in the subspace spanned by the top few largest eigenvalues of the Hessian H (a sentence from https://arxiv.org/pdf/1910.05929v1)
     - This implies that most of the descent directions lie along extremely low dimensional subspaces of high local positive curvature
     - Exploration in the vastly larger number of other directions utilizes a small portion of the gradient
+
+Kidambi, R., Netrapalli, P., Jain, P., & Kakade, S. M. (2018). On the insufficiency of existing momentum schemes for Stochastic Optimization. arXiv, 1803.05591. Retrieved from https://arxiv.org/abs/1803.05591v2
+
+    - We discuss momentum methods such as heavy ball (HB) and Nesterov’s accelerated gradient descent (NAG)
+    - Question: are they optimal even with batchsize of 1? (this case is called stochastic first order oracle, SFO)
+    - We describe a linear regression problem instance where it is indeed possible to improve upon SGD, and ASGD (https://arxiv.org/abs/1704.08227) achieves this improvement, but HB (with any step size and momentum) cannot achieve any improvement over SGD; the same holds true for NAG as well
+    - We conclude that HB and NAG’s improved performance is attributed to mini-batching and these methods will often struggle to improve over SGD with small constant batch sizes
+    - ASGD provides a distinct advantage in training deep networks over SGD, HB and NAG
 
 Hahn, S., & Choi, H. (2018). Understanding Dropout as an Optimization Trick. arXiv, 1806.09783. Retrieved from https://arxiv.org/abs/1806.09783v3
 
@@ -1920,9 +1940,23 @@ Millidge, B. (2019). Deep Active Inference as Variational Policy Gradients. arXi
 
 Nakamura, K., & Hong, B.-W. (2019). Adaptive Weight Decay for Deep Neural Networks. arXiv, 1907.08931. Retrieved from https://arxiv.org/abs/1907.08931v2
 
+    - We propose adaptive weight-decay (AdaDecay) where the gradient norms are normalized within each layer and the degree of regularization for each parameter is proportional to the magnitude of its gradient using the sigmoid
+    - We show the effectiveness on MNIST, Fashion-MNIST, and CIFAR-10
+
 Nakkiran, P., Kaplun, G., Bansal, Y., Yang, T., Barak, B., & Sutskever, I. (2019). Deep Double Descent: Where Bigger Models and More Data Hurt. arXiv, 1912.02292. Retrieved from https://arxiv.org/abs/1912.02292v1
 
+    - We discuss previously found "double-descent" phenomenon
+    - We find that a variety of modern DL tasks exhibit this phenomenon
+    - We define the effective model complexity (EMC) of a training procedure as the maximum number of samples on which it can achieve close to zero training error and hypothesize that double descent occurs as a function of the EMC
+    - Indeed we observe that double descent occurs also as a function of the number of training epochs
+    - We identify certain regimes where increasing the number of train samples actually hurts test performance
+
 Neal, B. (2019). On the Bias-Variance Tradeoff: Textbooks Need an Update. arXiv, 1912.08286. Retrieved from https://arxiv.org/abs/1912.08286v1
+
+    - A PhD thesis of Brady Neal
+    - We review the history of the bias-variance tradeoff
+    - We show a lack of a bias-variance tradeoff in NNs
+    - We observe a similar phenomenon in deep RL
 
 Papyan, V. (2019). Measurements of Three-Level Hierarchical Structure in the Outliers in the Spectrum of Deepnet Hessians. arXiv, 1901.08244. Retrieved from https://arxiv.org/abs/1901.08244v1
 
@@ -1932,15 +1966,29 @@ Papyan, V. (2019). Measurements of Three-Level Hierarchical Structure in the Out
 
 Peluchetti, S., & Favaro, S. (2019). Infinitely deep neural networks as diffusion processes. arXiv, 1905.11065. Retrieved from https://arxiv.org/abs/1905.11065v3
 
-    - For deep nets with iid weight init, the dependency on the input vanishes as depth increases to infinity.
+    - For deep nets with iid weight init, the dependency on the input vanishes as depth increases to infinity
     - Under some assumptions, infinitely deep ResNets converge to SDEs (diffusion processes)
     - They do not suffer from the above property
 
 Qiao, S., Wang, H., Liu, C., Shen, W., & Yuille, A. (2019). Micro-Batch Training with Batch-Channel Normalization and Weight Standardization. arXiv, 1903.10520. Retrieved from https://arxiv.org/abs/1903.10520v2
 
+    - We propose Weight Standardization (WS) and Batch-Channel Normalization (BCN)
+    - This bring two success factors of BatchNorm into micro-batch training:
+    - 1) the smoothing effects on the loss landscape
+    - 2) the ability to avoid harmful elimination singularities (neuron saturation?)
+    - The latter problem is not solved by Layer Normalization or Group Normalization in micro-batch training
+    - WS and BCN with micro-batch training is even able to match or outperform BN with large-batch training
+
 Rangamani, A., Nguyen, N. H., Kumar, A., Phan, D., Chin, S. H., & Tran, T. D. (2019). A Scale Invariant Flatness Measure for Deep Network Minima. arXiv, 1902.02434. Retrieved from https://arxiv.org/abs/1902.02434v1
 
+    - Question: flatness of minima empirically provides better generalization, but most measures of sharpness/flatness are not invariant to rescaling of the network parameters
+    - We propose a Hessian-based measure for flatness that is invariant to rescaling
+    - We confirm that Large-Batch SGD minima are indeed sharper than Small-Batch SGD minima (there was also another work that shows that Large-Batch SGD converges to solution with another Hessian properties)
+
 Shen, X., Tian, X., Liu, T., Xu, F., & Tao, D. (2019). Continuous Dropout. arXiv, 1911.12675. Retrieved from https://arxiv.org/abs/1911.12675v1
+
+    - We extend the traditional binary dropout to continuous dropout inspired by neuroscience
+    - We compare it with binary dropout, adaptive dropout, and DropConnect, and show that it performs better
 
 Simsekli, U., Sagun, L., & Gurbuzbalaban, M. (2019). A Tail-Index Analysis of Stochastic Gradient Noise in Deep Neural Networks. arXiv, 1901.06053. Retrieved from https://arxiv.org/abs/1901.06053v1
 
