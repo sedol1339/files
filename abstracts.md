@@ -2608,6 +2608,8 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
 
 Guo, L., Ross, K., Zhao, Z., Andriopoulos, G., Ling, S., Xu, Y., & Dong, Z. (2024). Cross Entropy versus Label Smoothing: A Neural Collapse Perspective. arXiv, 2402.03979. Retrieved from https://arxiv.org/abs/2402.03979v2
 
+Hirono, Y., Tanaka, A., & Fukushima, K. (2024). Understanding Diffusion Models by Feynman's Path Integral. arXiv, 2403.11262. Retrieved from https://arxiv.org/abs/2403.11262v1
+
 Huang, Q., Wake, N., Sarkar, B., Durante, Z., Gong, R., Taori, R., ...Gao, J. (2024). Position Paper: Agent AI Towards a Holistic Intelligence. arXiv, 2403.00833. Retrieved from https://arxiv.org/abs/2403.00833v1
 
 Humayun, A. I., Balestriero, R., & Baraniuk, R. (2024). Deep Networks Always Grok and Here is Why. arXiv, 2402.15555. Retrieved from https://arxiv.org/abs/2402.15555v1
