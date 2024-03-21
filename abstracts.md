@@ -163,6 +163,14 @@ Jordan, M. I., Ghahramani, Z., Jaakkola, T. S., & Saul, L. K. (1998). An Introdu
 
 Rao, R. P. N., & Ballard, D. (1999). Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects. Nat. Neurosci. Retrieved from https://www.semanticscholar.org/paper/Predictive-coding-in-the-visual-cortex%3A-a-of-some-Rao-Ballard/a424ec3b8846f57b8ffdb566d272e28d5a525909
 
+## 2000
+
+Tishby, N., Pereira, F. C., & Bialek, W. (2000). The information bottleneck method. arXiv, physics/0004057. Retrieved from https://arxiv.org/abs/physics/0004057v1
+
+    - To find which features of X play a role in the prediction, we may want to find a short code for X that preserves the maximum information about Y
+    - We squeeze the information that X provides about Y through a "bottleneck" formed by a limited set of codewords
+    - We derive equations and an iterative algorithm for finding representations of the signal that capture its relevant structure
+
 ## 2001
 
 Blei, D. M., Ng, A. Y., & Jordan, M. I. (2001). Latent Dirichlet Allocation. Journal of Machine Learning Research, 3(Jan), 601–608. Retrieved from https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf
@@ -862,6 +870,12 @@ Wu, H., & Gu, X. (2015). Towards Dropout Training for Convolutional Neural Netwo
 
 Abdi, M., & Nahavandi, S. (2016). Multi-Residual Networks: Improving the Speed and Accuracy of Residual Networks. arXiv, 1609.05672. Retrieved from https://arxiv.org/abs/1609.05672v4
 
+Alemi, A. A., Fischer, I., Dillon, J. V., & Murphy, K. (2016). Deep Variational Information Bottleneck. arXiv, 1612.00410. Retrieved from https://arxiv.org/abs/1612.00410v7
+
+    - We propose Deep Variational Information Bottleneck (Deep VIB): a variational approximation to the information bottleneck that allows us to parameterize the information bottleneck model with a NN and efficiently train it
+    - VIB objective outperform other forms of regularization in terms of generalization performance and robustness to adversarial attack
+    - We describe a connection to VAE
+
 Ba, J. L., Kiros, J. R., & Hinton, G. E. (2016). Layer Normalization. arXiv, 1607.06450. Retrieved from https://arxiv.org/abs/1607.06450v1
 
     - Problem: batch normalization is dependent on batch size and is not trivial to apply to RNNs
@@ -904,6 +918,15 @@ Cichocki, A., Lee, N., Oseledets, I. V., Phan, A.-H., Zhao, Q., & Mandic, D. (20
 
 Courbariaux, M., Hubara, I., Soudry, D., El-Yaniv, R., & Bengio, Y. (2016). Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or -1. arXiv, 1602.02830. Retrieved from https://arxiv.org/abs/1602.02830v3
 
+Daniely, A., Frostig, R., & Singer, Y. (2016). Toward Deeper Understanding of Neural Networks: The Power of Initialization and a Dual View on Expressivity. Advances in Neural Information Processing Systems, 29. Retrieved from https://proceedings.neurips.cc/paper_files/paper/2016/hash/abea47ba24142ed16b7d8fbf2c740e0d-Abstract.html
+
+    - We introduce the notion of a computation skeleton, an acyclic graph that can describe NN computations
+    - A skeleton defines a class H of functions obtained from the skeleton’s structure
+    - We analyze the set of functions that can be expressed by varying the weights of the last layer
+    - (in this case the objective is convex)
+    - We show that with high probability over the choice of initial network weights, any function in H can be approximated by selecting the final layer’s weights
+    - It follows that random weight initialization often yields a favorable starting point for optimization
+
 Duvenaud, D., Maclaurin, D., & Adams, R. (2016). Early Stopping as Nonparametric Variational Inference. Artificial Intelligence and Statistics. PMLR. Retrieved from https://proceedings.mlr.press/v51/duvenaud16.html
 
     - We propose a Bayesian interpretation of SGD
@@ -935,6 +958,15 @@ Hardt, M., & Ma, T. (2016). Identity Matters in Deep Learning. arXiv, 1611.04231
     - (the same result for standard linear DNNs is substantially more delicate)
     - We show that ResNets with ReLU can express a dataset of size N with R classes given O(n log n + r^2) parameters
     - We show SOTA on all-convolutional networks (no batch norm, dropout, or max pool) on CIFAR10, CIFAR100, ImageNet
+
+Higgins, I., Matthey, L., Pal, A., Burgess, C., Glorot, X., Botvinick, M., ...Lerchner, A. (2016). beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework. OpenReview. Retrieved from https://openreview.net/pdf?id=Sy2fzU9gl
+
+    - We propose beta-VAE, a modification of VAE that relies on tuning a single hyperparameter beta
+    - Beta can be tuned using weakly labelled data or through heuristic visual inspection
+    - Beta-VAE reduces to VAE if beta = 1
+    - beta-VAE allows to discover interpretable factorised latent representations from images without supervision
+    - It achieves SOTA on disentangled factor learning on a variety of datasets (celebA, faces and chairs)
+    - We devise a protocol to quantitatively compare the degree of disentanglement learnt by different models
 
 Huang, G., Sun, Y., Liu, Z., Sedra, D., & Weinberger, K. (2016). Deep Networks with Stochastic Depth. arXiv, 1603.09382. Retrieved from https://arxiv.org/abs/1603.09382v3
 
@@ -1857,15 +1889,6 @@ Ghorbani, B., Krishnan, S., & Xiao, Y. (2019). An Investigation into Neural Net 
 
 Greff, K., Kaufman, R. L., Kabra, R., Watters, N., Burgess, C., Zoran, D., ...Lerchner, A. (2019). Multi-Object Representation Learning with Iterative Variational Inference. arXiv, 1903.00450. Retrieved from https://arxiv.org/abs/1903.00450v3
 
-Yang, G. (2019). Scaling Limits of Wide Neural Networks with Weight Sharing: Gaussian Process Behavior, Gradient Independence, and Neural Tangent Kernel Derivation. arXiv, 1902.04760. Retrieved from https://arxiv.org/abs/1902.04760v3
-
-    - We introduce a notion of a Tensor Program that can express most neural network computations
-    - This framework describes the convergence of random NNs (CNN, RNN, ResNet, attention, BN) to Gaussian processes
-    - We discuss the applicability of the gradient independence assumption
-    - The convergence of the Neural Tangent Kernel is also a part of our framework
-    - Our framework is general enough to rederive classical random matrix results as well as recent results in neural network Jacobian singular values
-    - We hope our work opens a way toward design of even stronger Gaussian Processess, initialization schemes and deeper understanding of SGD dynamics
-
 Gu, J., Wang, Y., Cho, K., & Li, V. O. K. (2019). Improved Zero-shot Neural Machine Translation via Ignoring Spurious Correlations. arXiv, 1906.01181. Retrieved from https://arxiv.org/abs/1906.01181v1
 
     - Problem: zero-shot translation (translating between language pairs on which a system has never been trained), is an emergent property; however, naive training for zero-shot translation easily fails and is sensitive to hyperparemeters; the performance typically lags far behind the more conventional pivot-based approach which translates twice using a third language as a pivot
@@ -2034,8 +2057,8 @@ Sohl-Dickstein, J., & Kawaguchi, K. (2019). Eliminating all bad Local Minima fro
 
     - A one-list paper!
     - We find a way to remove all bad local minima from any loss landscape, so long as the global minimum has a loss of zero (seems like they add two more learnable parameters)
-    - We leave it to the reader to judge whether removing local minima in this fashion is trivial, deep, or both
     - Pathologies (diverging go infinity) can continue to exist in losses modified in a such fashion
+    - We leave it to the reader to judge whether removing local minima in this fashion is trivial, deep, or both
 
 Wang, Q., Li, B., Xiao, T., Zhu, J., Li, C., Wong, D. F., & Chao, L. S. (2019). Learning Deep Transformer Models for Machine Translation. arXiv, 1906.01787. Retrieved from https://arxiv.org/abs/1906.01787v1
 
@@ -2062,13 +2085,29 @@ Yang, G., Pennington, J., Rao, V., Sohl-Dickstein, J., & Schoenholz, S. S. (2019
     - Gradient explosion can be reduced by tuning the network close to the linear regime
     - It is possible to perform exact Bayesian inference in the case of wide neural networks with BN
 
+Yang, G. (2019). Scaling Limits of Wide Neural Networks with Weight Sharing: Gaussian Process Behavior, Gradient Independence, and Neural Tangent Kernel Derivation. arXiv, 1902.04760. Retrieved from https://arxiv.org/abs/1902.04760v3
+
+    - We introduce a notion of a Tensor Program that can express most neural network computations where all dimensions are large compared to input and output dimensions
+    - A Tensor Program is indeed a program over a specific set of functions: matrix transpose, matrix-vector multiplication, linear combination of vectors, and coordinatewise application of any nonlinearity
+    - Such tensor programs can express the computation in most NN scenarios, but not all (one example is layer normalization, however we can still deal with it, and the paper shows how)
+    - This framework describes the convergence of random NNs (CNN, RNN, ResNet, attention, BN) to Gaussian processes
+    - We discuss the applicability of the gradient independence assumption
+    - The convergence of the Neural Tangent Kernel is also a part of our framework
+    - Our framework is general enough to rederive classical random matrix results as well as recent results in neural network Jacobian singular values
+    - We hope our work opens a way toward design of even stronger Gaussian Processess, initialization schemes and deeper understanding of SGD dynamics
+
 Yang, G. (2019). Tensor Programs I: Wide Feedforward or Recurrent Neural Networks of Any Architecture are Gaussian Processes. arXiv, 1910.12478. Retrieved from https://arxiv.org/abs/1910.12478v3
+
+    - It has been shown that wide NNs with random weights are Gaussian processes
+    - We show that this extends to most of modern feedforward or recurrent neural networks
+    - This work serves as a tutorial on the tensor programs technique (https://arxiv.org/abs/1902.04760)
+    - We provide open-source implementations of the Gaussian Process kernels of simple RNN, GRU, transformer, and batchnorm+ReLU network
 
 Yun, C., Sra, S., & Jadbabaie, A. (2019). Are deep ResNets provably better than linear predictors? arXiv, 1907.03922. Retrieved from https://arxiv.org/abs/1907.03922v2
 
 Zhang, H., Dauphin, Y. N., & Ma, T. (2019). Fixup Initialization: Residual Learning Without Normalization. arXiv, 1901.09321. Retrieved from https://arxiv.org/abs/1901.09321v2
 
-    - Normalization layers are believed to stabilize training, enable higher LR, accelerate convergence, improve generalization
+    - Normalization layers are believed to stabilize training, enable higher LR, improve generalization
     - We show that none of the perceived benefits is unique to normalization
     - We propose Fixup initialization via properly rescaling a standard initialization
     - Training ResNets with Fixup is as stable as training with normalization
@@ -2076,17 +2115,38 @@ Zhang, H., Dauphin, Y. N., & Ma, T. (2019). Fixup Initialization: Residual Learn
 
 Zhang, J., Karimireddy, S. P., Veit, A., Kim, S., Reddi, S. J., Kumar, S., & Sra, S. (2019). Why are Adaptive Methods Good for Attention Models? arXiv, 1912.03194. Retrieved from https://arxiv.org/abs/1912.03194v2
 
+    - Why are adaptive methods like Clipped SGD/Adam good for attention models?
+    - We show that heavy-tails of the noise in stochastic gradients is one cause of SGD’s poor performance
+    - We provide tight upper and lower convergence bounds for adaptive gradient methods under heavy-tailed noise
+    - Though clipping speeds up SGD, it does not close the gap between SGD and Adam
+    - We develop an adaptive coordinate-wise clipping algorithm
+    - We experimentally show that it outperforms Adam on BERT training tasks
+
 ## 2020
 
 Allen-Zhu, Z., & Li, Y. (2020). Backward Feature Correction: How Deep Learning Performs Deep (Hierarchical) Learning. arXiv, 2001.04413. Retrieved from https://arxiv.org/abs/2001.04413v6
 
 Agarwal, C., D'souza, D., & Hooker, S. (2020). Estimating Example Difficulty Using Variance of Gradients. arXiv, 2008.11600. Retrieved from https://arxiv.org/abs/2008.11600v4
 
+    - We propose Variance of Gradients (VoG) as a metric to rank data by difficulty
+    - Data points with high VoG scores are far more difficult for the model to learn and may require memorization
+    - VoG provides insight into the learning cycle of the model
+    - VoG is a valuable and efficient ranking for out-of-distribution detection
+
 Alemi, A. A., Morningstar, W. R., Poole, B., Fischer, I., & Dillon, J. V. (2020). VIB is Half Bayes. arXiv, 2011.08711. Retrieved from https://arxiv.org/abs/2011.08711v1
 
 Ashukha, A., Lyzhov, A., Molchanov, D., & Vetrov, D. (2020). Pitfalls of In-Domain Uncertainty Estimation and Ensembling in Deep Learning. arXiv, 2002.06470. Retrieved from https://arxiv.org/abs/2002.06470v4
 
+    - We point out pitfalls of existing metrics for in-domain uncertainty estimation
+    - We introduce the deep ensemble equivalent score (DEE)
+    - We compare different ensembling techniques and show that many of them are equivalent to an ensemble of only few independently trained networks in terms of test performance
+
 Bachlechner, T., Majumder, B. P., Mao, H. H., Cottrell, G. W., & McAuley, J. (2020). ReZero is All You Need: Fast Convergence at Large Depth. arXiv, 2003.04887. Retrieved from https://arxiv.org/abs/2003.04887v2
+
+    - We propose ReZero: a modification of ResNet by adding a learnable (initially zero) multiplier to residual blocks
+    - ReZero initializes each layer to perform the identity operation and satisfies initial dynamical isometry
+    - ReZero effectively propagates signals through deep network
+    - We are the first to train Transformers over 100 layers without LR warm-up, LayerNorm or auxiliary losses
 
 Chan, K. H. R., Yu, Y., You, C., Qi, H., Wright, J., & Ma, Y. (2020). Deep Networks from the Principle of Rate Reduction. arXiv, 2010.14765. Retrieved from https://arxiv.org/abs/2010.14765v1
 
