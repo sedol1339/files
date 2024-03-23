@@ -866,6 +866,13 @@ Wu, H., & Gu, X. (2015). Towards Dropout Training for Convolutional Neural Netwo
     - We propose probabilistic weighted pooling and achieve competitive results
     - We found that the effect of convolutional dropout is not trivial
 
+Xu, K., Ba, J., Kiros, R., Cho, K., Courville, A., Salakhutdinov, R., ...Bengio, Y. (2015). Show, Attend and Tell: Neural Image Caption Generation with Visual Attention. arXiv, 1502.03044. Retrieved from https://arxiv.org/abs/1502.03044v3
+
+    - We introduce an attention based model for image captioning with either soft or hard attention
+    - Soft deterministic attention is trainable by SGD
+    - Hard stochastic attention is trainable by maximizing an approximate ELBO or equivalently by REINFORCE
+    - We achieve SOTA on Flickr8k, Flickr30k and MS COCO
+
 ## 2016
 
 Abdi, M., & Nahavandi, S. (2016). Multi-Residual Networks: Improving the Speed and Accuracy of Residual Networks. arXiv, 1609.05672. Retrieved from https://arxiv.org/abs/1609.05672v4
@@ -1411,8 +1418,8 @@ Agarap, A. F. (2018). Deep Learning using Rectified Linear Units (ReLU). arXiv, 
 
 Allen-Zhu, Z., Li, Y., & Song, Z. (2018). A Convergence Theory for Deep Learning via Over-Parameterization. arXiv, 1811.03962. Retrieved from https://arxiv.org/abs/1811.03962v5
 
-    - Study the theory of multi-layer networks
-    - Proof that SGD can find global minima on the training objective of over-parameterized DNNs
+    - We study the theory of multi-layer networks
+    - We proove that SGD can find global minima on the training objective of over-parameterized DNNs
     - Key insight is that in a neighborhood of the random initialization, the opt. landscape is almost convex
     - This implies an equivalence between over-parameterized finite width NNs and neural tangent kernel
     - Our theory at least applies to FCN, CNN and ResNet
@@ -1484,6 +1491,12 @@ Chen, R. T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. (2018). Neural Ord
 Chevalier-Boisvert, M., Bahdanau, D., Lahlou, S., Willems, L., Saharia, C., Nguyen, T. H., & Bengio, Y. (2018). BabyAI: A Platform to Study the Sample Efficiency of Grounded Language Learning. arXiv, 1810.08272. Retrieved from https://arxiv.org/abs/1810.08272v4
 
 Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., & Kaiser, Ł. (2018). Universal Transformers. arXiv, 1807.03819. Retrieved from https://arxiv.org/abs/1807.03819v3
+
+Du, S. S., Lee, J. D., Li, H., Wang, L., & Zhai, X. (2018). Gradient Descent Finds Global Minima of Deep Neural Networks. arXiv, 1811.03804. Retrieved from https://arxiv.org/abs/1811.03804v4
+
+    - We prove that GD achieves zero training loss in polynomial time for a deep over-parameterized ResNet
+    - The Gram matrix is stable throughout the training process
+    - We obtain a similar convergence result for convolutional ResNet
 
 George, D., Lavin, A., Guntupalli, J. S., Mely, D., Hay, N., & Lazaro-Gredilla, M. (2018). Cortical Microcircuits from a Generative Vision Model. arXiv, 1808.01058. Retrieved from https://arxiv.org/abs/1808.01058v1
 
@@ -1923,6 +1936,13 @@ Izmailov, P., Maddox, W. J., Kirichenko, P., Garipov, T., Vetrov, D., & Wilson, 
     - We perform Bayesian model averaging over the induced posterior in these subspaces
     - This produces accurate predictions and well calibrated predictive uncertainty for regression and classification
 
+Kawaguchi, K., & Huang, J. (2019). Gradient Descent Finds Global Minima for Generalizable Deep Neural Networks of Practical Sizes. arXiv, 1908.02419. Retrieved from https://arxiv.org/abs/1908.02419v3
+
+    - We prove that GD can find a global minimum for DNNs of sizes commonly encountered in practice
+    - This only requires the practical degrees of over-parameterization (several orders of magnitude smaller than that required by the previous theories)
+    - Our theory only requires the number of trainable parameters to increase linearly as the training set grows
+    - Such DNNs are shown to generalize well to unseen test samples with a natural dataset
+
 Kawaguchi, K., Huang, J., & Kaelbling, L. P. (2019). Every Local Minimum Value is the Global Minimum Value of Induced Model in Non-convex Machine Learning. arXiv, 1904.03673. Retrieved from https://arxiv.org/abs/1904.03673v3
 
     - We prove, under mild assumptions, that every local minimum achieves the globally optimal value of the perturbable gradient basis model at any differentiable point (what?)
@@ -2060,6 +2080,11 @@ Sohl-Dickstein, J., & Kawaguchi, K. (2019). Eliminating all bad Local Minima fro
     - Pathologies (diverging go infinity) can continue to exist in losses modified in a such fashion
     - We leave it to the reader to judge whether removing local minima in this fashion is trivial, deep, or both
 
+Sukhbaatar, S., Grave, E., Lample, G., Jegou, H., & Joulin, A. (2019). Augmenting Self-attention with Persistent Memory. arXiv, 1907.01470. Retrieved from https://arxiv.org/abs/1907.01470v1
+
+    - We propose a new model that solely consists of attention layers (no FF layers)
+    - We augment the self-attention with persistent memory vectors that play a similar role as the FF layer
+
 Wang, Q., Li, B., Xiao, T., Zhu, J., Li, C., Wong, D. F., & Chao, L. S. (2019). Learning Deep Transformer Models for Machine Translation. arXiv, 1906.01787. Retrieved from https://arxiv.org/abs/1906.01787v1
 
     - We show that deep transformer encoders may outperform their wide counterparts
@@ -2150,16 +2175,43 @@ Bachlechner, T., Majumder, B. P., Mao, H. H., Cottrell, G. W., & McAuley, J. (20
 
 Chan, K. H. R., Yu, Y., You, C., Qi, H., Wright, J., & Ma, Y. (2020). Deep Networks from the Principle of Rate Reduction. arXiv, 2010.14765. Retrieved from https://arxiv.org/abs/2010.14765v1
 
+    - We construct a CNN layer-by-layer by optimizing the rate reduction of learned features
+    - We do this one gradient ascent iteration per layer
+    - This "white box" network has precise optimization, statistical, and geometric interpretation
+    - This framework justifies the role of multi-channel lifting and sparse coding in early stage of CNN
+    - So constructed CNN can learn a good discriminative representation even without any backprop training
+
 Chen, M., Bai, Y., Lee, J. D., Zhao, T., Wang, H., Xiong, C., & Socher, R. (2020). Towards Understanding Hierarchical Learning: Benefits of Neural Representations. arXiv, 2006.13436. Retrieved from https://arxiv.org/abs/2006.13436v2
 
-    - We demonstrate that intermediate neural representations add more flexibility to neural networks and can be advantageous over raw inputs
-    - Not easy to understand what happens in this paper, but seems like they use randomly initialized neural network as a source of deep features to train another (shallow) model
+    - Not easy to understand what happens in this paper!
+    - Seems like they use randomly initialized neural network as a source of deep features to train a shallow model
+    - They demonstrate that intermediate neural representations can be advantageous over raw inputs
 
 Chen, L., Min, Y., Belkin, M., & Karbasi, A. (2020). Multiple Descent: Design Your Own Generalization Curve. arXiv, 2008.01036. Retrieved from https://arxiv.org/abs/2008.01036v7
 
+    - We show a multiple descent: a generalization curve with many peaks can exist for linear regression
+    - Locations of those peaks can be explicitly controlled
+    - On the other hand, we rarely observe complex generalization curves in practice
+    - We conclude that realistic generalization curves arise from specific interactions between data properties and the inductive biases of algorithms
+
 Chen, Z., Deng, L., Wang, B., Li, G., & Xie, Y. (2020). A Comprehensive and Modularized Statistical Framework for Gradient Norm Equality in Deep Neural Networks. arXiv, 2001.00254. Retrieved from https://arxiv.org/abs/2001.00254v1
 
+    - We propose a novel metric called Block Dynamical Isometry, which measures the change of gradient norm
+    - We propose a highly modularized statistical framework based on free probability
+    - With our metric and framework we analyze extensive initialization, normalization, and network structures
+    - Based on our analysis, we:
+    - 1) Improve an activation function selection strategy for initialization techniques
+    - 2) Propose a new configuration for weight normalization
+    - 3) Propose a depth-aware way to derive coefficients in SeLU
+    - 4) Propose a second moment normalization, which is theoretically 30% faster than BatchNorm without accuracy loss
+
 Choe, Y. J., Ham, J., & Park, K. (2020). An Empirical Study of Invariant Risk Minimization. arXiv, 2004.05007. Retrieved from https://arxiv.org/abs/2004.05007v2
+
+    - We empirically investigate IRMv1, which is the first practical algorithm to approximately solve IRM
+    - We use ColoredMNIST and Stanford Sentiment Treebank (SST-2) datasets
+    - IRMv1 performs better as the gap between training environments grows larger
+    - IRMv1 can perform good even when the association between shape and label is only approximately invariant
+    - IRMv1 can perform good with spurious token-to-label correlations in text classification tasks
 
 D'Ascoli, S., Refinetti, M., Biroli, G., & Krzakala, F. (2020). Double Trouble in Double Descent : Bias and Variance(s) in the Lazy Regime. arXiv, 2003.01054. Retrieved from https://arxiv.org/abs/2003.01054v2
 
@@ -2172,6 +2224,13 @@ Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (
     - We offer best practices for practitioners to stop training less promising runs early
 
 Domingos, P. (2020). Every Model Learned by Gradient Descent Is Approximately a Kernel Machine. arXiv, 2012.00152. Retrieved from https://arxiv.org/abs/2012.00152v1
+
+    - NNs trained by SGD, regardless of architecture, are approximately equivalent to kernel machines
+    - Kernel machine store a subset of the training data points and match them to the query using the kernel
+    - So, NNs are effectively a superposition of the training examples
+    - This contrasts with the standard view of DL as a method for discovering representations from data
+    - Our result also has significant implications for boosting algorithms, probabilistic graphical models and convex optimization
+    - Also some discussion here: https://www.reddit.com/r/MachineLearning/comments/k8h01q/r_wide_neural_networks_are_feature_learners_not/?rdt=59640
 
 Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., ...Houlsby, N. (2020). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. arXiv, 2010.11929. Retrieved from https://arxiv.org/abs/2010.11929v2
 
@@ -2190,6 +2249,16 @@ Fort, S., Dziugaite, G. K., Paul, M., Kharaghani, S., Roy, D. M., & Ganguli, S. 
 Furrer, D., van Zee, M., Scales, N., & Schärli, N. (2020). Compositional Generalization in Semantic Parsing: Pre-training vs. Specialized Architectures. arXiv, 2007.08970. Retrieved from https://arxiv.org/abs/2007.08970v3
 
 George, D., Lázaro-Gredilla, M., & Guntupalli, J. S. (2020). From CAPTCHA to Commonsense: How Brain Can Teach Us About Artificial Intelligence. Front. Comput. Neurosci., 14, 554097. Retrieved from https://www.frontiersin.org/articles/10.3389/fncom.2020.554097/full
+
+Geva, M., Schuster, R., Berant, J., & Levy, O. (2020). Transformer Feed-Forward Layers Are Key-Value Memories. arXiv, 2012.14913. Retrieved from https://arxiv.org/abs/2012.14913v2
+
+    - Feedforward layers in transformer-based language models operate as key-value memories
+    - Each key correlates with a set of human-interpretable input patterns, such as n-grams or semantic topic
+    - Each value can induce a distribution over the output vocabulary
+    - This distribution correlates with the next-token distribution in the upper layers of the model
+    - The learned patterns are human-interpretable
+    - Lower layers tend to capture shallow patterns, while upper layers learn more semantic ones
+    - The output of a feed-forward layer is a composition of its memories
 
 Gorbunov, E., Danilova, M., & Gasnikov, A. (2020). Stochastic Optimization with Heavy-Tailed Noise via Accelerated Gradient Clipping. arXiv, 2005.10785. Retrieved from https://arxiv.org/abs/2005.10785v2
 
@@ -2282,6 +2351,19 @@ Yang, G. (2020). Tensor Programs II: Neural Tangent Kernel for Any Architecture.
 
 Yang, G. (2020). Tensor Programs III: Neural Matrix Laws. arXiv, 2009.10685. Retrieved from https://arxiv.org/abs/2009.10685v3
 
+Yang, G., & Hu, E. J. (2020). Feature Learning in Infinite-Width Neural Networks. arXiv, 2011.14522. Retrieved from https://arxiv.org/abs/2011.14522v3
+
+    - This is "Tensor Programs IV" (another 11-list version: https://proceedings.mlr.press/v139/yang21c/yang21c.pdf)
+    - Using the Tensor Programs we adapt NTK to the case of pre-training and transfer learning such as with BERT
+    - We compute an infinite-width limits on Word2Vec and few-shot learning on Omniglot via MAML
+    - Such feature-learning limit outperforms both the NTK and the finite-width neural networks
+    - We classify a space of NN parametrizations that generalizes standard, NTK, and Mean Field parametrizations
+    - https://www.reddit.com/r/MachineLearning/comments/k8h01q/r_wide_neural_networks_are_feature_learners_not/
+    - The title really should be something like “To Explain Pretraining and Transfer Learning, Wide Neural Networks Should Be Thought of as Feature Learners, Not Kernel Machines” but that’s really long
+    - So, NNs can be kernel machines, but we can understand them better as feature learners
+    - More precisely, the same NN can have different infinite-width limits, depending on the parametrization
+    - A big contribution of this paper is classifying what kind of limits are possible
+
 Yang, Z., Yu, Y., You, C., Steinhardt, J., & Ma, Y. (2020). Rethinking Bias-Variance Trade-off for Generalization of Neural Networks. arXiv, 2002.11328. Retrieved from https://arxiv.org/abs/2002.11328v3
 
 Zhao, M., Zhu, Y., Shareghi, E., Vulić, I., Reichart, R., Korhonen, A., & Schütze, H. (2020). A Closer Look at Few-Shot Crosslingual Transfer: The Choice of Shots Matters. arXiv, 2012.15682. Retrieved from https://arxiv.org/abs/2012.15682v2
@@ -2330,6 +2412,8 @@ Brock, A., De, S., Smith, S. L., & Simonyan, K. (2021). High-Performance Large-S
     - With our NFNets, we achieve SOTA on ImageNet, fast convergence, better fine-tuning performance
 
 Cao, S. (2021). Choose a Transformer: Fourier or Galerkin. arXiv, 2105.14995. Retrieved from https://arxiv.org/abs/2105.14995v4
+
+Chen, Y., Huang, W., Nguyen, L. M., & Weng, T.-W. (2021). On the Equivalence between Neural Network and Support Vector Machine. arXiv, 2111.06063. Retrieved from https://arxiv.org/abs/2111.06063v2
 
 Cohen, A.-S., Cont, R., Rossier, A., & Xu, R. (2021). Scaling Properties of Deep Residual Networks. arXiv, 2105.12245. Retrieved from https://arxiv.org/abs/2105.12245v2
 
@@ -2410,8 +2494,6 @@ Smith, S. L., Dherin, B., Barrett, D. G. T., & De, S. (2021). On the Origin of I
 
 Tolstikhin, I., Houlsby, N., Kolesnikov, A., Beyer, L., Zhai, X., Unterthiner, T., ...Dosovitskiy, A. (2021). MLP-Mixer: An all-MLP Architecture for Vision. arXiv, 2105.01601. Retrieved from https://arxiv.org/abs/2105.01601v4
 
-Yang, G., & Hu, E. J. (2021). Tensor Programs IV: Feature Learning in Infinite-Width Neural Networks. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v139/yang21c.html
-
 Yin, M., Sui, Y., Liao, S., & Yuan, B. (2021). Towards Efficient Tensor Decomposition-Based DNN Model Compression with Optimization Framework. arXiv, 2107.12422. Retrieved from https://arxiv.org/abs/2107.12422v1
 
     - Problem: compressing CNNs with Tensor train (TT) and Tensor ring (TR) suffers significant accuracy loss
@@ -2439,6 +2521,15 @@ Christof, C., & Kowalczyk, J. (2022). On the Omnipresence of Spurious Local Mini
 
 Cohen, J. M., Ghorbani, B., Krishnan, S., Agarwal, N., Medapati, S., Badura, M., ...Gilmer, J. (2022). Adaptive Gradient Methods at the Edge of Stability. arXiv, 2207.14484. Retrieved from https://arxiv.org/abs/2207.14484v1
 
+Courtois, A., Morel, J.-M., & Arias, P. (2022). Can neural networks extrapolate? Discussion of a theorem by Pedro Domingos. arXiv, 2211.03566. Retrieved from https://arxiv.org/abs/2211.03566v1
+
+    - We discuss a theorem proved in https://arxiv.org/abs/2012.00152
+    - We extend the proof to the discrete setting and the multi-dimensional case
+    - It is unclear how the interpretability of the NTK would apply to high dimensional settings such as images
+    - Our experiments seem to confirm Domingos’ interpretation of his theorem
+
+Engel, A., Wang, Z., Sarwate, A. D., Choudhury, S., & Chiang, T. (2022). TorchNTK: A Library for Calculation of Neural Tangent Kernels of PyTorch Models. arXiv, 2205.12372. Retrieved from https://arxiv.org/abs/2205.12372v1
+
 Ergen, T., Neyshabur, B., & Mehta, H. (2022). Convexifying Transformers: Improving optimization and understanding of transformer networks. arXiv, 2211.11052. Retrieved from https://arxiv.org/abs/2211.11052v1
 
 Fedus, W., Dean, J., & Zoph, B. (2022). A Review of Sparse Expert Models in Deep Learning. arXiv, 2209.01667. Retrieved from https://arxiv.org/abs/2209.01667v1
@@ -2456,6 +2547,17 @@ Ivanova, A. A., Schrimpf, M., Anzellotti, S., Zaslavsky, N., Fedorenko, E., & Is
 Hafner, D., Lee, K.-H., Fischer, I., & Abbeel, P. (2022). Deep Hierarchical Planning from Pixels. arXiv, 2206.04114. Retrieved from https://arxiv.org/abs/2206.04114v1
 
 Hinton, G. (2022). The Forward-Forward Algorithm: Some Preliminary Investigations. arXiv, 2212.13345. Retrieved from https://arxiv.org/abs/2212.13345v1
+
+Irie, K., Csordás, R., & Schmidhuber, J. (2022). The Dual Form of Neural Networks Revisited: Connecting Test Time Predictions to Training Patterns via Spotlights of Attention. arXiv, 2202.05798. Retrieved from https://arxiv.org/abs/2202.05798v2
+
+    - It is known that linear layers in NNs trained by GD can be expressed as a key/value/query-attention operation
+    - It stores training datapoints and outputs unnormalised dot attention over the entire training experience
+    - (none of the mathematical results we’ll discuss is novel)
+    - This dual formulation allows for visualising attention weights over all training patterns, given a test input
+    - This is not easy: the memory storage requirement forces us to conduct experiments with small datasets
+    - Our analysis is not applicable to models which are already trained
+    - We experiment on image classification (single-task, multi-task, continual learning) and language modeling
+    - We observe many interesting patterns in various scenarios
 
 Juneja, J., Bansal, R., Cho, K., Sedoc, J., & Saphra, N. (2022). Linear Connectivity Reveals Generalization Strategies. arXiv, 2205.12411. Retrieved from https://arxiv.org/abs/2205.12411v5
 
@@ -2501,6 +2603,15 @@ Sutton, R. S., Bowling, M., & Pilarski, P. M. (2022). The Alberta Plan for AI Re
 
 Sutton, R. S., Machado, M. C., Holland, G. Z., Szepesvari, D., Timbers, F., Tanner, B., & White, A. (2022). Reward-Respecting Subtasks for Model-Based Reinforcement Learning. arXiv, 2202.03466. Retrieved from https://arxiv.org/abs/2202.03466v4
 
+Träuble, F., Goyal, A., Rahaman, N., Mozer, M., Kawaguchi, K., Bengio, Y., & Schölkopf, B. (2022). Discrete Key-Value Bottleneck. arXiv, 2207.11240. Retrieved from https://arxiv.org/abs/2207.11240v3
+
+    - We tackle the problem of catastrophic forgetting during fine-tuning
+    - We propose an architecture built upon a discrete bottleneck of separate and learnable key-value codes
+    - The encoded input is used to select the nearest keys, and the corresponding values are fed to the decoder
+    - This enables localized and context-dependent model updates
+    - It allows learning under distribution shifts and reduces the complexity of the hypothesis class
+    - We evaluate on class-incremental learning scenarios wide variety of pre-trained models, outperforming baselines
+
 Vanchurin, V., Wolf, Y. I., Katsnelson, M. I., & Koonin, E. V. (2022). Toward a theory of evolution as multilevel learning. Proc. Natl. Acad. Sci. U.S.A., 119(6), e2120037119. Retrieved from https://doi.org/10.1073/pnas.2120037119
 
 Wang, H., Ma, S., Huang, S., Dong, L., Wang, W., Peng, Z., ...Wei, F. (2022). Foundation Transformers. arXiv, 2210.06423. Retrieved from https://arxiv.org/abs/2210.06423v2
@@ -2538,6 +2649,13 @@ Arbel, J., Pitas, K., Vladimirova, M., & Fortuin, V. (2023). A Primer on Bayesia
 Barabási, D. L., Bianconi, G., Bullmore, E., Burgess, M., Chung, S., Eliassi-Rad, T., ...Buzsáki, G. (2023). Neuroscience needs Network Science. arXiv, 2305.06160. Retrieved from https://arxiv.org/abs/2305.06160v2
 
 Bombari, S., Kiyani, S., & Mondelli, M. (2023). Beyond the Universal Law of Robustness: Sharper Laws for Random Features and Neural Tangent Kernels. arXiv, 2302.01629. Retrieved from https://arxiv.org/abs/2302.01629v2
+
+Irie, K., Csordás, R., & Schmidhuber, J. (2023). Automating Continual Learning. arXiv, 2312.00276. Retrieved from https://arxiv.org/abs/2312.00276v1
+
+    - We propose Automated Continual Learning (ACL) to tackle the problem of catastrophic forgetting
+    - ACL encodes good performance on both old and new tasks into its meta-learning objectives
+    - ACL requires training settings similar to those of few-shot/meta learning problems
+    - We demonstrate that ACL effectively solves "in-context catastrophic forgetting"
 
 Isomura, T. (2023). Bayesian mechanics of self-organising systems. arXiv, 2311.10216. Retrieved from https://arxiv.org/abs/2311.10216v1
 
