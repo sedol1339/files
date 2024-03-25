@@ -1388,6 +1388,8 @@ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ..
 
 Veličković, P., Cucurull, G., Casanova, A., Romero, A., Liò, P., & Bengio, Y. (2017). Graph Attention Networks. arXiv, 1710.10903. Retrieved from https://arxiv.org/abs/1710.10903v3
 
+Whittington, J. C. R., & Bogacz, R. (2017). An Approximation of the Error Backpropagation Algorithm in a Predictive Coding Network with Local Hebbian Synaptic Plasticity. Neural Comput., 28333583. Retrieved from https://pubmed.ncbi.nlm.nih.gov/28333583
+
 Wiatowski, T., Grohs, P., & Bölcskei, H. (2017). Energy Propagation in Deep Convolutional Neural Networks. arXiv, 1704.03636. Retrieved from https://arxiv.org/abs/1704.03636v3
 
 Wu, L., Zhu, Z., & E, W. (2017). Towards Understanding Generalization of Deep Learning: Perspective of Loss Landscapes. arXiv, 1706.10239. Retrieved from https://arxiv.org/abs/1706.10239v2
@@ -1744,6 +1746,8 @@ Shamir, O. (2018). Are ResNets Provably Better than Linear Predictors? arXiv, 18
     - We show a certain architectural tweak that allows SGD to achieve loss close or better than any linear predictor
 
 Shaw, P., Uszkoreit, J., & Vaswani, A. (2018). Self-Attention with Relative Position Representations. arXiv, 1803.02155. Retrieved from https://arxiv.org/abs/1803.02155v2
+
+Soudry, D., Hoffer, E., Nacson, M. S., Gunasekar, S., & Srebro, N. (2018). The Implicit Bias of Gradient Descent on Separable Data. Journal of Machine Learning Research, 19(70), 1–57. Retrieved from https://www.jmlr.org/papers/v19/18-188.html
 
 Tarnowski, W., Warchoł, P., Jastrzębski, S., Tabor, J., & Nowak, M. A. (2018). Dynamical Isometry is Achieved in Residual Networks in a Universal Way for any Activation Function. arXiv, 1809.08848. Retrieved from https://arxiv.org/abs/1809.08848v3
 
@@ -2262,6 +2266,11 @@ Geva, M., Schuster, R., Berant, J., & Levy, O. (2020). Transformer Feed-Forward 
 
 Gorbunov, E., Danilova, M., & Gasnikov, A. (2020). Stochastic Optimization with Heavy-Tailed Noise via Accelerated Gradient Clipping. arXiv, 2005.10785. Retrieved from https://arxiv.org/abs/2005.10785v2
 
+    - We propose clipped-SSTM: a first-order method for smooth convex stochastic optimization
+    - Clipped-SSTM is for heavy-tailed distributed noise in stochastic gradients
+    - Clipped-SSTM is based on SGD and and gradient clipping
+    - We derive some theoretical bounds
+
 Hu, W., Xiao, L., & Pennington, J. (2020). Provable Benefit of Orthogonal Initialization in Optimizing Deep Linear Networks. arXiv, 2001.05992. Retrieved from https://arxiv.org/abs/2001.05992v1
 
     - Proof that orthogonal initialization speeds up convergence
@@ -2271,6 +2280,11 @@ Hu, W., Xiao, L., & Pennington, J. (2020). Provable Benefit of Orthogonal Initia
 Huang, K., Wang, Y., Tao, M., & Zhao, T. (2020). Why Do Deep Residual Networks Generalize Better than Deep Feedforward Networks? -- A Neural Tangent Kernel Perspective. arXiv, 2002.06262. Retrieved from https://arxiv.org/abs/2002.06262v2
 
 Jastrzebski, S., Szymczak, M., Fort, S., Arpit, D., Tabor, J., Cho, K., & Geras, K. (2020). The Break-Even Point on Optimization Trajectories of Deep Neural Networks. arXiv, 2002.09572. Retrieved from https://arxiv.org/abs/2002.09572v1
+
+    - We show that the key properties of the loss surface are strongly influenced by SGD in the early training phase
+    - Using a large LR in the early training phase is beneficial from the optimization perspective
+    - It reduces the variance of the gradient, and improves the conditioning of the covariance of gradients
+    - Using a low LR in the early training phase results in bad conditioning even with BatchNorm
 
 Kidger, P., Morrill, J., Foster, J., & Lyons, T. (2020). Neural Controlled Differential Equations for Irregular Time Series. arXiv, 2005.08926. Retrieved from https://arxiv.org/abs/2005.08926v2
 
@@ -2282,9 +2296,26 @@ Kidger, P., Morrill, J., Foster, J., & Lyons, T. (2020). Neural Controlled Diffe
 
 Lengerich, B., Xing, E. P., & Caruana, R. (2020). Dropout as a Regularizer of Interaction Effects. arXiv, 2007.00823. Retrieved from https://arxiv.org/abs/2007.00823v2
 
+    - We show that Dropout regularizes against higher-order interactions
+    - So, high Dropout is useful when we need stronger regularization against spurious high-order interactions
+    - When NNs are trained on data with important interaction effects, the optimal Dropout rate is lower
+    - Weight decay and early stopping do not achieve Dropout’s regularization against high-order interactions
+    - Caution should be exercised when interpreting Dropout-based uncertainty measures
+
 Liu, L., Liu, X., Gao, J., Chen, W., & Han, J. (2020). Understanding the Difficulty of Training Transformers. arXiv, 2004.08249. Retrieved from https://arxiv.org/abs/2004.08249v3
 
+    - It is known that SGD fails to train transformers effectively
+    - We show that unbalanced gradients are not the root cause of this problem
+    - We discover an effect inside the transformer that amplifies small parameter perturbations
+    - We propose Admin (Adaptive model initialization) to stabilize the early stage’s training
+
 Liu, C., Zhu, L., & Belkin, M. (2020). Loss landscapes and optimization in over-parameterized non-linear systems and neural networks. arXiv, 2003.00307. Retrieved from https://arxiv.org/abs/2003.00307v2
+
+    - We ovserve that NN optimization is generally not convex, even locally
+    - Convexity is not the right framework for analysis of over-parameterized systems
+    - Instead, wide NNs satisfy a variant of the Polyak-Lojasiewicz condition on most of the parameter space
+    - This guarantees an efficient convergence by SGD to a global minimum
+    - This is closely related to the condition number of the NTK
 
 Lobacheva, E., Chirkova, N., Kodryan, M., & Vetrov, D. (2020). On Power Laws in Deep Ensembles. arXiv, 2007.08483. Retrieved from https://arxiv.org/abs/2007.08483v2
 
@@ -2304,6 +2335,11 @@ Mundt, M., Hong, Y., Pliushch, I., & Ramesh, V. (2020). A Wholistic View of Cont
 
 Muthukumar, V., Narang, A., Subramanian, V., Belkin, M., Hsu, D., & Sahai, A. (2020). Classification vs regression in overparameterized regimes: Does the loss function matter? arXiv, 2005.08054. Retrieved from https://arxiv.org/abs/2005.08054v2
 
+    - We analyze the overparameterized regime under the linear model with Gaussian features
+    - In this case every training sample is a support vector
+    - Consequently, the outcome of GD optimization is the same whether we use the hinge, square or logistic loss
+    - On the other hand, the choice of test loss function results in a significant asymptotic difference: some overparameterized predictors will generalize poorly for square loss but well for 0-1 loss
+
 Timothy P. Lillicrap, #., Adam Santoro, #., Marris, L., Akerman, C. J., & Hinton, G. (2020). Backpropagation and the brain. Nat. Rev. Neurosci., 32303713. Retrieved from https://pubmed.ncbi.nlm.nih.gov/32303713
 
 Lu, Y., Ma, C., Lu, Y., Lu, J., & Ying, L. (2020). A Mean-field Analysis of Deep ResNet and Beyond: Towards Provable Optimization Via Overparameterization From Depth. arXiv, 2003.05508. Retrieved from https://arxiv.org/abs/2003.05508v2
@@ -2319,12 +2355,27 @@ Mixon, D. G., Parshall, H., & Pi, J. (2020). Neural collapse with unconstrained 
 
 Papyan, V., Han, X. Y., & Donoho, D. L. (2020). Prevalence of Neural Collapse during the terminal phase of deep learning training. arXiv, 2008.08186. Retrieved from https://arxiv.org/abs/2008.08186v2
 
+    - One of the standard workflow practices is training beyond zero-error to zero-loss
+    - We discuss a Terminal Phase of Training (TPT), when training accuracy is 1, but training loss is still lowering
+    - We measure TPT for 3 deep architectures and 7 classification datasets
+    - We expose a pervasive inductive bias we call Neural Collapse
+    - 1) Last layer class representations collapse to points
+    - 2) These points collapse to the vertices of a Simplex Equiangular Tight Frame (fig. 1)
+    - Convergence to this simple structure is beneficial: it improves test performance and adversarial robustness
+
 Pezeshki, M., Kaba, S.-O., Bengio, Y., Courville, A., Precup, D., & Lajoie, G. (2020). Gradient Starvation: A Learning Proclivity in Neural Networks. arXiv, 2011.09468. Retrieved from https://arxiv.org/abs/2011.09468v4
+
+    - We provide a theoretical explanation for Gradient Starvation
+    - It arises when loss is minimized by capturing only a subset of relevant features
+    - Other predictive features fail to be discovered
+    - Such a situation can be expected given certain statistical structure in training data
+    - We propose Spectral Decoupling (SD): a regularization method aimed at decoupling feature learning dynamics
+    - We experiment on classification and adversarial attack tasks
 
 Raunak, V., Dalmia, S., Gupta, V., & Metze, F. (2020). On Long-Tailed Phenomena in Neural Machine Translation. arXiv, 2010.04924. Retrieved from https://arxiv.org/abs/2010.04924v1
 
     - Problem: NMT models struggle with generating low-frequency tokens
-    - Penalizing  low-confidence predictions hurts beam search performance
+    - Penalizing low-confidence predictions hurts beam search performance
     - We propose Anti-Focal loss, a generalization of Focal loss and cross-entropy
     - Anti-Focal loss allocates less relative loss to low-confidence predictions
     - It leads to significant gains over cross-entropy, especially on the generation of low-frequency words
@@ -2333,7 +2384,17 @@ Queiruga, A. F., Erichson, N. B., Taylor, D., & Mahoney, M. W. (2020). Continuou
 
 Sankar, A. R., Khasbage, Y., Vigneswaran, R., & Balasubramanian, V. N. (2020). A Deeper Look at the Hessian Eigenspectrum of Deep Neural Networks and its Applications to Regularization. arXiv, 2012.03801. Retrieved from https://arxiv.org/abs/2012.03801v2
 
+    - We study the eigenspectra of the Hessian at each DNN layer
+    - We propose a new regularizer: Layerwise Hessian Trace Regularization (HTR)
+    - It forces Stochastic Gradient Descent to converge to flatter minima
+
 Shen, D., Zheng, M., Shen, Y., Qu, Y., & Chen, W. (2020). A Simple but Tough-to-Beat Data Augmentation Approach for Natural Language Understanding and Generation. arXiv, 2009.13818. Retrieved from https://arxiv.org/abs/2009.13818v2
+
+    - Problem: adversarial training has been shown effective but requires expensive computation
+    - We propose cutoff: a data augmentation strategy, where part of the input sentence is erased
+    - For these samples we use a Jensen-Shannon Divergence consistency loss
+    - We apply cutoff to both understanding and generation problems, including GLUE and NMT
+    - Cutoff consistently outperforms adversarial training
 
 Sun, R., Li, D., Liang, S., Ding, T., & Srikant, R. (2020). The Global Landscape of Neural Networks: An Overview. arXiv, 2007.01429. Retrieved from https://arxiv.org/abs/2007.01429v1
 
