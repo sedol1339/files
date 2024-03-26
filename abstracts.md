@@ -1011,6 +1011,14 @@ Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (201
 
 Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A. A., ...Hadsell, R. (2016). Overcoming catastrophic forgetting in neural networks. arXiv, 1612.00796. Retrieved from https://arxiv.org/abs/1612.00796v2
 
+Lakshminarayanan, B., Pritzel, A., & Blundell, C. (2016). Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles. arXiv, 1612.01474. Retrieved from https://arxiv.org/abs/1612.01474v3   
+  
+    - We propose non-Bayesian deep ensembles  
+    - They are an alternative to Bayesian NNs (e.g. variational inference or MCMC methods)  
+    - They are simple, parallelizable and yields high quality  
+    - They produce well-calibrated uncertainty estimates  
+    - They express higher uncertainty on OOD examples
+
 Li, S., Jiao, J., Han, Y., & Weissman, T. (2016). Demystifying ResNet. arXiv, 1611.01186. Retrieved from https://arxiv.org/abs/1611.01186v2
 
     - It was empirically observed that shortcuts that have depth 2 results in smaller training error, while it is not true for shortcut of depth 1 or 3
@@ -2396,7 +2404,23 @@ Shen, D., Zheng, M., Shen, Y., Qu, Y., & Chen, W. (2020). A Simple but Tough-to-
     - We apply cutoff to both understanding and generation problems, including GLUE and NMT
     - Cutoff consistently outperforms adversarial training
 
-Sun, R., Li, D., Liang, S., Ding, T., & Srikant, R. (2020). The Global Landscape of Neural Networks: An Overview. arXiv, 2007.01429. Retrieved from https://arxiv.org/abs/2007.01429v1
+Sun, R. (2020). Optimization for Deep Learning: An Overview. J. Oper. Res. Soc. China, 8(2), 249–294. doi: 10.1007/s40305-020-00309-6 https://www.ise.ncsu.edu/fuzzy-neural/wp-content/uploads/sites/9/2020/08/Optimization-for-deep-learning.pdf   
+  
+    - A survey paper. We discuss:  
+    - The issue of undesirable spectrum, including gradient explosion/vanishing  
+    - Solutions such as careful initialization, normalization, and skip connections  
+    - SGD, adaptive gradient methods, and existing theoretical results  
+    - Results on global landscape, mode connectivity, lottery ticket hypothesis and NTK
+
+Sun, R., Li, D., Liang, S., Ding, T., & Srikant, R. (2020). The Global Landscape of Neural Networks: An Overview. arXiv, 2007.01429. Retrieved from https://arxiv.org/abs/2007.01429v1   
+  
+    - A survey paper. We discuss:  
+    - That wide NNs may have sub-optimal local minima under certain assumptions  
+    - Geometric properties of wide NNs  
+    - Some modifications that eliminate sub-optimal local minima and/or decreasing paths to infinity  
+    - Visualization and empirical explorations of the loss landscape  
+    - Some convergence results  
+    - Compared to another survey ("Optimization for Deep Learning: An Overview" from the same author), this article focuses on global landscape and contains formal theorem statements, while they covered many aspects of neural net optimization and did not present formal theorems.
 
 Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Reinforcement Learning through Active Inference. arXiv, 2002.12636. Retrieved from https://arxiv.org/abs/2002.12636v1
 
@@ -2406,7 +2430,17 @@ Wang, L., Shen, B., Zhao, N., & Zhang, Z. (2020). Is the Skip Connection Provabl
 
 Wilson, A. G., & Izmailov, P. (2020). Bayesian Deep Learning and a Probabilistic Perspective of Generalization. arXiv, 2002.08791. Retrieved from https://arxiv.org/abs/2002.08791v4
 
+    - We propose MultiSWAG to significantly improve Deep Ensembles  
+    - MultiSWAG alleviates double descent  
+    - Deep Ensembles are not a competing approach to Bayesian inference, but are a mechanism for Bayesian marginalization that provides a better approximation to the Bayesian predictive distribution than standard Bayesian approaches  
+    - Fitting random labels (https://arxiv.org/abs/1611.03530) can be understood by reasoning about prior distributions over functions, and are not specific to NNs  
+    - Gaussian processes can also perfectly fit images with random labels, yet generalize on the noise-free problem
+
 Xiong, R., Yang, Y., He, D., Zheng, K., Zheng, S., Xing, C., ...Liu, T.-Y. (2020). On Layer Normalization in the Transformer Architecture. arXiv, 2002.04745. Retrieved from https://arxiv.org/abs/2002.04745v2
+
+    - We theoretically study why the LR warm-up stage is essential for transformers  
+    - We show that in a recently proposed Pre-LN Transformer the gradients are well-behaved at initialization  
+    - Pre-LN Transformers without the warm-up stage can reach comparable results with baselines while requiring significantly less training time
 
 Yang, G. (2020). Tensor Programs II: Neural Tangent Kernel for Any Architecture. arXiv, 2006.14548. Retrieved from https://arxiv.org/abs/2006.14548v4
 
@@ -2426,6 +2460,12 @@ Yang, G., & Hu, E. J. (2020). Feature Learning in Infinite-Width Neural Networks
     - A big contribution of this paper is classifying what kind of limits are possible
 
 Yang, Z., Yu, Y., You, C., Steinhardt, J., & Ma, Y. (2020). Rethinking Bias-Variance Trade-off for Generalization of Neural Networks. arXiv, 2002.11328. Retrieved from https://arxiv.org/abs/2002.11328v3
+
+    - We study double descent and confirm that variance is unimodal or bell-shaped  
+    - This occurs robustly for all models we considered  
+    - Accuracy drops on OOD data comes from increased bias  
+    - Deeper models decrease bias and increase variance (for both IID and OOD data)  
+    - Increasing model depth may help combat the drop in OOD accuracy
 
 Zhao, M., Zhu, Y., Shareghi, E., Vulić, I., Reichart, R., Korhonen, A., & Schütze, H. (2020). A Closer Look at Few-Shot Crosslingual Transfer: The Choice of Shots Matters. arXiv, 2012.15682. Retrieved from https://arxiv.org/abs/2012.15682v2
 
@@ -2512,6 +2552,8 @@ Kanavati, F., & Tsuneki, M. (2021). Partial transfusion: on the expressive influ
     - It is typically recommended to fine-tune the model with the BatchNorm layers kept in inference mode
     - We find that fine-tuning only the scale and shift weights of the BatchNorm leads to similar performance
 as to fine-tuning all of the weights, with the added benefit of faster convergence
+
+Lafon, M., & Thomas, A. (2021). Understanding the Double Descent Phenomenon in Deep Learning. arXiv, 2403.10459. Retrieved from https://arxiv.org/abs/2403.10459v1
 
 Lanillos, P., Meo, C., Pezzato, C., Meera, A. A., Baioumy, M., Ohata, W., ...Tani, J. (2021). Active Inference in Robotics and Artificial Agents: Survey and Challenges. arXiv, 2112.01871. Retrieved from https://arxiv.org/abs/2112.01871v1
 
@@ -2790,6 +2832,8 @@ Pan, L., & Cao, X. (2023). Towards Understanding Neural Collapse: The Effects of
 
 Peng, Z., Qi, L., Shi, Y., & Gao, Y. (2023). A Theoretical Explanation of Activation Sparsity through Flat Minima and Adversarial Robustness. arXiv, 2309.03004. Retrieved from https://arxiv.org/abs/2309.03004v4
 
+Schaeffer, R., Khona, M., Robertson, Z., Boopathy, A., Pistunova, K., Rocks, J. W., ...Koyejo, O. (2023). Double Descent Demystified: Identifying, Interpreting & Ablating the Sources of a Deep Learning Puzzle. arXiv, 2303.14151. Retrieved from https://arxiv.org/abs/2303.14151v1
+
 Shen, E., Farhadi, A., & Kusupati, A. (2023). Are "Hierarchical" Visual Representations Hierarchical? arXiv, 2311.05784. Retrieved from https://arxiv.org/abs/2311.05784v2
 
     - We create HierNet, 12 datasets spanning 3 kinds of hierarchy from the BREEDs subset of ImageNet
@@ -2852,6 +2896,8 @@ Hirono, Y., Tanaka, A., & Fukushima, K. (2024). Understanding Diffusion Models b
 Huang, Q., Wake, N., Sarkar, B., Durante, Z., Gong, R., Taori, R., ...Gao, J. (2024). Position Paper: Agent AI Towards a Holistic Intelligence. arXiv, 2403.00833. Retrieved from https://arxiv.org/abs/2403.00833v1
 
 Humayun, A. I., Balestriero, R., & Baraniuk, R. (2024). Deep Networks Always Grok and Here is Why. arXiv, 2402.15555. Retrieved from https://arxiv.org/abs/2402.15555v1
+
+Pagliardini, M., Mohtashami, A., Fleuret, F., & Jaggi, M. (2024). DenseFormer: Enhancing Information Flow in Transformers via Depth Weighted Averaging. arXiv, 2402.02622. Retrieved from https://arxiv.org/abs/2402.02622v2
 
 Paolo, G., Gonzalez-Billandon, J., & Kégl, B. (2024). A call for embodied AI. arXiv, 2402.03824. Retrieved from https://arxiv.org/abs/2402.03824v1
 
