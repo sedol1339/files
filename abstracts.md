@@ -1281,6 +1281,8 @@ Mahsereci, M., Balles, L., Lassner, C., & Hennig, P. (2017). Early Stopping with
     - It does not require a validation set, thus enabling the optimizer to use all available training data
     - We test on linear and MLP models
 
+Mallya, A., & Lazebnik, S. (2017). PackNet: Adding Multiple Tasks to a Single Network by Iterative Pruning. arXiv, 1711.05769. Retrieved from https://arxiv.org/abs/1711.05769v2
+
 Molchanov, D., Ashukha, A., & Vetrov, D. (2017). Variational Dropout Sparsifies Deep Neural Networks. arXiv, 1701.05369. Retrieved from https://arxiv.org/abs/1701.05369v3
 
     - We extend a recently proposed Variational Dropout to the case when dropout rates are unbounded
@@ -1855,11 +1857,19 @@ Arjovsky, M., Bottou, L., Gulrajani, I., & Lopez-Paz, D. (2019). Invariant Risk 
     - It estimates invariant predictors from multiple training environments to enable OOD generalization
     - It tries to find a representation such that the optimal classifier on top of it matches for all environments
 
+Arora, S., Du, S. S., Hu, W., Li, Z., Salakhutdinov, R., & Wang, R. (2019). On Exact Computation with an Infinitely Wide Neural Net. arXiv, 1904.11955. Retrieved from https://arxiv.org/abs/1904.11955v2
+
 Arpit, D., Campos, V., & Bengio, Y. (2019). How to Initialize your Network? Robust Initialization for WeightNorm & ResNets. arXiv, 1906.02341. Retrieved from https://arxiv.org/abs/1906.02341v2
 
     - We propose a novel initialization strategy for weight normalized networks with and without residual connections
     - It is based on mean field approximation
     - It outperforms existing methods in generalization, robustness to hyper-parameters and variance between seeds
+
+Ash, J. T., & Adams, R. P. (2019). On Warm-Starting Neural Network Training. arXiv, 1910.08475. Retrieved from https://arxiv.org/abs/1910.08475v3
+
+    - We discuss warm-starting for contunual learning
+    - In practice it seems to yield poorer quality than fresh random initializations as new data arrive, even though the final training losses are similar
+    - We provide the "shrink and perturb" trick that overcomes this pathology in several important situations
 
 Bartlett, P. L., Long, P. M., Lugosi, G., & Tsigler, A. (2019). Benign Overfitting in Linear Regression. arXiv, 1906.11300. Retrieved from https://arxiv.org/abs/1906.11300v3
 
@@ -2444,7 +2454,19 @@ Xiong, R., Yang, Y., He, D., Zheng, K., Zheng, S., Xing, C., ...Liu, T.-Y. (2020
 
 Yang, G. (2020). Tensor Programs II: Neural Tangent Kernel for Any Architecture. arXiv, 2006.14548. Retrieved from https://arxiv.org/abs/2006.14548v4
 
+    - We review the tensor programs technique
+    - We prove that infinitely-wide NN of any architecture has its NTK converge to a deterministic limit
+    - We demonstrate how to calculate this limit
+    - We decribe a Simple GIA Check to check gradient independence assumption (GIA) used in NTK
+    - When Simple GIA Check fails, we show GIA can result in wrong answers
+    - We implement infinite-width NTKs of RNN, transformer, and batch normalization in a repo
+
 Yang, G. (2020). Tensor Programs III: Neural Matrix Laws. arXiv, 2009.10685. Retrieved from https://arxiv.org/abs/2009.10685v3
+
+    - We study intinitely-wide NNs with a random matrix theory and derive the Free Independence Principle (FIP)
+    - It justifies the calculation of Jacobian singular value distribution of intinitely-wide NN
+    - It gives a new justification of gradient independence assumption used for calculating NTK
+    - We generalize the Master Theorems from previous works
 
 Yang, G., & Hu, E. J. (2020). Feature Learning in Infinite-Width Neural Networks. arXiv, 2011.14522. Retrieved from https://arxiv.org/abs/2011.14522v3
 
@@ -2491,11 +2513,17 @@ Aguilera, M., Millidge, B., Tschantz, A., & Buckley, C. L. (2021). How particula
 
 Belkin, M. (2021). Fit without fear: remarkable mathematical phenomena of deep learning through the prism of interpolation. arXiv, 2105.14368. Retrieved from https://arxiv.org/abs/2105.14368v1
 
+    - A review paper on the foundations of DL through the prism of interpolation and over-parameterization
+
 Bello, I., Fedus, W., Du, X., Cubuk, E. D., Srinivas, A., Lin, T.-Y., ...Zoph, B. (2021). Revisiting ResNets: Improved Training and Scaling Strategies. arXiv, 2103.07579. Retrieved from https://arxiv.org/abs/2103.07579v1
 
 Benton, G. W., Maddox, W. J., Lotfi, S., & Wilson, A. G. (2021). Loss Surface Simplexes for Mode Connecting Volumes and Fast Ensembling. arXiv, 2102.13042. Retrieved from https://arxiv.org/abs/2102.13042v2
 
 Berariu, T., Czarnecki, W., De, S., Bornschein, J., Smith, S., Pascanu, R., & Clopath, C. (2021). A study on the plasticity of neural networks. arXiv, 2106.00042. Retrieved from https://arxiv.org/abs/2106.00042v2
+
+    - We focus on plasticity, namely the ability of the model to keep learning; when NNs lose this ability?
+    - For example, PackNet (Mallya & Lazebnik, 2017) eventually gets to a point where all neurons are frozen and learning is not possible anymore; alternatively, learning might become less data efficient (negative forward transfer)
+    - We build on https://arxiv.org/abs/1910.08475, provide a hypothesis about it and study the implications
 
 Bingham, G., & Miikkulainen, R. (2021). AutoInit: Analytic Signal-Preserving Weight Initialization for Neural Networks. arXiv, 2109.08958. Retrieved from https://arxiv.org/abs/2109.08958v2
 
@@ -2505,6 +2533,10 @@ Bingham, G., & Miikkulainen, R. (2021). AutoInit: Analytic Signal-Preserving Wei
 
 Bond-Taylor, S., Leach, A., Long, Y., & Willcocks, C. G. (2021). Deep Generative Modelling: A Comparative Review of VAEs, GANs, Normalizing Flows, Energy-Based and Autoregressive Models. arXiv, 2103.04922. Retrieved from https://arxiv.org/abs/2103.04922v4
 
+    - A survey paper
+    - Deep generative models reserch has fragmented into various approaches we review
+    - They make trade-offs including run-time, diversity, and architectural restrictions
+
 Brock, A., De, S., Smith, S. L., & Simonyan, K. (2021). High-Performance Large-Scale Image Recognition Without Normalization. arXiv, 2102.06171. Retrieved from https://arxiv.org/abs/2102.06171v1
 
     - Problem: BatchNorm has many undesirable properties (is computationally expensive, perform poorly when the batch size is too small, introduces a train-test discrepancy, is often the cause of subtle implementation errors, cannot be used for some tasks due to interaction between training examples - we discuss it in Appendix B)
@@ -2513,6 +2545,12 @@ Brock, A., De, S., Smith, S. L., & Simonyan, K. (2021). High-Performance Large-S
     - With our NFNets, we achieve SOTA on ImageNet, fast convergence, better fine-tuning performance
 
 Cao, S. (2021). Choose a Transformer: Fourier or Galerkin. arXiv, 2105.14995. Retrieved from https://arxiv.org/abs/2105.14995v4
+
+    - We apply self-attention to a data-driven operator learning problem related to PDE
+    - We present three operator learning experiments
+    - We demonstrate that the softmax normalization is sufficient but not necessary
+    - We propose Fourier Transformer (FT) with the Fourier-type encoder, and the Galerkin Transformer (GT) with the Galerkin-type encoder (?) to improve quality in PDE-related operator learning tasks
+    - https://scaomath.github.io/blog/galerkin-transformer/
 
 Chen, Y., Huang, W., Nguyen, L. M., & Weng, T.-W. (2021). On the Equivalence between Neural Network and Support Vector Machine. arXiv, 2111.06063. Retrieved from https://arxiv.org/abs/2111.06063v2
 
@@ -2720,6 +2758,11 @@ Vanchurin, V., Wolf, Y. I., Katsnelson, M. I., & Koonin, E. V. (2022). Toward a 
 Wang, H., Ma, S., Huang, S., Dong, L., Wang, W., Peng, Z., ...Wei, F. (2022). Foundation Transformers. arXiv, 2210.06423. Retrieved from https://arxiv.org/abs/2210.06423v2
 
 Wang, H., Ma, S., Dong, L., Huang, S., Zhang, D., & Wei, F. (2022). DeepNet: Scaling Transformers to 1,000 Layers. arXiv, 2203.00555. Retrieved from https://arxiv.org/abs/2203.00555v1
+
+Weng, Lilian. (Sep 2022). Some math behind neural tangent kernel. Lil’Log. https://lilianweng.github.io/posts/2022-09-08-ntk/.
+
+    - A blogpost review on a small number of core papers in NTK
+    - The goal is to show all the math behind NTK in a clear and easy-to-follow format
 
 Wortsman, M., Ilharco, G., Gadre, S. Y., Roelofs, R., Gontijo-Lopes, R., Morcos, A. S., ...Schmidt, L. (2022). Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time. arXiv, 2203.05482. Retrieved from https://arxiv.org/abs/2203.05482v3
 
