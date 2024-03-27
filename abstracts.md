@@ -2511,9 +2511,15 @@ Zhou, W., Lin, B. Y., & Ren, X. (2020). IsoBN: Fine-Tuning BERT with Isotropic B
 
 Aguilera, M., Millidge, B., Tschantz, A., & Buckley, C. L. (2021). How particular is the physics of the free energy principle? arXiv, 2105.11203. Retrieved from https://arxiv.org/abs/2105.11203v3
 
+Bartlett, P. L., Montanari, A., & Rakhlin, A. (2021). Deep learning: a statistical viewpoint. arXiv, 2103.09177. Retrieved from https://arxiv.org/abs/2103.09177v1
+
+    - A survey paper on deep learning with overparametrization
+    - We focus specifically on the linear regime for neural networks
+    - We consider benign overfitting with two-layer networks
+
 Belkin, M. (2021). Fit without fear: remarkable mathematical phenomena of deep learning through the prism of interpolation. arXiv, 2105.14368. Retrieved from https://arxiv.org/abs/2105.14368v1
 
-    - A review paper on the foundations of DL through the prism of interpolation and over-parameterization
+    - A survey paper on the foundations of DL through the prism of interpolation and over-parameterization
 
 Bello, I., Fedus, W., Du, X., Cubuk, E. D., Srinivas, A., Lin, T.-Y., ...Zoph, B. (2021). Revisiting ResNets: Improved Training and Scaling Strategies. arXiv, 2103.07579. Retrieved from https://arxiv.org/abs/2103.07579v1
 
@@ -2533,9 +2539,8 @@ Bingham, G., & Miikkulainen, R. (2021). AutoInit: Analytic Signal-Preserving Wei
 
 Bond-Taylor, S., Leach, A., Long, Y., & Willcocks, C. G. (2021). Deep Generative Modelling: A Comparative Review of VAEs, GANs, Normalizing Flows, Energy-Based and Autoregressive Models. arXiv, 2103.04922. Retrieved from https://arxiv.org/abs/2103.04922v4
 
-    - A survey paper
-    - Deep generative models reserch has fragmented into various approaches we review
-    - They make trade-offs including run-time, diversity, and architectural restrictions
+    - A survey paper about deep generative models reserch which has fragmented into various approaches
+    - These approaches make trade-offs including run-time, diversity, and architectural restrictions
 
 Brock, A., De, S., Smith, S. L., & Simonyan, K. (2021). High-Performance Large-Scale Image Recognition Without Normalization. arXiv, 2102.06171. Retrieved from https://arxiv.org/abs/2102.06171v1
 
@@ -2557,10 +2562,13 @@ Chen, Y., Huang, W., Nguyen, L. M., & Weng, T.-W. (2021). On the Equivalence bet
 Cohen, A.-S., Cont, R., Rossier, A., & Xu, R. (2021). Scaling Properties of Deep Residual Networks. arXiv, 2105.12245. Retrieved from https://arxiv.org/abs/2105.12245v2
 
     - We investigate the scaling behavior of trained ResNet weights as the number of layers increases
-    - Found at least three different scaling regimes
+    - We found at least three different scaling regimes
     - In two of these regimes, the properties may be described in terms of a class of ODEs or SDEs
 
 Dar, Y., Muthukumar, V., & Baraniuk, R. G. (2021). A Farewell to the Bias-Variance Tradeoff? An Overview of the Theory of Overparameterized Machine Learning. arXiv, 2109.02355. Retrieved from https://arxiv.org/abs/2109.02355v1
+
+    - A survey paper about the theory of overparameterized ML
+    - Compared to other surveys, we take a more elementary signal processing perspective to elucidate these principles
 
 Ding, Z., Chen, S., Li, Q., & Wright, S. (2021). Overparameterization of deep ResNet: zero loss and mean-field analysis. arXiv, 2105.14417. Retrieved from https://arxiv.org/abs/2105.14417v3
 
@@ -2571,11 +2579,32 @@ Ding, Z., Chen, S., Li, Q., & Wright, S. (2021). Overparameterization of deep Re
 
 Federici, M., Tomioka, R., & Forré, P. (2021). An Information-theoretic Approach to Distribution Shifts. arXiv, 2106.03783. Retrieved from https://arxiv.org/abs/2106.03783v2
 
+    - We introduce a novel information-theoretical framework for the problem of distribution shift
+    - We analyze four main families of objectives (bottleneck, independence, sufficiency, and separation) and describe some of their guarantees and assumptions
+    - The effectiveness of these criteria is determined by the structure of the underlying data-generating process
+
 Fortuin, V. (2021). Priors in Bayesian Deep Learning: A Review. arXiv, 2105.06868. Retrieved from https://arxiv.org/abs/2105.06868v3
+
+    - A review paper
+    - We highlight the importance of prior choices for Bayesian DL
+    - We hope to motivate practitioners to think more carefully about the prior specification
+    - We present an overview of different priors for (deep) Gaussian processes, VAE, and Bayesian NN
+    - We outline different methods of learning priors for these models from data
 
 Gilmer, J., Ghorbani, B., Garg, A., Kudugunta, S., Neyshabur, B., Cardoze, D., ...Firat, O. (2021). A Loss Curvature Perspective on Training Instability in Deep Learning. arXiv, 2110.04369. Retrieved from https://arxiv.org/abs/2110.04369v1
 
+    - We study the evolution of the loss Hessian during training
+    - We analyze the effects of initialization, architecture, heuristics such as gradient clipping and LR warmup
+    - It is desirable to allow the early optimization trajectory to avoid (or navigate out of) regions of high curvature and go into flatter regions that tolerate a higher LR
+    - We show that LR warmup can improve training stability just as much as batch normalization, layer normalization, MetaInit, GradInit, and Fixup initialization
+
 Hinton, G. (2021). How to represent part-whole hierarchies in a neural network. arXiv, 2102.12627. Retrieved from https://arxiv.org/abs/2102.12627v1
+
+    - How can a NN with a fixed architecture parse an image into a part-whole hierarchy (different for each image)?
+    - The idea is simply to use islands of identical vectors to represent the nodes in the parse tre
+    - We propose an imaginary system called GLOM that should significantly improve the interpretability
+    - The GLOM architecture is composed of a large number of columns: stacks of spatially local autoencoders
+    - The GLOM can be trained end-to-end to reconstruct images with missing regions, but the objective function also includes two regularizers that encourage islands of near identical vectors at each level
 
 Han, X. Y., Papyan, V., & Donoho, D. L. (2021). Neural Collapse Under MSE Loss: Proximity to and Dynamics on the Central Path. arXiv, 2106.02073. Retrieved from https://arxiv.org/abs/2106.02073v4
 
@@ -2583,13 +2612,24 @@ Hua, T., Wang, W., Xue, Z., Ren, S., Wang, Y., & Zhao, H. (2021). On Feature Dec
 
 Izmailov, P., Nicholson, P., Lotfi, S., & Wilson, A. G. (2021). Dangers of Bayesian Model Averaging under Covariate Shift. arXiv, 2106.11905. Retrieved from https://arxiv.org/abs/2106.11905v2
 
+    - It was shown (https://arxiv.org/abs/2104.14421v1) that BNN provide shockingly poor OOD performance
+    - We show that BNN perform poorly for test data corruption, domain shift, and spurious correlations
+    - We propose priors for improving generalization under covariate shift
+
 Izmailov, P., Vikram, S., Hoffman, M. D., & Wilson, A. G. (2021). What Are Bayesian Neural Network Posteriors Really Like? arXiv, 2104.14421. Retrieved from https://arxiv.org/abs/2104.14421v1
+
+    - We study BNN posteriors with full-batch Hamiltonian Monte Carlo (HMC)
+    - HMC can take tens of thousands of training epochs to produce a single sample from the posterior. To address this challenge, we parallelize the computation over hundreds of TPU devices
+    - We show that BNNs can achieve significant performance gains over standard training and deep ensembles
+    - Posterior tempering is not needed, with little evidence for a "cold posterior" effect
+    - BMA performance is robust to the choice of prior and its scale
+    - While BNN have good performance for OOD detection, they show surprisingly poor generalization under domain shift
+    - We compare predictive distributions for HMC and cheaper alternatives such as deep ensembles and SGMCMC
 
 Kanavati, F., & Tsuneki, M. (2021). Partial transfusion: on the expressive influence of trainable batch norm parameters for transfer learning. arXiv, 2102.05543. Retrieved from https://arxiv.org/abs/2102.05543v1
 
     - It is typically recommended to fine-tune the model with the BatchNorm layers kept in inference mode
-    - We find that fine-tuning only the scale and shift weights of the BatchNorm leads to similar performance
-as to fine-tuning all of the weights, with the added benefit of faster convergence
+    - We find that fine-tuning only the scale and shift weights of the BatchNorm leads to similar performance as to fine-tuning all of the weights, with the added benefit of faster convergence
 
 Lafon, M., & Thomas, A. (2021). Understanding the Double Descent Phenomenon in Deep Learning. arXiv, 2403.10459. Retrieved from https://arxiv.org/abs/2403.10459v1
 
