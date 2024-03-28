@@ -2643,6 +2643,9 @@ Liu, M., Chen, L., Du, X., Jin, L., & Shang, M. (2021). Activated Gradients for 
 
 Lobacheva, E., Kodryan, M., Chirkova, N., Malinin, A., & Vetrov, D. (2021). On the Periodic Behavior of Neural Network Training with Batch Normalization and Weight Decay. arXiv, 2106.15739. Retrieved from https://arxiv.org/abs/2106.15739v3
 
+    - We show that combined bath normalization and weight decay may lead to periodic behavior of optimization dynamics
+    - Periodic behavior can be regarded as a generalization of two previously opposing perspectives on training with batch normalization and weight decay, namely the equilibrium presumption and the instability presumption
+
 Meunier, L., Delattre, B., Araujo, A., & Allauzen, A. (2021). A Dynamical System Perspective for Lipschitz Neural Networks. arXiv, 2110.12690. Retrieved from https://arxiv.org/abs/2110.12690v2
 
 Millidge, B., Seth, A., & Buckley, C. L. (2021). Predictive Coding: a Theoretical and Experimental Review. arXiv, 2107.12979. Retrieved from https://arxiv.org/abs/2107.12979v4
@@ -2655,7 +2658,29 @@ Ortiz, J., Evans, T., & Davison, A. J. (2021). A visual introduction to Gaussian
 
 Rame, A., Dancette, C., & Cord, M. (2021). Fishr: Invariant Gradient Variances for Out-of-Distribution Generalization. arXiv, 2109.02934. Retrieved from https://arxiv.org/abs/2109.02934v3
 
+    - We propose Fishr regularization for OOD generalization
+    - Fishr enforces that domain-level variances of gradients are matched across training domains
+    - This is based on the relations between the gradient covariance, the Fisher Information and the Hessian of the loss
+    - Fishr achieves SOTA on the DomainBed benchmark
+
 Roberts, D. A., Yaida, S., & Hanin, B. (2021). The Principles of Deep Learning Theory. arXiv, 2106.10165. Retrieved from https://arxiv.org/abs/2106.10165v2
+
+    - A research monograph in the style of a textbook about the DL theory
+    - Is for everyone with knowledge of linear algebra, multivariable calculus, and informal probability theory
+    - Much of the material is novel and appears for the first time in this book
+    - The infinite-width limit of a NN will be introduced only as a starting point
+    - A large part of the book is focused on deep multilayer perceptrons
+    - But we expect that many of our results have a broad applicability
+    - The first chapters consist of whirlwind introductions to Gaussian integration and perturbation theory
+    - As a warm-up, we also discuss deep linear networks
+    - Goal in §4 and §5 will be to understand how an ensemble of NNs at initialization behaves as a function of data
+    - In §6 and §7 we introduce Bayesian and gradient-based learning
+    - As we detail in §10, §11, and §∞, understanding the NTK for a given NN architecture will enable us to effectively describe gradient-based learning for that model
+    - Further according to citations:
+    - The authors study properties of large-but-finite neural nets
+    - Finite width corrections to the NTK theory have been studied by the authors
+    - The work develops a theory of an evolving NTK. They apply it in detail to fully-connected networks of depth L, demonstrate the relevance of L/N as an expansion parameter, and develop an effective model for the dynamics
+    - The authors develop the perturbative formalism that captures the flow of pre-activation distributions to deeper layers and studies the finite-width effect on Bayesian inference
 
 Sander, M. E., Ablin, P., Blondel, M., & Peyré, G. (2021). Momentum Residual Neural Networks. arXiv, 2102.07870. Retrieved from https://arxiv.org/abs/2102.07870v3
 
