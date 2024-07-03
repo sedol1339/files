@@ -530,7 +530,7 @@ Using a gaussian mixture in RNN allows to capture multiple different futures wit
 
 **Kalai, A. T., & Vempala, S. S. (2023). Calibrated Language Models Must Hallucinate. arXiv, 2311.14648. Retrieved from https://arxiv.org/abs/2311.14648v1**
 
-The authors aim to prove that statistically calibrated generative model of some text corpus should hallucinate rare facts. Howeverr, authors' formalization is rather limited, since they consider only promptless generation of facts (with no previous context). Also, authors consider their own (computationally intractable) notion of calibration, different from standard token-based ones.
+The authors aim to prove that statistically calibrated generative model of some text corpus should hallucinate rare facts. Howeverr, authors' formalization is rather limited, since they consider only plain generation of facts without any previous context or prompt. Also, authors consider their own (computationally intractable) notion of calibration, different from standard token-based ones.
 
 In this simplified setting, the authors prove that any calibrated model, regardless of its architecture, will hallucinate on arbitrary facts. This means that in unconditional generation unexisting facts may appear, and the probability of generating a hallucination is close to the fraction of facts that occur exactly once in the training data.
 

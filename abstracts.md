@@ -2650,6 +2650,22 @@ Han, X. Y., Papyan, V., & Donoho, D. L. (2021). Neural Collapse Under MSE Loss: 
 
 Hua, T., Wang, W., Xue, Z., Ren, S., Wang, Y., & Zhao, H. (2021). On Feature Decorrelation in Self-Supervised Learning. arXiv, 2105.00470. Retrieved from https://arxiv.org/abs/2105.00470v2
 
+#bayesian_nn #ensembling #ood_generalization Izmailov, P., Nicholson, P., Lotfi, S., & Wilson, A. G. (2021). Dangers of Bayesian Model Averaging under Covariate Shift. arXiv, 2106.11905. Retrieved from https://arxiv.org/abs/2106.11905v2
+
+    - It was shown (https://arxiv.org/abs/2104.14421v1) that BNN provide shockingly poor OOD performance
+    - We show that Bayesian model averaging perform poorly for data corruption, domain shift, spurious correlations
+    - We propose priors for improving generalization under covariate shift
+
+#bayesian_nn #ensembling #ood_generalization Izmailov, P., Vikram, S., Hoffman, M. D., & Wilson, A. G. (2021). What Are Bayesian Neural Network Posteriors Really Like? arXiv, 2104.14421. Retrieved from https://arxiv.org/abs/2104.14421v1
+
+    - We study BNN posteriors with full-batch Hamiltonian Monte Carlo (HMC)
+    - HMC can take tens of thousands of training epochs to produce a single sample from the posterior. To address this challenge, we parallelize the computation over hundreds of TPU devices
+    - We show that BNNs can achieve significant performance gains over standard training and deep ensembles
+    - Posterior tempering is not needed, with little evidence for a "cold posterior" effect
+    - BMA performance is robust to the choice of prior and its scale
+    - While BNN have good performance for OOD detection, they show surprisingly poor generalization under domain shift
+    - We compare predictive distributions for HMC and cheaper alternatives such as deep ensembles and SGMCMC
+
 #fine_tuning Kanavati, F., & Tsuneki, M. (2021). Partial transfusion: on the expressive influence of trainable batch norm parameters for transfer learning. arXiv, 2102.05543. Retrieved from https://arxiv.org/abs/2102.05543v1
 
     - It is typically recommended to fine-tune the model with the BatchNorm layers kept in inference mode
@@ -3249,24 +3265,6 @@ Du, Y., & Nguyen, D. (2023). Measuring the Instability of Fine-Tuning. arXiv, 23
     - We analyze six other measures quantifying instability at different levels of granularity
     - We reassess existing instability mitigation methods
 
-## Bayesian model averaging
-
-Izmailov, P., Nicholson, P., Lotfi, S., & Wilson, A. G. (2021). Dangers of Bayesian Model Averaging under Covariate Shift. arXiv, 2106.11905. Retrieved from https://arxiv.org/abs/2106.11905v2
-
-    - It was shown (https://arxiv.org/abs/2104.14421v1) that BNN provide shockingly poor OOD performance
-    - We show that BNN perform poorly for test data corruption, domain shift, and spurious correlations
-    - We propose priors for improving generalization under covariate shift
-
-Izmailov, P., Vikram, S., Hoffman, M. D., & Wilson, A. G. (2021). What Are Bayesian Neural Network Posteriors Really Like? arXiv, 2104.14421. Retrieved from https://arxiv.org/abs/2104.14421v1
-
-    - We study BNN posteriors with full-batch Hamiltonian Monte Carlo (HMC)
-    - HMC can take tens of thousands of training epochs to produce a single sample from the posterior. To address this challenge, we parallelize the computation over hundreds of TPU devices
-    - We show that BNNs can achieve significant performance gains over standard training and deep ensembles
-    - Posterior tempering is not needed, with little evidence for a "cold posterior" effect
-    - BMA performance is robust to the choice of prior and its scale
-    - While BNN have good performance for OOD detection, they show surprisingly poor generalization under domain shift
-    - We compare predictive distributions for HMC and cheaper alternatives such as deep ensembles and SGMCMC
-
 ## Transformers and RNN
 
 Choromanski, K., Likhosherstov, V., Dohan, D., Song, X., Gane, A., Sarlos, T., ...Weller, A. (2020). Rethinking Attention with Performers. arXiv, 2009.14794. Retrieved from https://arxiv.org/abs/2009.14794v4
@@ -3329,31 +3327,63 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
 
 ## OOD
 
-Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. M. (2017). Deeper, Broader and Artier Domain Generalization. arXiv, 1710.03077. Retrieved from https://arxiv.org/abs/1710.03077v1
+#optimization Ben-Tal, A., Ghaoui, L. E., & Nemirovski, A. (2009). Robust Optimization. . doi: 10.1515/9781400831050 https://www.researchgate.net/publication/258222788_Robust_Optimization
 
-    - A problem is to learn domain-agnostic model from multiple training domains, and apply to unseen domain
+    - We present the Robust Optimization (RO) paradigm, primarily for Uncertain Linear, Conic Quadratic, and Semidefinite Programming; Part I, perhaps with chapter 4 skipped, can be used as a stand-alone graduatelevel textbook on Robust Linear Programming, or as a base of a semester-long graduate course on Robust Optimization; in Part II the main concepts are extended to uncertain Convex Programming problems in the conic form; Part III is devoted to Robust Multi-Stage Decision Making (Robust Dynamic Programming, Adjustable Robust Counterparts); Parts II and III can be read independently of each other; a short, single-chapter Part IV presents three realistic examples, worked out in full detail, of application of the RO methodology
+    - The data of real-world optimization problems are not known exactly (measurement/estimation errors etc.); even a small uncertainty in the data can make the nominal optimal solution to the problem completely meaningless from a practical viewpoint
+    - Robust Optimization is a methodology to generate a robust solution, that is immunized against the effect of data uncertainty; "immunized against uncertainty" means worst-case-oriented: a solution should remain feasible for the constraints, whatever the realization of the data; let us call such a solution robust feasible
+    - In Stochastic Optimization (SO), the uncertain numerical data are assumed to be random (their distribution is only partially known); both Robust and Stochastic Optimization are aimed at answering the same question (albeit in different settings), the question of building an uncertainty-immunized solution to an optimization problem with uncertain data; stochastic and Robust Optimization are complementary approaches for handling data uncertainty in Optimization, each having its own advantages and drawbacks
+    - In chapter 12, we present some applications of Robust Optimization in the context of Machine Learning; for example, in robust SVM we need to trade-off the training loss and the amount of robustness with respect to spherical perturbations of the data points; one approach is to minimize the worst-case training loss under perturbations of the data points; to our knowledge, the results in this chapter are new
+
+#domain_adaptation Ganin, Ya., & Lempitsky, V. (2014). Unsupervised Domain Adaptation by Backpropagation. arXiv, 1409.7495. Retrieved from https://arxiv.org/abs/1409.7495v2
+
+    - We propose gradient reversal: a new approach to domain adaptation that can be implemented with little effort
+    - Our approach promotes learning useful features that are invariant between the domains
+    - On top of the feature extractor, we optimize two discriminative classifiers: 1) the class label predictor, 2) the domain classifier that discriminates between the source and the target domains during training
+    - We reverse the gradients on the second classifier to maximize the loss on it; this ecourages domain-invariant features
+    - The only non-standard component is a gradient reversal layer that leaves the input unchanged during forward propagation and reverses the gradient by multiplying it by a negative scalar during the backpropagation
+
+#ood_generalization Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. M. (2017). Deeper, Broader and Artier Domain Generalization. arXiv, 1710.03077. Retrieved from https://arxiv.org/abs/1710.03077v1
+
+    - A Domain Generalization (DG) problem is to learn domain-agnostic model from multiple training domains, and apply to unseen domain
     - Motivation: target domains may have sparse data for training
-    - We develop a low-rank parameterized CNN model for end-to-end Domain Generalization
-    - This model is based on Tucker decomposition to reduce number of parameters
+    - We develop a low-rank parameterized CNN model based on Tucker decomposition to reduce number of parameters
     - Every weight tensor for a given domain is the sum of a domain specific tensor and a domain agnostic tensor
-    - We develop a Domain Generalization benchmark covering photo, sketch, cartoon and painting domains
+    - We develop a DG benchmark covering photo, sketch, cartoon and painting domains
     - Our method outperforms existing DG alternatives
 
-Peng, X., Bai, Q., Xia, X., Huang, Z., Saenko, K., & Wang, B. (2018). Moment Matching for Multi-Source Domain Adaptation. arXiv, 1812.01754. Retrieved from https://arxiv.org/abs/1812.01754v4
+#domain_adaptation Peng, X., Bai, Q., Xia, X., Huang, Z., Saenko, K., & Wang, B. (2018). Moment Matching for Multi-Source Domain Adaptation. arXiv, 1812.01754. Retrieved from https://arxiv.org/abs/1812.01754v4
 
-    - We aim to transfer knowledge learned from multiple labeled source domains to an unlabeled target domain
+    - A Domain Adaptation problem is to transfer knowledge learned from multiple labeled source domains to an unlabeled target domain
     - We collect a DomainNet dataset with 6 domains, ~0.6 million images, 345 categories
     - We propose Moment Matching for Multi-Source Domain Adaptation (M3SDA)
     - It consists of three components: feature extractor, moment matching component, and classifiers
     - Moment matching component dynamically aligns moments of domains feature distributions (fig. 3)
 
-Arjovsky, M., Bottou, L., Gulrajani, I., & Lopez-Paz, D. (2019). Invariant Risk Minimization. arXiv, 1907.02893. Retrieved from https://arxiv.org/abs/1907.02893v3
+#ood_generalization Arjovsky, M., Bottou, L., Gulrajani, I., & Lopez-Paz, D. (2019). Invariant Risk Minimization. arXiv, 1907.02893. Retrieved from https://arxiv.org/abs/1907.02893v3
 
     - Problem: training data may contain spurious correlations (we do not expect them to hold in the future)
     - We assume that the training data is collected into distinct, separate environments
     - We want to learn correlations that are stable across training environments
     - We propose Invariant Risk Minimization (IRM) with the idea: to learn invariances across environments, find a data representation such that the optimal classifier on top of that representation matches for all environments
-    - We pose the constrained optimization problem and simplify it into the practical version
+    - We formulate the IRM: an idealistic objective, whic is bi-leveled and challenging optimization problem
+    - We then simplify it into the IRMv1: practical version, when we optimize a feature extractor, and a scalar and fixed “dummy” classifier (or regressor) sits on top of it, and we want this classifier to be optimal in all environments
+    - The gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance
+
+#ood_generalization Sagawa, S., Koh, P. W., Hashimoto, T. B., & Liang, P. (2019). Distributionally Robust Neural Networks for Group Shifts: On the Importance of Regularization for Worst-Case Generalization. arXiv, 1911.08731. Retrieved from https://arxiv.org/abs/1911.08731v2
+
+    - To avoid learning models that rely on spurious correlations it is a good idea to train models to minimize the worst-case loss over training groups which are selected being aware of spurious correlations. This is called Distributionally robust optimization (DRO), in short this is ERM while increasing the importance of domains with larger errors
+    - The problem: if a model achieves zero training loss, then it is optimal on both DRO and ERM objectives; so in the vanishing training loss regime DRO models are not better than ERM
+    - We study DRO on NLU, facial attribute recognition, bird recognition
+    - We show that strongly-regularized group DRO models that do not attain vanishing training loss can significantly outperform both regularized and unregularized ERM models
+    - So, regularization is especially important for good worst-case performance
+    - We introduce a new stochastic optimizer for group DRO that is stable and scales to large models and datasets
+
+#domain_adaptation Xu, M., Zhang, J., Ni, B., Li, T., Wang, C., Tian, Q., & Zhang, W. (2020). Adversarial Domain Adaptation with Domain Mixup. AAAI, 34(04), 6502–6509. doi: 10.1609/aaai.v34i04.6123
+
+    - To achieve adversarial domain adaptation, earlier it was proposed to use a domain discriminator; in order to fool this domain discriminator, the extracted features should be domain-invariant
+    - We presenta new GAN-based method: adversarial domain adaptation with domain mixup (DM-ADA)
+    - This framework maps both domains to a common latent distribution, and efficiently transfers our knowledge learned on the supervised domain to its unsupervised counterpart
 
 Krueger, D., Caballero, E., Jacobsen, J.-H., Zhang, A., Binas, J., Zhang, D., ...Courville, A. (2020). Out-of-Distribution Generalization via Risk Extrapolation (REx). arXiv, 2003.00688. Retrieved from https://arxiv.org/abs/2003.00688v5
 
