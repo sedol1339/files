@@ -348,6 +348,13 @@ Glorot, X., & Bengio, Y. (2010). Understanding the difficulty of training deep f
     - For efficient training the singular values of the Jacobian associated with each layer should be close to 1
     - Based on this, we propose a new initialization scheme that brings substantially faster convergence
 
+Gutmann, M., & Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics. JMLR Workshop and Conference Proceedings. Retrieved from https://proceedings.mlr.press/v9/gutmann10a.html
+
+	- We consider a task of learning unnormalized generative models of data (e.g. energy-based models or Markov random fields). Such a model outputs an unnormalized probability density given a data sample, that is, the density function does not integrate to one. Such models are easier to learn that normalized ones, since the normalization coefficient is often intractable.
+    - We present noise-contrastive estimation (NCE) for unnormalized models which shows advantages over score matching, contrastive divergence, and maximum-likelihood where the normalization constant is estimated with importance sampling.
+    - In NCE, the model is trained to discern between the real data and a predefined noise distribution
+    - Our model offers the best trade-off between computational and statistical efficiency
+
 Kingma, D. P., & Cun, Y. (2010). Regularized estimation of image statistics by Score Matching. Advances in Neural Information Processing Systems, 23. Retrieved from https://papers.nips.cc/paper_files/paper/2010/hash/6f3e29a35278d71c7f65495871231324-Abstract.html
 
     - We propose a version of the double-backpropagation algorithm for training high-dimensional density models
@@ -430,6 +437,19 @@ Saxe, A. M., Koh, P. W., Chen, Z., Bhand, M., & Ng, A. Y. (2011). On Random Weig
     - We find that some CNNs can be frequency selective and translation invariant with random weights
     - We demonstrate the viability of using random weights to quickly evaluate candidate architectures
     - A large fraction of the SOTA methods performance can be attributed to the architecture alone
+
+Torralba, A., & Efros, A. A. . Unbiased look at dataset bias. CVPR 2011. IEEE. doi: 10.1109/CVPR.2011.5995347. Retrieved from https://people.csail.mit.edu/torralba/publications/datasets_cvpr11.pdf
+
+    - The authors complain that the community usually focus on beating some benchmarks, which have become closed worlds unto themselves. Have we perhaps lost sight of the original purpose of visual recognition?
+    - Let’s play a game we call Name That Dataset! Most of these datasets were collected with the expressed goal of being as varied and rich as possible, aiming to sample the visual world “in the wild”.Yet this task turns out to be easy.
+    - We trained a classifier to play Name That Dataset. It performs rather well at 39% (chance is 8%) being trained on 1000 samples per dataset, and even better with more data. So, the datasets appear to have a strong build-in bias.
+    - Is it to be expected that when training on one dataset and testing on another there is a big drop in performance? If a dataset defines a “car” to be the rear view of a race-car, then there is no reasonable algorithm that will say that a side view of a family sedan is also a “car”.
+    - For example, in cross-dataset testing, for the ”car” classification task the average performance obtained when training and testing on the same dataset is 53.4% which drops to 27.5%. So, little generalization appears to be happening beyond the given dataset.
+    - 1) Selection Bias: getting images from the Internet does not in itself guarantee a fair sampling, since keyword-based searches will return only particular types of images. It might be better to start with a large collection of unannotated images and label them by crowd-sourcing.
+    - 2) Capture Bias: the object is almost always in the center of the image. Almost all the mugs has a right-facing handle, etc. One way to deal with this is to perform various data transformations to reduce this bias.
+    - 3) Category or label bias: this comes from the fact that semantic categories are often poorly defined, and different labellers may assign differing labels to the same type of object (e.g. “grass” vs. “lawn”, “painting” vs. “picture”).
+    - 4) Negative Set Bias: having a rich and unbiased negative set is important to classifier performance. One remedy is to add negatives from other datasets. Another approach is to actively mine hard negatives as part of dataset construction.
+    - A good first step would be to run any new dataset on the battery of tests that have been outlined in this paper. It might help finding the main problematic issues quickly and early, not years after the dataset has been released.
 
 Welling, M., & Teh, Y. W. (2011). Bayesian learning via stochastic gradient langevin dynamics. ICML'11: Proceedings of the 28th International Conference on International Conference on Machine Learning. Omnipress. Retrieved from https://www.stats.ox.ac.uk/~teh/research/compstats/WelTeh2011a.pdf
 
@@ -1009,6 +1029,14 @@ Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (201
     -  Small-batch methods consistently converge to flat minima due to the inherent noise in the gradient estimation
     -  We discuss strategies to improve large-batch training
 
+Kim, B., Khanna, R., & Koyejo, O. O. (2016). Examples are not enough, learn to criticize! Criticism for Interpretability. Advances in Neural Information Processing Systems, 29. Retrieved from https://papers.nips.cc/paper_files/paper/2016/hash/5680522b8e2bb01943234bce7bf84534-Abstract.html
+
+    - Relying only on examples to explain the models’ behavior can lead to misunderstanding
+    - It is also important to signify "criticism samples", for which prototypical examples do not provide good explanations
+    - We develop MMD-critic motivated by the Bayesian model criticism (BMC) framework
+    - It calculates the maximum mean discrepancy (MMD) as a measure of similarity between points and potential prototypes, and 1) selects prototypes that maximize the statistic, and 2) selects criticism samples i.e. samples that are not well-explained by the prototypes (sec. 3)
+    - We also evaluate the performance of MMD-critic as a nearest prototype classifier, and show that it achieves comparable performance to existing methods
+
 Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A. A., ...Hadsell, R. (2016). Overcoming catastrophic forgetting in neural networks. arXiv, 1612.00796. Retrieved from https://arxiv.org/abs/1612.00796v2
 
 Lakshminarayanan, B., Pritzel, A., & Blundell, C. (2016). Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles. arXiv, 1612.01474. Retrieved from https://arxiv.org/abs/1612.01474v3   
@@ -1386,6 +1414,15 @@ Shin, H., Lee, J. K., Kim, J., & Kim, J. (2017). Continual Learning with Deep Ge
     - Instead, we propose to increase the batch size during training
     - This has the potential to dramatically reduce model training times
 
+Stock, P., & Cisse, M. (2017). ConvNets and ImageNet Beyond Accuracy: Understanding Mistakes and Uncovering Biases. arXiv, 1711.11443. Retrieved from https://arxiv.org/abs/1711.11443v2
+
+    - In CV, we need to improve robustness to adversarial examples and immunity to biases including racial and gender biases
+    - We conduct a study of the misclassifications of various pre-trained architectures and compare with human judgements.
+    - We find that the accuracy of CNNs evaluated on ImageNet is vastly underestimated. When the model makes a mistake, humans often agree with the model. If top-5 error is the measure of interest, then ImageNet is almost solved.
+    - In experiments we use MMD-critic: an approach inspired by bayesian model criticism to select the prototypes and the critics among a given set of examples. MMD-critic uses the maximum mean discrepancy and large-scale submodular optimization
+    - We also generate adversarial examples using the IFGSM attack on a pre-trained ResNet-101, and show to humans the interpretation image generated by LIME instead of the whole adversarial image using the top 8 most important features. The percentage of agreement between the predictions of the model and the humans increases from 22.01% to 30.80% when the explanation is shown instead of the whole image.
+    - So, the robustness of CNNs to adversarial examples is also underestimated. Providing explanations helps to mitigate the misclassification of adversarial examples from the perspective of human judgement.
+
 Soudry, D., & Hoffer, E. (2017). Exponentially vanishing sub-optimal local minima in multilayer neural networks. arXiv, 1702.05777. Retrieved from https://arxiv.org/abs/1702.05777v5
 
 Taki, M. (2017). Deep Residual Networks and Weight Initialization. arXiv, 1709.02956. Retrieved from https://arxiv.org/abs/1709.02956v1
@@ -1428,10 +1465,18 @@ Agarap, A. F. (2018). Deep Learning using Rectified Linear Units (ReLU). arXiv, 
     - We test on MNIST, Fashion-MNIST, WDBC
     - The quality of our method is WORSE than standard softmax
 
+Alcorn, M. A., Li, Q., Gong, Z., Wang, C., Mai, L., Ku, W.-S., & Nguyen, A. (2018). Strike (with) a Pose: Neural Networks Are Easily Fooled by Strange Poses of Familiar Objects. arXiv, 1811.11553. Retrieved from https://arxiv.org/abs/1811.11553v3
+
+    - We propose a framework for finding OOD errors in CV models: we make "adversarial renders" of 3D objects in different poses to find object geometry and appearance, lighting, background, or camera settings that cause a target DNN to misbehave.
+    - We searched for misclassified 6D poses (i.e., 3D translations and 3D rotations) of 3D objects.
+    - We built a dataset of 3D objects corresponding to 30 ImageNet classes relevant to the self-driving car application.
+    - SOTA ImageNet classifiers misclassify many generated adversarial examples that are human-recognizable. So, they are still far from true object recognition.
+    - Training on adversarial poses generated by the 30 objects (in addition to the original ImageNet data) did not help DNNs generalize well to held-out objects in the same class.
+
 Allen-Zhu, Z., Li, Y., & Song, Z. (2018). A Convergence Theory for Deep Learning via Over-Parameterization. arXiv, 1811.03962. Retrieved from https://arxiv.org/abs/1811.03962v5
 
     - We study the theory of multi-layer networks
-    - We proove that SGD can find global minima on the training objective of over-parameterized DNNs
+    - We prove that SGD can find global minima on the training objective of over-parameterized DNNs
     - Key insight is that in a neighborhood of the random initialization, the opt. landscape is almost convex
     - This implies an equivalence between over-parameterized finite width NNs and neural tangent kernel
     - Our theory at least applies to FCN, CNN and ResNet
@@ -1469,6 +1514,14 @@ Bartlett, P. L., Helmbold, D. P., & Long, P. M. (2018). Gradient descent with id
     - While, in practice, DNNs are non-linear, analysis of the linear case can provide a tractable way to gain insights
     - We study GD convergence for Φ with different properfies and regularization of DNN towards identity
     - We show that GD fails to converge for Φ whose distance from the identity is a larger constant
+
+Beery, S., Van Horn, G., & Perona, P. (2018). Recognition in Terra Incognita. Retrieved from https://openaccess.thecvf.com/content_ECCV_2018/html/Beery_Recognition_in_Terra_ECCV_2018_paper.html
+
+    - Current learning algorithms do not generalize well across datasets. For example, cows in common contexts (e.g. Alpine pastures) are detected and classified correctly, while cows in uncommon contexts (beach, waves and boat) are not detected or classified poorly.
+    - We present a dataset designed to measure recognition generalization to novel environments
+    - The dataset contains images from twenty animal camera traps when positions are fixed and capture is triggered automatically
+    - The challenge is to generalize to new locations where no training data is available
+    - We benchmark the current SOTA detection and classification pipelines and find that there is much room for improvement
 
 Belkin, M., Ma, S., & Mandal, S. (2018). To understand deep learning we need to understand kernel learning. arXiv, 1802.01396. Retrieved from https://arxiv.org/abs/1802.01396v3
 
@@ -3343,6 +3396,8 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
     - We reverse the gradients on the second classifier to maximize the loss on it; this ecourages domain-invariant features
     - The only non-standard component is a gradient reversal layer that leaves the input unchanged during forward propagation and reverses the gradient by multiplying it by a negative scalar during the backpropagation
 
+Ganin, Ya., Ustinova, E., Ajakan, H., Germain, P., Larochelle, H., Laviolette, F., ...Lempitsky, V. (2015). Domain-Adversarial Training of Neural Networks. arXiv, 1505.07818. Retrieved from https://arxiv.org/abs/1505.07818v4
+
 #ood_generalization Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. M. (2017). Deeper, Broader and Artier Domain Generalization. arXiv, 1710.03077. Retrieved from https://arxiv.org/abs/1710.03077v1
 
     - A Domain Generalization (DG) problem is to learn domain-agnostic model from multiple training domains, and apply to unseen domain
@@ -3351,6 +3406,8 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
     - Every weight tensor for a given domain is the sum of a domain specific tensor and a domain agnostic tensor
     - We develop a DG benchmark covering photo, sketch, cartoon and painting domains
     - Our method outperforms existing DG alternatives
+
+Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. (2018). Learning to Generalize: Meta-Learning for Domain Generalization. AAAI, 32(1). doi: 10.1609/aaai.v32i1.11596
 
 #domain_adaptation Peng, X., Bai, Q., Xia, X., Huang, Z., Saenko, K., & Wang, B. (2018). Moment Matching for Multi-Source Domain Adaptation. arXiv, 1812.01754. Retrieved from https://arxiv.org/abs/1812.01754v4
 
@@ -3365,10 +3422,28 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
     - Problem: training data may contain spurious correlations (we do not expect them to hold in the future)
     - We assume that the training data is collected into distinct, separate environments
     - We want to learn correlations that are stable across training environments
-    - We propose Invariant Risk Minimization (IRM) with the idea: to learn invariances across environments, find a data representation such that the optimal classifier on top of that representation matches for all environments
-    - We formulate the IRM: an idealistic objective, whic is bi-leveled and challenging optimization problem
-    - We then simplify it into the IRMv1: practical version, when we optimize a feature extractor, and a scalar and fixed “dummy” classifier (or regressor) sits on top of it, and we want this classifier to be optimal in all environments
-    - The gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance
+    - The idea: to learn invariances across environments, find a data representation such that the optimal classifier on top of that representation matches for all environments
+    - We propose Invariant Risk Minimization (IRM): an idealistic objective, whic is bi-leveled and challenging optimization problem
+    - We then simplify it into the IRMv1, when gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance
+    - However, there are many subsequent works that show that IRM not always work as intended
+  
+Training data may contain spurious correlations (we do not expect them to hold in the future). he authors assume that the training data is collected into distinct, separate environments, and we want to learn correlations that are stable across training environments. The authors argue that to learn invariances across environments, one need to find a data representation such that the optimal classifier on top of that representation matches for all environments.
+  
+The authors propose an Invariant Risk Minimization (IRM) objective for models consisting of deep feature extractor and shallow classifier (see eq. IRM and definition 3 on page 5). The IRM is an idealistic objective, which is bi-leveled and challenging optimization problem.
+  
+The authors then simplify it into the IRMv1: practical version, when we optimize a feature extractor, and a fixed classifier (or regressor) sits on top of it, and we want this classifier to be optimal in all environments. The gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance. See implementation details in sec. 3.2.
+  
+In the section 3, the authors explain in details how did they come from IRM to IRMv1. For example, if we do not fix the classifier, it will be possible that the classifier's gradient will tend to zero just when we multiply the classifier's weights by a large value, and the deep features by a small value. Thus, IRMv1 objctive will not work in this case (see sec. 3.1.3). If the model is overparametrized, we can choose any W and switch from "classifier matches for all environments" to "classifier is W for all environments", so the optimization only happens over Phi. This suggests that  w = (1, 0, ..., 0) would be a valid choice for our fixed classifier, as noted in 3.1.4. However, in 3.1.5 the authors use w = (1, 1, ..., 1).
+  
+As an "Example 1", the authors consider the following model: X1 <- N(0, sigma^2); Y <- X1 + N(0, sigma^2); X2 <- Y + N(0, 1). Sigma may vary between environments, so the only robust way to predict is Y_pred = X1. The correlation coefficient between X2 and Y is high when sigma is high, so it also varies between environments and is a spurious correlation, that we don't want to rely on. Also, X2 is not a causal predictor. How can we learn the invariant, causal regression? he authors argue that both ERM and robust learning objective fails here, and robust learning turns out to be equivalent to minimizing a weighted average of environment training errors (proposition 2). However, IRM is successful in this task (see fig. 3 for experiments with synthetic structural models).
+  
+Instead of "classifier optimality" objective in ERM, we could enforce a stronger condition that the joint distribution of Phi(x) (see eq. for IRM, IRMv1) matches for all environments (as in Domain-Adversarial Training). However, the authors argue that the distribution of the true causal features can change across environments, so such techniques matching feature distributions sometimes attempt to enforce the wrong type of invariance. So it is better to learn correlations invariant across training environments, which is what IRM does.
+  
+The authors also discuss the connection from invariance to causality and OOD generalization and develop a generalization theory for IRM (sec. 4) based on the assumption that the data from all the environments share the same underlying Structural Equation Model. The authors promote invariance as the main feature of causation, while not being pioneers in doing so.
+  
+IMO, if deep encoder may detect each environment (if each environment has some distinct properties), then the encoder may incorporate "logic gates" to return different features for each environment. For example, Phi(x)[0] may be already the final prediction, and other elements be constant zero, so that w = (1, 1, ..., 1) is optimal. Also, some elements Phi(x)[i] may contain spurious features for some environments and be constant zero for others, so that w[i] = 1 is optimal. This would be possible if the encoder may differentiate between environments, including the case when some spurious feature is present only in one environment (so this environment may be detected by the presence of this feature). The authors do note that given a flexible Phi, it is possible to write any invariant predictor as 1.0 · Φ, however they say this in the context of the question: how restrictive is linear W? So, the above problem is not discussed by the authors. The authors' experiments also do not cover situations when some spurious feature occurs only in one environment, or, more generally, it is easy for model to differentiate between environments.
+  
+IMO, the another problem is that the authors do not describe how in principle they did early stopping: on train, test, or a separate val environments.
 
 #ood_generalization Sagawa, S., Koh, P. W., Hashimoto, T. B., & Liang, P. (2019). Distributionally Robust Neural Networks for Group Shifts: On the Importance of Regularization for Worst-Case Generalization. arXiv, 1911.08731. Retrieved from https://arxiv.org/abs/1911.08731v2
 
@@ -3379,11 +3454,66 @@ Anthony, Q., Tokpanov, Y., Glorioso, P., & Millidge, B. (2024). BlackMamba: Mixt
     - So, regularization is especially important for good worst-case performance
     - We introduce a new stochastic optimizer for group DRO that is stable and scales to large models and datasets
 
-#domain_adaptation Xu, M., Zhang, J., Ni, B., Li, T., Wang, C., Tian, Q., & Zhang, W. (2020). Adversarial Domain Adaptation with Domain Mixup. AAAI, 34(04), 6502–6509. doi: 10.1609/aaai.v34i04.6123
+Zhang, L., Wang, X., Yang, D., Sanford, T., Harmon, S., Turkbey, B., ...Xu, Z. (2019). When Unseen Domain Generalization is Unnecessary? Rethinking Data Augmentation. arXiv, 1906.03347. Retrieved from https://arxiv.org/abs/1906.03347v2
 
-    - To achieve adversarial domain adaptation, earlier it was proposed to use a domain discriminator; in order to fool this domain discriminator, the extracted features should be domain-invariant
-    - We presenta new GAN-based method: adversarial domain adaptation with domain mixup (DM-ADA)
-    - This framework maps both domains to a common latent distribution, and efficiently transfers our knowledge learned on the supervised domain to its unsupervised counterpart
+Bellot, A., & van der Schaar, M. (2020). Accounting for Unobserved Confounding in Domain Generalization. arXiv, 2007.10653. Retrieved from https://arxiv.org/abs/2007.10653v6
+
+Choe, Y. J., Ham, J., & Park, K. (2020). An Empirical Study of Invariant Risk Minimization. arXiv, 2004.05007. Retrieved from https://arxiv.org/abs/2004.05007v2
+
+#ood_generalization Gulrajani, I., & Lopez-Paz, D. (2020). In Search of Lost Domain Generalization. arXiv, 2007.01434. Retrieved from https://arxiv.org/abs/2007.01434v1
+
+    - We point at inconsistencies in experimental conditions for testing various Domain Generalization methods
+    - We realize that model selection is non-trivial for domain generalization tasks
+    - A domain generalization algorithm should be responsible for specifying a model selection method
+    - A model selection policy should have no access to the test domain
+    - We implement DomainBed, a testbed for domain generalization
+    - It includes 7 multi-domain datasets, 9 baseline algorithms, and 3 model selection criteria
+    - Carefully designed ERM shows SOTA performance across all datasets
+
+Currently domain generalization methods are evaluated under different datasets and model selection criteria. We aim to compare them in realistic settings. The goal of domain generalization is out-of-distribution generalization: learning a predictor able to perform well at some unseen test domain (we characterize each domain by a dataset containing iid examples). Compared to domain adaptation, in domain generalization even unlabeled data from target domain is not accessible. Domain generalization is the best approximation to real prediction problems.
+
+Because we lack access to a validation set identically distributed to the test data, model/hyperparameters selection in domain generalization is not as straightforward as in supervised learning. It is not a part of experimental design, but a learning problem at least as hard as fitting the model. Therefore, a domain generalization algorithm without a strategy to choose its hyperparameters remains incomplete.
+
+We propose a DomainBed framework for reproducible experimentation in domain generalization. It contains 7 multi-domain datasets, 9 baseline algorithms (with hyperparameter search spaces for all algorithms), and 3 model selection criteria:
+
+1. Training-domain validation set (random train-val split of training domains)
+2. Leave-one-domain-out cross-validation (each time holding one of the training domains for validation)
+3. Test-domain validation set (oracle).
+
+The latter means that we actually can evaluate **incomplete** algorithms by considering an oracle model selection method, where we select hyperparameters on the test domain, but researchers should disclaim any oracle-selection results as such and specify policies to limit access to the test domain, otherwise we could just train on such test domain data using supervised learning. We propose to allow 20 queries per algorithm, one query per choice of hyperparameters in our random search. This means that we do not allow early stopping based on the validation set. Recall
+that we do not consider this a valid benchmarking methodology. Oracle-selection results can be either optimistic, because we access the test distribution, or pessimistic, because the query limit reduces the number of considered hyperparameter combinations. As an alternative to limiting the number of queries, we could borrow tools from differential privacy tools that add Laplace noise to the accuracy statistic of the algorithm.
+
+The datasets in DomainBed differ in many ways. In Rotated MNIST and Colored MNIST, domains are synthetically constructed such that we know what features will generalize a priori, so using too much prior knowledge (e.g. by augmenting with rotations) is off-limits. Also, in datasets other than Colored MNIST, the domain changes the distribution of images, but likely bears no information about the true image-to-label mapping. On the other hand, in Colored MNIST, the domain influences the true image-to-label mapping, biasing algorithms that try to estimate this function directly.
+
+The initial release of DOMAINBED includes implementations of the following algorithms:
+
+1. Empirical Risk Minimization (ERM) minimizes the sum of errors across domains and examples
+2. Group Distributionally Robust Optimization (DRO) performs ERM while increasing the importance of domains with larger errors
+3. Inter-domain Mixup performs ERM on linear interpolations of examples from random pairs of domains and their labels
+4. Meta-Learning for Domain Generalization (MLDG) leverages MAML to meta-learn how to generalize across domains
+5. Domain-Adversarial Neural Networks (DANN) employ an adversarial network to match feature distributions
+6. Class-conditional DANN (C-DANN) is a variant of DANN matching the conditional distributions p(X|y) across domains, for all labels y
+7. CORAL matches the mean and covariance of feature distributions
+8. MMD matches the maximum mean discrepancy of feature distributions
+9. Invariant Risk Minimization (IRM) learns a feature representation such that the optimal linear classifier on top of that representation matches across domains
+
+Our implementation choices:
+
+1. We opt to finetune large ResNet-50 models for all datasets except Rotated MNIST and Colored MNIST
+2. In domain generalization augmentations can approximate some of the variations between domains. So, for MNIST datasets, we use no data augmentation. For other datasets we use a standard set of augmentations (see sec. 4.3)
+3. Randomness arising from model selection is often ignored. For instance, does method A outperform method B only because random search for A got lucky? We therefore repeat our entire study three times making every random choice anew: hyperparameters, weight initializations, and dataset splits. Every number we report is a mean over these repetitions.
+
+We conclude that ERM (empirical risk minimization) achieves SOTA performance in domain generalization, when equipped with modern NN architectures and data augmentation techniques. Given any model selection criterion, no method improves upon the average performance of ERM in more than one point. Getting substantial domain generalization improvements over ERM on these datasets proved challenging. We suspect this is because a bigger network architecture (ResNet-50), strong data augmentations, careful hyperparameter tuning (and using the full training data to construct our domains in Rotated MNIST). These results suggest standard techniques to improve in-distribution generalization are very effective at improving OOD generalization. Moreover, it was recently shown that strong data augmentation can improve OOD generalization while not impacting in-distribution generalization. We think that if the practitioner is lucky and performs the data augmentations that cancel the spurious correlations varying from domain to domain, then OOD performance should improve.
+
+We also observe that model selection with a training domain validation set outperforms leave-one-domain-out cross-validation across multiple datasets and algorithms. The stronger performance of oracle-selection (+2%) suggests possible headroom for improvement.
+
+Our concerns:
+1. Why do we assume a neural network should be able to classify cartoons, given only photorealistic training data? Is the out-of-distribution performance of modern ERM implementations as good as it gets? Or is it simply as bad as every other alternative? How can we establish upper-bounds on what performance is achievable out-of-distribution via domain generalization techniques?
+2. Some of the datasets do not reflect realistic situations. In reality, if one wanted to classify cartoons, the easiest option would be to collect a small labeled dataset of cartoons. Should we consider more realistic, impactful tasks? Attractive alternatives include medical  imaging in different hospitals and self-driving cars in different cities.
+3. Each algorithm assumes a different (untestable) type of invariance across domains. Therefore, the performance of a domain generalization
+algorithm depends on the problem at hand.
+
+IMO, in this work there is no discussions about pre-training. It is known that pre-trained models have wide range of abilities, and fine-tuning may reduce OOD robustness. So, all results may differ for different amount of pre-training.
 
 Krueger, D., Caballero, E., Jacobsen, J.-H., Zhang, A., Binas, J., Zhang, D., ...Courville, A. (2020). Out-of-Distribution Generalization via Risk Extrapolation (REx). arXiv, 2003.00688. Retrieved from https://arxiv.org/abs/2003.00688v5
 
@@ -3393,15 +3523,15 @@ Krueger, D., Caballero, E., Jacobsen, J.-H., Zhang, A., Binas, J., Zhang, D., ..
     - It can uncover invariant relationships between X and Y (maintained across all domains)
     - We demonstrate that REx solves invariant prediction tasks where IRM fails due to covariate shift
 
-Gulrajani, I., & Lopez-Paz, D. (2020). In Search of Lost Domain Generalization. arXiv, 2007.01434. Retrieved from https://arxiv.org/abs/2007.01434v1
+Peyrard, M., Ghotra, S. S., Josifoski, M., Agarwal, V., Patra, B., Carignan, D., ...West, R. (2021). Invariant Language Modeling. arXiv, 2110.08413. Retrieved from https://arxiv.org/abs/2110.08413v2
 
-    - We point at inconsistencies in experimental conditions for testing various Domain Generalization methods
-    - We realize that model selection is non-trivial for domain generalization tasks
-    - A domain generalization algorithm should be responsible for specifying a model selection method
-    - A model selection policy should have no access to the test domain
-    - We implement DOMAINBED, a testbed for domain generalization
-    - It includes 7 multi-domain datasets, 9 baseline algorithms, and 3 model selection criteria
-    - Carefully designed ERM shows SOTA performance across all datasets
+Rosenfeld, E., Ravikumar, P., & Risteski, A. (2020). The Risks of Invariant Risk Minimization. arXiv, 2010.05761. Retrieved from https://arxiv.org/abs/2010.05761v2
+
+#domain_adaptation Xu, M., Zhang, J., Ni, B., Li, T., Wang, C., Tian, Q., & Zhang, W. (2020). Adversarial Domain Adaptation with Domain Mixup. AAAI, 34(04), 6502–6509. doi: 10.1609/aaai.v34i04.6123
+
+    - To achieve adversarial domain adaptation, earlier it was proposed to use a domain discriminator; in order to fool this domain discriminator, the extracted features should be domain-invariant
+    - We present a new method: adversarial domain adaptation with domain mixup (DM-ADA)
+    - The authors perform ERM on linear interpolations of examples from random pairs of domains and their labels
 
 Rame, A., Dancette, C., & Cord, M. (2021). Fishr: Invariant Gradient Variances for Out-of-Distribution Generalization. arXiv, 2109.02934. Retrieved from https://arxiv.org/abs/2109.02934v3
 
@@ -3421,11 +3551,23 @@ Arpit, D., Wang, H., Zhou, Y., & Xiong, C. (2021). Ensemble of Averages: Improvi
 
 Cha, J., Chun, S., Lee, K., Cho, H.-C., Park, S., Lee, Y., & Park, S. (2021). SWAD: Domain Generalization by Seeking Flat Minima. arXiv, 2102.08604. Retrieved from https://arxiv.org/abs/2102.08604v4
 
+Xiao, C., & Madhyastha, P. (2021). A call for better unit testing for invariant risk minimisation. arXiv, 2106.03234. Retrieved from https://arxiv.org/abs/2106.03234v1
+
+Shrestha, R., Kafle, K., & Kanan, C. (2021). Are Bias Mitigation Techniques for Deep Learning Effective? arXiv, 2104.00170. Retrieved from https://arxiv.org/abs/2104.00170v4
+
+Zhang, D., Ahuja, K., Xu, Y., Wang, Y., & Courville, A. (2021). Can Subnetwork Structure be the Key to Out-of-Distribution Generalization? arXiv, 2106.02890. Retrieved from https://arxiv.org/abs/2106.02890v1
+
 Zhang, J., & Bottou, L. (2022). Learning useful representations for shifting tasks and distributions. arXiv, 2212.07346. Retrieved from https://arxiv.org/abs/2212.07346v3
 
 Lin, Y., Dong, H., Wang, H., & Zhang, T. (2022). Bayesian Invariant Risk Minimization. Retrieved from https://openaccess.thecvf.com/content/CVPR2022/html/Lin_Bayesian_Invariant_Risk_Minimization_CVPR_2022_paper.html
 
 Ramé, A., Kirchmeyer, M., Rahier, T., Rakotomamonjy, A., Gallinari, P., & Cord, M. (2022). Diverse Weight Averaging for Out-of-Distribution Generalization. arXiv, 2205.09739. Retrieved from https://arxiv.org/abs/2205.09739v2
+
+Naganuma, H., Hataya, R., & Mitliagkas, I. (2023). An Empirical Study of Pre-trained Model Selection for Out-of-Distribution Generalization and Calibration. arXiv, 2307.08187. Retrieved from https://arxiv.org/abs/2307.08187v3
+
+Alesiani, F., Yu, S., & Niepert, M. (2023). Continual Invariant Risk Minimization. arXiv, 2310.13977. Retrieved from https://arxiv.org/abs/2310.13977v1
+
+Lai, Z.-R., & Wang, W. (2024). Invariant Risk Minimization Is A Total Variation Model. arXiv, 2405.01389. Retrieved from https://arxiv.org/abs/2405.01389v5
 
 Zhang, J., & Bottou, L. (2024). Fine-tuning with Very Large Dropout. arXiv, 2403.00946. Retrieved from https://arxiv.org/abs/2403.00946v1
 
@@ -3435,6 +3577,8 @@ Zhang, J., & Bottou, L. (2024). Fine-tuning with Very Large Dropout. arXiv, 2403
     - However, fine-tuning under such conditions is possible
     - It achieves out-of-distribution performances that exceed those of both ensembles and weight averaging
     - We also provide interesting insights on representations and intrinsically linear nature of fine-tuning
+
+Yu, H., Liu, J., Zhang, X., Wu, J., & Cui, P. (2024). A Survey on Evaluation of Out-of-Distribution Generalization. arXiv, 2403.01874. Retrieved from https://arxiv.org/abs/2403.01874v1
 
 ## Continual LLM
 
@@ -3463,3 +3607,243 @@ Rodionov, G., & Prokhorenkova, L. (2023). Neural Algorithmic Reasoning Without I
 Rodionov, G., & Prokhorenkova, L. (2024). Discrete Neural Algorithmic Reasoning. arXiv, 2402.11628. Retrieved from https://arxiv.org/abs/2402.11628v1
 
 Men, X., Xu, M., Zhang, Q., Wang, B., Lin, H., Lu, Y., ...Chen, W. (2024). ShortGPT: Layers in Large Language Models are More Redundant Than You Expect. arXiv, 2403.03853. Retrieved from https://arxiv.org/abs/2403.03853v2
+
+## ASR
+
+Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist temporal classification: labelling unsegmented sequence data with recurrent neural networks. ACM Other conferences. Association for Computing Machinery. Retrieved from https://www.cs.toronto.edu/~graves/icml_2006.pdf
+
+    - We propose a method called Connectionist Temporal Classification (CTC) for training RNNs on tasks where real-valued unsegmented input streams are annotated with strings of discrete labels (e.g. handwriting recognition, speech recognition, gesture recognition)
+    - Terminology: we refer to the task of labelling unsegmented data sequences as temporal classification, and independent labelling of each time-step, or frame, of the input sequence as framewise classification
+    - Method: while framewise networks receive an error for misaligning the segment boundaries (fig. 1), our CTC network predicts only the sequence of phonemes separated by "blank" tokens, which mean no label at the current frame. From probabilistic perspective, we interpret the network outputs as a probability distribution over all possible label sequence, and the output of the classifier should be the most probable labelling (argmax in probability). Taking this argmax is non-trivial in CTC, we refer to this task as decoding. We propose two approximate methods that give good results in practice (sec. 3.2). We alsoe describe how to perform backward pass (sec. 4).
+    - On TIMIT dataset, CTC outperformed both a baseline HMM (hidden Markov Model) recogniser and an HMM-RNN hybrid with the same RNN architecture.
+    - A key difference between CTC and HMM is that CTC does not explicitly segment its input sequences. Determining the segmentation is a waste of modelling. For tasks where segmentation is required it would seem problematic to use CTC (however, CTC is suitable where approximate segmentation is sufficient).
+    - Further we intend to pursue an hierarchy of temporal classifiers, where the labellings at one level (e.g. letters) become inputs for the labellings at the next (e.g. words).
+
+Panayotov, V., Chen, G., Povey, D., & Khudanpur, S. (2015). Librispeech: An ASR corpus based on public domain audio books. IEEE International Conference on Acoustics, Speech, and Signal Processing. Retrieved from https://www.danielpovey.com/files/2015_icassp_librispeech.pdf
+
+    - We introduce the LibriSpeech corpus for ASR that is derived from audiobooks and is a part of the LibriVox project
+    - It contains 1000 hours of speech sampled at 16 kHz
+    - We automatically aligned the audio recordings with the corresponding texts, and split them into short segments
+    - We tried to exclude segments of audio that might not correspond exactly with the aligned text
+    - Models trained with our corpus do better on the standard Wall Street Journal (WSJ) test sets than models built on WSJ itself
+
+Collobert, R., Puhrsch, C., & Synnaeve, G. (2016). Wav2Letter: an End-to-End ConvNet-based Speech Recognition System. arXiv, 1609.03193. Retrieved from https://arxiv.org/abs/1609.03193v2
+
+    - We present a model for end-to-end speech recognition that consists of CNN acoustic model 
+    - We train with an Auto Segmentation Criterion (ASG), an our alternative to the Connectionist Temporal Classification (CTC) (fig. 2, 3). In contrast to CTC, 1) there are no blank labels, and therefore t produces a much simpler graph, 2) we have un-normalized scores on the nodes, 3) we apply global normalization instead of per-frame normalization. We show that ASG can be faster than CTC, and as accurate.
+    - We perform inference with a simple beam search decoder with beam threholding, histogram pruning and language model smearing
+    - Our model shows competitive results in WER on the Librispeech corpus with MFCC features, and promising results from raw waveform.
+
+Li, J., Ye, G., Zhao, R., Droppo, J., & Gong, Y. (2017). Acoustic-To-Word Model Without OOV. arXiv, 1711.10136. Retrieved from https://arxiv.org/abs/1711.10136v1
+
+    - Problem: the word-based CTC is a very good end-to-end ASR model, but it maps all the unknown words into OOV
+    - We propose a hybrid CTC with both word-based CTC and character-based CTC heads that are synchronized
+    - Whenever the ASR model emits an OOV token, we rely on character-based CTC
+
+Oord, A. v. d., Li, Y., & Vinyals, O. (2018). Representation Learning with Contrastive Predictive Coding. arXiv, 1807.03748. Retrieved from https://arxiv.org/abs/1807.03748v2
+
+    - We propose a Contrastive Predictive Coding for unsupervised learning and demonstrate its effectiveness on four distinct domains: speech, images, text and reinforcement learning in 3D environments.
+    - We stand for unsupervised pre-training, since it learns more general features than supervised pre-training. For example, in ASR pre-training features that are useful to transcribe human speech may be less suited for speaker identification, or music genre prediction. So, ASR pre-trained features will lack certain information. Same for image pre-training.
+    - One way for unsupervised learning is to predict future observations (predictive coding).
+    - We propose to compress raw data into a latent embedding space and train to predict future in this space (fig. 1) with autoregressive models. We rely on Noise-Contrastive Estimation for the loss function.
+
+Ardila, R., Branson, M., Davis, K., Henretty, M., Kohler, M., Meyer, J., ...Weber, G. (2019). Common Voice: A Massively-Multilingual Speech Corpus. arXiv, 1912.06670. Retrieved from https://arxiv.org/abs/1912.06670v2
+
+    - We present the Common Voice: a massively-multilingual collection of transcribed speech
+    - Over 50,000 individuals have participated so far, resulting in 2,500 hours of collected audio
+    - Using either the Common Voice website or iPhone app, contributors record their voice by reading sentences displayed on the screen. The recordings are later verified by other contributors.
+    - For languages with more than 500,000 Wikipedia articles, text sentences are extracted from Wikipedia using community provided rule-sets per language.
+
+Baevski, A., Auli, M., & Mohamed, A. (2019). Effectiveness of self-supervised pre-training for speech recognition. arXiv, 1911.03912. Retrieved from https://arxiv.org/abs/1911.03912v3
+
+    - we compare different approaches of self-supervised pre-training for speech data
+    - As one alternative (fig. 1a), we take "Discrete BERT" ASR model, that consists of vq-wav2vec, which quantizes the Librispeech dataset into 13.5k unique codes, follwed by pre-trained BERT model. Instead of vq-wav2vec we also tried k-means clustering MFCC and FBANK features with 13.5k centroids (to match the vq-wav2vec setup). We directly fine-tune the pre-trained BERT model on transcribed speech data using a CTC loss.
+    - As another alternative (fig. 1b), we try "Continuous BERT". MLM cannot be performed with continuous inputs and outputs, as there are no targets to predict in place of the masked tokens. Instead, we classify the masked positive example among a set of negatives with InfoNCE loss. In this case, the inputs to BERT are dense wav2vec features, MFCC or FBANK features.
+    - We show that the most effective method is to first learn a discrete vocabulary of the data with vq-wav2vec followed by standard BERT training over these discrete units. This performs much better than directly learning from the continuous audio data. Thus, disentangling acoustic unit discovery from learning the sequential relationship between them enables better representations.
+
+Baevski, A., Schneider, S., & Auli, M. (2019). vq-wav2vec: Self-Supervised Learning of Discrete Speech Representations. arXiv, 1910.05453. Retrieved from https://arxiv.org/abs/1910.05453v3
+
+Chung, Y.-A., Hsu, W.-N., Tang, H., & Glass, J. (2019). An Unsupervised Autoregressive Model for Speech Representation Learning. arXiv, 1904.03240. Retrieved from https://arxiv.org/abs/1904.03240v2
+
+Guo, J., Sainath, T. N., & Weiss, R. J. (2019). A spelling correction model for end-to-end speech recognition. arXiv, 1902.07178. Retrieved from https://arxiv.org/abs/1902.07178v1
+
+Li, J., Lavrukhin, V., Ginsburg, B., Leary, R., Kuchaiev, O., Cohen, J. M., ...Gadde, R. T. (2019). Jasper: An End-to-End Convolutional Neural Acoustic Model. arXiv, 1904.03288. Retrieved from https://arxiv.org/abs/1904.03288v3
+
+Park, D. S., Chan, W., Zhang, Y., Chiu, C.-C., Zoph, B., Cubuk, E. D., & Le, Q. V. (2019). SpecAugment: A Simple Data Augmentation Method for Automatic Speech Recognition. arXiv, 1904.08779. Retrieved from https://arxiv.org/abs/1904.08779v3
+
+Neekhara, P., Hussain, S., Pandey, P., Dubnov, S., McAuley, J., & Koushanfar, F. (2019). Universal Adversarial Perturbations for Speech Recognition Systems. arXiv, 1905.03828. Retrieved from https://arxiv.org/abs/1905.03828v2
+
+Ott, M., Edunov, S., Baevski, A., Fan, A., Gross, S., Ng, N., ...Auli, M. (2019). fairseq: A Fast, Extensible Toolkit for Sequence Modeling. arXiv, 1904.01038. Retrieved from https://arxiv.org/abs/1904.01038v1
+
+Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervised Pre-training for Speech Recognition. arXiv, 1904.05862. Retrieved from https://arxiv.org/abs/1904.05862v4
+
+    - We propose wav2vec model that was trained on large amounts of unlabeled audio
+    - Wav2vec takes raw audio as input and computes a general representation at a lower temporal frequency (fig. 1). The encoder is a 5-layer CNN, and the output stride is 10 ms, and the receptive field is about 30 ms of 16 kHz. Then, the 9-later CNN "context network" mixes multiple representations with a total receptive field about 210 ms (810 ms for large model).
+    - The objective is to predict future samples from a given signal context, with contrastive loss that requires distinguishing a true future audio sample from negatives (as in "Representation Learning with Contrastive Predictive Coding").
+    - To fine-tune wav2vec for the TIMIT task (predicting phonemes), we pass output representations (instead of MFCC features as a baseline) into acoustic CNN model, which outputs phoneme probabilities. The model is trained using the Auto Segmentation Criterion.
+    - To fine-tune wav2vec on WSJ benchmark (transribing text), acoustic CNN model predicts probabilities for 31 graphemes, including the standard English alphabet, the apostrophe and period, two repetition characters (e.g. the word ann is transcribed as an1), and a silence token used as word boundary. For decoding the emissions from the acoustic model we use a lexicon as well as a separate language model trained on the WSJ language modeling data only.
+
+
+Baevski, A., Zhou, H., Mohamed, A., & Auli, M. (2020). wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations. arXiv, 2006.11477. Retrieved from https://arxiv.org/abs/2006.11477v3
+
+Gulati, A., Qin, J., Chiu, C.-C., Parmar, N., Zhang, Y., Yu, J., ...Pang, R. (2020). Conformer: Convolution-augmented Transformer for Speech Recognition. arXiv, 2005.08100. Retrieved from https://arxiv.org/abs/2005.08100v1
+
+Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M., Mengesha, Z., ...Goel, S. (2020). Racial disparities in automated speech recognition. Proc. Natl. Acad. Sci. U.S.A. Retrieved from https://www.semanticscholar.org/paper/Racial-disparities-in-automated-speech-recognition-Koenecke-Nam/219b7266ae848937da170c5510b2bfc66d17859a
+
+Likhomanenko, T., Xu, Q., Pratap, V., Tomasello, P., Kahn, J., Avidov, G., ...Synnaeve, G. (2020). Rethinking Evaluation in ASR: Are Our Models Robust Enough? arXiv, 2010.11745. Retrieved from https://arxiv.org/abs/2010.11745v3
+
+Nguyen, T. A., de Seyssel, M., Rozé, P., Rivière, M., Kharitonov, E., Baevski, A., ...Dupoux, E. (2020). The Zero Resource Speech Benchmark 2021: Metrics and baselines for unsupervised spoken language modeling. arXiv, 2011.11588. Retrieved from https://arxiv.org/abs/2011.11588v2
+
+Pratap, V., Xu, Q., Sriram, A., Synnaeve, G., & Collobert, R. (2020). MLS: A Large-Scale Multilingual Dataset for Speech Research. arXiv, 2012.03411. Retrieved from https://arxiv.org/abs/2012.03411v2
+
+Rivière, M., Joulin, A., Mazaré, P.-E., & Dupoux, E. (2020). Unsupervised pretraining transfers well across languages. arXiv, 2002.02848. Retrieved from https://arxiv.org/abs/2002.02848v1
+
+
+
+Bakhturina, E., Lavrukhin, V., & Ginsburg, B. (2021). A Toolbox for Construction and Analysis of Speech Datasets. arXiv, 2104.04896. Retrieved from https://arxiv.org/abs/2104.04896v3
+
+Cámbara, G., Peiró-Lilja, A., Farrús, M., & Luque, J. (2021). English Accent Accuracy Analysis in a State-of-the-Art Automatic Speech Recognition System. arXiv, 2105.05041. Retrieved from https://arxiv.org/abs/2105.05041v1
+
+Chen, S., Wang, C., Chen, Z., Wu, Y., Liu, S., Chen, Z., ...Wei, F. (2021). WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing. arXiv, 2110.13900. Retrieved from https://arxiv.org/abs/2110.13900v5
+
+Duarte, J. C., & Colcher, S. (2021). Building a Noisy Audio Dataset to Evaluate Machine Learning Approaches for Automatic Speech Recognition Systems. arXiv, 2110.01425. Retrieved from https://arxiv.org/abs/2110.01425v1
+
+Galvez, D., Diamos, G., Ciro, J., Cerón, J. F., Achorn, K., Gopi, A., ...Reddi, V. J. (2021). The People's Speech: A Large-Scale Diverse English Speech Recognition Dataset for Commercial Usage. arXiv, 2111.09344. Retrieved from https://arxiv.org/abs/2111.09344v1
+
+Gris, L. R. S., Casanova, E., de Oliveira, F. S., Soares, A. d. S., & Junior, A. C. (2021). Brazilian Portuguese Speech Recognition Using Wav2vec 2.0. arXiv, 2107.11414. Retrieved from https://arxiv.org/abs/2107.11414v3
+
+Hsu, W.-N., Bolte, B., Tsai, Y.-H. H., Lakhotia, K., Salakhutdinov, R., & Mohamed, A. (2021). HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units. arXiv, 2106.07447. Retrieved from https://arxiv.org/abs/2106.07447v1
+
+Hsu, W.-N., Sriram, A., Baevski, A., Likhomanenko, T., Xu, Q., Pratap, V., ...Auli, M. (2021). Robust wav2vec 2.0: Analyzing Domain Shift in Self-Supervised Pre-Training. arXiv, 2104.01027. Retrieved from https://arxiv.org/abs/2104.01027v2
+
+Lai, C.-I. J., Zhang, Y., Liu, A. H., Chang, S., Liao, Y.-L., Chuang, Y.-S., ...Glass, J. (2021). PARP: Prune, Adjust and Re-Prune for Self-Supervised Speech Recognition. arXiv, 2106.05933. Retrieved from https://arxiv.org/abs/2106.05933v2
+
+Lakhotia, K., Kharitonov, E., Hsu, W.-N., Adi, Y., Polyak, A., Bolte, B., ...Dupoux, E. (2021). Generative Spoken Language Modeling from Raw Audio. arXiv, 2102.01192. Retrieved from https://arxiv.org/abs/2102.01192v2
+
+Majumdar, S., Balam, J., Hrinchuk, O., Lavrukhin, V., Noroozi, V., & Ginsburg, B. (2021). Citrinet: Closing the Gap between Non-Autoregressive and Autoregressive End-to-End Models for Automatic Speech Recognition. arXiv, 2104.01721. Retrieved from https://arxiv.org/abs/2104.01721v1
+
+Pasad, A., Chou, J.-C., & Livescu, K. (2021). Layer-wise Analysis of a Self-supervised Speech Representation Model. arXiv, 2107.04734. Retrieved from https://arxiv.org/abs/2107.04734v3
+
+Shi, X., Yu, F., Lu, Y., Liang, Y., Feng, Q., Wang, D., ...Xie, L. (2021). The Accented English Speech Recognition Challenge 2020: Open Datasets, Tracks, Baselines, Results and Methods. arXiv, 2102.10233. Retrieved from https://arxiv.org/abs/2102.10233v1
+
+Wang, C., Rivière, M., Lee, A., Wu, A., Talnikar, C., Haziza, D., ...Dupoux, E. (2021). VoxPopuli: A Large-Scale Multilingual Speech Corpus for Representation Learning, Semi-Supervised Learning and Interpretation. arXiv, 2101.00390. Retrieved from https://arxiv.org/abs/2101.00390v2
+
+Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
+
+
+
+Algayres, R., Ricoul, T., Karadayi, J., Laurençon, H., Zaiem, S., Mohamed, A., ...Dupoux, E. (2022). DP-Parse: Finding Word Boundaries from Raw Speech with an Instance Lexicon. arXiv, 2206.11332. Retrieved from https://arxiv.org/abs/2206.11332v1
+
+Borgholt, L., Havtorn, J. D., Edin, J., Maaløe, L., & Igel, C. (2022). A Brief Overview of Unsupervised Neural Speech Representation Learning. arXiv, 2203.01829. Retrieved from https://arxiv.org/abs/2203.01829v1
+
+Casanova, E., Shulby, C., Korolev, A., Junior, A. C., Soares, A. d. S., Aluísio, S., & Ponti, M. A. (2022). ASR data augmentation in low-resource settings using cross-lingual multi-speaker TTS and cross-lingual voice conversion. arXiv, 2204.00618. Retrieved from https://arxiv.org/abs/2204.00618v5
+
+Chen, C., Hou, N., Hu, Y., Shirol, S., & Chng, E. S. (2022). Noise-robust Speech Recognition with 10 Minutes Unparalleled In-domain Data. arXiv, 2203.15321. Retrieved from https://arxiv.org/abs/2203.15321v1
+
+Chen, Z., Bapna, A., Rosenberg, A., Zhang, Y., Ramabhadran, B., Moreno, P., & Chen, N. (2022). Maestro-U: Leveraging joint speech-text representation learning for zero supervised speech ASR. arXiv, 2210.10027. Retrieved from https://arxiv.org/abs/2210.10027v2
+
+Cheng, Y., Zhang, Y., Johnson, M., Macherey, W., & Bapna, A. (2022). Mu^2SLAM: Multitask, Multilingual Speech and Language Models. arXiv, 2212.09553. Retrieved from https://arxiv.org/abs/2212.09553v2
+
+Conneau, A., Ma, M., Khanuja, S., Zhang, Y., Axelrod, V., Dalmia, S., ...Bapna, A. (2022). FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech. arXiv, 2205.12446. Retrieved from https://arxiv.org/abs/2205.12446v1
+
+Conneau, A., Bapna, A., Zhang, Y., Ma, M., von Platen, P., Lozhkov, A., ...Johnson, M. (2022). XTREME-S: Evaluating Cross-lingual Speech Representations. arXiv, 2203.10752. Retrieved from https://arxiv.org/abs/2203.10752v3
+
+Dunbar, E., Hamilakis, N., & Dupoux, E. (2022). Self-supervised language learning from raw audio: Lessons from the Zero Resource Speech Challenge. arXiv, 2210.15759. Retrieved from https://arxiv.org/abs/2210.15759v1
+
+Ferreira, A. I. S., & Oliveira, G. d. R. (2022). Domain Specific Wav2vec 2.0 Fine-tuning For The SE&R 2022 Challenge. arXiv, 2207.14418. Retrieved from https://arxiv.org/abs/2207.14418v1
+
+Fu, L., Li, S., Li, Q., Deng, L., Li, F., Fan, L., ...He, X. (2022). UFO2: A unified pre-training framework for online and offline speech recognition. arXiv, 2210.14515. Retrieved from https://arxiv.org/abs/2210.14515v2
+
+Gat, I., Kreuk, F., Nguyen, T. A., Lee, A., Copet, J., Synnaeve, G., ...Adi, Y. (2022). Augmentation Invariant Discrete Representation for Generative Spoken Language Modeling. arXiv, 2209.15483. Retrieved from https://arxiv.org/abs/2209.15483v2
+
+Gris, L. R. S., Junior, A. C., Santos, V. G. d., Dias, B. A. P., Leite, M. Q., Svartman, F. R. F., & Aluísio, S. (2022). Bringing NURC/SP to Digital Life: the Role of Open-source Automatic Speech Recognition Models. arXiv, 2210.07852. Retrieved from https://arxiv.org/abs/2210.07852v1
+
+Inaguma, H., Popuri, S., Kulikov, I., Chen, P.-J., Wang, C., Chung, Y.-A., ...Pino, J. (2022). UnitY: Two-pass Direct Speech-to-speech Translation with Discrete Units. arXiv, 2212.08055. Retrieved from https://arxiv.org/abs/2212.08055v2
+
+Millet, J., Caucheteux, C., Orhan, P., Boubenec, Y., Gramfort, A., Dunbar, E., ...King, J.-R. (2022). Toward a realistic model of speech processing in the brain with self-supervised learning. arXiv, 2206.01685. Retrieved from https://arxiv.org/abs/2206.01685v2
+
+Nguyen, T. A., Sagot, B., & Dupoux, E. (2022). Are discrete units necessary for Spoken Language Modeling? arXiv, 2203.05936. Retrieved from https://arxiv.org/abs/2203.05936v2
+
+Pasad, A., Shi, B., & Livescu, K. (2022). Comparative layer-wise analysis of self-supervised speech models. arXiv, 2211.03929. Retrieved from https://arxiv.org/abs/2211.03929v3
+
+Pham, N.-Q., Waibel, A., & Niehues, J. (2022). Adaptive multilingual speech recognition with pretrained models. arXiv, 2205.12304. Retrieved from https://arxiv.org/abs/2205.12304v1
+
+Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2022). Robust Speech Recognition via Large-Scale Weak Supervision. arXiv, 2212.04356. Retrieved from https://arxiv.org/abs/2212.04356v1
+
+Rakib, M., Hossain, Md. I., Mohammed, N., & Rahman, F. (2022). Bangla-Wave: Improving Bangla Automatic Speech Recognition Utilizing N-gram Language Models. arXiv, 2209.12650. Retrieved from https://arxiv.org/abs/2209.12650v1
+
+Shahgir, H. A. Z. S., Sayeed, K. S., & Zaman, T. A. (2022). Applying wav2vec2 for Speech Recognition on Bengali Common Voices Dataset. arXiv, 2209.06581. Retrieved from https://arxiv.org/abs/2209.06581v1
+
+Shim, K., & Sung, W. (2022). A Comparison of Transformer, Convolutional, and Recurrent Neural Networks on Phoneme Recognition. arXiv, 2210.00367. Retrieved from https://arxiv.org/abs/2210.00367v1
+
+Tjandra, A., Singhal, N., Zhang, D., Kalinli, O., Mohamed, A., Le, D., & Seltzer, M. L. (2022). Massively Multilingual ASR on 70 Languages: Tokenization, Architecture, and Generalization Capabilities. arXiv, 2211.05756. Retrieved from https://arxiv.org/abs/2211.05756v1
+
+van der Merwe, W., Kamper, H., & Preez, J. d. (2022). A Temporal Extension of Latent Dirichlet Allocation for Unsupervised Acoustic Unit Discovery. arXiv, 2206.11706. Retrieved from https://arxiv.org/abs/2206.11706v2
+
+Wirth, J., & Peinl, R. (2022). ASR in German: A Detailed Error Analysis. arXiv, 2204.05617. Retrieved from https://arxiv.org/abs/2204.05617v1
+
+Zhang, X., Tan, H., Huang, X., Zhang, D., Tang, K., & Gu, Z. (2022). Adversarial Attacks on ASR Systems: An Overview. arXiv, 2208.02250. Retrieved from https://arxiv.org/abs/2208.02250v1
+
+Zhang, Z., Chen, S., Zhou, L., Wu, Y., Ren, S., Liu, S., ...Wei, F. (2022). SpeechLM: Enhanced Speech Pre-Training with Unpaired Textual Data. arXiv, 2209.15329. Retrieved from https://arxiv.org/abs/2209.15329v3
+
+Zhang, Z., Zhou, L., Ao, J., Liu, S., Dai, L., Li, J., & Wei, F. (2022). SpeechUT: Bridging Speech and Text with Hidden-Unit for Encoder-Decoder Based Speech-Text Pre-training. arXiv, 2210.03730. Retrieved from https://arxiv.org/abs/2210.03730v1
+
+Zhao, J., & Zhang, W.-Q. (2022). Improving Automatic Speech Recognition Performance for Low-Resource Languages With Self-Supervised Models. IEEE J. Sel. Top. Signal Process., 16(6), 1227–1241. doi: 10.1109/JSTSP.2022.3184480
+
+
+
+Attia, A. A., Liu, J., Ai, W., Demszky, D., & Espy-Wilson, C. (2023). Kid-Whisper: Towards Bridging the Performance Gap in Automatic Speech Recognition for Children VS. Adults. arXiv, 2309.07927. Retrieved from https://arxiv.org/abs/2309.07927v3
+
+Barcovschi, A., Jain, R., & Corcoran, P. (2023). A comparative analysis between Conformer-Transducer, Whisper, and wav2vec2 for improving the child speech recognition. arXiv, 2311.04936. Retrieved from https://arxiv.org/abs/2311.04936v1
+
+Do, A., Brown, O., Wang, Z., Mathew, N., Liu, Z., Ahmed, J., & Yu, C. (2023). Using fine-tuning and min lookahead beam search to improve Whisper. arXiv, 2309.10299. Retrieved from https://arxiv.org/abs/2309.10299v1
+
+Fathullah, Y., Wu, C., Lakomkin, E., Jia, J., Shangguan, Y., Li, K., ...Seltzer, M. (2023). Prompting Large Language Models with Speech Recognition Abilities. arXiv, 2307.11795. Retrieved from https://arxiv.org/abs/2307.11795v1
+
+Jain, R., Barcovschi, A., Yiwere, M., Corcoran, P., & Cucu, H. (2023). Adaptation of Whisper models to child speech recognition. arXiv, 2307.13008. Retrieved from https://arxiv.org/abs/2307.13008v1
+
+Pratap, V., Tjandra, A., Shi, B., Tomasello, P., Babu, A., Kundu, S., ...Auli, M. (2023). Scaling Speech Technology to 1,000+ Languages. arXiv, 2305.13516. Retrieved from https://arxiv.org/abs/2305.13516v1
+
+Qu, L., Weber, C., & Wermter, S. (2023). Emphasizing Unseen Words: New Vocabulary Acquisition for End-to-End Speech Recognition. arXiv, 2302.09723. Retrieved from https://arxiv.org/abs/2302.09723v2
+
+Robertson, S., & Dunbar, E. (2023). Bigger is not Always Better: The Effect of Context Size on Speech Pre-Training. arXiv, 2312.01515. Retrieved from https://arxiv.org/abs/2312.01515v1
+
+Rubenstein, P. K., Asawaroengchai, C., Nguyen, D. D., Bapna, A., Borsos, Z., Quitry, F. d. C., ...Frank, C. (2023). AudioPaLM: A Large Language Model That Can Speak and Listen. arXiv, 2306.12925. Retrieved from https://arxiv.org/abs/2306.12925v1
+
+Vásquez-Correa, J. C., & Álvarez Muniain, A. (2023). Novel Speech Recognition Systems Applied to Forensics within Child Exploitation: Wav2vec2.0 vs. Whisper. Sensors, 23(4), 1843. doi: 10.3390/s23041843
+
+Veliche, I.-E., & Fung, P. (2023). Improving Fairness and Robustness in End-to-End Speech Recognition through unsupervised clustering. arXiv, 2306.06083. Retrieved from https://arxiv.org/abs/2306.06083v1
+
+Xu, H., Jia, F., Majumdar, S., Huang, H., Watanabe, S., & Ginsburg, B. (2023). Efficient Sequence Transduction by Jointly Predicting Tokens and Durations. arXiv, 2304.06795. Retrieved from https://arxiv.org/abs/2304.06795v2
+
+Yang, C.-H. H., Li, B., Zhang, Y., Chen, N., Prabhavalkar, R., Sainath, T. N., & Strohman, T. (2023). From English to More Languages: Parameter-Efficient Model Reprogramming for Cross-Lingual Speech Recognition. arXiv, 2301.07851. Retrieved from https://arxiv.org/abs/2301.07851v1
+
+Yang, Y., Shen, F., Du, C., Ma, Z., Yu, K., Povey, D., & Chen, X. (2023). Towards Universal Speech Discrete Tokens: A Case Study for ASR and TTS. arXiv, 2309.07377. Retrieved from https://arxiv.org/abs/2309.07377v2
+
+Zhang, Y., Han, W., Qin, J., Wang, Y., Bapna, A., Chen, Z., ...Wu, Y. (2023). Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages. arXiv, 2303.01037. Retrieved from https://arxiv.org/abs/2303.01037v3
+
+
+
+Attia, A. A., Demszky, D., Ogunremi, T., Liu, J., & Espy-Wilson, C. (2024). Continued Pretraining for Domain Adaptation of Wav2vec2.0 in Automatic Speech Recognition for Elementary Math Classroom Settings. arXiv, 2405.13018. Retrieved from https://arxiv.org/abs/2405.13018v1
+
+Bevilacqua, A., Saviano, P., Amirante, A., & Romano, S. P. (2024). Whispy: Adapting STT Whisper Models to Real-Time Environments. arXiv, 2405.03484. Retrieved from https://arxiv.org/abs/2405.03484v1
+
+Frieske, R., & Shi, B. E. (2024). Hallucinations in Neural Automatic Speech Recognition: Identifying Errors and Hallucinatory Models. arXiv, 2401.01572. Retrieved from https://arxiv.org/abs/2401.01572v1
+
+Gupta, A., Saon, G., & Kingsbury, B. (2024). Exploring the limits of decoder-only models trained on public speech recognition corpora. arXiv, 2402.00235. Retrieved from https://arxiv.org/abs/2402.00235v1
+
+He, H., Shang, Z., Wang, C., Li, X., Gu, Y., Hua, H., ...Wu, Z. (2024). Emilia: An Extensive, Multilingual, and Diverse Speech Dataset for Large-Scale Speech Generation. arXiv, 2407.05361. Retrieved from https://arxiv.org/abs/2407.05361v2
+
+Jin, W., Cao, Y., Su, J., Shen, Q., Ye, K., Wang, D., ...Liu, Z. (2024). Towards Evaluating the Robustness of Automatic Speech Recognition Systems via Audio Style Transfer. arXiv, 2405.09470. Retrieved from https://arxiv.org/abs/2405.09470v1
+
+Kim, H., Myung, J., Kim, S., Lee, S., Kang, D., & Kim, J. (2024). LearnerVoice: A Dataset of Non-Native English Learners' Spontaneous Speech. arXiv, 2407.04280. Retrieved from https://arxiv.org/abs/2407.04280v1
+
+Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-Text Hallucination Harms. arXiv, 2402.08021. Retrieved from https://arxiv.org/abs/2402.08021v2
+
+Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
+
+Shah, M. A., Noguero, D. S., Heikkila, M. A., & Kourtellis, N. (2024). Speech Robust Bench: A Robustness Benchmark For Speech Recognition. arXiv, 2403.07937. Retrieved from https://arxiv.org/abs/2403.07937v1
+
+Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.-y. (2024). A Large-Scale Evaluation of Speech Foundation Models. arXiv, 2404.09385. Retrieved from https://arxiv.org/abs/2404.09385v2
+
+Zhang, L., Jiang, N., Wang, Q., Li, Y., Lu, Q., & Xie, L. (2024). Whisper-SV: Adapting Whisper for Low-data-resource Speaker Verification. arXiv, 2407.10048. Retrieved from https://arxiv.org/abs/2407.10048v1
