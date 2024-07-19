@@ -3619,6 +3619,14 @@ Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist t
     - A key difference between CTC and HMM is that CTC does not explicitly segment its input sequences. Determining the segmentation is a waste of modelling. For tasks where segmentation is required it would seem problematic to use CTC (however, CTC is suitable where approximate segmentation is sufficient).
     - Further we intend to pursue an hierarchy of temporal classifiers, where the labellings at one level (e.g. letters) become inputs for the labellings at the next (e.g. words).
 
+Graves, A. (2012). Sequence Transduction with Recurrent Neural Networks. arXiv, 1211.3711. Retrieved from https://arxiv.org/abs/1211.3711v1
+
+    - We propose RNN transducer for sequence-to-sequence tasks (such as phoneme recognition).
+    - The transducer extends CTC (Connectionist Temporal Classification) by defining a distribution over output sequences of all lengths, and by jointly modelling both input-output and output-output dependencies.
+    - The transducer is composed of two RNNs. One RNN, referred to as the transcription network, is a bidirectional RNN that scans the input sequence and outputs vector sequence. The other RNN, referred to as the prediction network, scans the output sequence y and outputs vector sequence. Outputs from the two networks arer combined to predict the next element of the output sequence.
+    - When the transducer is evaluated on test data, it uses a beam search.
+    - Question: why use this instead of seq2seq RNN?
+
 Panayotov, V., Chen, G., Povey, D., & Khudanpur, S. (2015). Librispeech: An ASR corpus based on public domain audio books. IEEE International Conference on Acoustics, Speech, and Signal Processing. Retrieved from https://www.danielpovey.com/files/2015_icassp_librispeech.pdf
 
     - We introduce the LibriSpeech corpus for ASR that is derived from audiobooks and is a part of the LibriVox project
@@ -3627,9 +3635,11 @@ Panayotov, V., Chen, G., Povey, D., & Khudanpur, S. (2015). Librispeech: An ASR 
     - We tried to exclude segments of audio that might not correspond exactly with the aligned text
     - Models trained with our corpus do better on the standard Wall Street Journal (WSJ) test sets than models built on WSJ itself
 
+Chan, W., Jaitly, N., Le, Q., & Vinyals, O. . Listen, attend and spell: A neural network for large vocabulary conversational speech recognition. 2016 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2016.7472621
+
 Collobert, R., Puhrsch, C., & Synnaeve, G. (2016). Wav2Letter: an End-to-End ConvNet-based Speech Recognition System. arXiv, 1609.03193. Retrieved from https://arxiv.org/abs/1609.03193v2
 
-    - We present a model for end-to-end speech recognition that consists of CNN acoustic model 
+    - We present Wav2Letter: a model for end-to-end speech recognition that consists of CNN acoustic model 
     - We train with an Auto Segmentation Criterion (ASG), an our alternative to the Connectionist Temporal Classification (CTC) (fig. 2, 3). In contrast to CTC, 1) there are no blank labels, and therefore t produces a much simpler graph, 2) we have un-normalized scores on the nodes, 3) we apply global normalization instead of per-frame normalization. We show that ASG can be faster than CTC, and as accurate.
     - We perform inference with a simple beam search decoder with beam threholding, histogram pruning and language model smearing
     - Our model shows competitive results in WER on the Librispeech corpus with MFCC features, and promising results from raw waveform.
@@ -3639,6 +3649,8 @@ Li, J., Ye, G., Zhao, R., Droppo, J., & Gong, Y. (2017). Acoustic-To-Word Model 
     - Problem: the word-based CTC is a very good end-to-end ASR model, but it maps all the unknown words into OOV
     - We propose a hybrid CTC with both word-based CTC and character-based CTC heads that are synchronized
     - Whenever the ASR model emits an OOV token, we rely on character-based CTC
+
+Chung, Y.-A., & Glass, J. (2018). Speech2Vec: A Sequence-to-Sequence Framework for Learning Word Embeddings from Speech. arXiv, 1803.08976. Retrieved from https://arxiv.org/abs/1803.08976v2
 
 Oord, A. v. d., Li, Y., & Vinyals, O. (2018). Representation Learning with Contrastive Predictive Coding. arXiv, 1807.03748. Retrieved from https://arxiv.org/abs/1807.03748v2
 
@@ -3656,24 +3668,51 @@ Ardila, R., Branson, M., Davis, K., Henretty, M., Kohler, M., Meyer, J., ...Webe
 
 Baevski, A., Auli, M., & Mohamed, A. (2019). Effectiveness of self-supervised pre-training for speech recognition. arXiv, 1911.03912. Retrieved from https://arxiv.org/abs/1911.03912v3
 
-    - we compare different approaches of self-supervised pre-training for speech data
+    - We compare different approaches of self-supervised pre-training for speech data
     - As one alternative (fig. 1a), we take "Discrete BERT" ASR model, that consists of vq-wav2vec, which quantizes the Librispeech dataset into 13.5k unique codes, follwed by pre-trained BERT model. Instead of vq-wav2vec we also tried k-means clustering MFCC and FBANK features with 13.5k centroids (to match the vq-wav2vec setup). We directly fine-tune the pre-trained BERT model on transcribed speech data using a CTC loss.
     - As another alternative (fig. 1b), we try "Continuous BERT". MLM cannot be performed with continuous inputs and outputs, as there are no targets to predict in place of the masked tokens. Instead, we classify the masked positive example among a set of negatives with InfoNCE loss. In this case, the inputs to BERT are dense wav2vec features, MFCC or FBANK features.
     - We show that the most effective method is to first learn a discrete vocabulary of the data with vq-wav2vec followed by standard BERT training over these discrete units. This performs much better than directly learning from the continuous audio data. Thus, disentangling acoustic unit discovery from learning the sequential relationship between them enables better representations.
 
 Baevski, A., Schneider, S., & Auli, M. (2019). vq-wav2vec: Self-Supervised Learning of Discrete Speech Representations. arXiv, 1910.05453. Retrieved from https://arxiv.org/abs/1910.05453v3
 
+    - We propose vq-wav2vec, that learns discrete representations of fixed length segments of audio signal by utilizing the wav2vec loss and architecture.
+    - To choose the discrete variables, we consider a Gumbel-Softmax quantization or K-means vector quantization. These methods perform relatively comparably.
+    - Discretization enables the direct application of algorithms from the NLP community which require discrete inputs. We apply BERT to the quantized representations, and then pass BERT's outputs to any acoustic model such as wav2letter. We improve SOTA on the WSJ and TIMIT benchmarks by leveraging BERT pre-training.
+    - We plan to explore self-supervised pre-training algorithms which mask part of the continuous audio input, or fine-tune BERT to output ranscriptions instead of feeding the pre-trained features to an acoustic model.
+
 Chung, Y.-A., Hsu, W.-N., Tang, H., & Glass, J. (2019). An Unsupervised Autoregressive Model for Speech Representation Learning. arXiv, 1904.03240. Retrieved from https://arxiv.org/abs/1904.03240v2
+
+    - We propose Autoregressive Predictive Coding (APC) for unsupervised speech representation learning.
+    - We introduce a time shifting factor that asks the model to predict further steps. Our results show that the number of steps to the target frame controls what is learned in the representation. How this hyperparameter is set depends on how the representation is going to be used.
+    - APC and CPC (Contrastive Predictive Coding) differ significantly in the type of information the model learns. (the difference is not clearly described in the paper; concurrent works?)
 
 Guo, J., Sainath, T. N., & Weiss, R. J. (2019). A spelling correction model for end-to-end speech recognition. arXiv, 1902.07178. Retrieved from https://arxiv.org/abs/1902.07178v1
 
+    - Usually acoustic models are accompanied with language models, but they are only trained on transcribed audio-text pairs, which leads to performance degradation especially on rare words.
+    - When, on the contrary, we try to incorporate an external LM, we still observe that numerous rare word and proper noun errors. We hypothesize that this is because the LM was not trained with objective of correcting errors.
+    - We propose the following method: given texts, we synthetically generate audio, run the baseline LAS speech recognizer on it, thus creating a set of textto-text pairs representing an error hypothesis and its corresponding ground truth. Then we train a spelling corrector (SC) model on these text-to-text pairs.
+    - Our SC model is based on encoder-decoder bi-directional LSTM with attention.
+    - During inference, acoustic model (LAS) with beam search produces N hypotheses with corrsponding log probability scores, and for every hypothesis our SC model can similarly be used to generate M new hypotheses with corresponding log probability scores. Rescoring all N×M candidates with an LM gives a set of LM scores. Finally, we can find the most likely hypothesis.
+
 Li, J., Lavrukhin, V., Ginsburg, B., Leary, R., Kuchaiev, O., Cohen, J. M., ...Gadde, R. T. (2019). Jasper: An End-to-End Convolutional Neural Acoustic Model. arXiv, 1904.03288. Retrieved from https://arxiv.org/abs/1904.03288v3
+
+    - We propose Jasper: an end-to-end CNN that achieves SOTA on LibriSpeech among models without any external training data.
+    - We propose a new residual connection topology we call Dense Residual (DR).
+    - We use Connectionist Temporal Classification (CTC) loss.
+    - To improve training, we further introduce a new layer-wise optimizer called NovoGrad, a variant of the Adam with a smaller memory footprint.
 
 Park, D. S., Chan, W., Zhang, Y., Chiu, C.-C., Zoph, B., Cubuk, E. D., & Le, Q. V. (2019). SpecAugment: A Simple Data Augmentation Method for Automatic Speech Recognition. arXiv, 1904.08779. Retrieved from https://arxiv.org/abs/1904.08779v3
 
+    - We propose SpecAugment: an augmentation that is applied to the feature inputs of a NN (log mel spectrogram).
+    - SpecAugment consists of warping the features, masking blocks of frequency channels, and masking blocks of time steps.
+    - SpecAugment greatly improves the performance of ASR networks.
+
 Neekhara, P., Hussain, S., Pandey, P., Dubnov, S., McAuley, J., & Koushanfar, F. (2019). Universal Adversarial Perturbations for Speech Recognition Systems. arXiv, 1905.03828. Retrieved from https://arxiv.org/abs/1905.03828v2
 
-Ott, M., Edunov, S., Baevski, A., Fan, A., Gross, S., Ng, N., ...Auli, M. (2019). fairseq: A Fast, Extensible Toolkit for Sequence Modeling. arXiv, 1904.01038. Retrieved from https://arxiv.org/abs/1904.01038v1
+    - We propose an algorithm to find a single quasi-imperceptible perturbation, which when added to any arbitrary speech signal, will most likely fool  a victim ASR model.
+    - The algorithm requires access to the victim’s model architecture and parameters.
+    - Attack Success Rate depends on the magnitude of the perturbation (fig. 3).
+    - Perturbations generalize to a significant extent across models that are not available during training.
 
 Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervised Pre-training for Speech Recognition. arXiv, 1904.05862. Retrieved from https://arxiv.org/abs/1904.05862v4
 
@@ -3683,20 +3722,59 @@ Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervi
     - To fine-tune wav2vec for the TIMIT task (predicting phonemes), we pass output representations (instead of MFCC features as a baseline) into acoustic CNN model, which outputs phoneme probabilities. The model is trained using the Auto Segmentation Criterion.
     - To fine-tune wav2vec on WSJ benchmark (transribing text), acoustic CNN model predicts probabilities for 31 graphemes, including the standard English alphabet, the apostrophe and period, two repetition characters (e.g. the word ann is transcribed as an1), and a silence token used as word boundary. For decoding the emissions from the acoustic model we use a lexicon as well as a separate language model trained on the WSJ language modeling data only.
 
-
 Baevski, A., Zhou, H., Mohamed, A., & Auli, M. (2020). wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations. arXiv, 2006.11477. Retrieved from https://arxiv.org/abs/2006.11477v3
+
+    - We present wav2vec 2.0, a framework for self-supervised learning from raw audio data
+    - The raw waveform is first procesed by CNN feature encoder F, and then is fed to a context network G which follows the Transformer architecture. We use a convolutional layer which acts as relative positional embedding.
+    - To pre-train the model we mask a certain proportion of time steps in the latent space of feature encoder F. The training objective requires identifying for each masked time step the correct quantized latent audio representation G(F(waveform)) in a set of distractors, that are uniformly sampled from other masked time steps of the same utterance (NCE loss). The outputs of the feature encoder are quantized in a differentiable way with a Gumbel softmax quantization module Q to produce targets Q(F(waveform)). The additional Diversity Loss is used to increase the use of the quantized codebook representations.
+    - Compared to vq-wav2vec, wav2vec 2.0, the transformer accepts continuous inputs from CNN.
+    - Pre-trained models are fine-tuned for speech recognition by adding a randomly initialized linear projection into C classes representing the vocabulary. Models are optimized by minimizing a CTC loss, and we apply a modified version of SpecAugment.
+    - We achieve SOTA on the full Librispeech benchmark for noisy speech.
+    - We expect further performance gains by switching to a seq2seq architecture and a word piece vocabulary.
+    - A question: if CNN ontput stride becomes too low, the pre-training objective becomes easier?
+    - A concurrent work with Conformer
 
 Gulati, A., Qin, J., Chiu, C.-C., Parmar, N., Zhang, Y., Yu, J., ...Pang, R. (2020). Conformer: Convolution-augmented Transformer for Speech Recognition. arXiv, 2005.08100. Retrieved from https://arxiv.org/abs/2005.08100v1
 
-Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M., Mengesha, Z., ...Goel, S. (2020). Racial disparities in automated speech recognition. Proc. Natl. Acad. Sci. U.S.A. Retrieved from https://www.semanticscholar.org/paper/Racial-disparities-in-automated-speech-recognition-Koenecke-Nam/219b7266ae848937da170c5510b2bfc66d17859a
+    - We propose Conformer, convolution-augmented transformer for speech recognition
+    - We use a single-LSTM-layer decoder in all our models
+    - We perform various ablation studies
+    - A concurrent work with wav2vec 2.0
+
+Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M., Mengesha, Z., ...Goel, S. (2020). Racial disparities in automated speech recognition. Proc. Natl. Acad. Sci. U.S.A. Retrieved from https://www.pnas.org/doi/pdf/10.1073/pnas.1915768117
+
+    - ASR systems exhibit WER of 0.35 for black speakers compared with 0.19 for white speakers.
+    - We suggest that ASR systems are confused by the phonological, phonetic, or prosodic characteristics of African American Vernacular English. 
+    - The likely cause of this shortcoming is insufficient audio data from black speakers when training the models.
 
 Likhomanenko, T., Xu, Q., Pratap, V., Tomasello, P., Kahn, J., Avidov, G., ...Synnaeve, G. (2020). Rethinking Evaluation in ASR: Are Our Models Robust Enough? arXiv, 2010.11745. Retrieved from https://arxiv.org/abs/2010.11745v3
 
+    - We study acoustic model transfer across five public datasets, as well as transfer to out-of-domain, real-world audio data.
+    - No single validation or test set from public datasets is sufficient to measure transfer to other public datasets or to real-world audio data. This s uggests that ASR researchers interested in producing transferable acoustic models should report results on several public datasets, at very least including TED-LIUM (v3).
+    - Reverberative and additive noise augmentation improves generalization performance across domains.
+    - We provided a recipe for a community-reproducible robust ASR model, which can be trained with a couple of public audio datasets, and language models trained on the Common Crawl dataset
+
 Nguyen, T. A., de Seyssel, M., Rozé, P., Rivière, M., Kharitonov, E., Baevski, A., ...Dupoux, E. (2020). The Zero Resource Speech Benchmark 2021: Metrics and baselines for unsupervised spoken language modeling. arXiv, 2011.11588. Retrieved from https://arxiv.org/abs/2011.11588v2
+
+    - We introduce a new unsupervised task, spoken language modeling: the learning of linguistic representations from raw audio signals without any labels. We suggest that self-supervised acoustic models may actually go beyond acoustic modeling, learning their own LM from raw audio.
+    - We introduced the new Zero Resource Speech Benchmark 2021 for spoken language models. It is composed of 4 zero-shot tests probing 4 linguistic levels: acoustic, lexical, syntactic and semantic. They are zero-shot in that they do not require training a classifier.
+    - A self-supervised pipeline of Contrastive Predictive Coding + k-means clustering + LM (LSTM or BERT), trained on LibriSpeech, can perform above chance on all of these tests, while being worse than text-based models trained on the same data.
 
 Pratap, V., Xu, Q., Sriram, A., Synnaeve, G., & Collobert, R. (2020). MLS: A Large-Scale Multilingual Dataset for Speech Research. arXiv, 2012.03411. Retrieved from https://arxiv.org/abs/2012.03411v2
 
+    - We intoduce Multilingual LibriSpeech (MLS) dataset derived from read audiobooks from LibriVox and consists of 8 languages, including about 44.5K hours of English and a total of about 6K hours for other languages
+
 Rivière, M., Joulin, A., Mazaré, P.-E., & Dupoux, E. (2020). Unsupervised pretraining transfers well across languages. arXiv, 2002.02848. Retrieved from https://arxiv.org/abs/2002.02848v1
+
+    - We show that a slight modification of the CPC (contrastive predictive coding) pretraining extracts features that transfer well from  English (Librispeech) to several low-resource languages from the Common Voice database.
+    - Out modifications: 1) we replace batch normalization with a channel-wise normalization, 2) we replace each linear classifier with a 1-layer Transformer network, 3) we use an LSTM instead of a GRU
+    - To evaluate on a target language, we freeze the model after the pre-training and simply learn a linear classifier for the targeted language, using CTC loss. This procedure explicitly measures the linear separability of the phoneme representation, once transferred to a target language.
+
+Zhang, Q., Lu, H., Sak, H., Tripathi, A., McDermott, E., Koo, S., & Kumar, S. (2020). Transformer Transducer: A Streamable Speech Recognition Model with Transformer Encoders and RNN-T Loss. arXiv, 2002.02562. Retrieved from https://arxiv.org/abs/2002.02562v2
+
+    - We propose Transformer Transducer by replacing ENN-based audio and label encoders in the RNN-T architecture with Transformer encoders. As in the original RNN-T model, the joint network (fig. 1) at each step combines the audio encoder output and the label encoder output given the previous non-blank output token sequence. The joint network returns the distribution over the next token. Our model has 18 audio and 2 label encoder layers.
+    - The model uses the RNN-T loss (see the original paper "Sequence Transduction with Recurrent Neural Networks")
+    - Our model achieves a new SOTA on the LibriSpeech benchmark
 
 
 
