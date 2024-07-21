@@ -3610,6 +3610,10 @@ Men, X., Xu, M., Zhang, Q., Wang, B., Lin, H., Lu, Y., ...Chen, W. (2024). Short
 
 ## ASR
 
+Fiscus, J. G. . A post-processing system to yield reduced word error rates: Recognizer Output Voting Error Reduction (ROVER). 1997 IEEE Workshop on Automatic Speech Recognition and Understanding Proceedings. IEEE. doi: 10.1109/ASRU.1997.659110
+
+Gemello, R., Mana, F., Scanzio, S., Laface, P., & De Mori, R. (2007). Linear hidden transformations for adaptation of hybrid ANN/HMM models. Speech Communication, 49(10), 827–835. doi: 10.1016/j.specom.2006.11.005
+
 Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist temporal classification: labelling unsegmented sequence data with recurrent neural networks. ACM Other conferences. Association for Computing Machinery. Retrieved from https://www.cs.toronto.edu/~graves/icml_2006.pdf
 
     - We propose a method called Connectionist Temporal Classification (CTC) for training RNNs on tasks where real-valued unsegmented input streams are annotated with strings of discrete labels (e.g. handwriting recognition, speech recognition, gesture recognition)
@@ -3626,6 +3630,31 @@ Graves, A. (2012). Sequence Transduction with Recurrent Neural Networks. arXiv, 
     - The transducer is composed of two RNNs. One RNN, referred to as the transcription network, is a bidirectional RNN that scans the input sequence and outputs vector sequence. The other RNN, referred to as the prediction network, scans the output sequence y and outputs vector sequence. Outputs from the two networks arer combined to predict the next element of the output sequence.
     - When the transducer is evaluated on test data, it uses a beam search.
     - Question: why use this instead of seq2seq RNN?
+
+Veselý, K., Karafiát, M., Grézl, F., Janda, M., & Egorova, E. . The language-independent bottleneck features. 2012 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2012.6424246
+
+Yao, K., Yu, D., Seide, F., Su, H., Deng, L., & Gong, Y. . Adaptation of context-dependent deep neural networks for automatic speech recognition. 2012 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2012.6424251
+
+Heigold, G., Vanhoucke, V., Senior, A., Nguyen, P., Ranzato, M., Devin, M., & Dean, J. . Multilingual acoustic models using distributed deep neural networks. 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. IEEE. doi: 10.1109/ICASSP.2013.6639348
+
+Huang, J.-T., Li, J., Yu, D., Deng, L., & Gong, Y. . Cross-language knowledge transfer using multilingual deep neural network with shared hidden layers. 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. IEEE. doi: 10.1109/ICASSP.2013.6639081 https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/DNN-MultiLingual-ICASSP2013.pdf
+
+    - We propose a shared-hidden-layer multilingual DNN for speech recognition, in which the hidden layers are made common across many languages while the softmax layers are made language dependent.
+    - Our model outperforms models trained using only the language specific data.
+    - Our model effectively transfers to new languages, even from different families of the pre-training languages.
+
+Thomas, S., Seltzer, M. L., Church, K., & Hermansky, H. . Deep neural network features and semi-supervised training for low resource speech recognition. 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. IEEE. doi: 10.1109/ICASSP.2013.6638959
+
+Yu, D., Seltzer, M. L., Li, J., Huang, J.-T., & Seide, F. (2013). Feature Learning in Deep Neural Networks - Studies on Speech Recognition Tasks. arXiv, 1301.3605. Retrieved from https://arxiv.org/abs/1301.3605v3
+
+Graff, D., Walker, K., Strassel, S., Ma, X., Jones, K. S., & Sawyer, A. (2014). The RATS Collection: Supporting HLT Research with Degraded Audio Data. ACL Anthology, 1970–1977. Retrieved from https://aclanthology.org/L14-1089
+
+    - We introduce the RATS data collection that was designed to cover a diverse range of radio conditions. In the conditions of interest, the signal-to-noise ratio (SNR) often falls below 10dB.
+    - The dataset includes four corpora, one for each of the RATS research tasks (Speech Activity Detection, Language Identification, Speaker Identification and Key Word Spotting), comprising clean source audio, the corresponding sets of 8 transceiver channels, and all channel-aligned annotations.
+
+Narayanan, A., & Wang, D. (2014). Investigation of Speech Separation as a Front-End for Noise Robust Speech Recognition. IEEE/ACM Trans. Audio Speech Lang. Process., 22(4), 826–835. doi: 10.1109/TASLP.2014.2305833
+
+Chung, J., Kastner, K., Dinh, L., Goel, K., Courville, A. C., & Bengio, Y. (2015). A Recurrent Latent Variable Model for Sequential Data. Advances in Neural Information Processing Systems, 28. Retrieved from https://proceedings.neurips.cc/paper/2015/hash/b618c3210e934362ac261db280128c22-Abstract.html
 
 Panayotov, V., Chen, G., Povey, D., & Khudanpur, S. (2015). Librispeech: An ASR corpus based on public domain audio books. IEEE International Conference on Acoustics, Speech, and Signal Processing. Retrieved from https://www.danielpovey.com/files/2015_icassp_librispeech.pdf
 
@@ -3644,6 +3673,37 @@ Collobert, R., Puhrsch, C., & Synnaeve, G. (2016). Wav2Letter: an End-to-End Con
     - We perform inference with a simple beam search decoder with beam threholding, histogram pruning and language model smearing
     - Our model shows competitive results in WER on the Librispeech corpus with MFCC features, and promising results from raw waveform.
 
+Fraccaro, M., Sønderby, S. K., Paquet, U., & Winther, O. (2016). Sequential Neural Models with Stochastic Layers. Advances in Neural Information Processing Systems, 29. Retrieved from https://proceedings.neurips.cc/paper/2016/hash/208e43f0e45c4c78cafadb83d2888cb6-Abstract.html
+
+Peddinti, V., Manohar, V., Wang, Y., Povey, D., & Khudanpur, S. (2016). Far-Field ASR Without Parallel Data. ResearchGate, 1996–2000. doi: 10.21437/Interspeech.2016-1475 https://www.danielpovey.com/files/2016_interspeech_ami.pdf
+
+    - When parallel audio recordings (close-talk microphone +  distant microphone) are available, the alignments (matchings between audio features and phonemes) used for training the acoustic models can be generated from close-talk microphone audio recordings to obtain WER improvements. However, far-field audio is usually not accompanied with close-talk microphone recordings.
+    - We use the lattice-free maximum mutual information (MMI) objective (not proposed by us), which is tolerant to minor mis-alignment errors (such as shown in fig. 1), which is actual when alignments are generated from distant microphone recordings.
+    - We also propose a method to select reliable utterances for training from distant microphone recordings.
+    - These methods reduce the performance gap between the ASR systems that are trained using alignments generated from distant and close-talk microphone readings from 8% to 1.5%.
+    - IMO, not clear why do we need alignment, while we can train with CTC loss.
+
+Ghahremani, P., Manohar, V., Hadian, H., Povey, D., & Khudanpur, S. . Investigation of transfer learning for ASR using LF-MMI trained neural networks. 2017 IEEE Automatic Speech Recognition and Understanding Workshop (ASRU). IEEE. doi: 10.1109/ASRU.2017.8268947 https://www.danielpovey.com/files/2017_asru_transfer_learning.pdf
+
+    - We investigate two transfer learning approaches – weight transfer and multi-task training - in ASR, while different domains are different acoustic conditions (for English language), and source domain data is larger than target domain data. A typical weight transfer approach is to first train the model on a large dataset, retain only N layers and add new task-specific adaptation layers over those. In multi-task we share the initial layers across all tasks, and each task has a specific final layer.
+    - We found that multi-task training performs better than weight transfer. However weight transfer is still effective compared to the unadapted model, and hence it might be preferable over multi-task training as it does not require re-training.
+    - In weight transfer, single-stage training (training target-specific layers) of transferred layers with very small LR is better than 2-stage training by freezing the transfered layers at the 1st stage and fine-tuning them at 2nd stage.
+    - Even a model trained on source data for half or quarter the number of epochs is as effective for weight transfer as a fully-trained model.
+
+Ebbers, J., Heymann, J., Drude, L., Glarner, T., Haeb-Umbach, R., & Raj, B. (2017). Hidden Markov Model Variational Autoencoder for Acoustic Unit Discovery. doi: 10.21437/Interspeech.2017-1160
+
+Hsu, W.-N., Zhang, Y., & Glass, J. (2017). Learning Latent Representations for Speech Generation and Transformation. arXiv, 1704.04222. Retrieved from https://arxiv.org/abs/1704.04222v2
+
+Hsu, W.-N., Zhang, Y., & Glass, J. (2017). Unsupervised Learning of Disentangled and Interpretable Representations from Sequential Data. Advances in Neural Information Processing Systems, 30. Retrieved from https://proceedings.neurips.cc/paper/2017/hash/0a0a0c8aaa00ade50f74a3f0ca981ed7-Abstract.html
+
+Kim, C., Misra, A., Chin, K., Hughes, T., & Bacchiani, M. (2017). Generation of Large-Scale Simulated Utterances in Virtual Rooms to Train Deep-Neural Networks for Far-Field Speech Recognition in Google Home. ResearchGate, 379–383. doi: 10.21437/Interspeech.2017-1510 https://static.googleusercontent.com/media/research.google.com/ru//pubs/archive/46107.pdf
+
+    - We develop an acoustic room simulator to generate large-scale simulated data for far-field speech recognition.
+    - The system simulates millions of different room dimensions, a wide distribution of reverberation time and signal-to-noise ratios, and a range of microphone and sound source locations.
+    - The simulator-driven approach is quite effective in obtaining large improvements in real / rerecorded conditions.
+
+Ko, T., Peddinti, V., Povey, D., Seltzer, M. L., & Khudanpur, S. . A study on data augmentation of reverberant speech for robust speech recognition. 2017 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2017.7953152
+
 Li, J., Ye, G., Zhao, R., Droppo, J., & Gong, Y. (2017). Acoustic-To-Word Model Without OOV. arXiv, 1711.10136. Retrieved from https://arxiv.org/abs/1711.10136v1
 
     - Problem: the word-based CTC is a very good end-to-end ASR model, but it maps all the unknown words into OOV
@@ -3652,12 +3712,26 @@ Li, J., Ye, G., Zhao, R., Droppo, J., & Gong, Y. (2017). Acoustic-To-Word Model 
 
 Chung, Y.-A., & Glass, J. (2018). Speech2Vec: A Sequence-to-Sequence Framework for Learning Word Embeddings from Speech. arXiv, 1803.08976. Retrieved from https://arxiv.org/abs/1803.08976v2
 
+Glarner, T., Hanebrink, P., Ebbers, J., & Haeb-Umbach, R. (2018). Full Bayesian Hidden Markov Model Variational Autoencoder for Acoustic Unit Discovery. doi: 10.21437/Interspeech.2018-2148
+
+Narayanan, A., Misra, A., Sim, K. C., Pundak, G., Tripathi, A., Elfeky, M., ...Bacchiani, M. (2018). Toward domain-invariant speech recognition via large scale training. arXiv, 1808.05312. Retrieved from https://arxiv.org/abs/1808.05312v1
+
+    - A problem: when ASR is used in conditions that do not match the training domain, performance significantly drops.
+    - We combine large scale training data from multiple application domains, obtaining 162K hours of speech, and simulate conditions like background noise, codecs and sample rates.
+    - We train a model that is robust to multiple application domains, and variations like codecs and noise, and allows for rapid adaptation for unseen conditions (using as little as 10 hours of data from a new domain - and performing on par with domain specific model trained from scratch using 70 times as much data).
+
 Oord, A. v. d., Li, Y., & Vinyals, O. (2018). Representation Learning with Contrastive Predictive Coding. arXiv, 1807.03748. Retrieved from https://arxiv.org/abs/1807.03748v2
 
     - We propose a Contrastive Predictive Coding for unsupervised learning and demonstrate its effectiveness on four distinct domains: speech, images, text and reinforcement learning in 3D environments.
     - We stand for unsupervised pre-training, since it learns more general features than supervised pre-training. For example, in ASR pre-training features that are useful to transcribe human speech may be less suited for speaker identification, or music genre prediction. So, ASR pre-trained features will lack certain information. Same for image pre-training.
     - One way for unsupervised learning is to predict future observations (predictive coding).
     - We propose to compress raw data into a latent embedding space and train to predict future in this space (fig. 1) with autoregressive models. We rely on Noise-Contrastive Estimation for the loss function.
+
+Snyder, D., Garcia-Romero, D., Sell, G., Povey, D., & Khudanpur, S. . X-Vectors: Robust DNN Embeddings for Speaker Recognition. 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2018.8461375
+
+Tjandra, A., Sakti, S., & Nakamura, S. (2018). Machine Speech Chain with One-shot Speaker Adaptation. arXiv, 1803.10525. Retrieved from https://arxiv.org/abs/1803.10525v1
+
+Aksan, E., & Hilliges, O. (2019). STCN: Stochastic Temporal Convolutional Networks. arXiv, 1902.06568. Retrieved from https://arxiv.org/abs/1902.06568v1
 
 Ardila, R., Branson, M., Davis, K., Henretty, M., Kohler, M., Meyer, J., ...Weber, G. (2019). Common Voice: A Massively-Multilingual Speech Corpus. arXiv, 1912.06670. Retrieved from https://arxiv.org/abs/1912.06670v2
 
@@ -3694,6 +3768,10 @@ Guo, J., Sainath, T. N., & Weiss, R. J. (2019). A spelling correction model for 
     - Our SC model is based on encoder-decoder bi-directional LSTM with attention.
     - During inference, acoustic model (LAS) with beam search produces N hypotheses with corrsponding log probability scores, and for every hypothesis our SC model can similarly be used to generate M new hypotheses with corresponding log probability scores. Rescoring all N×M candidates with an LM gives a set of LM scores. Finally, we can find the most likely hypothesis.
 
+Kahn, J., Rivière, M., Zheng, W., Kharitonov, E., Xu, Q., Mazaré, P.-E., ...Dupoux, E. (2019). Libri-Light: A Benchmark for ASR with Limited or No Supervision. arXiv, 1912.07875. Retrieved from https://arxiv.org/abs/1912.07875v1
+
+Khurana, S., Joty, S. R., Ali, A., & Glass, J. . A Factorial Deep Markov Model for Unsupervised Disentangled Representation Learning from Speech. ICASSP 2019 - 2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2019.8683131
+
 Li, J., Lavrukhin, V., Ginsburg, B., Leary, R., Kuchaiev, O., Cohen, J. M., ...Gadde, R. T. (2019). Jasper: An End-to-End Convolutional Neural Acoustic Model. arXiv, 1904.03288. Retrieved from https://arxiv.org/abs/1904.03288v3
 
     - We propose Jasper: an end-to-end CNN that achieves SOTA on LibriSpeech among models without any external training data.
@@ -3701,11 +3779,17 @@ Li, J., Lavrukhin, V., Ginsburg, B., Leary, R., Kuchaiev, O., Cohen, J. M., ...G
     - We use Connectionist Temporal Classification (CTC) loss.
     - To improve training, we further introduce a new layer-wise optimizer called NovoGrad, a variant of the Adam with a smaller memory footprint.
 
-Park, D. S., Chan, W., Zhang, Y., Chiu, C.-C., Zoph, B., Cubuk, E. D., & Le, Q. V. (2019). SpecAugment: A Simple Data Augmentation Method for Automatic Speech Recognition. arXiv, 1904.08779. Retrieved from https://arxiv.org/abs/1904.08779v3
+Liu, A. T., Yang, S.-w., Chi, P.-H., Hsu, P.-c., & Lee, H.-y. (2019). Mockingjay: Unsupervised Speech Representation Learning with Deep Bidirectional Transformer Encoders. arXiv, 1910.12638. Retrieved from https://arxiv.org/abs/1910.12638v2
 
-    - We propose SpecAugment: an augmentation that is applied to the feature inputs of a NN (log mel spectrogram).
-    - SpecAugment consists of warping the features, masking blocks of frequency channels, and masking blocks of time steps.
-    - SpecAugment greatly improves the performance of ASR networks.
+Ma, D., Li, G., Xu, H., & Chng, E. S. . Improving code-switching speech recognition with data augmentation and system combination. 2019 Asia-Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC). IEEE. doi: 10.1109/APSIPAASC47483.2019.9023316 http://www.apsipa.org/proceedings/2019/pdfs/339.pdf
+
+    - Code-switching speech is defined as speech which contains more than one language within an utterance. Code-switching ASR is challenging due to data sparsity issue, compared with monolingual speech recognition case. Data augmentation is used 1) to alleviate data sparsity issue, and 2) to improve the robustness. One of the simpler kind of noise is additive noise, such as music noise, babble noise, and white noise. Another kind of noise is reverberant noise, which is produced by convolving the original data with the room impulse response (RIR) signal.
+    - We are solving code-switching ASR task on the South East Asian Mandarin-English (SEAME) data.
+    - We are attempting different types of noise (fig. 1) to the training data. One is reverberant noise data source from http://www.openslr.org/28. It is an entire bunch of Room Impulse Response (RIR) data sets, that are to be convolved with the training audio, generating reverberant noise effect. Another noise category is additive noise, that is obtained from MUSAN data from http://www.openslr.org/17. We first perform noise corruption and then the speech speed perturbation.
+    - We note that all the above-mentioned data augmentation methods are only conducted on the training data part (not a dev set).
+    - We also perform comprehensive Minimum Bayes Risk-based lattice combination methods, which yield improvements.
+
+Narayanan, A., Prabhavalkar, R., Chiu, C.-C., Rybach, D., Sainath, T. N., & Strohman, T. (2019). Recognizing long-form speech using streaming end-to-end models. arXiv, 1910.11455. Retrieved from https://arxiv.org/abs/1910.11455v1
 
 Neekhara, P., Hussain, S., Pandey, P., Dubnov, S., McAuley, J., & Koushanfar, F. (2019). Universal Adversarial Perturbations for Speech Recognition Systems. arXiv, 1905.03828. Retrieved from https://arxiv.org/abs/1905.03828v2
 
@@ -3713,6 +3797,17 @@ Neekhara, P., Hussain, S., Pandey, P., Dubnov, S., McAuley, J., & Koushanfar, F.
     - The algorithm requires access to the victim’s model architecture and parameters.
     - Attack Success Rate depends on the magnitude of the perturbation (fig. 3).
     - Perturbations generalize to a significant extent across models that are not available during training.
+
+Park, D. S., Chan, W., Zhang, Y., Chiu, C.-C., Zoph, B., Cubuk, E. D., & Le, Q. V. (2019). SpecAugment: A Simple Data Augmentation Method for Automatic Speech Recognition. arXiv, 1904.08779. Retrieved from https://arxiv.org/abs/1904.08779v3
+
+    - We propose SpecAugment: an augmentation that is applied to the feature inputs of a NN (log mel spectrogram).
+    - SpecAugment consists of warping the features, masking blocks of frequency channels, and masking blocks of time steps.
+    - SpecAugment greatly improves the performance of ASR networks.
+
+Park, K., & Mulc, T. (2019). CSS10: A Collection of Single Speaker Speech Datasets for 10 Languages. arXiv, 1903.11269. Retrieved from https://arxiv.org/abs/1903.11269v3
+
+    - The existing multi-lingual speech-text datasets have several problems: 1) the Tundra dataset uses only one audiobook per language, 2) The M-AILABS uses multiple speakers in each language, which make it unideal for the single speaker TTS task (namely, generating speech from text in the voice of a single speaker) where more data from a single speaker tends to help model performance.
+    - We propose CSS10, a collection of single speaker (one speaker per language) speech datasets for ten languages, composed of short audio clips from LibriVox audiobooks.
 
 Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervised Pre-training for Speech Recognition. arXiv, 1904.05862. Retrieved from https://arxiv.org/abs/1904.05862v4
 
@@ -3722,11 +3817,16 @@ Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervi
     - To fine-tune wav2vec for the TIMIT task (predicting phonemes), we pass output representations (instead of MFCC features as a baseline) into acoustic CNN model, which outputs phoneme probabilities. The model is trained using the Auto Segmentation Criterion.
     - To fine-tune wav2vec on WSJ benchmark (transribing text), acoustic CNN model predicts probabilities for 31 graphemes, including the standard English alphabet, the apostrophe and period, two repetition characters (e.g. the word ann is transcribed as an1), and a silence token used as word boundary. For decoding the emissions from the acoustic model we use a lexicon as well as a separate language model trained on the WSJ language modeling data only.
 
+Andrusenko, A., Laptev, A., & Medennikov, I. (2020). Towards a Competitive End-to-End Speech Recognition for CHiME-6 Dinner Party Transcription. arXiv, 2004.10799. Retrieved from https://arxiv.org/abs/2004.10799v3
+
+    - End-to-end ASR models are prone to accuracy degradation in noisy and low-resource conditions.
+    - We show that on the CHiME-6 Challenge data (real dinner parties recorded in reverberant and noisy conditions), our best end-to-end model (RNN-Transducer with improved beam search and the Guided Source Separation augmentation) outperforms the hybrid baseline (TDNN-F, factorized time-delayed neural network) system only by 2.7% WER.
+
 Baevski, A., Zhou, H., Mohamed, A., & Auli, M. (2020). wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations. arXiv, 2006.11477. Retrieved from https://arxiv.org/abs/2006.11477v3
 
     - We present wav2vec 2.0, a framework for self-supervised learning from raw audio data
     - The raw waveform is first procesed by CNN feature encoder F, and then is fed to a context network G which follows the Transformer architecture. We use a convolutional layer which acts as relative positional embedding.
-    - To pre-train the model we mask a certain proportion of time steps in the latent space of feature encoder F. The training objective requires identifying for each masked time step the correct quantized latent audio representation G(F(waveform)) in a set of distractors, that are uniformly sampled from other masked time steps of the same utterance (NCE loss). The outputs of the feature encoder are quantized in a differentiable way with a Gumbel softmax quantization module Q to produce targets Q(F(waveform)). The additional Diversity Loss is used to increase the use of the quantized codebook representations.
+    - To pre-train the model we mask a certain proportion of time steps in the latent space of feature encoder F. The training objective requires identifying for each masked time step the correct quantized latent audio representation G(F(waveform)) in a set of distractors, that are uniformly sampled from other masked time steps of the same utterance (noise-contrastive loss). The outputs of the feature encoder are quantized in a differentiable way with a Gumbel softmax quantization module Q to produce targets Q(F(waveform)). The additional Diversity Loss is used to increase the use of the quantized codebook representations. Note that the model do nor employ MLM (BERT) loss.
     - Compared to vq-wav2vec, wav2vec 2.0, the transformer accepts continuous inputs from CNN.
     - Pre-trained models are fine-tuned for speech recognition by adding a randomly initialized linear projection into C classes representing the vocabulary. Models are optimized by minimizing a CTC loss, and we apply a modified version of SpecAugment.
     - We achieve SOTA on the full Librispeech benchmark for noisy speech.
@@ -3741,11 +3841,24 @@ Gulati, A., Qin, J., Chiu, C.-C., Parmar, N., Zhang, Y., Yu, J., ...Pang, R. (20
     - We perform various ablation studies
     - A concurrent work with wav2vec 2.0
 
+Kahn, J., Lee, A., & Hannun, A. . Self-Training for End-to-End Speech Recognition. ICASSP 2020 - 2020 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP40776.2020.9054295
+
+Kawakami, K., Wang, L., Dyer, C., Blunsom, P., & Oord, A. v. d. (2020). Learning Robust and Multilingual Speech Representations. arXiv, 2001.11128. Retrieved from https://arxiv.org/abs/2001.11128v1
+
+    - We learn audio representations using contrastive predictive coding, then we train an ASR model using our representations, and evaluate it under domain and language shifts.
+    - We find that large pretraining dataset lead to more robustness to domain shifts, compared to both log filterbank features as well as to pretraining just on LibriSpeech.
+    - We also train ASR models on 25 languages, and show that our representations outperform those pretrained only on clean English data in the language transfer setup.
+    - We confirm that usupervised representations consistently improve robustness on downstream tasks, and representations learned from multilingual data can transfer across many languages.
+
+Khurana, S., Laurent, A., Hsu, W.-N., Chorowski, J., Lancucki, A., Marxer, R., & Glass, J. (2020). A Convolutional Deep Markov Model for Unsupervised Speech Representation Learning. arXiv, 2006.02547. Retrieved from https://arxiv.org/abs/2006.02547v2
+
 Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M., Mengesha, Z., ...Goel, S. (2020). Racial disparities in automated speech recognition. Proc. Natl. Acad. Sci. U.S.A. Retrieved from https://www.pnas.org/doi/pdf/10.1073/pnas.1915768117
 
     - ASR systems exhibit WER of 0.35 for black speakers compared with 0.19 for white speakers.
     - We suggest that ASR systems are confused by the phonological, phonetic, or prosodic characteristics of African American Vernacular English. 
     - The likely cause of this shortcoming is insufficient audio data from black speakers when training the models.
+
+Kürzinger, L., Winkelbauer, D., Li, L., Watzel, T., & Rigoll, G. (2020). CTC-Segmentation of Large Corpora for German End-to-End Speech Recognition. Speech and Computer. Springer. doi: 10.1007/978-3-030-60276-5_27
 
 Likhomanenko, T., Xu, Q., Pratap, V., Tomasello, P., Kahn, J., Avidov, G., ...Synnaeve, G. (2020). Rethinking Evaluation in ASR: Are Our Models Robust Enough? arXiv, 2010.11745. Retrieved from https://arxiv.org/abs/2010.11745v3
 
@@ -3754,15 +3867,22 @@ Likhomanenko, T., Xu, Q., Pratap, V., Tomasello, P., Kahn, J., Avidov, G., ...Sy
     - Reverberative and additive noise augmentation improves generalization performance across domains.
     - We provided a recipe for a community-reproducible robust ASR model, which can be trained with a couple of public audio datasets, and language models trained on the Common Crawl dataset
 
+Ling, S., & Liu, Y. (2020). DeCoAR 2.0: Deep Contextualized Acoustic Representations with Vector Quantization. arXiv, 2012.06659. Retrieved from https://arxiv.org/abs/2012.06659v1
+
+Liu, A. T., Li, S.-W., & Lee, H.-y. (2020). TERA: Self-Supervised Learning of Transformer Encoder Representation for Speech. arXiv, 2007.06028. Retrieved from https://arxiv.org/abs/2007.06028v3
+
 Nguyen, T. A., de Seyssel, M., Rozé, P., Rivière, M., Kharitonov, E., Baevski, A., ...Dupoux, E. (2020). The Zero Resource Speech Benchmark 2021: Metrics and baselines for unsupervised spoken language modeling. arXiv, 2011.11588. Retrieved from https://arxiv.org/abs/2011.11588v2
 
     - We introduce a new unsupervised task, spoken language modeling: the learning of linguistic representations from raw audio signals without any labels. We suggest that self-supervised acoustic models may actually go beyond acoustic modeling, learning their own LM from raw audio.
     - We introduced the new Zero Resource Speech Benchmark 2021 for spoken language models. It is composed of 4 zero-shot tests probing 4 linguistic levels: acoustic, lexical, syntactic and semantic. They are zero-shot in that they do not require training a classifier.
     - A self-supervised pipeline of Contrastive Predictive Coding + k-means clustering + LM (LSTM or BERT), trained on LibriSpeech, can perform above chance on all of these tests, while being worse than text-based models trained on the same data.
+    - Seems like there is another close paper (another version?): https://arxiv.org/abs/2102.01192v2
 
 Pratap, V., Xu, Q., Sriram, A., Synnaeve, G., & Collobert, R. (2020). MLS: A Large-Scale Multilingual Dataset for Speech Research. arXiv, 2012.03411. Retrieved from https://arxiv.org/abs/2012.03411v2
 
-    - We intoduce Multilingual LibriSpeech (MLS) dataset derived from read audiobooks from LibriVox and consists of 8 languages, including about 44.5K hours of English and a total of about 6K hours for other languages
+    - We intoduce the Multilingual LibriSpeech (MLS) dataset derived from read audiobooks from LibriVox and consists of 8 languages, including about 44.5K hours of English and a total of about 6K hours for other languages
+
+Ravanelli, M., Zhong, J., Pascual, S., Swietojanski, P., Monteiro, J., Trmal, J., & Bengio, Y. (2020). Multi-task self-supervised learning for Robust Speech Recognition. arXiv, 2001.09239. Retrieved from https://arxiv.org/abs/2001.09239v2
 
 Rivière, M., Joulin, A., Mazaré, P.-E., & Dupoux, E. (2020). Unsupervised pretraining transfers well across languages. arXiv, 2002.02848. Retrieved from https://arxiv.org/abs/2002.02848v1
 
@@ -3770,67 +3890,209 @@ Rivière, M., Joulin, A., Mazaré, P.-E., & Dupoux, E. (2020). Unsupervised pret
     - Out modifications: 1) we replace batch normalization with a channel-wise normalization, 2) we replace each linear classifier with a 1-layer Transformer network, 3) we use an LSTM instead of a GRU
     - To evaluate on a target language, we freeze the model after the pre-training and simply learn a linear classifier for the targeted language, using CTC loss. This procedure explicitly measures the linear separability of the phoneme representation, once transferred to a target language.
 
+Shor, J., Jansen, A., Maor, R., Lang, O., Tuval, O., Quitry, F. d. C., ...Haviv, Y. (2020). Towards Learning a Universal Non-Semantic Representation of Speech. arXiv, 2002.12764. Retrieved from https://arxiv.org/abs/2002.12764v6
+
+Xu, Q., Likhomanenko, T., Kahn, J., Hannun, A., Synnaeve, G., & Collobert, R. (2020). Iterative Pseudo-Labeling for Speech Recognition. arXiv, 2005.09267. Retrieved from https://arxiv.org/abs/2005.09267v2
+
 Zhang, Q., Lu, H., Sak, H., Tripathi, A., McDermott, E., Koo, S., & Kumar, S. (2020). Transformer Transducer: A Streamable Speech Recognition Model with Transformer Encoders and RNN-T Loss. arXiv, 2002.02562. Retrieved from https://arxiv.org/abs/2002.02562v2
 
     - We propose Transformer Transducer by replacing ENN-based audio and label encoders in the RNN-T architecture with Transformer encoders. As in the original RNN-T model, the joint network (fig. 1) at each step combines the audio encoder output and the label encoder output given the previous non-blank output token sequence. The joint network returns the distribution over the next token. Our model has 18 audio and 2 label encoder layers.
     - The model uses the RNN-T loss (see the original paper "Sequence Transduction with Recurrent Neural Networks")
     - Our model achieves a new SOTA on the LibriSpeech benchmark
 
-
+Babu, A., Wang, C., Tjandra, A., Lakhotia, K., Xu, Q., Goyal, N., ...Auli, M. (2021). XLS-R: Self-supervised Cross-lingual Speech Representation Learning at Scale. arXiv, 2111.09296. Retrieved from https://arxiv.org/abs/2111.09296v3
 
 Bakhturina, E., Lavrukhin, V., & Ginsburg, B. (2021). A Toolbox for Construction and Analysis of Speech Datasets. arXiv, 2104.04896. Retrieved from https://arxiv.org/abs/2104.04896v3
 
+    - The creation of new speech datasets remains an ongoing problem, because 1) Domain lexicon and language changes over time, 2) datasets need to contain a variety of samples with noisy room conditions, multi/single speakers recordings, speakers with different geographic origin, accent, gender, age, etc.
+    - We introduce an open-sourced NeMo toolbox for analysis of existing speech datasets and construction of new speech corpora (fig. 2). The CTC-Segmentation tool can be used to splitting long audio files, and Speech Data Explorer (SDE) tool is for interactive audio data analysis.
+    - We use our toolbox explaining how to construct the Russian LibriSpeech corpus, which improved WER on the MCV Russian dev subset.
+
 Cámbara, G., Peiró-Lilja, A., Farrús, M., & Luque, J. (2021). English Accent Accuracy Analysis in a State-of-the-Art Automatic Speech Recognition System. arXiv, 2105.05041. Retrieved from https://arxiv.org/abs/2105.05041v1
+
+    - We train an ASR model on the MLS dataset, and test the model on the CommonVoice dataset, which has labels indicating accent.
+    - We see that WER can degrade up to an absolute 10% for accents with phonetic and prosodic characteristics further from American and UK English, like Asian accents.
+
+Chan, W., Park, D., Lee, C., Zhang, Y., Le, Q., & Norouzi, M. (2021). SpeechStew: Simply Mix All Available Speech Recognition Data to Train One Large Neural Network. arXiv, 2104.02133. Retrieved from https://arxiv.org/abs/2104.02133v3
+
+    - We present SpeechStew, an ASR model that is trained on a combination of various publicly available ASR datasets.
+    - SpeechStew uses the Conformer RNN-T architecture.
+    - SpeechStew simply mixes all the datasets without any balancing.
+    - SpeechStew achieves SoTA or near SoTA results across a variety of tasks, without the use of an external LM, and learns powerful transfer learning representations.
+    - On noisy, low resource ASR datasets, such as CHiME-6, end-to-end methods struggle relative to HMM-based baselines. We show that simple fine-tuning SpeechStew on CHiME-6 without a LM give WER compareble to a strong HMM baseline with LM. So, one can simply finetune a pre-trained model for only a few thousand gradient steps and achieve strong results.
 
 Chen, S., Wang, C., Chen, Z., Wu, Y., Liu, S., Chen, Z., ...Wei, F. (2021). WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing. arXiv, 2110.13900. Retrieved from https://arxiv.org/abs/2110.13900v5
 
-Duarte, J. C., & Colcher, S. (2021). Building a Noisy Audio Dataset to Evaluate Machine Learning Approaches for Automatic Speech Recognition Systems. arXiv, 2110.01425. Retrieved from https://arxiv.org/abs/2110.01425v1
+    - We propose WavLM, a self-supervised model that jointly learns masked speech prediction and denoising.
+    - Speech denoising allows to apply the model to non-ASR tasks, such as diariazation, separation, speech enhancement.
+    - WavLM employs gated relative position bias to better capture the sequence ordering of input speech.
+    - We use more training data to eliminate the audiobook data bias (60k hours of Libri-Light, 10k hours of GigaSpeech, and 24k hours of VoxPopuli)
+
+Chung, Y.-A., Zhang, Y., Han, W., Chiu, C.-C., Qin, J., Pang, R., & Wu, Y. (2021). W2v-BERT: Combining Contrastive Learning and Masked Language Modeling for Self-Supervised Speech Pre-Training. arXiv, 2108.06209. Retrieved from https://arxiv.org/abs/2108.06209v2
+
+    - We propose w2v-BERT that explores MLM for self-supervised speech representation learning.
+    - w2v-BERT combines the core methodologies from wav2vec 2.0 and BERT (fig. 1). It discretizes input continuous speech signals into a finite set of discriminative speech tokens with contrastive learning, and solves a masked prediction task on the discretized tokens. In contrast to HuBERT which relies on an iterative re-clustering and re-training process, or vq-wav2vec, which concatenates two separately trained modules, w2v-BERT directly optimizes a contrastive loss and a masked prediction loss simultaneously. In turn, wav2vec 2.0 only employs contrastive learning, whose resulting ASR performance lags behind that of combining contrastive learning and masked prediction.
+    - We pre-train w2v-BERT on 60k hours of unlabeled speech data from the Libri-Light corpus
+    - w2v-BERT yields SOTA performance on the well-benchmarked LibriSpeech task, after fine-tuning on LibriSpeech by adding an LSTM decoder, so that the ASR network is a sequence transducer.
 
 Galvez, D., Diamos, G., Ciro, J., Cerón, J. F., Achorn, K., Gopi, A., ...Reddi, V. J. (2021). The People's Speech: A Large-Scale Diverse English Speech Recognition Dataset for Commercial Usage. arXiv, 2111.09344. Retrieved from https://arxiv.org/abs/2111.09344v1
 
+    - We introduce the People’s Speech, a supervised ASR dataset. In total, there are 52,500 hours of audio in our dataset, of which 51,890 hours are English. The dataset also includes 23 other languages (fig. 2). The dataset contains different background noise (fig. 6)
+    - The data is collected via searching vimeo.com and archive.org for appropriately licensed audio data with existing transcriptions and aligning the audio to the transcripts.
+    - Audio content with transcripts on the Internet Archive is 1) abundant, 2) searchable by license type, and 3) diverse, facilitating the creation of a our large-scale open speech dataset, so large-scale datasets can be created more efficiently than previously thought.
+    - We do not create train, test, and dev splits for our dataset for two reasons. One, we don’t have a way to ensure there is no speaker overlap between the splits. Two, we don’t have a way to ensure duplicated audio data.
+
 Gris, L. R. S., Casanova, E., de Oliveira, F. S., Soares, A. d. S., & Junior, A. C. (2021). Brazilian Portuguese Speech Recognition Using Wav2vec 2.0. arXiv, 2107.11414. Retrieved from https://arxiv.org/abs/2107.11414v3
+
+    - We fine-tune the Wav2vec 2.0 model for Brazilian Portuguese.
+    - Our work suggests that the use of datasets with a large variety of vocabulary and speakers are still important to the development of robust models, as well as in-domain training.
 
 Hsu, W.-N., Bolte, B., Tsai, Y.-H. H., Lakhotia, K., Salakhutdinov, R., & Mohamed, A. (2021). HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units. arXiv, 2106.07447. Retrieved from https://arxiv.org/abs/2106.07447v1
 
+    - Self-supervised pre-training for speech is complex, because the boundaries between sound units are not known, there is no prior lexicon of discrete sound units available, and multiple sounds may be present in each input utterance.
+    - We propose the Hidden-Unit BERT (HuBERT) approach for self-supervised speech representation learning.
+    - HuBERT relies on predicting K-means cluster assignments of masked segments of continuous input. An offline clustering step to provide aligned target labels for a BERT-like prediction loss (fig. 1).
+    - The learned representation quality improves dramatically with iteratively refining K-means cluster assignments using learned latent representations for a previous iteration.
+    - HuBERT either matches or improves upon the state-of-theart wav2vec 2.0 performance on all fine-tuning subsets of 10mins, 1h, 10h, 100h, and 960h.
+
 Hsu, W.-N., Sriram, A., Baevski, A., Likhomanenko, T., Xu, Q., Pratap, V., ...Auli, M. (2021). Robust wav2vec 2.0: Analyzing Domain Shift in Self-Supervised Pre-Training. arXiv, 2104.01027. Retrieved from https://arxiv.org/abs/2104.01027v2
+
+    - We focus on a case where the pre-training domain, the fine-tuning domain and the test data all differ from each other.
+    - We show that adding unlabeled data whose domain matches the test data always improves performance, even if the labeled data for fine-tuning is out-of-domain. This has practical applications since it is much easier to obtain unlabeled data for a particular target domain than labeled data.
+    - Pre-training on three domains achieves better performance than on two domains, which in turn is better than on one domain, regardless of what labeled data they are fine-tuned on.
 
 Lai, C.-I. J., Zhang, Y., Liu, A. H., Chang, S., Liao, Y.-L., Chuang, Y.-S., ...Glass, J. (2021). PARP: Prune, Adjust and Re-Prune for Self-Supervised Speech Recognition. arXiv, 2106.05933. Retrieved from https://arxiv.org/abs/2106.05933v2
 
-Lakhotia, K., Kharitonov, E., Hsu, W.-N., Adi, Y., Polyak, A., Bolte, B., ...Dupoux, E. (2021). Generative Spoken Language Modeling from Raw Audio. arXiv, 2102.01192. Retrieved from https://arxiv.org/abs/2102.01192v2
+    - We first show that applying widely-adopted pruning methods, such as One-Shot Magnitude Pruning (OMP) and Iterative Magnitude Pruning (IMP) for SOTA speech SSL models is extremely time-consuming, and gives no performance boost.
+    - We present Prune-Adjust-Re-Prune (PARP), a method for discovering sparse subnetworks within pre-trained speech SSL. It consists of the following two cyclic steps: 1) Prune the model, 2) Fine-tune the network on target downstream task/language while zeroing out pruned weights, but allowing them to be be updated by gradient descent. After a few number of model updates, re-prune again and so on. So, different from other pruning methods, PARP allows pruned-out weights to be revived during finetuning.
+    - We fine-tune we pre-trained wav2vec2-base and wav2vec2-large on the 10h/1h/10min splits from Librispeech and Libri-light and show that PARP yields over 10% WER reduction over the full model under ultra-low data regime (fig. 3), and the method adds minimal computation overhead to existing SSL downstream fine-tuning.
+    - We also show the transferability of pruning mask discovered from a source language by finetuning its subnetwork on another target language, and the possibility of obtaining a single shared subnetwork for all downstream languages.
+    - We also demonstrate PARP’s effectiveness on pre-trained BERT/XLNet, mitigating the cross-task performance degradation reported in BERT-Ticket.
+    - IMO, fine-tuning SSL wav2vec2 model on LibreSpeech is very different from fine-tuning a pre-trained ASR model on some specific dataset. In the latter case we also need to compare the fine-tuned versions against the original model.
 
 Majumdar, S., Balam, J., Hrinchuk, O., Lavrukhin, V., Noroozi, V., & Ginsburg, B. (2021). Citrinet: Closing the Gap between Non-Autoregressive and Autoregressive End-to-End Models for Automatic Speech Recognition. arXiv, 2104.01721. Retrieved from https://arxiv.org/abs/2104.01721v1
 
+    - End-to-end neural ASR models can be roughly classified into 1) non-autoregressive CTC models, 2) autoregressive Seq2Seq models with attention, 3) autoregressive RNN-Transducers. CTC models are more stable to train than autoregressive models, but the latest Seq2Seq models and RNN-Transducers significantly outperform them.
+    - It is believed that "Because of the strong conditional independence assumption, CTC does not implicitly learn a LM over the data (unlike the attention-based encoder-decoder architectures). It is therefore essential when using CTC to interpolate a language model".
+    - We propose Citrinet: a deep convolutional CTC model for ASR. It significantly closes the gap between CTC and the best Seq2Seq and Transducers models without any external LM, contrary to the common belief that "CTC requires an external LM to output meaningful results".
+
 Pasad, A., Chou, J.-C., & Livescu, K. (2021). Layer-wise Analysis of a Self-supervised Speech Representation Model. arXiv, 2107.04734. Retrieved from https://arxiv.org/abs/2107.04734v3
+
+    - We analyze wav2vec 2.0 representations.
+    - We use projection-weighted Canonical Correlation Analysis to measure similarity between the wav2vec 2.0 layer representations and quantities of interest such as 1) representations from from adifferent layer of the same model, 2) representations from a fine-tuned version of the model, 3) mel filter bank features (acoustic information), 4) acoustically grounded word embeddings (word-level acoustic-phonetic information), 5) GloVe word embeddings (word meaning information).
+    - We use mutual information to measure dependence between the the wav2vec 2.0 layer representations and the corresponding (discrete) phone or word labels.
+    - As we go deeper into the model, the representation starts deviating from the input speech features followed by a reverse trend where even deeper layers become more similar to the input, as if reconstructing the input (fig. 1, black line).
+    - The shallowest layers encode acoustic features, followed by phonetic, word identity, and word meaning information, and then followed by a reverse (fig. 1, other lines).
+    - The final convolutional layers and initial transformer layers are highly correlated with mel spectrogram features, suggesting that the model learns to extract features similar to human-engineered ones.
+    - Fine-tuning the model for ASR breaks the autoencoderstyle behavior in the final few layers. Higher layers change the most in fine-tuning, suggesting that the pre-trained model may not serve as a good initialization of these top layers for ASR. This finding suggests re-initializing the final 1-3 layers before fine-tuning, as has been recently discovered for BERT. This outperforms the standard approach of initializing all layers from the pre-trained model, with large improvements when fine-tuning on the 10-minute training set and minor improvements for larger training sets.
 
 Shi, X., Yu, F., Lu, Y., Liang, Y., Feng, Q., Wang, D., ...Xie, L. (2021). The Accented English Speech Recognition Challenge 2020: Open Datasets, Tracks, Baselines, Results and Methods. arXiv, 2102.10233. Retrieved from https://arxiv.org/abs/2102.10233v1
 
+    - Accent poses a great challenge to the robustness of ASR. The difference between accents is mainly reflected in three aspects of pronunciation: stress, tone and duration.
+    - We release a set of 160 hours of accented English speech from 8 countries with labels as the training set, and another 20 hours of speech without labels as the test set, including two unseen accents from another two countries.
+    - Track 1 aims to study the English accent recognition problem. The final ranking is based on the recognition accuracy on the whole test set. The winner used TDNN based classification network with phonetic posteriorgram (PPG) feature as input, and they use text-to-speech (TTS) to expand the training data. Most teams have done a lot of work in data augmentation.
+    - Track 2 studies the robustness of ASR system on accented English speech where the word error rate on the whole test set is used as the evaluation metric. Test sets include accents beyond training data in order to evaluate the generalization performance of the model. The winner used a CTC model with LAS rescoring while the CTC model was initialized by a Wav2Vec encoder trained in an unsupervised manner. The superior performance indicates that unsupervised training is promising in improving performance when labeled data is limited. Similarly to track 1, various data augmentation tricks were widely adopted, including volume augmentation and speed perturbation. Noise and reverberation did not give an obvious gain, probably because the acoustic and channel conditions between the test set and the training set is similar.
+
+Shon, S., Pasad, A., Wu, F., Brusco, P., Artzi, Y., Livescu, K., & Han, K. J. (2021). SLUE: New Benchmark Tasks for Spoken Language Understanding Evaluation on Natural Speech. arXiv, 2111.10367. Retrieved from https://arxiv.org/abs/2111.10367v3
+
 Wang, C., Rivière, M., Lee, A., Wu, A., Talnikar, C., Haziza, D., ...Dupoux, E. (2021). VoxPopuli: A Large-Scale Multilingual Speech Corpus for Representation Learning, Semi-Supervised Learning and Interpretation. arXiv, 2101.00390. Retrieved from https://arxiv.org/abs/2101.00390v2
+
+    - We introduce VoxPopuli, a large-scale multilingual corpus providing 400K hours of unlabeled speech data in 23 languages from 2009-2020 European Parliament (EP) event recordings.
+    - VoxPopuli also contains 1.8K hours of transcribed speeches in 15 languages and their aligned oral interpretations into 15 target languages totaling 17.3K hours.
+    - We examine the out-of-domain pre-training on VoxPopuli with further few-shot phoneme recognition on CommonVoice. The results suggest the high generality of the speech representations learned from VoxPopuli.
+    - Pre-training with in-domain VoxPopuli  unlabeled data substantially improves performance on VoxPopuli ASR data, especially for low-resource languages.
 
 Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
 
+    - We are fine-tuning wav2vec 2.0 to transcribe languages unseen during fine-tuning. We start from self-supervised representations trained on data in many languages (wav2vec 2.0). Next we simultaneously fine-tune the model to perform phoneme recognition on data in multiple training languages, building a global phoneme recognizer by simply considering all possible phonemes of the training languages. At inference time, we test the fine-tuned model on unseen languages using a mapping of the phonemes from the training vocabulary to the ones in the target languages. We decode with a LM to generate the final phoneme sequence.
+    - Our approach performs on par to the recently introduced unsupervised speech recognition work ("Unsupervised speech recognition") which does not use labeled data from related languages and requires training separate models for each target language.
 
+Yang, S.-w., Chi, P.-H., Chuang, Y.-S., Lai, C.-I. J., Lakhotia, K., Lin, Y. Y., ...Lee, H.-y. (2021). SUPERB: Speech processing Universal PERformance Benchmark. arXiv, 2105.01051. Retrieved from https://arxiv.org/abs/2105.01051v4
+
+    - We introduce Speech processing Universal PERformance Benchmark (SUPERB) as a challenge with a leaderboard and a benchmark.
+    - SUPERB targets at the direct usability of pretrained models on various popular tasks through any usage. We focus on investigating a simple framework solving all SUPERB tasks with a frozen, shared pretrained model, and lightweight prediction heads finetuned for each task. The framework puts an explicit constraint on downstream models to be as lightweight as possible for all tasks.
+    - SSL models explored in this paper are summarized in Table 1. They include wav2vec 2.0, HuBERT and many other models.
+    - Tasks from ASR: Phoneme Recognition, Automatic Speech Recognitio, Keyword Spotting (detects preregistered keywords), Query by Example Spoken Term Detection (detects a spoken term (query) in an audio database (documents) by binary discriminating a given pair of query and document into a match or not).
+    - Tasks to analyze speaker modeling: Speaker Identification (classifies each utterance for its speaker identity, where speakers are in the same predefined set for both training and testing), Automatic Speaker Verification (verifies whether the speakers of a pair of utterances match as a binary classification) and Speaker Diarization (predicts who is speaking when for each timestamp, and multiple speakers can speak simultaneously).
+    - Tasks from Spoken Language Understanding: Intent Classification (classifies utterances into predefined classes to determine the intent of speakers) and Slot Filling (predicts a sequence of semantic slot-types from an utterance, like a slot-type FromLocation for a spoken word Taipei, which is known as a slot-value).
+    - Task from paralinguistics: Emotion Recognition (predicts an emotion class for each utterance).
+    - Since the last-layer representation is not always the best, the framework collects multiple hidden states from the pretrained model and weighted-sum them as the final representation. PR, KS, SID, IC, ER are simple tasks that are solvable with linear downstream models. For ASR, a vanilla 2-layer 1024-unit BLSTM is adopted and optimized by CTC loss on characters. The trained model is decoded with LibriSpeech official 4-gram LM powered by KenLM. As for ASV, we adopt the well-known x-vector as the downstream model.
+    - wav2vec 2.0 and HuBERT outperforms others by a large margin on Phoneme Recognition and Intent Classification tasks. Their results on Speaker Identification and Emotion Recognition are also highly competitive.
+    - FBANK cannot work on any task using linear models, but achieves competitive performance when allowing non-linear downstream models (in Automatic Speech Recognition, Slot Filling, Automatic Speaker Verification, and Speaker Diarization).
+    - We observe that the ranking on Phoneme Recognition aligns with Automatic Speech Recognition weakly.
+    - IMO, while Emotion Recognition refers to paralinguistics, spoken words may also highly correlate with emotions, so this task has two ways to solve with different transferability to another conditions.
 
 Algayres, R., Ricoul, T., Karadayi, J., Laurençon, H., Zaiem, S., Mohamed, A., ...Dupoux, E. (2022). DP-Parse: Finding Word Boundaries from Raw Speech with an Instance Lexicon. arXiv, 2206.11332. Retrieved from https://arxiv.org/abs/2206.11332v1
 
 Borgholt, L., Havtorn, J. D., Edin, J., Maaløe, L., & Igel, C. (2022). A Brief Overview of Unsupervised Neural Speech Representation Learning. arXiv, 2203.01829. Retrieved from https://arxiv.org/abs/2203.01829v1
 
+    - We review the development of unsupervised representation learning for speech over the last decade.
+    - Speech data offers unique challenges for unsupervised representation learning. As a result, methods from other domains rarely translate directly.
+    - We group previous work into self-supervised models and probabilistic latent variable models (fig. 1). These categories are neither exhaustive nor mutually exclusive.
+    - In general, work on global representations within self-supervised learning precedes work on local representations.
+    - We also briefly touch upon evaluation procedures. A common approach is to evaluate the representations in terms of their usefulness for downstream tasks.
+
 Casanova, E., Shulby, C., Korolev, A., Junior, A. C., Soares, A. d. S., Aluísio, S., & Ponti, M. A. (2022). ASR data augmentation in low-resource settings using cross-lingual multi-speaker TTS and cross-lingual voice conversion. arXiv, 2204.00618. Retrieved from https://arxiv.org/abs/2204.00618v5
+
+    - We propose an ASR data augmentaiton method suitable using only a single real speaker in a target language.
+    - We perform augmentations with cross-lingual multi-speaker speech synthesis and cross-lingual voice conversion (fig. 1).
+    - We used the YourTTS model, a multilingual zero-shot multi-speaker text-to-speech model. Although the focus of the model is on TTS it can also do zero-shot voice conversion. For example, it was able to produce female voices even without being trained on female voices. Here, we fine-tuned the YourTTS model in English, pt-BR and ru-RU.
 
 Chen, C., Hou, N., Hu, Y., Shirol, S., & Chng, E. S. (2022). Noise-robust Speech Recognition with 10 Minutes Unparalleled In-domain Data. arXiv, 2203.15321. Retrieved from https://arxiv.org/abs/2203.15321v1
 
+    - We propose SimuGAN to simulate noisy spectrum from the clean spectrum.
+    - In Simu-GAN, the generator maps the clean spectrum to the noisy spectrum and the discriminator distinguishes the simulated noisy spectrum from the real noisy spectrum. We also apply the multi-layer patch-wise contrastive loss to the generator (fig. 1). After SimuGAN training, only the generator is required to generate the simulated noisy data.
+    - To train Simu-GAN, we utilize small amounts of clean/noisy data from the channel A from the RATS dataset.
+    - We also propose a dual-path ASR system to improve the robustness of the ASR systems under noisy conditions. Specifically, we input the noisy speech generated by the Simu-GAN model and the corresponding clean speech as dual-path inputs into the conformer-based ASR system (fig. 2). We then reduce a KL divergence-based consistency loss between the two decoder outputs, as well as ASR losses for both outputs.
+
+Chen, Z., Zhang, Y., Rosenberg, A., Ramabhadran, B., Moreno, P., Bapna, A., & Zen, H. (2022). MAESTRO: Matched Speech Text Representations through Modality Matching. arXiv, 2204.03409. Retrieved from https://arxiv.org/abs/2204.03409v2
+
+    - We present a novel self-supervised modality matching algorithm Maestro. It can effectively use small amounts of transcribed speech data to unify representations learnt from massive amounts of untranscribed speech and unspoken text. The model can transfer to diverse downstream tasks such as ASR and Speech Translation.
+    - When learning from unspoken text, speech-text alignment information is unavailable. Therefore, Maestro uses durations predicted from a duration prediction model in a fashion similar to speech synthesis (fig. 1).
+    - We establish a new SOTA on VoxPopuli multilingual ASR.
+
 Chen, Z., Bapna, A., Rosenberg, A., Zhang, Y., Ramabhadran, B., Moreno, P., & Chen, N. (2022). Maestro-U: Leveraging joint speech-text representation learning for zero supervised speech ASR. arXiv, 2210.10027. Retrieved from https://arxiv.org/abs/2210.10027v2
+
+    - Zero-supervised speech ASR means learning ASR without the availability of any (in-language) transcribed resources. Most prior research either learns models for phoneme recognition (implicitly assuming an additional model for phoneme to grapheme conversion), or assumes the availability of grapheme to phoneme (G2P) models for text augmentation, but the construction of such models require as much human efforts as speech transcription.
+    - We assume the availability of unlabeled speech and text in 102 languages, and the availability of supervised speech in 52 of these languages. Given these resources, we attempt to improve end-to-end ASR quality on the remaining 50 zero-supervised-speech languages. For unseen writing systems, we convert graphemes (text) into a common representation that is shared across all languages.
+    - Out baseline Maestro model fails to perform well on this task (CER of 54.2% averaged over 50 languages).
+    - We propose several improvements to the Maestro model, namely, the use of language embeddings and adapters, and use of byte level text representations. It results in a final zero supervised speech average CER of 30.8% (fig. 2). The training data, architecture and evaluation is shown in fig. 1.
 
 Cheng, Y., Zhang, Y., Johnson, M., Macherey, W., & Bapna, A. (2022). Mu^2SLAM: Multitask, Multilingual Speech and Language Models. arXiv, 2212.09553. Retrieved from https://arxiv.org/abs/2212.09553v2
 
 Conneau, A., Ma, M., Khanuja, S., Zhang, Y., Axelrod, V., Dalmia, S., ...Bapna, A. (2022). FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech. arXiv, 2205.12446. Retrieved from https://arxiv.org/abs/2205.12446v1
 
+    - We introduce FLEURS, the Few-shot Learning Evaluation of Universal Representations of Speech benchmark, to catalyze research in low-resource speech understanding.
+    - FLEURS is suited for a variety of speech tasks including ASR, Speech-to-Text and Speech-to-Speech Translation, Speech LangID, and Multilingual Speech-to-Speech and Speech-to-Text Retrieval.
+    - FLEURS contains n-way parallel speech and text in 102 languages with transcripts and strong quality control.
+    - To collect data, we start with the dev and devtest sets from FLoRes-101 dataset for machine translation. It contains 2009 sentences extracted from English Wikipedia and these sentences have been translated in 101 languages by human translators.
+    - For each sentence in the 102 languages we collected three recordings by three different native speakerss, imposing a balance in terms of sex ratio when possible. All recordings are kept as they-are, either from quiet or noisy environment.
+    - Each recording is evaluated by additional workers, rejecting some recordings and leaving us between zero and three recordings per sentence in the final dataset. In the first version of the dataset, about 21.5% of the sentences are missing because none of the three recordings were validated.
+    - Most other datasets are aligned at a document level with automatic segmentation and alignment for segments, but FLEURS initially contains short utterances.
+    - For ASR baseline, we add two LSTM layer to fine-tune wav2vec-BERT, using a CTC loss. We do not include meta information of language identification labels in modeling, and there is no language model used for hypothesis scoring. Experiments show that fine-tuning from multimodal speech+text pre-training (mSLAM) is slightly worse than fine-tuning from speech-only pre-training (wav2vec-BERT). Most gains of multimodal pre-training are observed in groups with large amounts of unlabeled speech.
+
 Conneau, A., Bapna, A., Zhang, Y., Ma, M., von Platen, P., Lozhkov, A., ...Johnson, M. (2022). XTREME-S: Evaluating Cross-lingual Speech Representations. arXiv, 2203.10752. Retrieved from https://arxiv.org/abs/2203.10752v3
+
+    - We introduce XTREME-S, a new benchmark to evaluate universal cross-lingual speech representations. It covers 102 languages from 10+ language families, 3 different domains and includes 7 downstram tasks divided into 4 different task families: recognition, translation, classification and retrieval (fig. 1). Test sets are available in open-source and are not hidden to the public.
+    - XTREME-S also includes FLEURS, a recently introduced general-purpose multilingual evaluation dataset.
+    - The training sets of XTREME-S range from a few hours to a few hundred hours of labeled data per language. This is a few-shot setting suited for low-resource understanding.
+    - For ASR, we use three datasets: Fleurs, MLS and VoxPopuli, which cover more than 100 languages. In Fleurs ASR, multilingual fine-tuning is used and "unit error rate" (characters, signs) of all languages is averaged. In MLS ASR, multilingual fine-tuning on all languages is also used. The first baseline is a 600M wav2vec-BERT model trained on 429k unlabeled data in 51 languages from VoxPopuli, MLS, CommonVoice and BABEL, similar to XLS-R. The second is the 600m parameter mSLAM model.
 
 Dunbar, E., Hamilakis, N., & Dupoux, E. (2022). Self-supervised language learning from raw audio: Lessons from the Zero Resource Speech Challenge. arXiv, 2210.15759. Retrieved from https://arxiv.org/abs/2210.15759v1
 
 Ferreira, A. I. S., & Oliveira, G. d. R. (2022). Domain Specific Wav2vec 2.0 Fine-tuning For The SE&R 2022 Challenge. arXiv, 2207.14418. Retrieved from https://arxiv.org/abs/2207.14418v1
 
+    - This paper presents our efforts to build a robust ASR model for SE&R 2022 challenge, considering prepared and spontaneous speech in different Portuguese dialects.
+    - While most of the available public datasets are composed of prepared speech, the domain of real ASRs are far more complex, mainly because it is formed by spontaneous speech and different speech dialects. Also, most of ASR use cases involve high noise environments or low recording equipment, which is not adressed in most of the public datasets available.
+    - We fine-tune Wav2vec 2.0 XLSR-53 (that is considered the state-of-the-art in Brazilian Portuguese) using only public available Portuguese datasets. We used selective noise insertion and audio normalization during training.
+    - Overall, our models did not show a huge improvement in performance when compared to the baseline model.
+
 Fu, L., Li, S., Li, Q., Deng, L., Li, F., Fan, L., ...He, X. (2022). UFO2: A unified pre-training framework for online and offline speech recognition. arXiv, 2210.14515. Retrieved from https://arxiv.org/abs/2210.14515v2
+
+    - ASR systems are typically categorized in: 1) online mode (a.k.a. streaming), which is developed to emit each hypothesized word as quickly and accurately as possible when it is spoken, and 2) offline mode, which aims to accurately emit the complete hypotheses after processing a full utterance. Self-supervised pre-training is usually offline, i.e. each represented feature is conditioned on the full-context inputs. When online ASR model is build upon SSL pre-training, the performance might be hindered due to the mode inconsistency between the pre-training and fine-tuning.
+    - We propose a Unified pre-training Framework for Online and Offline (UFO2) Automatic Speech Recognition.
+    - UFO2 unifies the online and offline modes into a single model. We apply 4 strategies on the feature extraction and training objectives. The full-context MHSA extracts offline-mode features (conditioned on the complete utterance). Simultaneously, the dynamic-chunked MHSA mimics different latency ranges for online-mode learning. The online and offline representation models share all the encoder and quantizer weights. Stop gradient is operated to decouple the impact of the online-mode objectives to the quantizer. The online and offline objectives are aggregated.
+    - The proposed UFO2 significantly enhances the performance compared to the baseline methods on the LibriSpeech dataset. However, the performance in online mode still underperforms the offline mode.
 
 Gat, I., Kreuk, F., Nguyen, T. A., Lee, A., Copet, J., Synnaeve, G., ...Adi, Y. (2022). Augmentation Invariant Discrete Representation for Generative Spoken Language Modeling. arXiv, 2209.15483. Retrieved from https://arxiv.org/abs/2209.15483v2
 
@@ -3899,6 +4161,8 @@ Yang, C.-H. H., Li, B., Zhang, Y., Chen, N., Prabhavalkar, R., Sainath, T. N., &
 Yang, Y., Shen, F., Du, C., Ma, Z., Yu, K., Povey, D., & Chen, X. (2023). Towards Universal Speech Discrete Tokens: A Case Study for ASR and TTS. arXiv, 2309.07377. Retrieved from https://arxiv.org/abs/2309.07377v2
 
 Zhang, Y., Han, W., Qin, J., Wang, Y., Bapna, A., Chen, Z., ...Wu, Y. (2023). Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages. arXiv, 2303.01037. Retrieved from https://arxiv.org/abs/2303.01037v3
+
+Zuluaga-Gomez, J., Ahmed, S., Visockas, D., & Subakan, C. (2023). CommonAccent: Exploring Large Acoustic Pretrained Models for Accent Classification Based on Common Voice. arXiv, 2305.18283. Retrieved from https://arxiv.org/abs/2305.18283v1
 
 
 
