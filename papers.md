@@ -2775,6 +2775,8 @@ Roberts, D. A., Yaida, S., & Hanin, B. (2021). The Principles of Deep Learning T
     - The work develops a theory of an evolving NTK. They apply it in detail to fully-connected networks of depth L, demonstrate the relevance of L/N as an expansion parameter, and develop an effective model for the dynamics
     - The authors develop the perturbative formalism that captures the flow of pre-activation distributions to deeper layers and studies the finite-width effect on Bayesian inference
 
+Rudman, W., Gillman, N., Rayne, T., & Eickhoff, C. (2021). IsoScore: Measuring the Uniformity of Embedding Space Utilization. arXiv, 2108.07344. Retrieved from https://arxiv.org/abs/2108.07344v2
+
 Sander, M. E., Ablin, P., Blondel, M., & Peyré, G. (2021). Momentum Residual Neural Networks. arXiv, 2102.07870. Retrieved from https://arxiv.org/abs/2102.07870v3
 
 Sander, M. E., Ablin, P., Blondel, M., & Peyré, G. (2021). Sinkformers: Transformers with Doubly Stochastic Attention. arXiv, 2110.11773. Retrieved from https://arxiv.org/abs/2110.11773v2
@@ -3768,6 +3770,8 @@ Oord, A. v. d., Li, Y., & Vinyals, O. (2018). Representation Learning with Contr
     - One way for unsupervised learning is to predict future observations (predictive coding).
     - We propose to compress raw data into a latent embedding space and train to predict future in this space (fig. 1) with autoregressive models. We rely on Noise-Contrastive Estimation for the loss function.
 
+Ravanelli, M., & Bengio, Y. . Speaker Recognition from Raw Waveform with SincNet. 2018 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2018.8639585
+
 Snyder, D., Garcia-Romero, D., Sell, G., Povey, D., & Khudanpur, S. . X-Vectors: Robust DNN Embeddings for Speaker Recognition. 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2018.8461375
 
 Tjandra, A., Sakti, S., & Nakamura, S. (2018). Machine Speech Chain with One-shot Speaker Adaptation. arXiv, 1803.10525. Retrieved from https://arxiv.org/abs/1803.10525v1
@@ -3855,6 +3859,11 @@ Park, K., & Mulc, T. (2019). CSS10: A Collection of Single Speaker Speech Datase
     - The existing multi-lingual speech-text datasets have several problems: 1) the Tundra dataset uses only one audiobook per language, 2) The M-AILABS uses multiple speakers in each language, which make it unideal for the single speaker TTS task (namely, generating speech from text in the voice of a single speaker) where more data from a single speaker tends to help model performance.
     - We propose CSS10, a collection of single speaker (one speaker per language) speech datasets for ten languages, composed of short audio clips from LibriVox audiobooks.
 
+Pascual, S., Ravanelli, M., Serrà, J., Bonafonte, A., & Bengio, Y. (2019). Learning Problem-agnostic Speech Representations from Multiple Self-supervised Tasks. arXiv, 1904.03416. Retrieved from https://arxiv.org/abs/1904.03416v1
+
+    - We propose problem-agnostic speech encoder (PASE) for self-supervised speech models, where a single feature encoder is followed by multiple workers that solve different self-supervised tasks, defined as regression or binary classification (fig. 1). The intuition is that each self-supervised task may bring a different view or soft constraint on the learned representation.
+    - We employ simple worker structure to encourage the encoder, and not the workers, to discover high-level features.
+
 Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervised Pre-training for Speech Recognition. arXiv, 1904.05862. Retrieved from https://arxiv.org/abs/1904.05862v4
 
     - We propose wav2vec model that was trained on large amounts of unlabeled audio
@@ -3862,6 +3871,8 @@ Schneider, S., Baevski, A., Collobert, R., & Auli, M. (2019). wav2vec: Unsupervi
     - The objective is to predict future samples from a given signal context, with contrastive loss that requires distinguishing a true future audio sample from negatives (as in "Representation Learning with Contrastive Predictive Coding").
     - To fine-tune wav2vec for the TIMIT task (predicting phonemes), we pass output representations (instead of MFCC features as a baseline) into acoustic CNN model, which outputs phoneme probabilities. The model is trained using the Auto Segmentation Criterion.
     - To fine-tune wav2vec on WSJ benchmark (transribing text), acoustic CNN model predicts probabilities for 31 graphemes, including the standard English alphabet, the apostrophe and period, two repetition characters (e.g. the word ann is transcribed as an1), and a silence token used as word boundary. For decoding the emissions from the acoustic model we use a lexicon as well as a separate language model trained on the WSJ language modeling data only.
+
+Stephenson, C., Feather, J., Padhy, S., Elibol, O., Tang, H., McDermott, J., & Chung, S. (2019). Untangling in Invariant Speech Recognition. Advances in Neural Information Processing Systems, 32. Retrieved from https://proceedings.neurips.cc/paper/2019/hash/e2db7186375992e729165726762cb4c1-Abstract.html
 
 Andrusenko, A., Laptev, A., & Medennikov, I. (2020). Towards a Competitive End-to-End Speech Recognition for CHiME-6 Dinner Party Transcription. arXiv, 2004.10799. Retrieved from https://arxiv.org/abs/2004.10799v3
 
@@ -3905,7 +3916,6 @@ Keung, P., Niu, W., Lu, Y., Salazar, J., & Bhardwaj, V. (2020). Attentional Spee
     - When the outputs are very repetitive, the attention mechanism of the AR-S2S model attends to the same section of audio without proceeding forwards in time (fig. 2).
     - We create a separate length prediction model to predict the correct number of wordpieces in the output, which allows us to identify and truncate problematic decoding results.
 
-
 Khurana, S., Laurent, A., Hsu, W.-N., Chorowski, J., Lancucki, A., Marxer, R., & Glass, J. (2020). A Convolutional Deep Markov Model for Unsupervised Speech Representation Learning. arXiv, 2006.02547. Retrieved from https://arxiv.org/abs/2006.02547v2
 
 Koenecke, A., Nam, A., Lake, E., Nudell, J., Quartey, M., Mengesha, Z., ...Goel, S. (2020). Racial disparities in automated speech recognition. Proc. Natl. Acad. Sci. U.S.A. Retrieved from https://www.pnas.org/doi/pdf/10.1073/pnas.1915768117
@@ -3927,6 +3937,10 @@ Ling, S., & Liu, Y. (2020). DeCoAR 2.0: Deep Contextualized Acoustic Representat
 
 Liu, A. T., Li, S.-W., & Lee, H.-y. (2020). TERA: Self-Supervised Learning of Transformer Encoder Representation for Speech. arXiv, 2007.06028. Retrieved from https://arxiv.org/abs/2007.06028v3
 
+Mani, A., Palaskar, S., Meripo, N. V., Konam, S., & Metze, F. (2020). ASR Error Correction and Domain Adaptation Using Machine Translation. arXiv, 2003.07692. Retrieved from https://arxiv.org/abs/2003.07692v1
+
+    - We propose to carry out ASR error correction via domain adaptation. We learn an adaptation module that goes from hypothesis of pre-trained ASR towards reference text (as in automatic machine translation), thus learning to fix systematic errors the pre-trained ASR makes due to domain mismatch.
+
 Nguyen, T. A., de Seyssel, M., Rozé, P., Rivière, M., Kharitonov, E., Baevski, A., ...Dupoux, E. (2020). The Zero Resource Speech Benchmark 2021: Metrics and baselines for unsupervised spoken language modeling. arXiv, 2011.11588. Retrieved from https://arxiv.org/abs/2011.11588v2
 
     - We introduce a new unsupervised task, spoken language modeling: the learning of linguistic representations from raw audio signals without any labels. We suggest that self-supervised acoustic models may actually go beyond acoustic modeling, learning their own LM from raw audio.
@@ -3939,6 +3953,8 @@ Pratap, V., Xu, Q., Sriram, A., Synnaeve, G., & Collobert, R. (2020). MLS: A Lar
     - We intoduce the Multilingual LibriSpeech (MLS) dataset derived from read audiobooks from LibriVox and consists of 8 languages, including about 44.5K hours of English and a total of about 6K hours for other languages
 
 Ravanelli, M., Zhong, J., Pascual, S., Swietojanski, P., Monteiro, J., Trmal, J., & Bengio, Y. (2020). Multi-task self-supervised learning for Robust Speech Recognition. arXiv, 2001.09239. Retrieved from https://arxiv.org/abs/2001.09239v2
+
+    - We propose PASE+, an improved version of PASE for self-supervised speech models, to perform better in noisy and reverberant environments. We employ an online speech distortion module, that contaminates the input signals with various disturbances (fig. 1). We also combine our CNN encoder with a quasi-recurrent neural network (QRNN). Finally, we refine the set of self-supervised workers.
 
 Rivière, M., Joulin, A., Mazaré, P.-E., & Dupoux, E. (2020). Unsupervised pretraining transfers well across languages. arXiv, 2002.02848. Retrieved from https://arxiv.org/abs/2002.02848v1
 
@@ -3969,6 +3985,8 @@ Zheng, X., Liu, Y., Gunceler, D., & Willett, D. (2020). Using Synthetic Audio to
     - We aim to boost the recognition accuracy of RNN-T model on out-of-vocabulary (OOV) words.
     - We use a text-to-speech (TTS) engine to provide synthetic audio. We use 2.3K hours of anonymised far-field in-house data. OOV words are all the words that have not appeared in train set but have appeared at least three times in dev set. The utterances in Dev containing any OOV words are extracted as a subset DevOOV (this only accounts for 0.7% of the Dev set, or 6.5K utterances). Similarly, the utterances in Eval containing any (the same) OOV words are extracted as a subset EvalOOV, containing 4.3K utterances.
     - The best performance is achieved by fine-tuning the RNN-T on both original training data and extra synthetic data with elastic weight consolidation (EWC) applied on the encoder. This yields a 57% relative word error rate (WER) reduction on utterances containing OOV words without any degradation on the whole test set.
+
+Abdullah, B. M., Mosbach, M., Zaitova, I., Möbius, B., & Klakow, D. (2021). Do Acoustic Word Embeddings Capture Phonological Similarity? An Empirical Study. arXiv, 2106.08686. Retrieved from https://arxiv.org/abs/2106.08686v1
 
 Aksënova, A., van Esch, D., Flynn, J., & Golik, P. (2021). How Might We Create Better Benchmarks for Speech Recognition? ACL Anthology, 22–34. doi: 10.18653/v1/2021.bppf-1.4
 
@@ -4112,6 +4130,11 @@ Salesky, E., Wiesner, M., Bremerman, J., Cattoni, R., Negri, M., Turchi, M., ...
 
     - We present the Multilingual TEDx corpus, a collection of audio recordings from TEDx talks in 8 source languages (es, fr, pt, it, ru, el, ar, de).
 
+Serai, P., Sunder, V., & Fosler-Lussier, E. (2021). Hallucination of speech recognition errors with sequence to sequence learning. arXiv, 2103.12258. Retrieved from https://arxiv.org/abs/2103.12258v3
+
+    - We present a dual encoder model for ASR error prediction that can look at both word and phoneme sequence representations of input text to further improve the fidelity of hallucinated errors. In our model, the word sequence decoder is conditioned on a word sequence encoder and a phoneme sequence encoder from the ground truth transcription (fig. 1, 2).
+    - This may be helpful when cascading ASR systems with NLU systems trained on text data. We can augment input text using our model, so that the downstream NLU model observes during training an input that contains the kind of errors expected from ASR at test time, and thus can learn to be robust to them.
+
 Shi, X., Yu, F., Lu, Y., Liang, Y., Feng, Q., Wang, D., ...Xie, L. (2021). The Accented English Speech Recognition Challenge 2020: Open Datasets, Tracks, Baselines, Results and Methods. arXiv, 2102.10233. Retrieved from https://arxiv.org/abs/2102.10233v1
 
     - Accent poses a great challenge to the robustness of ASR. The difference between accents is mainly reflected in three aspects of pronunciation: stress, tone and duration.
@@ -4210,6 +4233,8 @@ Chiu, C.-C., Qin, J., Zhang, Y., Yu, J., & Wu, Y. (2022). Self-supervised learni
     - On LibriSpeech the algorithm achieves similar results as previous work with non-streaming models, and provides better improvement with streaming models.
     - We study the relation between representation learning quality and the self-supervised learning quality, and demonstrate that the two objectives are not inherently aligned. Such an observation is central to our design. Our self-supervised learning algorithm eliminates the requirement of representation learning through applying a random-projection quantizer.
     - IMO, it is not clear what is meant under representation learning here, and why is it eliminated.
+
+Choi, K., & Yeo, E. J. (2022). Opening the Black Box of wav2vec Feature Encoder. arXiv, 2210.15386. Retrieved from https://arxiv.org/abs/2210.15386v1
 
 Conneau, A., Ma, M., Khanuja, S., Zhang, Y., Axelrod, V., Dalmia, S., ...Bapna, A. (2022). FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech. arXiv, 2205.12446. Retrieved from https://arxiv.org/abs/2205.12446v1
 
@@ -4391,6 +4416,13 @@ Zhang, Z., Zhou, L., Ao, J., Liu, S., Dai, L., Li, J., & Wei, F. (2022). SpeechU
 
 Zhao, J., & Zhang, W.-Q. (2022). Improving Automatic Speech Recognition Performance for Low-Resource Languages With Self-Supervised Models. IEEE J. Sel. Top. Signal Process., 16(6), 1227–1241. doi: 10.1109/JSTSP.2022.3184480
 
+Zhu, Q.-S., Zhang, J., Zhang, Z.-Q., Wu, M.-H., Fang, X., & Dai, L.-R. (2022). A Noise-Robust Self-supervised Pre-training Model Based Speech Representation Learning for Automatic Speech Recognition. arXiv, 2201.08930. Retrieved from https://arxiv.org/abs/2201.08930v1
+
+    - We observe that wav2vec2.0 pre-trained on noisy data brings a performance degradation on the clean test set.
+    - We propose a modified pre-training scheme: the noisy speech and clean speech are sent into a shared feature encoder, and the noisy feature is input to the transformer encoder, while the clean feature is fed to the vector-quantization (VQ) module, which provides clean training targets for the transformer encoder.
+    - To synthetize noisy data, we randomly select noise samples and mix with the clean speech at different SNRs.
+    - The resulting model achieves a much better performance on noisy data at the cost of a tiny performance sacrifice on the clean test set.
+
 Zuluaga-Gomez, J., Prasad, A., Nigmatulina, I., Sarfjoo, S., Motlicek, P., Kleinert, M., ...Zhan, Q. (2022). How Does Pre-trained Wav2Vec 2.0 Perform on Domain Shifted ASR? An Extensive Benchmark on Air Traffic Control Communications. arXiv, 2203.16822. Retrieved from https://arxiv.org/abs/2203.16822v2
 
     - We analyze the robustness of Wav2Vec 2.0 and XLS-R models on downstream ASR for a completely unseen domain: air traffic control communications (voice communications between air traffic controllers and pilots) with SNR ratio between 5 to 20 dB.
@@ -4398,6 +4430,12 @@ Zuluaga-Gomez, J., Prasad, A., Nigmatulina, I., Sarfjoo, S., Motlicek, P., Klein
     - Large-scale speech models perform systematically better on female recordings, especially after fine-tuning.
 
 Attia, A. A., Liu, J., Ai, W., Demszky, D., & Espy-Wilson, C. (2023). Kid-Whisper: Towards Bridging the Performance Gap in Automatic Speech Recognition for Children VS. Adults. arXiv, 2309.07927. Retrieved from https://arxiv.org/abs/2309.07927v3
+
+Bain, M., Huh, J., Han, T., & Zisserman, A. (2023). WhisperX: Time-Accurate Speech Transcription of Long-Form Audio. arXiv, 2303.00747. Retrieved from https://arxiv.org/abs/2303.00747v2
+
+    - We propose WhisperX, a system for efficient speech transcription of long-form audio with accurate word-level timestamps. It consists of 3 additional stages to Whisper transcription: (i) pre-segmenting the input audio with an external Voice Activity Detection (VAD) model; (ii) cut and merging the resulting VAD segments into approximately 30 seconds input chunks with boundaries lying on minimally active speech regions enabling batched whisper transcription; and finally (iii) forced alignment with an external phoneme model to provide accurate word-level timestamps.
+    - We demonstrate SOTA performance on long-form transcription and word segmentation benchmarks.
+    - Pre-segmenting audio enables a 12x transcription speedup via batched inference.
 
 Do, A., Brown, O., Wang, Z., Mathew, N., Liu, Z., Ahmed, J., & Yu, C. (2023). Using fine-tuning and min lookahead beam search to improve Whisper. arXiv, 2309.10299. Retrieved from https://arxiv.org/abs/2309.10299v1
 
@@ -4408,12 +4446,34 @@ Do, A., Brown, O., Wang, Z., Mathew, N., Liu, Z., Ahmed, J., & Yu, C. (2023). Us
 
 Fathullah, Y., Wu, C., Lakomkin, E., Jia, J., Shangguan, Y., Li, K., ...Seltzer, M. (2023). Prompting Large Language Models with Speech Recognition Abilities. arXiv, 2307.11795. Retrieved from https://arxiv.org/abs/2307.11795v1
 
+Gandhi, S., von Platen, P., & Rush, A. M. (2023). Distil-Whisper: Robust Knowledge Distillation via Large-Scale Pseudo Labelling. arXiv, 2311.00430. Retrieved from https://arxiv.org/abs/2311.00430v1
+
+    - We leverage pseudo-labelling to distill the Whisper model into a smaller variant, called Distil-Whisper. The encoder is entirely copied from the teacher to the student and frozen during training. The student’s decoder consists of only two decoder layers, which are initialised from the first and last decoder layer of the teacher, so the distilled model is 5.8 times faster with 51% fewer parameters. The model is trained on a weighted sum of 1) KL divergence with teacher output distribution, and 2) next token prediction of pseudo labels.
+    - We found there to be little difference in the downstream performance of the distilled model after pseudo-labelling using either greedy or beam-search, and so we opted to pseudo-label the training data with greedy decoding for its faster inference speed.
+    - By sharing the same encoder weights as Whisper, Distil-Whisper is designed to be paired with Whisper for speculative decoding, yielding a 2 times speed-up while ensuring the same outputs as the original model.
+    - Distil-Whisper maintains the robustness of the Whisper model, performing to within 1% WER on OOD test data in a zero-shot transfer setting.
+    - On long-form evaluation, the distilled model outperforms Whisper by 0.1% WER. We show that this performance gain is due to a lower propensity to hallucinate than the original Whisper model. Hallucinations are characterised by either the repetitive generation of identical sequences, or predicting passages of text not spoken in the audio input and are most prevalent in long-form audio transcription, particularly when the audio contains large amounts of silence between spoken utterances. To quantify the amount of repetition and hallucination in the predicted transcriptions, we measure the number of repeated 5-gram word duplicates (5-Dup.) and the insertion error rate (IER) over the four OOD long-form datasets.
+    - IMO, the question: does KL loss already includes Pseudo Labeling loss, if the latter is obtained with greedy decoding?
+
 Jain, R., Barcovschi, A., Yiwere, M., Corcoran, P., & Cucu, H. (2023). Adaptation of Whisper models to child speech recognition. arXiv, 2307.13008. Retrieved from https://arxiv.org/abs/2307.13008v1
+
+Liu, O., Tang, H., & Goldwater, S. (2023). Self-supervised Predictive Coding Models Encode Speaker and Phonetic Information in Orthogonal Subspaces. arXiv, 2305.12464. Retrieved from https://arxiv.org/abs/2305.12464v3
 
 Maison, L., & Estève, Y. (2023). Some voices are too common: Building fair speech recognition systems using the Common Voice dataset. arXiv, 2306.03773. Retrieved from https://arxiv.org/abs/2306.03773v1
 
     - We use the French Common Voice dataset to quantify the biases of a pre-trained wav2vec 2.0 model toward several demographic groups.
     - We fine-tune the pre-trained model on a variety of fixed-size, carefully crafted datasets. Results highlights the importance of prioritizing speaker diversity over dataset size and demographic diversity when collecting audio data.
+
+Peng, Y., Tian, J., Yan, B., Berrebbi, D., Chang, X., Li, X., ...Watanabe, S. (2023). Reproducing Whisper-Style Training Using an Open-Source Toolkit and Publicly Available Data. arXiv, 2309.13876. Retrieved from https://arxiv.org/abs/2309.13876v3
+
+    - We present an Open Whisper-style Speech Model (OWSM), which reproduces Whisperstyle training using an open-source toolkit and publicly available data. We will provide reproducible recipes encompassing the entire pipeline, including data preparation, training, inference, and scoring. Furthermore, we will release pre-trained models and training logs.
+    - Our multitask data format mostly follows OpenAI Whisper (fig. 1). Our model is designed to support any-to-any speech-to-text translation, whereas Whisper can only perform any-to-English translation.
+    - OWSM additionally employs a joint CTC loss for ASR targets. In our preliminary experiments, we observed suboptimal convergence of the attention-based encoder-decoder, and incorporating a joint ASR CTC loss to the encoder output can stabilize training and expedite convergence.
+    - We combine training sets from various publicly available ASR and ST corpora. Our largest dataset comprises 180k hours of labeled audio data (approximately one quarter of the Whisper's total data). We have developed new data preparation scripts tailored specifically for Whisper-style training (long-form audio data).
+    - Our training data is gathered from many public corpora with inconsistent case and punctuation. During inference, we find that OWSM models are able to recognize the corpus and generate outputs that are consistent with the training data format. In the future, we will normalize the text to address this issue. Note that this analysis demonstrates the benefit of using public data and open-source code, without which we cannot discover such issues.
+    - For inference, OpenAI Whisper implements both greedy decoding and beam search with temperature fallback. The latter is a complicated procedure relying on many heuristics. Our OWSM utilizes the ESPnet framework, ensuring compatibility with various decoding algorithms including greedy search, beam search, and joint CTC/attention decoding (for ASR only).
+    - The current OWSM still falls behind Whisper in many benchmarks.
+    - IMO, the authors evaluate on the datasets which are in-domain for OWSM and out-of-domain for Whisper.
 
 Pratap, V., Tjandra, A., Shi, B., Tomasello, P., Babu, A., Kundu, S., ...Auli, M. (2023). Scaling Speech Technology to 1,000+ Languages. arXiv, 2305.13516. Retrieved from https://arxiv.org/abs/2305.13516v1
 
@@ -4468,8 +4528,6 @@ Zaiem, S., Parcollet, T., & Essid, S. (2023). Automatic Data Augmentation for Do
 
 Zhang, Y., Han, W., Qin, J., Wang, Y., Bapna, A., Chen, Z., ...Wu, Y. (2023). Google USM: Scaling Automatic Speech Recognition Beyond 100 Languages. arXiv, 2303.01037. Retrieved from https://arxiv.org/abs/2303.01037v3
 
-Zuluaga-Gomez, J., Ahmed, S., Visockas, D., & Subakan, C. (2023). CommonAccent: Exploring Large Acoustic Pretrained Models for Accent Classification Based on Common Voice. arXiv, 2305.18283. Retrieved from https://arxiv.org/abs/2305.18283v1
-
     - We introduce the Universal Speech Model (USM) that performs ASR across 100+ languages.
     - Our training pipeline utilizes three types of datasets: Unpaired Audio (including 12M hours of YouTube-based audio covering over 300 languages), Unpaired Text and Paired ASR Data (including 90k hours of labeled multilingual data covering 73 language and 100k hours of en-US pseudo-labeled data generated by noisy student training).
     - Our model is 2B-parameter Conformer.
@@ -4479,13 +4537,40 @@ Zuluaga-Gomez, J., Ahmed, S., Visockas, D., & Subakan, C. (2023). CommonAccent: 
     - We compare the performance of our models against public baselines, including Whisper large-v2. For the massively multilingual speech recognition test dataset from YouTube, we observe that Whisper hallucinates in many languages, resulting in a WER exceeding 100%. We exclude languages for which Whisper produces > 40% WER, and also use segmented decoding for Whisper with 30-second segments to further reduce the effect of hallucinations. Still, our USM-LAS and USM-CTC models outperform Whisper by a wide margin on YouTube en-US, despite training on significantly less supervised data.
     - We investigate whether MOST representations are useful for adapting the model to new domains by freezing the entire learned encoder produced by MOST and adjusting a small amount of parameters added to the network by residual adapters.By adding only 2% to the total number of parameters, the MOST only performs slightly worse than the fine-tuning baselines. The small number of parameters being trained in this approach makes it feasible to extend our system to a large number of new domains and new tasks, even with a limited amount of training data, such as in FLEURS.
 
+Zuluaga-Gomez, J., Ahmed, S., Visockas, D., & Subakan, C. (2023). CommonAccent: Exploring Large Acoustic Pretrained Models for Accent Classification Based on Common Voice. arXiv, 2305.18283. Retrieved from https://arxiv.org/abs/2305.18283v1
+
 Attia, A. A., Demszky, D., Ogunremi, T., Liu, J., & Espy-Wilson, C. (2024). Continued Pretraining for Domain Adaptation of Wav2vec2.0 in Automatic Speech Recognition for Elementary Math Classroom Settings. arXiv, 2405.13018. Retrieved from https://arxiv.org/abs/2405.13018v1
+
+    - We show that continued pretraining (CPT) in effective in adapting Wav2vec 2.0 to the classroom domain (which is uniquely characterized by the abundance of children’s speech and unique classroom noise like children’s babble noise).
+    - We perform CPT for Wav2vec2.0 (starting from 3 different ASR checkpoints) on unlabeled classroom data and then finetune on labeled classroom data for ASR. To compare, we perform finetuning of the off-the-shelf Wav2vec2.0 and Whisper models without CPT. Our results show that CPT is the most effective way for adapting Wav2vec2.0 for noisy classroom speech.
+    - IMO, the WER std is too much to make such conclusions (see table 3). Also, since the in-domain 5-gram LM is not used for Whisper, the comparison is not fair.
+    - In cases with children’s babble noise, Whisper hallucinates by repeating a single word or phrase, for example, “how do you know that what what is the denominator what is the denominator the the the the the...” with the word ”the” repeating 206 times. Wav2vec does not suffer from the same hallucination problem.
 
 Bevilacqua, A., Saviano, P., Amirante, A., & Romano, S. P. (2024). Whispy: Adapting STT Whisper Models to Real-Time Environments. arXiv, 2405.03484. Retrieved from https://arxiv.org/abs/2405.03484v1
 
+    - We introduce Whispy, a production-ready system that can be used as a self-contained transcription service (fig. 1). Whispy is a wrapper around the Whisper pretrained models. The overall system lives within an HTTP server.
+    - Whispy processes short audio chunks that accumulate within a shifting buffer. An agreement algorithm based on the Levenshtein distance extracts the most accurate transcript suggestions when overlapping portions of the buffer are transcribed.
+    - The produced transcription is filtered to detect potential hallucinations, that is required because of the intrinsic tendency of large text-generation models to produce, from time to time, unreliable or unpredictable outputs. Other than content-oriented hallucinations, Whisper can produce hallucinatory artifacts resulting in the repetition of a single token or sequence of tokens. We designed a naive hallucination filter capable of reliably detecting repeating tokens and skim them. However, during our test campaigns we did not experience a sufficiently large number of hallucinatory events to determine the goodness of the hallucination filter.
+    - Whispy maintains transcription performance comparable to its offline counterparts, while exhibiting minimal latency.
+
 Frieske, R., & Shi, B. E. (2024). Hallucinations in Neural Automatic Speech Recognition: Identifying Errors and Hallucinatory Models. arXiv, 2401.01572. Retrieved from https://arxiv.org/abs/2401.01572v1
 
+    - The main difference between phonetic ASR errors and hallucinations lies in the severity of the latter. Phonetic ASR errors appear as badly transcribed words or phrases, especially when utterances are phonetically similar. They are being evaluated as a number of phonetic substitutions, insertions and deletions. On the contrary, the hallucinatory output does not have phonetic or semantic connection with the source utterance, even though it is often fluent and coherent. This third aspect is crucial to differentiate hallucinations from random repetitions and word salad.
+    - We propose a framework to differentiate hallucinations from other ASR errors. Since hallucinations should resemble probable model outputs, the fluency measure should be high and semantic connection to reference should be low.
+    - We use cosine similarity to estimate if the reference and the output are semantically related. We define hallucinations as semantically disconnected outputs. Therefore, they are the errors with the lowest cosine similarity and simultaneously high WER.
+    - To evaluate sentence fluency, we use perplexity, which gives intuition of how viable is the sentence according to LLM. We find that results returned by Flan T5 Small contain less extreme values of perplexity values than GPT2, hence the decision to choose the former model for the fluency evaluation.
+    - The model used for all the experiments is an encoder-decoder transformer provided by fairseq.
+    - We present the method to induce hallucinations with random noise injection to the source utterance.
+    - IMO, 1) phonetic mistakes may significantly change the semantics and hence give low cosine similarity, so this is not unique to hallucinaions, 2) non-phonetic mistakes (hallucinaions) are not necessarily related to the large change in semantics, and 3) fluency cannot be measured by perplexity, because gramatically correct and meaningful text is not always associated with high probability in any corpus.
+
 Gupta, A., Saon, G., & Kingsbury, B. (2024). Exploring the limits of decoder-only models trained on public speech recognition corpora. arXiv, 2402.00235. Retrieved from https://arxiv.org/abs/2402.00235v1
+
+    - We train Decoder-Only Transformer for ASR (DOTA) solely using cross-entropy loss (inspired by their success as language models) on public ASR data alone.
+    - The audio input to the model is a sequence of audio frames followed by text token embeddings. We find that bidirectionality over audio frames is critical to high performance across model scales. For simplicity, we used sinusoidal positional embeddings.
+    - We vary over a wide range of hyperparameters, including augmentations and the datasets included in the training set. For example, augmentations are not very important.
+    - Our training data consists of MultilingualLibriSpeech (English), PeoplesSpeech, GigaSpeech, SPGISpeech, CommonVoice 11.0, LibriSpeech, Fisher, TedLium 3, AMI, FLEURS (English), VoxPopuli (English), LJ Speech, VoiceMail, VCTK. This resulted in 93K hours of speech-text pairs. We normalized the transcripts using Whisper’s EnglishTextNormalizer module which converts text to lower case, removes punctuation and applies several other case-by-case transformations. We further remove newline character and insert space between consecutive digits. We then tokenize the text using bert-base-uncased tokenizer.
+    - DOTA outperforms Whisper large-v3 on 7 out of 15 test sets. As our models are trained on these sets, the errors rates are low.
+    - IMO, the most important thing is that the test sets are in-domain for DOTA and out-of-domain for Whisper, so the comparison is by no means fair.
 
 He, H., Shang, Z., Wang, C., Li, X., Gu, Y., Hua, H., ...Wu, Z. (2024). Emilia: An Extensive, Multilingual, and Diverse Speech Dataset for Large-Scale Speech Generation. arXiv, 2407.05361. Retrieved from https://arxiv.org/abs/2407.05361v2
 
@@ -4495,11 +4580,49 @@ Kim, H., Myung, J., Kim, S., Lee, S., Kang, D., & Kim, J. (2024). LearnerVoice: 
 
 Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-Text Hallucination Harms. arXiv, 2402.08021. Retrieved from https://arxiv.org/abs/2402.08021v2
 
+    - We evaluate Whisper’s transcription performance on the axis of "hallucinations", defined as undesirable generated text "that is nonsensical, or unfaithful to the provided source input".
+    - We set the sampling temperature parameter to 0.
+    - Roughly 1% of Whisper transcriptions from AphasiaBank dataset contain entire hallucinated phrases. Whisper hallucinates entire made-up sentences when no one is speaking in the input audio files.
+    - 38% of hallucinations are harmful or concerning in some way (as opposed to innocuous and random), such as explicit portrayals of physical violence or death, or false authority like thanking viewers or specific groups, and linking to websites that misrepresent the speaker source (table 1).
+    - Longer pauses in spoken speech (thereby, with longer periods of background noise in the audio file) could result in more hallucinations due to Whisper being seeded by noise rather than speech (fig. 3).
+    - Notably, we found no evidence of hallucinations in competing speech recognition systems such as Google Speech-to-Text or the latest Google Chirp model. As such, we believe hallucinations to currently be an OpenAI-specific concern.
+    - Our work compares a relatively small set of aphasia speakers to control group speakers in a setting where they are being asked a standard slate of interview questions. If a broader set of topics were to be discussed, it is possible that the scope of hallucinations would be widened.
+    - Another one category of hallucinations is the appearance of other languages. For example, Whisper is prone to generating non-English transcriptions even when provided an argument indicating that the target language is English.
+    - We hypothesize on two underlying mechanisms that likely result in these hallucinations.
+
+Li, X., Takamichi, S., Saeki, T., Chen, W., Shiota, S., & Watanabe, S. (2024). YODAS: Youtube-Oriented Dataset for Audio and Speech. arXiv, 2406.00899. Retrieved from https://arxiv.org/abs/2406.00899v1
+
+    - We introduce YODAS (YouTube-Oriented Dataset for Audio and Speech), a large-scale, multilingual dataset comprising currently over 500k hours of speech data in more than 100 languages
+    - YODAS includes: 1) the manual subset of 86,400 hours of audio data paired with manual transcriptions, 2) the automatic subset of 335,845 hours of audio data with automatic transcriptions from YouTube, 3) The unlabeled subset of 144,174 hours of raw audio data, devoid of any transcription.
+    - English emerges as the most prevalently used language, with Spanish and Russian occupying the second and third positions, respectively, when assessed based on duration. The automatic subset has only a very limited number of languages (14 languages) compared with the manual subset (140 languages).
+    - In the automatic subset, most utterances are short and have little variance. This is because the automatic subtitle frequently divides long utterances into small chunks to help viewers to follow subtitles easier.
+    - We focus on monolingual speech recognition, and build simple baseline models for the top-25 languages in the manual subset. Our baseline is a linear layer randomly initialized on top of the pre-trained XLSR representations, which is then optimized with the CTC loss. The subword vocabulary is prepared with BPE using SentencePiece, where we use 300 as the vocabulary size for most languages except 5000 for Mandarin and 3000 for Japanese. For simplicity, we do not perform speech augmentation. The decoding is done greedily without any language models. Table 5 displays our results for monolingual speech recognition. We observe that languages possessing a larger BPE vocabulary size tend to correspond with higher CER (is it a random split validation?). Models trained on the manual subset yield significantly superior performance compared to those trained on the automatic subset.
+
 Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
+
+    - We study how such information is represented in self-supervised speech representations, beyond just assessing the linear separability of classes. We use a geometric approach, that is widely used for analyzing self-supervised models of text.
+    - We develop a new measure for analyzing high-dimensional distributions, the Cumulative Residual Variance (CRV). Given datasets X and Y embedded in the same embedding space, the CRV of X w.r.t. Y (denoted as X\Y) measures the degree to which the principal components of Y are orthogonal to those of X. Meanwhile, X\X is a measure of the isotropy of X — the degree to which X effectively utilizes all dimensions of the embedding space, i.e., has uniform covariance.
+    - Comparing to the previous work "Self-supervised Predictive Coding Models Encode Speaker and Phonetic Information in Orthogonal Subspaces", the CRV measure allows us to better quantify orthogonality.
+    - On English LibriSpeech we show that, unlike randomly initialized models, all trained models have a high degree of orthogonality between the speaker and phonetic subspaces. For all 6 trained models, the accuracy of a phone classifier trained on the model representations is significantly correlated with the CRV between the two subspaces.
+    - It has been argued in the NLP literature that higher isotropy is desirable in an embedding space. However, we did not find strong evidence for this hypothesis. Instead, having evenly distributed centroids is more important for classification accuracy in these models than having evenly distributed frame representations.
 
 Shah, M. A., Noguero, D. S., Heikkila, M. A., & Kourtellis, N. (2024). Speech Robust Bench: A Robustness Benchmark For Speech Recognition. arXiv, 2403.07937. Retrieved from https://arxiv.org/abs/2403.07937v1
 
+    - We propose Speech Robust Bench (SRB), a benchmark for evaluating the robustness of ASR models to 69 input perturbations that ASR models may encounter in the physical and digital world (fig. 2). The perturbations are of two broad types: 1) non-adversarial and 2) adversarial.
+    - SRB is agnostic to the evaluation data and can be used with any dataset that contains utterances and reference transcripts, however, we recommend using datasets with high-quality clean audio and accurate transcripts so that pre-existing corruptions in the dataset do not confound the robustness metrics. Our evaluation in uses clean speech from Librispeech.
+    - We measure two aspects of robustness: the transcription accuracy (WER) and the stability under randomized perturbations. When aggregating WER over multiple perturbations, we normalize the WER of the target model by the WER of a baseline model (following the methodology of "Benchmarking neural network robustness to common corruptions and perturbations" on images domain). Doing so penalizes errors on “easy” corruptions more than errors on “harder” corruptions. This normalized metric is called Normalized WER (NWER). Also SRB measures the prediction stability of the model by computing the variance in the WER caused by corrupting the signal with multiple corruption samples drawn from the same distribution. We call this metric WER Variance (WERV).
+    - On English speech, Whisper is able to withstand more severe corruptions better than other models. However, it is outperformed by other, smaller, models on several perturbations. It is rather surprising that despite being trained on more than ten times the amount of data, wsp-lg is outperformed by both hubt-lg and w2v2-lg-slf on fairly common perturbations such as RIR, resampling, and tempo reduction. Some models (hubt-lg, w2v2-lg-slf, ds) are more stable on Gaussian noise, while others ( wsp-lg, w2v2-bs, w2v2-lgrob) are more stable on environmental noise. Larger models tend to be more robust than smaller models, even if the latter are trained on significantly more data.
+    - On non-English (Spanish) speech, it is interesting that despite having more parameters and being trained on 10× more data, wsp-lg is outperformed by w2v2-lg-es, thus indicating that simply scaling the model and training data is not sufficient to achieve robustness, particularly in the multi-lingual setting. So, wsp-lg is not the most robust model on Spanish, and struggles on simple perturbations, particularly on RIR (room impulse response).
+    - We observe noticeable disparities in the robustness across various demographic subgroups, for example, RIR and adversarial attacks disproportionately degrade the performance of models for female speakers.
+
 Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.-y. (2024). A Large-Scale Evaluation of Speech Foundation Models. arXiv, 2404.09385. Retrieved from https://arxiv.org/abs/2404.09385v2
+
+    - We extend our SUPERB benchmark (see "SUPERB: Speech processing Universal PERformance Benchmark") with the following contributions:
+    - 1) We provide a complete platform featuring an online leaderboard supporting submissions
+    - 2) We scale the evaluation from the original 14 models [34] to 33 models
+    - 3) We observe that the learnable weighted-sum over the frozen layers of the SSL model is better than the conventional evaluation protocol: using the frozen last layer. Furthermore, individual single-layer benchmarking can sometimes yield even better results.
+    - 4) We confirm that the layer weights learned by the weighted-sum protocol do not reflect the layer performance precisely across SUPERB tasks (as in "Layer-Wise Analysis of a Self-Supervised Speech Representation Model").
+    - 5) We suggest to conduct statistical test when comparing to our baseline numbers.
 
 Zhang, L., Jiang, N., Wang, Q., Li, Y., Lu, Q., & Xie, L. (2024). Whisper-SV: Adapting Whisper for Low-data-resource Speaker Verification. arXiv, 2407.10048. Retrieved from https://arxiv.org/abs/2407.10048v1
 
