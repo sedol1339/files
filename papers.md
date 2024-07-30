@@ -4509,6 +4509,8 @@ Veliche, I.-E., & Fung, P. (2023). Improving Fairness and Robustness in End-to-E
     - We focus on solving fairness and robustness issue in ASR while meeting privacy requirement (regulators have passed down strict laws that prohibit the use of demographic and other Personal & Private Information in building AI systems).
     - We propose clustering the training data using utterance level embeddings extracted with a speaker ID model and usethe resulting cluster ID as an additional feature in training instead. At inference time, we give each utterance an “unknown” cluster ID as an additional feature.
 
+Wagner, L., Zusag, M., & Bloder, T. (2023). Careful Whisper -- leveraging advances in automatic speech recognition for robust and interpretable aphasia subtype classification. arXiv, 2308.01327. Retrieved from https://arxiv.org/abs/2308.01327v1
+
 Xu, H., Jia, F., Majumdar, S., Huang, H., Watanabe, S., & Ginsburg, B. (2023). Efficient Sequence Transduction by Jointly Predicting Tokens and Durations. arXiv, 2304.06795. Retrieved from https://arxiv.org/abs/2304.06795v2
 
 Yang, C.-H. H., Li, B., Zhang, Y., Chen, N., Prabhavalkar, R., Sainath, T. N., & Strohman, T. (2023). From English to More Languages: Parameter-Efficient Model Reprogramming for Cross-Lingual Speech Recognition. arXiv, 2301.07851. Retrieved from https://arxiv.org/abs/2301.07851v1
@@ -4598,6 +4600,8 @@ Li, X., Takamichi, S., Saeki, T., Chen, W., Shiota, S., & Watanabe, S. (2024). Y
     - In the automatic subset, most utterances are short and have little variance. This is because the automatic subtitle frequently divides long utterances into small chunks to help viewers to follow subtitles easier.
     - We focus on monolingual speech recognition, and build simple baseline models for the top-25 languages in the manual subset. Our baseline is a linear layer randomly initialized on top of the pre-trained XLSR representations, which is then optimized with the CTC loss. The subword vocabulary is prepared with BPE using SentencePiece, where we use 300 as the vocabulary size for most languages except 5000 for Mandarin and 3000 for Japanese. For simplicity, we do not perform speech augmentation. The decoding is done greedily without any language models. Table 5 displays our results for monolingual speech recognition. We observe that languages possessing a larger BPE vocabulary size tend to correspond with higher CER (is it a random split validation?). Models trained on the manual subset yield significantly superior performance compared to those trained on the automatic subset.
 
+Meng, L., Kang, J., Wang, Y., Jin, Z., Wu, X., Liu, X., & Meng, H. (2024). Empowering Whisper as a Joint Multi-Talker and Target-Talker Speech Recognition System. arXiv, 2407.09817. Retrieved from https://arxiv.org/abs/2407.09817v1
+
 Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
 
     - We study how such information is represented in self-supervised speech representations, beyond just assessing the linear separability of classes. We use a geometric approach, that is widely used for analyzing self-supervised models of text.
@@ -4605,6 +4609,10 @@ Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and iso
     - Comparing to the previous work "Self-supervised Predictive Coding Models Encode Speaker and Phonetic Information in Orthogonal Subspaces", the CRV measure allows us to better quantify orthogonality.
     - On English LibriSpeech we show that, unlike randomly initialized models, all trained models have a high degree of orthogonality between the speaker and phonetic subspaces. For all 6 trained models, the accuracy of a phone classifier trained on the model representations is significantly correlated with the CRV between the two subspaces.
     - It has been argued in the NLP literature that higher isotropy is desirable in an embedding space. However, we did not find strong evidence for this hypothesis. Instead, having evenly distributed centroids is more important for classification accuracy in these models than having evenly distributed frame representations.
+
+Peng, Y., Tian, J., Chen, W., Arora, S., Yan, B., Sudo, Y., ...Watanabe, S. (2024). OWSM v3.1: Better and Faster Open Whisper-Style Speech Models based on E-Branchformer. arXiv, 2401.16658. Retrieved from https://arxiv.org/abs/2401.16658v2
+
+Ramirez, F. M., Chkhetiani, L., Ehrenberg, A., McHardy, R., Botros, R., Khare, Y., ...Yoshioka, T. (2024). Anatomy of Industrial Scale Multilingual ASR. arXiv, 2404.09841. Retrieved from https://arxiv.org/abs/2404.09841v2
 
 Shah, M. A., Noguero, D. S., Heikkila, M. A., & Kourtellis, N. (2024). Speech Robust Bench: A Robustness Benchmark For Speech Recognition. arXiv, 2403.07937. Retrieved from https://arxiv.org/abs/2403.07937v1
 
