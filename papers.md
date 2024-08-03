@@ -2109,6 +2109,15 @@ Liu, L., Jiang, H., He, P., Chen, W., Liu, X., Gao, J., & Han, J. (2019). On the
     - We propose Multi-linear attention with Block-Term Tensor Decomposition (BTD)
     - This not only largely compress the model parameters but also obtain performance improvements
 
+Mania, H., Miller, J., Schmidt, L., Hardt, M., & Recht, B. (2019). Model Similarity Mitigates Test Set Overuse. arXiv, 1905.12580. Retrieved from https://arxiv.org/abs/1905.12580v1
+
+    - Popular benchmarks, competitions, industrial scale tuning involve excessive reuse of test data. Models incorporate prior information about the available test data since human analysts choose models in a manner guided by previous results.
+    - Theory suggests that for k models chosen independently of n test data points, the holdout method provides valid risk estimates for each of these models up to a deviation on the order of sqrt(log(k)/n). However, adaptivity significantly complicates the theoretical guarantees of the holdout method. A simple adaptive strategy, resembling the practice of selectively ensembling k models, can bias the holdout method by as much as sqrt(k/n). If this bound were attained in practice, holdout data across the board would rapidly lose its value over time. Nonetheless, recent replication studies give evidence that popular benchmarks continue to support progress (on OOD data) despite years of extensive reuse.
+    - We show that current ImageNet and CIFAR-10 models exhibit significant agreement in their predictions, well beyond what would follow from their accuracy values alone. We give new generalization bounds that incorporate a measure of similarity.
+    - This helps to explain why holdout data has much greater longevity than prior bounds suggest when models are highly similar. In hyperparameter search, such similarity provides a counterweight to the massive number of model evaluations, limiting the amount of overfitting we observe.
+
+McCoy, R. T., Min, J., & Linzen, T. (2019). BERTs of a feather do not generalize together: Large variability in generalization across models with similar test set performance. arXiv, 1911.02969. Retrieved from https://arxiv.org/abs/1911.02969v2
+
 Mei, S., & Montanari, A. (2019). The generalization error of random features regression: Precise asymptotics and double descent curve. arXiv, 1908.05355. Retrieved from https://arxiv.org/abs/1908.05355v5
 
 Millidge, B. (2019). Deep Active Inference as Variational Policy Gradients. arXiv, 1907.03876. Retrieved from https://arxiv.org/abs/1907.03876v1
@@ -2144,6 +2153,12 @@ Peluchetti, S., & Favaro, S. (2019). Infinitely deep neural networks as diffusio
     - For deep nets with iid weight init, the dependency on the input vanishes as depth increases to infinity
     - Under some assumptions, infinitely deep ResNets converge to SDEs (diffusion processes)
     - They do not suffer from the above property
+
+Recht, B., Roelofs, R., Schmidt, L., & Shankar, V. (2019). Do ImageNet Classifiers Generalize to ImageNet? arXiv, 1902.10811. Retrieved from https://arxiv.org/abs/1902.10811v2
+
+    - We replicate the dataset creation process for CIFAR-10 and ImageNet, obtaining ImageNetV2 and CIFAR-10.1.
+    - A wide range of classification models fail to reach their original accuracy scores. The accuracy drops range from 3% to 15% on CIFAR-10 and 11% to 14% on ImageNet. At the same time, the models with highest accuracy on the original test sets are still the models with highest accuracy on the new test sets (fig. 1).
+    - It is possible to recover the original ImageNet accuracies almost exactly if we only include the easiest images from our candidate pool. This suggests that the accuracy scores are sensitive to minutiae of the data cleaning process.
 
 #training Qiao, S., Wang, H., Liu, C., Shen, W., & Yuille, A. (2019). Micro-Batch Training with Batch-Channel Normalization and Weight Standardization. arXiv, 1903.10520. Retrieved from https://arxiv.org/abs/1903.10520v2
 
@@ -2436,6 +2451,14 @@ Liu, C., Zhu, L., & Belkin, M. (2020). Loss landscapes and optimization in over-
     - We find that one large network may perform worse than an ensemble of several medium-size networks with the same total number of parameters (we call this ensemble a memory split)
     - With these results we can guess the possible gain from the ensembling and the optimal memory split
 
+Mania, H., & Sra, S. (2020). Why do classifier accuracies show linear trends under distribution shift? arXiv, 2012.15483. Retrieved from https://arxiv.org/abs/2012.15483v2
+
+    - The current work is based on our previous work "Model Similarity Mitigates Test Set Overuse", when we have shown that most ImageNet models strongly agree in their predictions.
+    - We translate this observation into the following assumption: high accuracy models correctly classify most of the data points correctly classified by lower accuracy models. This assumptions is satisfied by ImageNet and CIFAR-10 models.
+    - Under this assumption we show that models must be approximately collinear when evaluated on two distributions, unless the size of the distribution shift is large in a certain sense.
+    - To define distributional closeness, we use a specific (δ1, δ2, ν1, ν2)-closeness measure based on triplets of models. We provide empirical motivation for this definition and a more detailed discussion.
+    - However, we still do not understand why models are similar. Are models similar due to the training data, the model classes, or something else?
+
 Millidge, B., Tschantz, A., Seth, A. K., & Buckley, C. L. (2020). On the Relationship Between Active Inference and Control as Inference. arXiv, 2006.12964. Retrieved from https://arxiv.org/abs/2006.12964v3
 
 Millidge, B., Tschantz, A., & Buckley, C. L. (2020). Whence the Expected Free Energy? arXiv, 2004.08128. Retrieved from https://arxiv.org/abs/2004.08128v5
@@ -2607,6 +2630,15 @@ Zhao, P., Chen, P.-Y., Das, P., Ramamurthy, K. N., & Lin, X. (2020). Bridging Mo
     - IsoBN allows to learn more isotropic representations in fine-tuning
     - We achieve improvement on the average of seven NLU tasks
 
+Zhou, X., Nie, Y., Tan, H., & Bansal, M. (2020). The Curse of Performance Instability in Analysis Datasets: Consequences, Source, and Suggestions. arXiv, 2004.13606. Retrieved from https://arxiv.org/abs/2004.13606v2
+
+    - Previous works have shown performance instabilities, for example, different runs of BERT NLI models have large non-negligible variances on the HANS, contrasting sharply with their stable results on standard validation set across multiple seeds (see "BERTs of a feather do not generalize together: Large variability in generalization across models with similar test set performance"). This finding raises concerns regarding the reliability of individual results reported on those datasets and the conclusions made upon these results.
+    - To address this problem, we conduct a deep investigation on model instability.
+    - We observe that the final results of the same model with different random seeds on several analysis sets are of significantly high variance (more than 27 times of that for standard development set, fig. 2). The results of the same model on analysis sets and on the standard development set have low correlation (fig. 3). Certain datasets have unstable results across different models. The instability exists all along training trajectory (fig. 1).
+    - We show that inter-examples correlation within the dataset is the dominating factor causing this performance instability. If there are many examples correlated with each other in the evaluation set, then the change of prediction on one example will influence predictions on all the correlated examples (fig. 4), causing high variances in final accuracy.
+    - Our short term suggestion is to report the decomposed variance (Idp Var and Cov). The first number (independent variance, i.e., Idp Var) can be viewed as a metric regarding how stable the model makes one single prediction and this number can be compared across different models. A high Cov indicates that many examples look similar to the model, and the model may be exploiting some common artifacts in this group of examples. A lower Cov usually means that the dataset is diverse and is preferable for evaluation. A more stable model should aim to improve the total variance with more focus on Idp Var.
+    - Our long term suggestion is to focus on improving models (including better inductive biases, large-scale pre-training with tasks concerning structure/compositionality) so that they can get high accuracy stably. We also encourage the construction of more diverse datasets (in terms of syntax and lexicon). Datasets from natural real-life sources usually lead to lower covariance between predictions and show better stability. While controlled synthetic datasets are more accurate and effective in evaluating certain linguistic phenomenon, the lack of diversity may increase the model’s ability to guess the answer right and solve only that single pattern/property.
+
 ## 2021
 
 Aguilera, M., Millidge, B., Tschantz, A., & Buckley, C. L. (2021). How particular is the physics of the free energy principle? arXiv, 2105.11203. Retrieved from https://arxiv.org/abs/2105.11203v3
@@ -2755,6 +2787,19 @@ Lobacheva, E., Kodryan, M., Chirkova, N., Malinin, A., & Vetrov, D. (2021). On t
 
 Meunier, L., Delattre, B., Araujo, A., & Allauzen, A. (2021). A Dynamical System Perspective for Lipschitz Neural Networks. arXiv, 2110.12690. Retrieved from https://arxiv.org/abs/2110.12690v2
 
+Miller, J., Taori, R., Raghunathan, A., Sagawa, S., Koh, P. W., Shankar, V., ...Schmidt, L. (2021). Accuracy on the Line: On the Strong Correlation Between Out-of-Distribution and In-Distribution Generalization. arXiv, 2107.04649. Retrieved from https://arxiv.org/abs/2107.04649v2
+
+    - We investigate linear trends between ID and OOD accuracy (previously shown in "Do ImageNet Classifiers Generalize to ImageNet?") oт many models on multiple distribution shifts (fig. 1). We observe that linear trends apply to a wide range of model families and holds under variation in architecture, hyperparameters, and training duration, and on many datasets: multiple popular image classification benchmarks, a pose estimation testbed and two distribution shifts derived from concrete applications of image classification: satellite imagery and wildlife photos.
+    - The linear trends are more precise after applying a probit or logit scaling on both axes of the scatter plotes.
+    - Classical methods follow the same linear trend as more recent deep learning architectures.
+    - ImageNet pre-trained models on CIFAR-10 and FMoW-WILDS follow the same linear trends as models trained only on CIFAR-10 / FMoW-WILDS. In other cases (e.g., iWildCam-WILDS), pre-training yields clearly different relationships between ID and OOD accuracies.
+    - Linear trends do not occur or are less regular on some of the synthetic distribution shifts in CIFAR-10-C (e.g., Gaussian noise), the Camelyon17-WILDS shift of tissue slides from different hospitals, and a version of the iWildCam-WILDS wildlife with a different in-distribution train-test split.
+    - As a theoretical models for linear fits, we identify a simple Gaussian setting that showed linear fits across a large range of models (linear models, nearest neighbors and random features, fig. 6).
+    - When the direction which determines the distribution shift is chosen by an adversary with knowledge of the tested models, the ID-OOD relationship can be highly non-linear. This is reminiscent of adversarial robustness.
+    - When a practitioner encounters a linear trend between ID and OOD performance, it is reasonable to expect that similar distribution shifts will also exhibit a linear trend. In this case, selecting the best model under these distribution shifts reduces to selecting the best model on the ID test set, and existing work on improving ID performance already improves the robustness of a model (understood as OOD performance) without explicitly targeting robustness. To better compare new training techniques to prior work in terms of robustness, we recommend that papers illustrate the effect of their technique with a scatter plot of relevant models and report both ID and OOD performance.
+    - It is currently unclear whether improving ID performance is the only way, or even the best way, to improve OOD performance.
+    - We provice a detailed discussion of related work in appendix.
+
 Millidge, B., Seth, A., & Buckley, C. L. (2021). Predictive Coding: a Theoretical and Experimental Review. arXiv, 2107.12979. Retrieved from https://arxiv.org/abs/2107.12979v4
 
 Nado, Z., Gilmer, J. M., Shallue, C. J., Anil, R., & Dahl, G. E. (2021). A Large Batch Optimizer Reality Check: Traditional, Generic Optimizers Suffice Across Batch Sizes. arXiv, 2102.06356. Retrieved from https://arxiv.org/abs/2102.06356v3
@@ -2870,6 +2915,8 @@ Courtois, A., Morel, J.-M., & Arias, P. (2022). Can neural networks extrapolate?
     - We extend the proof to the discrete setting and the multi-dimensional case
     - It is unclear how the interpretability of the NTK would apply to high dimensional settings such as images
     - Our experiments seem to confirm Domingos’ interpretation of his theorem
+
+D'Amour, A., Heller, K., Moldovan, D., Adlam, B., Alipanahi, B., Beutel, A., ...Sculley, D. (2022). Underspecification Presents Challenges for Credibility in Modern Machine Learning. Journal of Machine Learning Research, 23(226), 1–61. Retrieved from https://www.jmlr.org/papers/v23/20-1335.html
 
 Engel, A., Wang, Z., Sarwate, A. D., Choudhury, S., & Chiang, T. (2022). TorchNTK: A Library for Calculation of Neural Tangent Kernels of PyTorch Models. arXiv, 2205.12372. Retrieved from https://arxiv.org/abs/2205.12372v1
 
@@ -4248,6 +4295,15 @@ Tomanek, K., Zayats, V., Padfield, D., Vaillancourt, K., & Biadsy, F. (2021). Re
     - We study personalized models for atypical speech, and group models for accented speech.
     - Adapter layers work well for two different SOTA models: RNN-T, and Transformer Transducers (T-T).
     - This provides an easy way to deploy and store adapted models: a (generic) base model is deployed to all clients, and each individual or group can receive a personalized set of trained adapter layers that is small in size.
+
+Wang, H., Qian, Y., Wang, X., Wang, Y., Wang, C., Liu, S., ...Wang, D. (2021). Improving Noise Robustness of Contrastive Speech Representation Learning with Speech Reconstruction. arXiv, 2110.15430. Retrieved from https://arxiv.org/abs/2110.15430v1
+
+    - Usually noise robustness in ASR is achieved by speech enhancement modules. However, the ASR performance of the noise-suppressed speech may be degraded, caused by the nonlinear distortion brought by DNN. One solution is to train both networks jointly to allow train-time adaptation of the ASR network to such distortions. This complicates architecture and training.
+    - We propose a novel self-supervised approach to address the robust ASR problem. We combine a reconstruction module with the contrastive learning framework of wav2vec 2.0.
+    - Our network (fig. 1) takes in a noisy waveform as the input. We optimize the network 1) to reconstruct the clean speech, and 2) to solve the contrastive task by distinguishing the positive samples from the negative samples. Our reconstruction module uses two-layer bidirectional LSTM network with layer normalization, followed by a CNN decoder. Reconstruction is only performed in the pre-training stage, and it is not required in fine-tuning and inference.
+    - In comparison with Wav2vec-C, we explicitly incorporate the denoising process, while they mainly focused on improving the codebook utilization ratio of wav2vec 2.0.
+    - On Librispeech with synthetic noise, by adding the reconstruction module, our proposed model maintained the performance for clean speech, meanwhile, performed significantly better for noisy speech. For the real-world noisy speech from the CHiME-4 challenge, we have obtained the state of the art ASR performance without any denoising front-end, but the performance boost for the LibriSpeech based model was more obvious.
+    - IMO, in CV there were shown that the robustness to synthetic distribution shifts, including noise does not make the model to be robust to the real distribution shifts. However, maybe this does not hold in ASR.
 
 Wang, C., Rivière, M., Lee, A., Wu, A., Talnikar, C., Haziza, D., ...Dupoux, E. (2021). VoxPopuli: A Large-Scale Multilingual Speech Corpus for Representation Learning, Semi-Supervised Learning and Interpretation. arXiv, 2101.00390. Retrieved from https://arxiv.org/abs/2101.00390v2
 
