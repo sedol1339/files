@@ -2677,6 +2677,13 @@ Ding, Z., Chen, S., Li, Q., & Wright, S. (2021). Overparameterization of deep Re
     - Results suggest that the training of the large enough ResNet gives a near-zero loss
     - Estimates of the depth and width needed to reduce the loss below a given threshold
 
+Entezari, R., Sedghi, H., Saukh, O., & Neyshabur, B. (2021). The Role of Permutation Invariance in Linear Mode Connectivity of Neural Networks. arXiv, 2110.06296. Retrieved from https://arxiv.org/abs/2110.06296v2
+
+    - We conjecture that by taking permutation invariance into account, the loss landscape of NNs can be simplified significantly, resulting in linear mode connectivity (LMC) between SGD solutions trained from different initializations.
+    - Our experiments fall short of refuting this hypothesis and end up as supporting evidence for it.
+    - We investivate how LMC is affected bywidth, depth and task difficulty for FCNs and CNNs.
+    - Our conjecture has implications for lottery ticket hypothesis, distributed training and ensemble methods.
+
 Federici, M., Tomioka, R., & Forré, P. (2021). An Information-theoretic Approach to Distribution Shifts. arXiv, 2106.03783. Retrieved from https://arxiv.org/abs/2106.03783v2
 
     - We introduce a novel information-theoretical framework for the problem of distribution shift
@@ -3013,7 +3020,8 @@ Weng, Lilian. (Sep 2022). Some math behind neural tangent kernel. Lil’Log. htt
     - We propose "model soups": averaging the weights of multiple models finetuned with different hyperparameters
     - This often improves accuracy and robustness and does not incur additional inference or memory costs
     - When fine-tuning CLIP, ALIGN or ViT-G, our soup recipe provides significant improvements over the best model
-    - Model soup also improves OOD performance and zero-shot performance on new downstream tasks
+    - Model soup also improves OOD performance and zero-shot performance on new downstream tasks, compared to the best individual fine-tuned model.
+    - Greedy soups, where models are sequentially added to the soup if they improve accuracy on held-out data, outperforms uniform averaging. Greedy soups avoid adding in models which may lie in a different basin of the error landscape, which could happen if, for example, models are fine-tuned with high learning rates.
     - We relate the performance similarity of weight-averaging and logit ensembling to flatness of the loss and confidence of the predictions
 
 Yang, G., Hu, E. J., Babuschkin, I., Sidor, S., Liu, X., Farhi, D., ...Gao, J. (2022). Tensor Programs V: Tuning Large Neural Networks via Zero-Shot Hyperparameter Transfer. arXiv, 2203.03466. Retrieved from https://arxiv.org/abs/2203.03466v2
@@ -3299,6 +3307,36 @@ Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (20
 
 ## Fine-tuning
 
+Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). Measuring Robustness to Natural Distribution Shifts in Image Classification. Advances in Neural Information Processing Systems, 33, 18583–18599. Retrieved from https://proceedings.neurips.cc/paper/2020/hash/d8330f857a17c53d217014ee776bfd50-Abstract.html
+
+    - Some studies implicitly assume that hat robustness to synthetic distribution shifts (l_p-adversarial examples, noise corruptions, etc.) will lead to models that also perform more reliably on natural distribution shifts.
+    - Our paper is a meta-study of current robustness research.
+    - We evaluate on seven natural distribution shifts that we classify into three categories. 1) Consistency shifts: robustness to small changes across video frames. Here we evaluate the "accuracy under distribution shift" by choosing the worst frame from each frame set for a classifier; this is a known "pm-k" metric (see "Do image classifiers generalize across time?"). 2) Dataset shifts: shifts between datasets that are collected in a different manner with a compatible set of classes. 3) Adversarially filtered shifts  with an adversarially collected dataset ImageNet-A by collecting images from Flickr, DuckDuckGo, iNaturalist, and selecting the subset that was misclassified by a ResNet-50 model.
+    - We evaluate robustness of 204 ImageNet models in 213 different test conditions and show that current methods (adversarial training, various forms of data augmentation, etc.) tested on synthetic robustness measures do not imply natural robustness. In particular, the accuracy on the original test set alone almost perfectly predicts the accuracy on the test sets with distribution shift, if using a linear predictor trained on standard models (fig. 1).
+    - Based on this linear trend, we propose the "effective robustness" metric. In our experiments, we always have two evaluation settings: the “standard” test set, and the test set with distribution shift. We aim to disentangle the robustness of a model from its accuracy on the standard test set, so that the latter no longer acts as a confounder. We would like to understand if a model B offers higher accuracy on the shifted test set beyond what is expected from having higher accuracy on the original test set. We call this notion of robustness beyond a baseline "effective robustness" (see sec. 2). Graphically, effective robustness corresponds to a model being above the linear trend (red line) by our testbed of standard models that were simply trained on the same distribution as the “standard” test set.
+    - Effective robustness alone does not imply that a robustness intervention is useful, since a robustness intervention may decrease both in-distribution and OOD accuracies. Such a robustness intervention would offer no benefits. So, we also introduce relative robustness, which is simply an OOD accuracy gain from applying the intervention. Overall, a useful robustness intervention should obtain both positive effective and relative robustness.
+    - We colcude that no models achieve both large effective and relative robustness. In many existing work the "improved robustness" can be explained by the model performing better on the standard, unperturbed test set. While training more accurate models is clearly useful, it is important to separate accuracy improvements from robustness improvements when interpreting the results.
+    - The only intervention that slightly improves the effective robustness to multiple natural distribution shifts is training with a more diverse dataset. At the same time, we find some models that are trained on 100X more data than the standard ImageNet but do not provide any robustness.
+    - There is an earlier version of this paper called "When Robustness Doesn’t Promote Robustness: Synthetic vs. Natural Distribution Shifts on ImageNet". Some of the text above is from this version.
+
+
+Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of Out-of-Distribution Robustness Throughout Fine-Tuning. arXiv, 2106.15831. Retrieved from https://arxiv.org/abs/2106.15831v1
+
+    - It was shown across a wide range of models that there is a clear linear relationship between a model’s final performance on ID and OOD data (see "Do ImageNet Classifiers Generalize to ImageNet?"). However, even the highest-performing models will still have a gap between ID and OOD accuracy. Models which lie above the linear fit are said to exhibit effective robustness (ER), which measures the model’s OOD accuracy relative to the fit. Models with high ER (>1%) are exceedingly rare.
+    - (For mode details about ER see sec. 3 or the original paper "When robustness doesn't promote robustness: Synthetic vs. natural distribution shifts on imagenet").
+    - We find that throughout fine-tuning, pre-trained models exhibit ER that vanishes at convergence (fig. 1c, orange), while randomly initialized models do not (fig. 1c, red). So, when approaching convergence during fine-tuning, pre-trained models gradually lose their ER, even as both the ID and OOD accuracies of the model simultaneously increase.
+    - We try several solutions to mitigate this problem, but none of them were able to maintain high ER at high ID accuracy.
+    - We find that effectively robust models make remarkably dissimilar predictions compared to standard models, and are able to correctly classify 10% of the examples that no other model gets correct.
+
+Zaken, E. B., Ravfogel, S., & Goldberg, Y. (2021). BitFit: Simple Parameter-efficient Fine-tuning for Transformer-based Masked Language-models. arXiv, 2106.10199. Retrieved from https://arxiv.org/abs/2106.10199v5
+
+    - We introduce BitFit method: freezing most of the network and fine-tuning only the bias-terms is surprisingly effective.
+    - With small-to-medium training data, applying BitFit on pre-trained BERT models is competitive with (and sometimes better than) fine-tuning the entire model. For larger data, the method is competitive with other sparse fine-tuning methods.
+    - This supports the hypothesis that finetuning is mainly about exposing knowledge induced by LM pre-training, rather than learning new task-specific linguistic knowledge.
+    - Moreover, if we allow a small degradation in performance, we can fine-tune only two bias components (the “query” and “middle-of-MLP” bias terms: in total only 0.04% of all model parameters).
+    - This opens the way to trainable hardware implementations in which most of the parameters are fixed.
+    - Out work is close to "One for many: Transfer learning for building hvac control" when the authors show that bias-only fine-tuning is effective for adaptation of pre-trained CV models.
+
 Träuble, F., Goyal, A., Rahaman, N., Mozer, M., Kawaguchi, K., Bengio, Y., & Schölkopf, B. (2022). Discrete Key-Value Bottleneck. arXiv, 2207.11240. Retrieved from https://arxiv.org/abs/2207.11240v3
 
     - We tackle the problem of catastrophic forgetting during fine-tuning
@@ -3308,17 +3346,40 @@ Träuble, F., Goyal, A., Rahaman, N., Mozer, M., Kawaguchi, K., Bengio, Y., & Sc
     - It allows learning under distribution shifts and reduces the complexity of the hypothesis class
     - We evaluate on class-incremental learning scenarios wide variety of pre-trained models, outperforming baselines
 
+Li, M., Gururangan, S., Dettmers, T., Lewis, M., Althoff, T., Smith, N. A., & Zettlemoyer, L. (2022). Branch-Train-Merge: Embarrassingly Parallel Training of Expert Language Models. arXiv, 2208.03306. Retrieved from https://arxiv.org/abs/2208.03306v1
+
+    - We present Branch-Train-Merge (BTM), a communication-efficient algorithm for parallel training of LLMs. BTM learns a set of independent EXPERT LMs (ELMs), each specialized to a different textual domain, such as scientific or legal text, eliminating the massive multi-node synchronization. These ELMs can be simply averaged to collapse back to a single LM ("ELM Forest") for efficient inference.
+    - To update data coverage, new ELMs can be learned by branching from (mixtures of) ELMs in the current set, training on the new domain, and then merging the resulting model back into the set for future use.
+    - When evaluated in- and out-of-domain, ELMFORESTs trained with BTM outperform monolithic GPTstyle transformer LMs (GPT-LMs) and a previous domain-specialized MoE baseline across a range of computational budgets.
+    - We show that these results require expert domain specialization; LM ensembles with random data splits do not perform well.
+    - We present a study of scaling BTM into a corpus of 64 domains. This suggests more aggressive parallelism could be used to efficiently train LLMs in future work.
+
+Lu, P., Kobyzev, I., Rezagholizadeh, M., Rashid, A., Ghodsi, A., & Langlais, P. (2022). Improving Generalization of Pre-trained Language Models via Stochastic Weight Averaging. arXiv, 2212.05956. Retrieved from https://arxiv.org/abs/2212.05956v2
+
+    - We adapt Stochastic Weight Averaging (SWA) to fine-tuning pre-trained LMs on text classification, question answering, and generation. This improves the generalization without extra computation cost.
+    - We outline several practical recipes that are different from the ones in CV. We noticed that a high constant LR performes better than a cyclical LR. Then, since the number of epochs is small, we average over steps instead of epochs. We also start averaging earlier: after 50% of the training instead of 75% in the original method. This could be because out initial model is not randomly initialized, but already pre-trained.
+    - We show that SWA able to outperform the SOTA knowledge distillation methods for compact models.
+
+Ramé, A., Kirchmeyer, M., Rahier, T., Rakotomamonjy, A., Gallinari, P., & Cord, M. (2022). Diverse Weight Averaging for Out-of-Distribution Generalization. arXiv, 2205.09739. Retrieved from https://arxiv.org/abs/2205.09739v2
+
+    - We propose Diverse Weight Averaging (DiWA), which averages weights obtained from several independent training runs that share the same initialization. Weights are ranked in decreasing order of validation accuracy and sequentially added only if they improve DiWA’s validation accuracy.
+    - We average runs with different hyperparameters. Indeed, weights obtained from extremely different hyperparameters may not be linearly connectable, we thus use the mild search space.
+    - DiWA consistently improves the SOTA on DomainBed benchmark without inference overhead.
+    - We show the limitations of this flatness-based analysis for weight averaging. Instead, we motivate the need for diversity by a new bias-variance-covariance locality decomposition of the expected error. It contains four terms: 1) the bias that increases under shift in label posterior distributions (i.e., correlation shift); 2) the variance that we show increases under shift in input marginal distributions (i.e., diversity shift); 3) the covariance that decreases when models are diverse; 4) a locality condition on the weights of averaged models. This decomposition highlights that WA succeeds when the variance term dominates, which we show occurs when the marginal distribution changes at test time. So, our motivation is that individually trained models are more diverse than those obtained along a single run.
+    - IMO this is the same method as in the concurrent work "Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time".
+
+Wortsman, M., Gururangan, S., Li, S., Farhadi, A., Schmidt, L., Rabbat, M., & Morcos, A. S. (2022). lo-fi: distributed fine-tuning without communication. arXiv, 2210.11948. Retrieved from https://arxiv.org/abs/2210.11948v2
+
+    - We investigate completely local fine-tuning ("lo-fi"), when in distributed setting each node fine-tunes independently without any communication. Then, the weights are averaged across nodes.
+    - We show that lo-fi matches accuracy in-distribution and improves OOD accuracy when fine-tuning DeiT-base and DeiT-large on ImageNet, compared to the baseline which communicates gradients at each step.
+    - Also lo-fi matches the baseline’s performance when fine-tuning OPT language models (up to 1.3B parameters) on Common Crawl.
+    - Lo-fi is a natural extension of previous work: it is just a variant of model soup (see "Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time") and is similar but simpler than branch-train-merge (see "Branch-Train-Merge: Embarrassingly Parallel Training of Expert Language Models").
+
 Yuan, H., Yuan, Z., Tan, C., Huang, F., & Huang, S. (2022). HyPe: Better Pre-trained Language Model Fine-tuning with Hidden Representation Perturbation. arXiv, 2212.08853. Retrieved from https://arxiv.org/abs/2212.08853v2
 
     - Problem: fine-tuning LMs poses problems such as over-fitting or representation collapse
     - We propose HyPe fine-tuning technique: we inject random noise between transformer layers
     - This outperforms vanilla fine-tuning with negligible computational overheads
-
-Goyle, V., Krishnaswamy, P., Ravikumar, K. G., Chattopadhyay, U., & Goyle, K. (2023). Neural Machine Translation For Low Resource Languages. arXiv, 2304.07869. Retrieved from https://arxiv.org/abs/2304.07869v2
-
-    - In low-resouce NMT, there is no comprehensive survey done to identify what approaches work well
-    - We take mBART as a baseline
-    - We applt techniques like transfer learning, back translation and focal loss, and verify their effect
 
 Du, Y., & Nguyen, D. (2023). Measuring the Instability of Fine-Tuning. arXiv, 2302.07778. Retrieved from https://arxiv.org/abs/2302.07778v2
 
@@ -3326,6 +3387,26 @@ Du, Y., & Nguyen, D. (2023). Measuring the Instability of Fine-Tuning. arXiv, 23
     - Most previous studies measure only the standard deviation of performance scores between runs
     - We analyze six other measures quantifying instability at different levels of granularity
     - We reassess existing instability mitigation methods
+
+Goyle, V., Krishnaswamy, P., Ravikumar, K. G., Chattopadhyay, U., & Goyle, K. (2023). Neural Machine Translation For Low Resource Languages. arXiv, 2304.07869. Retrieved from https://arxiv.org/abs/2304.07869v2
+
+    - In low-resouce NMT, there is no comprehensive survey done to identify what approaches work well
+    - We take mBART as a baseline
+    - We apply techniques like transfer learning, back translation and focal loss, and verify their effect
+
+Gueta, A., Venezian, E., Raffel, C., Slonim, N., Katz, Y., & Choshen, L. (2023). Knowledge is a Region in Weight Space for Fine-tuned Language Models. arXiv, 2302.04863. Retrieved from https://arxiv.org/abs/2302.04863v3
+
+    - We find that different finetuning runs from the same pre-trained checkpoint on the same data tend to converge on similar points in weight space rather than dispersed points. These finetuned models define a connected basin of low loss, and every point within it performs well: points on the line between any pair of these models attain similar or even lower loss. These regions are relatively tight: extrapolating (rather than interpolating) can quickly produce a poorly performing model. We replicate the findings in all the granularities: models finetuned 1) on the same task and 2) on general language tasks also cluster together (fig. 1).
+    - The best models may lie closer to region's center, while models found via finetuning typically lie on the boundaries of these regions and are often suboptimal. Practically, one can average models from the same region and cautiously expect the resulting model to perform better. This already has been used in practice (see "Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time").
+    - For each target dataset, we choose the centroid of all models excluding ones finetuned on this dataset, and use this point as initialization for fine-tuning on the target dataset, using BitFit method. This results in a better performing model than starting from a pretrained model in 9 cases, performs on par in 2 cases, and underperforming in 1 case. In a few-shot scenario limiting the training examples to 1K, this effect is even stronger.
+    - IMO, this is also very similar to DiWA ("Diverse Weight Averaging for Out-of-Distribution Generalization").
+
+Talman, A., Celikkanat, H., Virpioja, S., Heinonen, M., & Tiedemann, J. (2023). Uncertainty-Aware Natural Language Inference with Stochastic Weight Averaging. arXiv, 2304.04726. Retrieved from https://arxiv.org/abs/2304.04726v1
+
+    - We show that stochastic weight averaging (SWA) and SWA-gaussian provides consistent and clear improvement in NLU tasks (ross-dataset testing on SNLI and MNLI sets). We do not notice a clear advantage of SWAG over SWA.
+    - Some datasets include disagreement between annotators. This usually arises from differences in understanding the task, the given information and personal experience. We demonstrate that the prediction uncertainty in SWAG for individual instances very well follows human annotation confusion.
+    - This points to the use of SWAG in an active learning scenario, where annotation noise can be identified using a well calibrated prediction model.
+    - For future work we consider making use of multiple annotations also during training.
 
 ## Transformers and RNN
 
@@ -3570,13 +3651,13 @@ Zhang, J., & Bottou, L. (2022). Learning useful representations for shifting tas
 
 Lin, Y., Dong, H., Wang, H., & Zhang, T. (2022). Bayesian Invariant Risk Minimization. Retrieved from https://openaccess.thecvf.com/content/CVPR2022/html/Lin_Bayesian_Invariant_Risk_Minimization_CVPR_2022_paper.html
 
-Ramé, A., Kirchmeyer, M., Rahier, T., Rakotomamonjy, A., Gallinari, P., & Cord, M. (2022). Diverse Weight Averaging for Out-of-Distribution Generalization. arXiv, 2205.09739. Retrieved from https://arxiv.org/abs/2205.09739v2
-
 Naganuma, H., Hataya, R., & Mitliagkas, I. (2023). An Empirical Study of Pre-trained Model Selection for Out-of-Distribution Generalization and Calibration. arXiv, 2307.08187. Retrieved from https://arxiv.org/abs/2307.08187v3
 
 Alesiani, F., Yu, S., & Niepert, M. (2023). Continual Invariant Risk Minimization. arXiv, 2310.13977. Retrieved from https://arxiv.org/abs/2310.13977v1
 
 Lai, Z.-R., & Wang, W. (2024). Invariant Risk Minimization Is A Total Variation Model. arXiv, 2405.01389. Retrieved from https://arxiv.org/abs/2405.01389v5
+
+Zhang, Y., Sharma, P., Ram, P., Hong, M., Varshney, K., & Liu, S. (2023). What Is Missing in IRM Training and Evaluation? Challenges and Solutions. arXiv, 2303.02343. Retrieved from https://arxiv.org/abs/2303.02343v1
 
 Zhang, J., & Bottou, L. (2024). Fine-tuning with Very Large Dropout. arXiv, 2403.00946. Retrieved from https://arxiv.org/abs/2403.00946v1
 
@@ -3596,6 +3677,8 @@ Zhang, H., Gui, L., Zhai, Y., Wang, H., Lei, Y., & Xu, R. (2023). COPF: Continua
 Sun, Y., Wang, S., Li, Y., Feng, S., Tian, H., Wu, H., & Wang, H. (2019). ERNIE 2.0: A Continual Pre-training Framework for Language Understanding. arXiv, 1907.12412. Retrieved from https://arxiv.org/abs/1907.12412v2
 
 Jang, J., Ye, S., Yang, S., Shin, J., Han, J., Kim, G., ...Seo, M. (2021). Towards Continual Knowledge Learning of Language Models. arXiv, 2110.03215. Retrieved from https://arxiv.org/abs/2110.03215v4
+
+Don-Yehiya, S., Venezian, E., Raffel, C., Slonim, N., Katz, Y., & Choshen, L. (2022). ColD Fusion: Collaborative Descent for Distributed Multitask Finetuning. arXiv, 2212.01378. Retrieved from https://arxiv.org/abs/2212.01378v2
 
 Zhang, Z., Fang, M., Chen, L., Namazi-Rad, M.-R., & Wang, J. (2023). How Do Large Language Models Capture the Ever-changing World Knowledge? A Review of Recent Advances. arXiv, 2310.07343. Retrieved from https://arxiv.org/abs/2310.07343v1
 
@@ -3639,6 +3722,8 @@ Graves, A. (2012). Sequence Transduction with Recurrent Neural Networks. arXiv, 
     - The transducer is composed of two RNNs. One RNN, referred to as the transcription network, is a bidirectional RNN that scans the input sequence and outputs vector sequence. The other RNN, referred to as the prediction network, scans the output sequence y and outputs vector sequence. Outputs from the two networks arer combined to predict the next element of the output sequence.
     - When the transducer is evaluated on test data, it uses a beam search.
     - Question: why use this instead of seq2seq RNN?
+
+Hinton, G., Deng, L., Yu, D., Dahl, G. E., Mohamed, A.-r., Jaitly, N., ...Kingsbury, B. (2012). Deep Neural Networks for Acoustic Modeling in Speech Recognition: The Shared Views of Four Research Groups. IEEE Signal Process. Mag., 29(6), 82–97. doi: 10.1109/MSP.2012.2205597
 
 Veselý, K., Karafiát, M., Grézl, F., Janda, M., & Egorova, E. . The language-independent bottleneck features. 2012 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2012.6424246
 
@@ -3722,7 +3807,11 @@ Ebbers, J., Heymann, J., Drude, L., Glarner, T., Haeb-Umbach, R., & Raj, B. (201
 
 Hori, T., Watanabe, S., & Hershey, J. R. (2017). Joint CTC/attention decoding for end-to-end speech recognition. ACL Anthology, 518–529. doi: 10.18653/v1/P17-1048 https://aclanthology.org/P17-1048.pdf
 
-    - We propose a joint decoding algorithm for end-to-end ASR with a hybrid CTC/attention architecture. We perform one-pass/rescoring joint decoding, where hypotheses of attention-based ASR are boosted by scores obtained by using CTC outputs. This greatly reduces irregular alignments without any heuristic search techniques.
+    - We propose a joint decoding algorithm for end-to-end ASR with a hybrid CTC/attention architecture.
+    - Our joint CTC/attention approach combines the CTC and attention-based sequence probabilities in the inference step, as well as the training step.
+    - The decoding objective is defined using multiplying text probabilities from CTC and attention (eq. 14). The CTC probability enforces a monotonic alignment that does not allow large jumps or looping of the same frames.
+    - We perform one-pass/rescoring joint decoding, in which we compute the probability of each partial hypothesis using CTC and an attention model.
+    - This greatly reduces irregular alignments without any heuristic search techniques.
 
 Hsu, W.-N., Zhang, Y., & Glass, J. (2017). Learning Latent Representations for Speech Generation and Transformation. arXiv, 1704.04222. Retrieved from https://arxiv.org/abs/1704.04222v2
 
@@ -3894,6 +3983,7 @@ Baevski, A., Zhou, H., Mohamed, A., & Auli, M. (2020). wav2vec 2.0: A Framework 
 Gulati, A., Qin, J., Chiu, C.-C., Parmar, N., Zhang, Y., Yu, J., ...Pang, R. (2020). Conformer: Convolution-augmented Transformer for Speech Recognition. arXiv, 2005.08100. Retrieved from https://arxiv.org/abs/2005.08100v1
 
     - We propose Conformer, convolution-augmented transformer for speech recognition
+    - Each conformer block contains convolution and MHSA
     - We use a single-LSTM-layer decoder in all our models
     - We perform various ablation studies
     - A concurrent work with wav2vec 2.0
@@ -4114,7 +4204,7 @@ Pasad, A., Chou, J.-C., & Livescu, K. (2021). Layer-wise Analysis of a Self-supe
     - As we go deeper into the model, the representation starts deviating from the input speech features followed by a reverse trend where even deeper layers become more similar to the input, as if reconstructing the input (fig. 1, black line).
     - The shallowest layers encode acoustic features, followed by phonetic, word identity, and word meaning information, and then followed by a reverse (fig. 1, other lines).
     - The final convolutional layers and initial transformer layers are highly correlated with mel spectrogram features, suggesting that the model learns to extract features similar to human-engineered ones.
-    - Fine-tuning the model for ASR breaks the autoencoderstyle behavior in the final few layers. Higher layers change the most in fine-tuning, suggesting that the pre-trained model may not serve as a good initialization of these top layers for ASR. This finding suggests re-initializing the final 1-3 layers before fine-tuning, as has been recently discovered for BERT. This outperforms the standard approach of initializing all layers from the pre-trained model, with large improvements when fine-tuning on the 10-minute training set and minor improvements for larger training sets.
+    - Fine-tuning the model for ASR breaks the autoencoder-style behavior in the final few layers. Higher layers change the most in fine-tuning, suggesting that the pre-trained model may not serve as a good initialization of these top layers for ASR. This finding suggests re-initializing the final 1-3 layers before fine-tuning, as has been recently discovered for BERT. This outperforms the standard approach of initializing all layers from the pre-trained model, with large improvements when fine-tuning on the 10-minute training set and minor improvements for larger training sets.
 
 Riviere, M., Copet, J., & Synnaeve, G. (2021). ASR4REAL: An extended benchmark for speech models. arXiv, 2110.08583. Retrieved from https://arxiv.org/abs/2110.08583v1
 
@@ -4125,6 +4215,14 @@ Riviere, M., Copet, J., & Synnaeve, G. (2021). ASR4REAL: An extended benchmark f
     - ASR models show important performance drop onspontaneous speech.
     - LMs in their current form are not be adapted for spontaneous speech: even a LM trained on a dataset as big as Common Crawl does not seem to have significant positive effect.
     - This reiterates the importance of developing conversational LMs.
+
+Sadhu, S., He, D., Huang, C.-W., Mallidi, S. H., Wu, M., Rastrow, A., ...Maas, R. (2021). Wav2vec-C: A Self-supervised Model for Speech Representation Learning. arXiv, 2103.08393. Retrieved from https://arxiv.org/abs/2103.08393v2
+
+    - The wav2vec 2.0 problem formulation can result in several locally optimal codebooks. Some examples from our experiments: 1) only two codes are assigned: one for speech and the other for nonspeech; 2) the model assigns specific codes to fixed temporal locations, irrespective of the speech, to enable a good contrastive loss. The latter is especially probable if voice usually occurs at fixed temporal locations, as in our dataset. Hence, the wav2vec 2.0 codebook learning methodology might not generalize well to our pre-training dataset.
+    - We propose Wav2vec-C - a modification of wav2vec 2.0, regularized by an additional consistency network that learns to reconstruct the input features from the quantized representations in a way similar to a VQ-VAE model. This enforces the latent space to preserve meaningful information that enable a low reconstruction error.
+    - Our encoder network f (fig. 1) is a 3-layer LSTM as encoder with log-STFT input features. We quantize LSTM outputs with a product quantization module ("q" on fig. 1): we split each 768-demensional output vector into a pair of 384-dimensional sub-vectors, and store two codebooks (one for each sub-vector). Each codebook contains 320 384-dimensional code vectors, and quantization is performed by nearest neighbor search. Then the two code vectors are concatenated. To learn codebooks, we use either Gumbel-softmax, or K-means with a specific backprop method (sec 2.4.1, 2.4.2). We use a SpecAugment module to mask out portions of the continuous encodings, and feed them into a transformer context network g (fig. 1) with sinusoidal positional embedding, outputting the context representations. We apply a contrastive loss between the quantized encodings and the context representations, by selecting 50 negative samples. Our consistency network r (fig. 1) is a 3-layer LSTM that accepts the quantized embeddings and outputs "consistency vectors", denoted as S. We minimize the consistency loss: L2 distance between S and the log-STFT input features X. If we ignore the consistency loss, the rest of the model is similar to wav2vec 2.0 with one difference: wav2vec 2.0 uses CNN encoder that accepts raw audio. We also tune a magnitude of a diversity loss in Gumbel-softmax to avoid the codebook collapse that is commonly observed in VQ problems.
+    - For SSL and fine-tuning, we use real far-field speech with varied degrees of SNR ranging between -40 to 50 dB. The proposed SSL model after RNN-T fine-tuning achieved a 1.4% relative WER reduction over baseline (without SSL) compared to a 0.7% reduction from wav2vec 2.0.
+    - We also observed that ASR robustness is correlated with codebook diversity. Our model with Gumbel-softmax codebook fully utilizes codebook, while wav2vec 2.0 on our data under-utilizes codebook. The k-means codebook uses only a small fraction of the codes. The k-means codebook is is better than Gumbel-softmax for noisy test sets, and the Gumbel-softmax codebook is better on clean test sets. We hypothesize that a small codebook diversity may be good for noise robustness.
 
 Salesky, E., Wiesner, M., Bremerman, J., Cattoni, R., Negri, M., Turchi, M., ...Post, M. (2021). The Multilingual TEDx Corpus for Speech Recognition and Translation. arXiv, 2102.01757. Retrieved from https://arxiv.org/abs/2102.01757v2
 
@@ -4181,6 +4279,13 @@ Yang, S.-w., Chi, P.-H., Chuang, Y.-S., Lai, C.-I. J., Lakhotia, K., Lin, Y. Y.,
 Zhang, Y., Park, D. S., Han, W., Qin, J., Gulati, A., Shor, J., ...Wu, Y. (2021). BigSSL: Exploring the Frontier of Large-Scale Semi-Supervised Learning for Automatic Speech Recognition. arXiv, 2109.13226. Retrieved from https://arxiv.org/abs/2109.13226v3
 
 Algayres, R., Ricoul, T., Karadayi, J., Laurençon, H., Zaiem, S., Mohamed, A., ...Dupoux, E. (2022). DP-Parse: Finding Word Boundaries from Raw Speech with an Instance Lexicon. arXiv, 2206.11332. Retrieved from https://arxiv.org/abs/2206.11332v1
+
+Berrebbi, D., Shi, J., Yan, B., Lopez-Francisco, O., Amith, J. D., & Watanabe, S. (2022). Combining Spectral and Self-Supervised Features for Low Resource Speech Recognition and Translation. arXiv, 2204.02470. Retrieved from https://arxiv.org/abs/2204.02470v2
+
+    - Spectral features (SF) such as log Mel-filterbanks could be more robust to domain shifts than self-supervised (SSL) features, since the majority of SSL models are trained using English speech only.
+    - We combine SF and SSL representations through learnable fusions (linear, convolutional and co-attention based combinations).
+    - We obtained strong improvements over ASR and ST datasets compared with the SSL baseline. Our models performances are strong for both in-domain and out-of-domain scenarios.
+    - We also propose a MoE-based technique that enables quantifying the domain shift between the SSL training data and the target language resources. For example, Arabic model uses HuBERT and FBANK with similar weights, but Totonac (a rare language) model seems to rely at more than 80% on FBANK features.
 
 Borgholt, L., Havtorn, J. D., Edin, J., Maaløe, L., & Igel, C. (2022). A Brief Overview of Unsupervised Neural Speech Representation Learning. arXiv, 2203.01829. Retrieved from https://arxiv.org/abs/2203.01829v1
 
@@ -4578,6 +4683,11 @@ He, H., Shang, Z., Wang, C., Li, X., Gu, Y., Hua, H., ...Wu, Z. (2024). Emilia: 
 
 Jin, W., Cao, Y., Su, J., Shen, Q., Ye, K., Wang, D., ...Liu, Z. (2024). Towards Evaluating the Robustness of Automatic Speech Recognition Systems via Audio Style Transfer. arXiv, 2405.09470. Retrieved from https://arxiv.org/abs/2405.09470v1
 
+Junczyk, M. (2024). Framework for Curating Speech Datasets and Evaluating ASR Systems: A Case Study for Polish. arXiv, 2408.00005. Retrieved from https://arxiv.org/abs/2408.00005v1
+
+    - We collect an open benchmark of 24 openly available datasets for Polish ASR.
+    - We perform the most extensive comparison to date of ASR systems for the Polish language. Significant variations across different systems, datasets, and speaker demographics were discovered.
+
 Kim, H., Myung, J., Kim, S., Lee, S., Kang, D., & Kim, J. (2024). LearnerVoice: A Dataset of Non-Native English Learners' Spontaneous Speech. arXiv, 2407.04280. Retrieved from https://arxiv.org/abs/2407.04280v1
 
 Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-Text Hallucination Harms. arXiv, 2402.08021. Retrieved from https://arxiv.org/abs/2402.08021v2
@@ -4604,7 +4714,7 @@ Meng, L., Kang, J., Wang, Y., Jin, Z., Wu, X., Liu, X., & Meng, H. (2024). Empow
 
 Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
 
-    - We study how such information is represented in self-supervised speech representations, beyond just assessing the linear separability of classes. We use a geometric approach, that is widely used for analyzing self-supervised models of text.
+    - We study how information is represented in self-supervised speech representations, beyond just assessing the linear separability of classes. We use a geometric approach, that is widely used for analyzing self-supervised models of text.
     - We develop a new measure for analyzing high-dimensional distributions, the Cumulative Residual Variance (CRV). Given datasets X and Y embedded in the same embedding space, the CRV of X w.r.t. Y (denoted as X\Y) measures the degree to which the principal components of Y are orthogonal to those of X. Meanwhile, X\X is a measure of the isotropy of X — the degree to which X effectively utilizes all dimensions of the embedding space, i.e., has uniform covariance.
     - Comparing to the previous work "Self-supervised Predictive Coding Models Encode Speaker and Phonetic Information in Orthogonal Subspaces", the CRV measure allows us to better quantify orthogonality.
     - On English LibriSpeech we show that, unlike randomly initialized models, all trained models have a high degree of orthogonality between the speaker and phonetic subspaces. For all 6 trained models, the accuracy of a phone classifier trained on the model representations is significantly correlated with the CRV between the two subspaces.
