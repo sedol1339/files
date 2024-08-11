@@ -2131,8 +2131,9 @@ Nakamura, K., & Hong, B.-W. (2019). Adaptive Weight Decay for Deep Neural Networ
 
     - We discuss previously found "double-descent" phenomenon
     - We find that a variety of modern DL tasks exhibit this phenomenon
-    - We define the effective model complexity (EMC) of a training procedure as the maximum number of samples on which it can achieve close to zero training error and hypothesize that double descent occurs as a function of the EMC
-    - Indeed we observe that double descent occurs also as a function of the number of training epochs
+    - We define the effective model complexity (EMC) of a training procedure as the maximum number of samples on which it can achieve close to zero training error and hypothesize that double descent occurs as a function of the EMC.
+    - We identify certain regimes where increasing the number of train samples actually hurts test performance
+    - We also observe epoch-wise double descent, when training randomly imitialized ResNet models on CIFAR-10 with 20% label noise, for sufficiently large models (fig. 9). For “medium sized” models, for which training to completion will only barely reach ≈ 0 error, the test error as a function of training time will follow a classical U-like curve where it is better to stop early. Models that are too small to reach the approximation threshold will remain in the “under parameterized” regime where increasing train time monotonically decreases test error. This is consistent with our unified view of effective model complexity (EMC). Increasing the train time increases the EMC - and thus a sufficiently large model transitions from under- to over-parameterized over the course of training.
     - We identify certain regimes where increasing the number of train samples actually hurts test performance
 
 Neal, B. (2019). On the Bias-Variance Tradeoff: Textbooks Need an Update. arXiv, 1912.08286. Retrieved from https://arxiv.org/abs/1912.08286v1
@@ -3354,6 +3355,14 @@ Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (20
 
 ## Fine-tuning
 
+Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. arXiv, 2002.06305. Retrieved from https://arxiv.org/abs/2002.06305v1
+
+    - It is known that fine-tuning performance can vary substantially across different training episodes, even with fixed hyperparameter values.
+    - We confirm this: changing only training data order and the weight initialization of the fine-tuning layer - we find substantial variance in performance across trials. For BERT model, it leads to substantial improvements over previously published validation results with the same model and experimental setup (top rows), on four tasks from the GLUE benchmark. On some tasks, BERT even becomes competitive with more modern models (XLNet, RoBERTa, ALBERT).
+    - We present how the performance of the bestfound model changes as a function of the number of trials (fig. 1).
+    - Some seeds are consistently better than others in a given dataset for both weight initializations and data orders. Some weight initializations for output layer perform well across all studied tasks (binary classification).
+    - Worse performing models can often be distinguished from better ones early in training. We show that better performance can be achieved with the same computational resources by using early stopping algorithms that stop the least promising trials early in training: start many, stop early, continue some.
+
 Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). Measuring Robustness to Natural Distribution Shifts in Image Classification. Advances in Neural Information Processing Systems, 33, 18583–18599. Retrieved from https://proceedings.neurips.cc/paper/2020/hash/d8330f857a17c53d217014ee776bfd50-Abstract.html
 
     - Some studies implicitly assume that hat robustness to synthetic distribution shifts (l_p-adversarial examples, noise corruptions, etc.) will lead to models that also perform more reliably on natural distribution shifts.
@@ -3454,6 +3463,14 @@ Talman, A., Celikkanat, H., Virpioja, S., Heinonen, M., & Tiedemann, J. (2023). 
     - Some datasets include disagreement between annotators. This usually arises from differences in understanding the task, the given information and personal experience. We demonstrate that the prediction uncertainty in SWAG for individual instances very well follows human annotation confusion.
     - This points to the use of SWAG in an active learning scenario, where annotation noise can be identified using a well calibrated prediction model.
     - For future work we consider making use of multiple annotations also during training.
+
+Uppaal, R., Hu, J., & Li, Y. (2023). Is Fine-tuning Needed? Pre-trained Language Models Are Near Perfect for Out-of-Domain Detection. arXiv, 2305.13282. Retrieved from https://arxiv.org/abs/2305.13282v1
+
+    - We are considering the problem of OOD detection for some specific (textual) distribution of interest.
+    - We use pre-trained LM that maps text into an embedding. We measure the relative distances of samples in the embedding space. We hypothesize that embeddings of ID samples are closer to each other than the OOD sample embeddings.
+    - We demonstrate strong performance of pre-trained LMs on this task, comparing to LMs fine-tuned on ID data. We conclude that fine-tuning on ID data (as was proposed earlier) is not needed for distance-based OOD detection, since our zero-shot OOD detection performs better. We show that the performance of distance-based OOD detection declines over the course of fine-tuning across all objectives we tried, despite the increase in ID classification accuracy.
+    - Early stopping can be a promising solution to achieve tradeoff between OOD detection and ID classification performance.
+    - To better understand the strong performance, we further show that pre-trained models display strongly separated domain clusters, which leads to the efficacy of distance-based OOD detection.
 
 ## Transformers and RNN
 
@@ -4144,6 +4161,8 @@ Aksënova, A., van Esch, D., Flynn, J., & Golik, P. (2021). How Might We Create 
 Ao, J., Wang, R., Zhou, L., Wang, C., Ren, S., Wu, Y., ...Wei, F. (2021). SpeechT5: Unified-Modal Encoder-Decoder Pre-Training for Spoken Language Processing. arXiv, 2110.07205. Retrieved from https://arxiv.org/abs/2110.07205v3
 
 Babu, A., Wang, C., Tjandra, A., Lakhotia, K., Xu, Q., Goyal, N., ...Auli, M. (2021). XLS-R: Self-supervised Cross-lingual Speech Representation Learning at Scale. arXiv, 2111.09296. Retrieved from https://arxiv.org/abs/2111.09296v3
+
+    - 
 
 Bakhturina, E., Lavrukhin, V., & Ginsburg, B. (2021). A Toolbox for Construction and Analysis of Speech Datasets. arXiv, 2104.04896. Retrieved from https://arxiv.org/abs/2104.04896v3
 
