@@ -1537,6 +1537,7 @@ Belkin, M., Ma, S., & Mandal, S. (2018). To understand deep learning we need to 
 
     - We introduce the "double descent" curve instead of U-shaped bias-variance curve for DNNs
     - We show that double descent exists for a wide spectrum of models and datasets
+    - Later works point out that the same pehenomena was observed earler in "Statistical Mechanics of Learning: Generalization" by Manfred Opper
 
 Behrmann, J., Grathwohl, W., Chen, R. T. Q., Duvenaud, D., & Jacobsen, J.-H. (2018). Invertible Residual Networks. arXiv, 1811.00995. Retrieved from https://arxiv.org/abs/1811.00995v3
 
@@ -2130,10 +2131,10 @@ Nakamura, K., & Hong, B.-W. (2019). Adaptive Weight Decay for Deep Neural Networ
 #training Nakkiran, P., Kaplun, G., Bansal, Y., Yang, T., Barak, B., & Sutskever, I. (2019). Deep Double Descent: Where Bigger Models and More Data Hurt. arXiv, 1912.02292. Retrieved from https://arxiv.org/abs/1912.02292v1
 
     - We discuss previously found "double-descent" phenomenon
-    - We find that a variety of modern DL tasks exhibit this phenomenon
+    - We find that a variety of modern DL tasks exhibit this phenomenon (fig. 1).
     - We define the effective model complexity (EMC) of a training procedure as the maximum number of samples on which it can achieve close to zero training error and hypothesize that double descent occurs as a function of the EMC.
     - We identify certain regimes where increasing the number of train samples actually hurts test performance
-    - We also observe epoch-wise double descent, when training randomly imitialized ResNet models on CIFAR-10 with 20% label noise, for sufficiently large models (fig. 9). For “medium sized” models, for which training to completion will only barely reach ≈ 0 error, the test error as a function of training time will follow a classical U-like curve where it is better to stop early. Models that are too small to reach the approximation threshold will remain in the “under parameterized” regime where increasing train time monotonically decreases test error. This is consistent with our unified view of effective model complexity (EMC). Increasing the train time increases the EMC - and thus a sufficiently large model transitions from under- to over-parameterized over the course of training.
+    - We also observe epoch-wise double descent, when training randomly imitialized ResNet models on CIFAR-10 with 20% label noise, for sufficiently large models (fig. 1, 9). For “medium sized” models, for which training to completion will only barely reach ≈ 0 error, the test error as a function of training time will follow a classical U-like curve where it is better to stop early. Models that are too small to reach the approximation threshold will remain in the “under parameterized” regime where increasing train time monotonically decreases test error. This is consistent with our unified view of effective model complexity (EMC). Increasing the train time increases the EMC - and thus a sufficiently large model transitions from under- to over-parameterized over the course of training.
     - We identify certain regimes where increasing the number of train samples actually hurts test performance
 
 Neal, B. (2019). On the Bias-Variance Tradeoff: Textbooks Need an Update. arXiv, 1912.08286. Retrieved from https://arxiv.org/abs/1912.08286v1
@@ -2397,6 +2398,13 @@ Gorbunov, E., Danilova, M., & Gasnikov, A. (2020). Stochastic Optimization with 
     - Clipped-SSTM is for heavy-tailed distributed noise in stochastic gradients
     - Clipped-SSTM is based on SGD and and gradient clipping
     - We derive some theoretical bounds
+
+Heckel, R., & Yilmaz, F. F. (2020). Early Stopping in Deep Networks: Double Descent and How to Eliminate it. arXiv, 2007.10099. Retrieved from https://arxiv.org/abs/2007.10099v2
+
+    - Previously Nakkiran et al. in "Deep double descent: Where bigger models and more data hurt" conjectured that epoch-wise double descent occurs because the training time controls the “effective model complexity”.
+    - We show a different reason: epoch-wise double descent arises becuse the risk can be decomposed into two U-shaped bias-variance tradeoffs with minima at different epochs/iterations (fig. 1b). So, both under- and overparamterized models can have epoch-wise double descent.
+    - In a two-layer NN, the initialization scales and stepsizes of the weights in the first and second layer determine whether double descent occurs or not.
+    - For the 5-layer CNN epoch-wise double descent occurs because the convolutional layers are learned faster than the final, fully connected layer, which results in a superposition of bias-variance tradeoffs. For ResNet-18, later layers are learned faster than early layers, which again results in double descent. In both cases, epoch-wise double descent can be eliminated through adjusting the stepsizes (learning rate?) of different coefficients or layers. This allows for early stopping to be more reliable.
 
 Hu, W., Xiao, L., & Pennington, J. (2020). Provable Benefit of Orthogonal Initialization in Optimizing Deep Linear Networks. arXiv, 2001.05992. Retrieved from https://arxiv.org/abs/2001.05992v1
 
@@ -3187,13 +3195,12 @@ Isomura, T., Kotani, K., Jimbo, Y., & Friston, K. J. (2023). Experimental valida
 
 Jacobs, B., & Stein, D. (2023). Pearl's and Jeffrey's Update as Modes of Learning in Probabilistic Programming. arXiv, 2309.07053. Retrieved from https://arxiv.org/abs/2309.07053v2
 
-Jordan, K. (2023). Calibrated Chaos: Variance Between Runs of Neural Network Training is Harmless and Inevitable. arXiv, 2304.01910. Retrieved from https://arxiv.org/abs/2304.01910v1
+Jordan, K. (2023). On the Variance of Neural Network Training with respect to Test Sets and Distributions. arXiv, 2304.01910. Retrieved from https://arxiv.org/abs/2304.01910v4
 
     - Problem: typical NN trainings have substantial variance in test-set performance between repeated runs
     - This impedes hyperparameter comparison and training reproducibility
-    - We show that while variance on test-sets is high, variance on test-distributions is low
-    - This variance is harmless and unavoidable
-    - We conduct preliminary studies of distribution-shift, fine-tuning, data augmentation and learning rate through the lens of variance between runs
+    - We show that although training runs have substantial variance on a test set, they have little variance in performance on the underlying test distribution. Random seeds which are “lucky” with respect to one set of test data perform no better than average with respect to a second set. Disjoint splits of test data are nearly decorrelated, in the sense that networks which randomly perform well on one split do not perform better than average on the other. This phenomenon also extends to individual examples
+    - We prove that variance in test-set accuracy between runs of training is an inevitable consequence of the fact that ensembles of trained networks approximately satisfy the class-wise calibration property of "Assessing generalization of SGD via disagreement".
 
 Kreisler, I., Nacson, M. S., Soudry, D., & Carmon, Y. (2023). Gradient Descent Monotonically Decreases the Sharpness of Gradient Flow Solutions in Scalar Networks and Beyond. arXiv, 2305.13064. Retrieved from https://arxiv.org/abs/2305.13064v1
 
@@ -3456,6 +3463,7 @@ Gueta, A., Venezian, E., Raffel, C., Slonim, N., Katz, Y., & Choshen, L. (2023).
     - The best models may lie closer to region's center, while models found via finetuning typically lie on the boundaries of these regions and are often suboptimal. Practically, one can average models from the same region and cautiously expect the resulting model to perform better. This already has been used in practice (see "Model soups: averaging weights of multiple fine-tuned models improves accuracy without increasing inference time").
     - For each target dataset, we choose the centroid of all models excluding ones finetuned on this dataset, and use this point as initialization for fine-tuning on the target dataset, using BitFit method. This results in a better performing model than starting from a pretrained model in 9 cases, performs on par in 2 cases, and underperforming in 1 case. In a few-shot scenario limiting the training examples to 1K, this effect is even stronger.
     - IMO, this is also very similar to DiWA ("Diverse Weight Averaging for Out-of-Distribution Generalization").
+    - IMO, the another dimension should be the number of training data, what is not covered here. The models trained on 1) small data, 2) large data, 3) infinite data should have different properties.
 
 Talman, A., Celikkanat, H., Virpioja, S., Heinonen, M., & Tiedemann, J. (2023). Uncertainty-Aware Natural Language Inference with Stochastic Weight Averaging. arXiv, 2304.04726. Retrieved from https://arxiv.org/abs/2304.04726v1
 
@@ -3471,6 +3479,14 @@ Uppaal, R., Hu, J., & Li, Y. (2023). Is Fine-tuning Needed? Pre-trained Language
     - We demonstrate strong performance of pre-trained LMs on this task, comparing to LMs fine-tuned on ID data. We conclude that fine-tuning on ID data (as was proposed earlier) is not needed for distance-based OOD detection, since our zero-shot OOD detection performs better. We show that the performance of distance-based OOD detection declines over the course of fine-tuning across all objectives we tried, despite the increase in ID classification accuracy.
     - Early stopping can be a promising solution to achieve tradeoff between OOD detection and ID classification performance.
     - To better understand the strong performance, we further show that pre-trained models display strongly separated domain clusters, which leads to the efficacy of distance-based OOD detection.
+
+Pecher, B., Cegin, J., Belanec, R., Simko, J., Srba, I., & Bielikova, M. (2024). Fighting Randomness with Randomness: Mitigating Optimisation Instability of Fine-Tuning using Delayed Ensemble and Noisy Interpolation. arXiv, 2406.12471. Retrieved from https://arxiv.org/abs/2406.12471v1
+
+    - Fine-tuning is sensitive to random initialisation, data shuffling, randomness induced by dropout. This leads to large performance variation (fig. 1, "without mitigation"). To deal with the fine-tuning instability, researchers propose adding noise to the model parameters or ensebling. Ensembling significantly reduce the deviation in results, but also significantly increase the computation costs. Adding noise also perform well, improving generalisability and overall performance, but not necessarily reducing the instability.
+    - We propose Delayed Ensemble with Noisy Interpolation (DENI) - a novel strategy for mitigating the randomness sensitivity of finetuning, that comprises two main components: 1) Delayed Ensemble; and 2) Noisy Interpolation.
+    - In Delayed Ensemble, we initialise and train a single model and create an ensemble from it by injecting Gaussian noise (eq. 1, fig. 2 E->F). After this, the obtained models are trained for the remainder of the steps, and the prediction is obtained using hard voting.
+    - In Noisy Interpolation, we create and interpolates the ensemble multiple times during training (fig. 2, B and C4). We do it in the same way as in Delayed Ensemble, but in later stages of the training, the introduced noise is smaller. These noisy models are then trained (fig. 2, C1->C2) and are aggregated together (fig. 2, C3, D) using uniform interpolation (averaging?). The aggregated model is then trained (fig. 2, C3->D), and the process is repeated (C4 etc.).  In comparison to simple ensembling, the method requires only a fraction of computational resources.
+    - DENI provides benefits across 3 representative PEFT methods (fig. 1, "With DENI Mitigation").
 
 ## Transformers and RNN
 
