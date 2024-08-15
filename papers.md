@@ -3415,8 +3415,10 @@ Reimers, N., & Gurevych, I. (2017). Reporting Score Distributions Makes a Differ
 
 Dror, R., Shlomov, S., & Reichart, R. (2019). Deep Dominance - How to Properly Compare Deep Neural Models. ACL Anthology, 2773–2785. doi: 10.18653/v1/P19-1266
 
-    - We need to compare DNNs score distributions on unseen data, rather than between single evaluation scores. This is because the loss functions of these models are non-convex, making the solution to which they converge sensitive to random weight initialization and the order of training examples.
-    - We adapt a recently proposed test for the Almost Stochastic Dominance relation between two distributions. This is a test for statistical significance under very minimal assumptions on the distribution.
+    - We need to compare DNNs score distributions, rather than between single evaluation scores. This is because the loss functions of these models are non-convex, making the solution to which they converge sensitive to random weight initialization and the order of training examples.
+    - We build on a previously proposed Stochastic Order relation between two random variables: a random variable X is stochastically larger than a random variable Y if if CDF_X(a) ≤ CDF_Y(a) for all a, with a strict inequality for some values of a. We can relax this criterion. We introduce two violation sets: V_X = {a: CDF_X(a) > CDF_Y(a)},  V_Y = {a: CDF_X(a) < CDF_Y(a)}. Intuitively, the variable with the smaller violation set should be declared superior and the ratio between these sets should define the gap between the distributions. To implement this idea, del Barrio et al. (2018) defined the concept of almost stochastic dominance (sec. 4), which we propose to employ. This is a test for statistical significance under very minimal assumptions on the distribution.
+    - To test for almost stochastic dominance, we formulate the hypothesis testing problem (see H0, H1 in sec. 4, and eq. 4 for details).
+    - (Seems like) random variable is a metric for a single training run. "As an example setup we analyze the comparison between the NER models when running both algorithms multiple times, changing only the random seed fed into the random number generator".
 
 Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. arXiv, 2002.06305. Retrieved from https://arxiv.org/abs/2002.06305v1
 
