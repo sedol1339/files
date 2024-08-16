@@ -1202,6 +1202,15 @@ Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On Calibration of Mode
 
 Hoffer, E., Hubara, I., & Soudry, D. (2017). Train longer, generalize better: closing the generalization gap in large batch training of neural networks. arXiv, 1705.08741. Retrieved from https://arxiv.org/abs/1705.08741v2
 
+    - It has been observed that large batch sizes lead to degradation in generalization performance. This remained true even when the models were trained without any budget or limits, until the loss function ceased to improve. This decrease in performance has been named the "generalization gap".
+    - We find that the weight distance from its initialization grows logarithmically with the number of weight updates.
+    - Our analysis shows that the initial training phase with high LR enables the model to reach farther locations in the parameter space, which may be necessary to find wider local minima and better generalization.
+    - We propose Ghost Batch Normalization (GBN). It acquires the statistics on small virtual ("ghost") batches instead of the real large batch. We note that in a multi-device distributed setting, some of the benefits of "Ghost BN" may already occur, since BN is often preformed on each device separately.
+    - We also propose to either increase the LR by the square root of the mini-batch size, or add multiplicative noise to the gradient estimate (both methods yielded similar performance). For the first few iterations, we had to clip or normalize the gradients to prevent divergence.
+    - By these LR and BN adjustments, the generalization gap can be significantly decreased (fig. 2). It is important to note that other types of noise (e.g., dropout, dropconnect, label noise) change the structure of the covariance matrix and do not help to reduce the generalization gap.
+    - We noticed that the distance between the current weight and the initialization point can be a good measure to decide upon when to decrease the LR, and this is different from common practices. There is a long-held belief that the optimization process should not be allowed to decrease the training error when validation error "flatlines". However, we observed that substantial improvement to the final accuracy can be obtained by continuing the optimization using the same LR even if the training error decreases while the validation plateaus. Subsequent LR drops resulted with a sharp validation error decrease, and better generalization for the final model. These observations led us to believe that "generalization gap" phenomenon stems from the relatively small number of updates rather than the batch size.
+    - So, we show that there is no inherent generalization gap problem, if adapting our methods, and the number of iterations is sufcicient. However, this opens the another issue: can we speed up training by using large batch sizes? After out publication it was shown that, indeed, we can (see "Accurate, large minibatch sgd: Training imagenet in 1 hour")
+
 Huang, G., Li, Y., Pleiss, G., Liu, Z., Hopcroft, J. E., & Weinberger, K. Q. (2017). Snapshot Ensembles: Train 1, get M for free. arXiv, 1704.00109. Retrieved from https://arxiv.org/abs/1704.00109v1
 
     - We train a single neural network, converging to several local minima along its optimization path
@@ -2589,6 +2598,8 @@ Tschantz, A., Millidge, B., Seth, A. K., & Buckley, C. L. (2020). Control as Hyb
 
 Wang, L., Shen, B., Zhao, N., & Zhang, Z. (2020). Is the Skip Connection Provable to Reform the Neural Network Loss Landscape? arXiv, 2006.05939. Retrieved from https://arxiv.org/abs/2006.05939v1
 
+Wen, Y., Tran, D., & Ba, J. (2020). BatchEnsemble: An Alternative Approach to Efficient Ensemble and Lifelong Learning. arXiv, 2002.06715. Retrieved from https://arxiv.org/abs/2002.06715v2
+
 #uncertainty #ensembling Wilson, A. G., & Izmailov, P. (2020). Bayesian Deep Learning and a Probabilistic Perspective of Generalization. arXiv, 2002.08791. Retrieved from https://arxiv.org/abs/2002.08791v4
 
     - We propose MultiSWAG to significantly improve Deep Ensembles  
@@ -3413,12 +3424,30 @@ Reimers, N., & Gurevych, I. (2017). Reporting Score Distributions Makes a Differ
     - For two recent systems for NER, we observe an absolute difference of 1% F1 score, depending on the seed, making these systems perceived either as SOTA or mediocre. Fixing the random seed value would solve the issue with the reproducibility, however, there is no justification for choosing one seed value over another seed value.
     - We present LSTM architectures that produce both superior performance as well as are more stable with respect to the remaining hyperparameters.
 
+Wiese, G., Weissenborn, D., & Neves, M. (2017). Neural Domain Adaptation for Biomedical Question Answering. arXiv, 1706.03610. Retrieved from https://arxiv.org/abs/1706.03610v2
+
+    - We focus on extractive question answering (QA), when the correct answers can be represented as spans in the relevant documents.
+    - Creating large-scale QA datasets for specific domains, such as the biomedical, would be very expensive because of the need for domain experts. Are the capabilities of trained models transferable to another domain via domain adaptation techniques?
+    - We employ various domain adaptation techniques on a small BioASQ dataset for extractive QA task.
+    - We improve SOTA with a forgetting cost regularization to avoid catastrophic forgetting (see "Representation Stability as a Regularizer for Improved Text Analytics Transfer Learning").
+    - We also add an L2 loss term which penalizes deviations from the base model’s parameters.
+
 Dror, R., Shlomov, S., & Reichart, R. (2019). Deep Dominance - How to Properly Compare Deep Neural Models. ACL Anthology, 2773–2785. doi: 10.18653/v1/P19-1266
 
     - We need to compare DNNs score distributions, rather than between single evaluation scores. This is because the loss functions of these models are non-convex, making the solution to which they converge sensitive to random weight initialization and the order of training examples.
     - We build on a previously proposed Stochastic Order relation between two random variables: a random variable X is stochastically larger than a random variable Y if if CDF_X(a) ≤ CDF_Y(a) for all a, with a strict inequality for some values of a. We can relax this criterion. We introduce two violation sets: V_X = {a: CDF_X(a) > CDF_Y(a)},  V_Y = {a: CDF_X(a) < CDF_Y(a)}. Intuitively, the variable with the smaller violation set should be declared superior and the ratio between these sets should define the gap between the distributions. To implement this idea, del Barrio et al. (2018) defined the concept of almost stochastic dominance (sec. 4), which we propose to employ. This is a test for statistical significance under very minimal assumptions on the distribution.
     - To test for almost stochastic dominance, we formulate the hypothesis testing problem (see H0, H1 in sec. 4, and eq. 4 for details).
     - (Seems like) random variable is a metric for a single training run. "As an example setup we analyze the comparison between the NER models when running both algorithms multiple times, changing only the random seed fed into the random number generator".
+
+Lee, C., Cho, K., & Kang, W. (2019). Mixout: Effective Regularization to Finetune Large-scale Pretrained Language Models. arXiv, 1909.11299. Retrieved from https://arxiv.org/abs/1909.11299v2
+
+    - Finetuning pre-trained LM on a small dataset is prone to degenerate performance.
+    - Dropout and its variants, such as Gaussian dropout, variational dropout, and drop-connect, can be understanded as an adaptive L2-penalty toward the all zero parameters (see "Regularization of neural networks using dropconnect" and "On Dropout and Nuclear Norm Regularization").
+    - It has been shown earlier (see "Train longer, generalize better: closing the generalization gap in large batch training of neural networks") that the distance between pre-trained and fine-tuned model grows logarithmically during fine-tuning steps. Also, it has been shown (see "Neural Domain Adaptation for Biomedical Question Answering") that weight decay towards the pre-trained model is effective to avoid catastrophic forgetting during finetuning.
+    - We propose mixout regularization by generalizing gropout by considering some target model parameters (instead of all zero parameters). During forward pass, it replaces all outgoing parameters from randomly selected neurons to the corresponding parameters of original pre-trained model (fig. 1). thus regularizing learning to minimize the deviation between models.
+    - The earlier work "Regularization techniques for fine-tuning in neural machine translation" is a special case of mixout.
+    - IMO, this paper is a good introduction to dropout variants.
+    - IMO, it is not clearly stated how are the gradients applied in mixout. Probably, the gradients over the pre-trained weights are calculated, used on further backprop, but not applied.
 
 Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. arXiv, 2002.06305. Retrieved from https://arxiv.org/abs/2002.06305v1
 
@@ -3427,6 +3456,10 @@ Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (
     - We present how the performance of the bestfound model changes as a function of the number of trials (fig. 1).
     - Some seeds are consistently better than others in a given dataset for both weight initializations and data orders. Some weight initializations for output layer perform well across all studied tasks (binary classification).
     - Worse performing models can often be distinguished from better ones early in training. We show that better performance can be achieved with the same computational resources by using early stopping algorithms that stop the least promising trials early in training: start many, stop early, continue some.
+
+Mosbach, M., Andriushchenko, M., & Klakow, D. (2020). On the Stability of Fine-tuning BERT: Misconceptions, Explanations, and Strong Baselines. arXiv, 2006.04884. Retrieved from https://arxiv.org/abs/2006.04884v3
+
+    - 
 
 Radiya-Dixit, E., & Wang, X. (2020). How fine can fine-tuning be? Learning efficient language models. International Conference on Artificial Intelligence and Statistics. PMLR. Retrieved from https://proceedings.mlr.press/v108/radiya-dixit20a.html
 
@@ -3446,7 +3479,6 @@ Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). 
     - The only intervention that slightly improves the effective robustness to multiple natural distribution shifts is training with a more diverse dataset. At the same time, we find some models that are trained on 100X more data than the standard ImageNet but do not provide any robustness.
     - There is an earlier version of this paper called "When Robustness Doesn’t Promote Robustness: Synthetic vs. Natural Distribution Shifts on ImageNet". Some of the text above is from this version.
 
-
 Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of Out-of-Distribution Robustness Throughout Fine-Tuning. arXiv, 2106.15831. Retrieved from https://arxiv.org/abs/2106.15831v1
 
     - It was shown across a wide range of models that there is a clear linear relationship between a model’s final performance on ID and OOD data (see "Do ImageNet Classifiers Generalize to ImageNet?"). However, even the highest-performing models will still have a gap between ID and OOD accuracy. Models which lie above the linear fit are said to exhibit effective robustness (ER), which measures the model’s OOD accuracy relative to the fit. Models with high ER (>1%) are exceedingly rare.
@@ -3454,6 +3486,13 @@ Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of
     - We find that throughout fine-tuning, pre-trained models exhibit ER that vanishes at convergence (fig. 1c, orange), while randomly initialized models do not (fig. 1c, red). So, when approaching convergence during fine-tuning, pre-trained models gradually lose their ER, even as both the ID and OOD accuracies of the model simultaneously increase.
     - We try several solutions to mitigate this problem, but none of them were able to maintain high ER at high ID accuracy.
     - We find that effectively robust models make remarkably dissimilar predictions compared to standard models, and are able to correctly classify 10% of the examples that no other model gets correct.
+
+Summers, C., & Dinneen, M. J. (2021). Nondeterminism and Instability in Neural Network Optimization. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v139/summers21a.html
+
+    - We isolate the effects of a variety of sources of nondeterminism.
+    - We find they all have similar effects on measures of model diversity. Each source (including nondeterminism in low-level libraries like cuDNN) produces models of similar diversity, as measured by correlations between model predictions.
+    - We explain this by showing that even changing the initialization of a single weight by the smallest possible amount within machine precision (∼6 · 10−11) produces nearly as much variability as all other sources combined.
+    - We show that Snapshot Ensembling (which uses a cyclic LR schedule, creating the members of an ensemble out of models where the LR is 0 in the cyclic LR schedule) and test-time augmentation reduce model variability without any increase in model training time.
 
 Zaken, E. B., Ravfogel, S., & Goldberg, Y. (2021). BitFit: Simple Parameter-efficient Fine-tuning for Transformer-based Masked Language-models. arXiv, 2106.10199. Retrieved from https://arxiv.org/abs/2106.10199v5
 
@@ -4631,70 +4670,4 @@ Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (20
     - We also trained a series of medium-sized models on subsampled versions of the dataset which are 0.5%, 1%, 2%, 4%, and 8% of the full dataset size, with early stopping based on the validation loss, and taking EMA of the parameters. We see significant variability in improvement rates across tasks and sizes. For English ASR, fter 50K hours the diminishing returns observed, that could be explained by saturation effects when approaching human-level performance. For X -> en translation, performance is practically zero when training on 7,000 hours of audio or less and then follows a roughly log-linear improvement trend till 54,000 hours before also showing diminishing returns. Overall results could suggest that the current best Whisper models are under-trained relative to dataset size and performance could be further improved by a combination of longer training and larger models. Also, we are nearing the end of performance improvements from dataset size scaling for speech recognition.
     - We also compared the performance of models trained on just English ASR with our standard multitask and multilingual training setup. We adjust for the amount of FLOPs spent training on the task of English ASR as only 65% of compute is spent on this task in a joint training setup. For small models trained with moderate amounts of compute, there is indeed negative transfer between tasks and languages (that is, multitasking harms). However, for our largest experiments  multitask and multilingual models outperform their English-only counterparts, demonstrating positive transfer from other tasks.
     - Many remaining errors, particularly in long-form transcription, includes problems such as getting stuck in repeat loops, not transcribing the first or last few words of an audio segment, or complete hallucination where the model will output a transcript entirely unrelated to the actual audio. We suspect fine-tuning Whisper models on a high-quality supervised dataset and/or using reinforcement learning to more directly optimize for decoding performance could help further reduce these errors.
-    - Another clear route for improvement is increasing the amount of data for rarer languages.
-    - While we studied only zero-shot transfer performance, it is likely that results can be improved further by fine-tuning. It also allows for direct comparisons with prior work since it is a much more common evaluation setting.
-    - It’s currently unclear to what degree the benefits of Whisper stem from training its encoder, decoder, or both. This could be studied by either ablating various design components of Whisper, such as training a decoder-less CTC model, or by studying how the performance of existing speech recognition encoders such as wav2vec 2.0 change when used together with a language model. It is also possible that the results could be further improved by incorporating unsupervised pre-training.
-
-Rakib, M., Hossain, Md. I., Mohammed, N., & Rahman, F. (2022). Bangla-Wave: Improving Bangla Automatic Speech Recognition Utilizing N-gram Language Models. arXiv, 2209.12650. Retrieved from https://arxiv.org/abs/2209.12650v1
-
-Shahgir, H. A. Z. S., Sayeed, K. S., & Zaman, T. A. (2022). Applying wav2vec2 for Speech Recognition on Bengali Common Voices Dataset. arXiv, 2209.06581. Retrieved from https://arxiv.org/abs/2209.06581v1
-
-Shim, K., & Sung, W. (2022). A Comparison of Transformer, Convolutional, and Recurrent Neural Networks on Phoneme Recognition. arXiv, 2210.00367. Retrieved from https://arxiv.org/abs/2210.00367v1
-
-Tang, Y., Gong, H., Dong, N., Wang, C., Hsu, W.-N., Gu, J., ...Pino, J. (2022). Unified Speech-Text Pre-training for Speech Translation and Recognition. arXiv, 2204.05409. Retrieved from https://arxiv.org/abs/2204.05409v1
-
-Tjandra, A., Singhal, N., Zhang, D., Kalinli, O., Mohamed, A., Le, D., & Seltzer, M. L. (2022). Massively Multilingual ASR on 70 Languages: Tokenization, Architecture, and Generalization Capabilities. arXiv, 2211.05756. Retrieved from https://arxiv.org/abs/2211.05756v1
-
-    - A problem in multilingual ASR: when we scale up the number of languages, vocabulary size grows.
-    - We explore large-scale multilingual on 70 languages with 150,000 hours dataset (fig. 2).
-    - We use an end-to-end Transducer model that is composed by encoder (CNN + Transformer), predictor, and joiner modules. We investigate two types of Transducer models: (1) shared input embedding and output architecture, (2) language-specific multiple input embedding, and output linear architecture (fig. 1). We also try subword tokenization.
-    - We evaluate our model with test data on two different domains for every language: vid-clean and vid-noisy (more acoustically challenging).
-    - Shared character strategy shows inferior results compared to language-specific inputs and outputs.
-    - One advantage of this language-specific architecture is that we could represent the same token between different languages with different embedding and weight matrices. Thus, we could disambiguate characters and subwords that look the same in the written space but sound different.
-    - Shared character tokenization lead to subpar performance, maybe due to the high variation of decoding timestep between different languages. We show that by minimizing the variance of decoding steps between languages with clever combinations between subwords and characters, we could significantly improve our multilingual result.
-    - Our multilingual model could generalized well on the new dataset (MLS). We achieve 9.5% WER on zero-shot and 7.5% WER after finetuning, that is competitive with SOTA performance.
-    - We plan to scale up the amount of training data by adding pseudo-labeling pipeline in every language.
-
-van der Merwe, W., Kamper, H., & Preez, J. d. (2022). A Temporal Extension of Latent Dirichlet Allocation for Unsupervised Acoustic Unit Discovery. arXiv, 2206.11706. Retrieved from https://arxiv.org/abs/2206.11706v2
-
-Wirth, J., & Peinl, R. (2022). ASR in German: A Detailed Error Analysis. arXiv, 2204.05617. Retrieved from https://arxiv.org/abs/2204.05617v1
-
-    - In ASR, WER or CER metrics do not provide any insight into the nature or impact of the errors.
-    - We evaluate ASR models pretrained on the German language on diverse test datasets.
-    - Conformer Transducer outperforms all other models (including Wav2Vec 2.0, Conformer CTC etc.) regarding WER.
-    - The lowest difference between average and median (over datasets) we count as an indicator for robustness.
-    - Wav2Vec 2.0 does exceptionally bad for German TED and ALC. We hypothesize that this stems from filling words like “äh” and “hm” occurring in their output transcript predictions, which, in contrast, are omitted in the predictions of all other models. These fillers are also missing in all ground truth transcripts.
-    - 1. Negligible Errors (9%). These are different forms of otherwise correct transcript predictions, like nonnormalized abbreviations such as “et cetera” or “etc.”
-    - 2. Minor Errors (noncontext-breaking) (12%). Models which were trained on less German data often produce transcript predictions with redundant letters, omit single letters or predict hard instead of soft vowels and vice versa (e.g., confusion between d and t) without distorting the meaning. These spelling errors can usually be corrected when utilizing a language model. While increasing CER only slightly, WER quickly rises to unrealistic values if these minor errors are included.
-    - 3. Major Errors (context-breaking) (19%). These are fully incorrectly transcribed or omitted words and omitted or inserted letters that change the meaning of a transcript or exclude necessary information. These errors were further divided into subgroups and their causes traced back to systematic errors within the training data.
-    - 3.1. Naive Normalization, such as years and large integers: "One Thousand Nine Hundred Sixty-Three" instead of "Nineteen Sixty-Three", and pronounced punctuation marks such as "comma". Here models trained on one type of dataset will generate errors when evaluated with the other type of dataset.
-    - 3.2. Various problems within datasets, such as pronounced "weil" (because) is transcribed in the ground truth as "denn" (since), or certain terms such as "paragraph" (article) were transcribed as "ziffer" (subparagraph) within the ground truth transcripts. As a result, models trained on this wrong data consistently predicted these spoken words. Additionally, for poorly edited audio inputs (starting in the middle of a sentence or word), models predicted sentence beginnings that were not present in the audio, and in most cases turned out to be incorrect. This type of error fits into the category "hallucinations".
-    - 4. Names, Loan Words and Anglicisms (20%) are a commonly occurring types of errors, since names can often be spelled in several ways and only a small fraction of common names is usually found in training datasets. Foreign words are strongly domain dependent, and some anglicisms have homophonic pronunciations to German phonemes. Anglicisms are closely related to code-switching ASR.
-    - 5. Homophones (3%) occur when contextual information is lost, but the underlying phonemes were in general correctly interpreted by the system, e.g., “Graph” and “Graf” (a noble title).
-    - 6. Flawed Ground Truth Transcripts (18%). These cases may be caused by incorrect normalization of numbers and symbols, and strong deviations in the alignment process during the automated creation of data sets.
-    - 7. Ambiguous Audio Input (11%), when certain words are be pronounced or perceived indistinctly. Here even human listeners were unable to produce clear and correct transcripts from audio recordings, because the pronunciation was too unclear. This could be traced back to speakers having learned German as a second language, multiple German dialects, simple pronunciation errors and slips of the tongue. Increasing the robustness of ASR systems for non-native speakers and dialects is an ongoing research topic.
-    - 8. Flawed Audio Input (8%) with cutoffs of spoken words at the beginning or end of audio snippets.
-    - We propose sevaral solutions: verification of (correct) normalization, extension of vocabulary through text to speech, training on phoneme vocabulary, audio preprocessing.
-
-Zhang, X., Tan, H., Huang, X., Zhang, D., Tang, K., & Gu, Z. (2022). Adversarial Attacks on ASR Systems: An Overview. arXiv, 2208.02250. Retrieved from https://arxiv.org/abs/2208.02250v1
-
-Zhang, Z., Chen, S., Zhou, L., Wu, Y., Ren, S., Liu, S., ...Wei, F. (2022). SpeechLM: Enhanced Speech Pre-Training with Unpaired Textual Data. arXiv, 2209.15329. Retrieved from https://arxiv.org/abs/2209.15329v3
-
-    - We propose SpeechLM, a cross-modal Speech and Language Model to explicitly malign speech and text pre-training with a predefined unified discrete representation. We introduce two alternative discrete tokenizers to bridge the speech and text modalities, including phoneme-unit and hidden-unit tokenizers, which can be trained using a small amount of paired speech-text data.
-    - We propose two pre-training tasks. One is Unit-based Masked Language Modeling (UMLM) trying to predict the unit tokens from the masked speech. The other one is Unit-based Connectionist Temporal Classification (UCTC) task, aiming at reconstructing the whole text sequences from the masked unit sequences. To better align the representations of speech and text, we also adopt a Random Swapping Mechanism for the UMLM task.
-    - SpeechLM enhanced by textual data significantly outperforms its speech-only counterparts on various spoken language tasks, e.g., ASR, speech translation (ST), and universal representation evaluation framework SUPERB.
-
-Zhang, Z., Zhou, L., Ao, J., Liu, S., Dai, L., Li, J., & Wei, F. (2022). SpeechUT: Bridging Speech and Text with Hidden-Unit for Encoder-Decoder Based Speech-Text Pre-training. arXiv, 2210.03730. Retrieved from https://arxiv.org/abs/2210.03730v1
-
-    - For the cross-modal speech-to-text models, a key problem is how to naturally connect the speech encoder and the text decoder. An intermediate hidden-unit representation (such as one in HuBERT) can be the bridge between modalities.
-    - We propose a unified speech-unit-text pre-training method (SpeechUT) that decouples the speech-to-text model into speech-to-unit and unit-to-text models (fig. 2), to take advantage of a large amount of unpaired speech and text data for pre-training.
-    - SpeechUT connects the speech encoder and the text decoder by the unit encoder.
-    - In the pre-training stage, SpeechUT performs multi-task pre-training with the following tasks. The first is the speech-to-unit objective similar to HuBERT, where the model needs to predict the unit of the masked positions based on the non-mask regions in a speech sequence. The second is the unit-to-text task is performed as a regular encoder-decoder based sequence-to-sequence task, conditioned on the output of the unit encoder; we also formulate a joint CTC objective which directly predicts the target text sequence from the unit encoder. Note that in S2U and U2T tasks, the unit serves as the target and the input, respectively. Finally, to enhance the unit-in, unit-out property, SpeechUT performs an additional masked unit modeling (MUM) task, with the training data combining all the units in S2U and U2T tasks. To better align the speech and unit representations in the unit encoder, we adopt a simple embedding mixing mechanism for S2U task, which is to mix the embeddings of two modalities in one sequence.
-    - To obtain training data, we need to construct the speech-unit paired data, and the unit-text paired data. We introduce the speech-to-unit (S2U) and text-to-unit (T2U) offline generators. SpeechUT employs a small amount of paired ASR data to train the T2U generator.
-    - After pre-training, we drop the unit pre-net and stack the speech encoder, the unit encoder and the text decoder into a complete sequence-to-sequence model, which can be fine-tuned for any speech-to-text task, such as ASR and ST.
-    - According to our ablation studies, the embedding mixing mechanism has the biggest impact, and the CTC loss, as a part of the U2T task, has a minor influence on the fine-tuning performance. The MUM loss has the minimum effect, so we speculate that the U2T task has already modeled the unit well.
-    - We acheieve SOTA on speech recognition and speech translation tasks.
-
-Zhao, J., & Zhang, W.-Q. (2022). Improving Automatic Speech Recognition Performance for Low-Resource Languages With Self-Supervised Models. IEEE J. Sel. Top. Signal Process., 16(6), 1227–1241. doi: 10.1109/JSTSP.2022.3184480
-
-Zhu, Q.-S., Zhang, J., Zhang, Z.-Q., Wu, M.-H., Fang, X., & Dai, L.-R. (2022). A Noise-Robust Self-supervised Pre-training Model Based Speech Representation Learning for Automatic Speech Recognition. arXiv, 2201.08930. Retrieved from https://arxiv.org/abs/2201.08
+    - Another clear route for improvement is increasing the amount of data for r
