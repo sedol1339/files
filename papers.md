@@ -1039,6 +1039,11 @@ Kim, B., Khanna, R., & Koyejo, O. O. (2016). Examples are not enough, learn to c
 
 Kirkpatrick, J., Pascanu, R., Rabinowitz, N., Veness, J., Desjardins, G., Rusu, A. A., ...Hadsell, R. (2016). Overcoming catastrophic forgetting in neural networks. arXiv, 1612.00796. Retrieved from https://arxiv.org/abs/1612.00796v2
 
+    - It was prevously shown that "catastrophic forgetting" occurs when the network is trained sequentially on multiple tasks because the weights in the network that are important for task A are changed to meet the objectives of task B. One can avoid this by interleaving data from multiple tasks, however, for agents this would require a large episodic memory system that will replay the data during training.
+    - Humans and other animals appear to be able to learn in a continual fashion by protecting previously-acquired knowledge in neocortical circuits.
+    - We propose elastic weight consolidation (EWC) method that ensures task A is remembered whilst training on task B. The posterior probability of weights given the dataset A must contain information about which parameters were important to task A and is therefore the key to implementing EWC. The true posterior probability is intractable, so, we use Laplace approximation. We approximate the posterior as a Gaussian distribution with mean given by the MLE parameters A and a diagonal precision given by the diagonal of the Fisher information matrix F, which is equivalent to the second derivative of the loss near a minimum and can be easily computed from first-order derivatives alone. Based on this, the EWC objective contains a regularizer shown in eq. 3 (when learning task B after task A). When further moving to a third task C, EWC can be enforced either with two separate penalties (for A and B), or as one by noting that the sum of two quadratic penalties is itself a quadratic penalty.
+    - With EWC, three values have to be stored for each synapse: the weight itself, its variance and its mean. So, the perspective we offer here aligns with a recent proposal that each synapse not only stores its current weight, but also an implicit representation of its uncertainty about that weight.
+
 Lakshminarayanan, B., Pritzel, A., & Blundell, C. (2016). Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles. arXiv, 1612.01474. Retrieved from https://arxiv.org/abs/1612.01474v3   
   
     - We propose non-Bayesian deep ensembles  
@@ -3431,6 +3436,7 @@ Wiese, G., Weissenborn, D., & Neves, M. (2017). Neural Domain Adaptation for Bio
     - We employ various domain adaptation techniques on a small BioASQ dataset for extractive QA task.
     - We improve SOTA with a forgetting cost regularization to avoid catastrophic forgetting (see "Representation Stability as a Regularizer for Improved Text Analytics Transfer Learning").
     - We also add an L2 loss term which penalizes deviations from the base model’s parameters.
+    - IMO, this looks like a simplified version of Elastic Weight Consolidation.
 
 Dror, R., Shlomov, S., & Reichart, R. (2019). Deep Dominance - How to Properly Compare Deep Neural Models. ACL Anthology, 2773–2785. doi: 10.18653/v1/P19-1266
 
@@ -3459,7 +3465,15 @@ Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (
 
 Mosbach, M., Andriushchenko, M., & Klakow, D. (2020). On the Stability of Fine-tuning BERT: Misconceptions, Explanations, and Strong Baselines. arXiv, 2006.04884. Retrieved from https://arxiv.org/abs/2006.04884v3
 
-    - 
+    - The two common hypotheses for fine-tuning instability are catastrophic forgetting and small size of the fine-tuning datasets. We argue that none of them has a causal relationship with fine-tuning instability.
+    - By fine-tuning RoBERTa and ALBERT on RTE task, we select three successful and three failed fine-tuning runs (when the accuracy at the end of training is less or equal to that of a majority classifier on the respective dataset) and evaluate their MLM perplexity on the test set of the WikiText-2 language modeling benchmark. We sequentially substitute the top-k layers of the network varying k from 0 (i.e. all layers are from the fine-tuned model) to 24 (i.e. all layers are from the pre-trained model). We observe that catastrophic forgetting affects only the top layers of the network (often around 10 of 24 layers), and the same is however also true for the successfully fine-tuned models, except for a much smaller increase in perplexity. Another important aspect of our experiment is that catastrophic forgetting typically requires that the model at least successfully learns how to perform the new task, however, this is not the case for the failed fine-tuning runs.
+    - We also test if having a small training dataset inherently leads to fine-tuning instability. We show that this is only because we usually do less training steps with a small dataset. What is crucial is rather the number of training iterations.
+    - We observe that the failed runs have practically constant training loss throughout the training. We plot the L2 gradient norms of the loss function with respect to different layers of BERT, and for the failed run we see large enough gradients only for the top layers and vanishing gradients for the bottom layers (fig. 4).
+    - This is harder to resolve than the standard vanishing gradient problem, since we cannot modify weight intialization in pre-trained model. We observe that Adam's bias correction may help here. An alternative solution is to simply train longer with a smaller LR, which also leads to much more stable fine-tuning (as also shown in the concurrent work "Revisiting Few-sample BERT Fine-tuning").
+    - We provide loss surface visualizations of failed and successful runs when fine-tuning BERT (fig. 7). For failed fine-tuning runs gradient descent converges to a “bad” valley with a sub-optimal training loss. Moreover, this bad valley is separated from the local minimum (to which the successfully trained run converged) by a barrier. We observe a highly similar geometry for all three datasets.
+    - We find that despite achieving close to zero training loss overfitting is not an issue during fine-tuning: dev set accuracy does not degrade even when the training loss is as low as 1e−5.
+    - We propose to 1) use small LR (such as 2e-5) with bias correction to avoid vanishing gradients early in training, and 2) increase the number of iterations for small datasets considerably and train to (almost) zero training loss.
+    - Our method leads to a much more stable fine-tuning performance on all three datasets, comparing to Mixout  (fig. 1, "Lee") and original BERT fine-tuning (fig. 1, "Devlin").
 
 Radiya-Dixit, E., & Wang, X. (2020). How fine can fine-tuning be? Learning efficient language models. International Conference on Artificial Intelligence and Statistics. PMLR. Retrieved from https://proceedings.mlr.press/v108/radiya-dixit20a.html
 
