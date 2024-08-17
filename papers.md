@@ -3445,6 +3445,14 @@ Dror, R., Shlomov, S., & Reichart, R. (2019). Deep Dominance - How to Properly C
     - To test for almost stochastic dominance, we formulate the hypothesis testing problem (see H0, H1 in sec. 4, and eq. 4 for details).
     - (Seems like) random variable is a metric for a single training run. "As an example setup we analyze the comparison between the NER models when running both algorithms multiple times, changing only the random seed fed into the random number generator".
 
+Hao, Y., Dong, L., Wei, F., & Xu, K. (2019). Visualizing and Understanding the Effectiveness of BERT. arXiv, 1908.05620. Retrieved from https://arxiv.org/abs/1908.05620v1
+
+    - We visualize fine-tuning BERT on specific datasets by showing: 1) loss curve obtained by linear interpolation from starting to final weights, 2) two-dimensional loss surface with the projection of the optimization trajectory, obtained in the same way, when one direction is the difference between starting and final weights, and the second direction is difference between starting and final weights fine-tuned on another dataset. Experiments show that these directions are divergent and orthogonal to each other.
+    - BERT pretraining reaches a good initial point across downstream tasks, which leads to wider optima on the 2D loss landscape (comparing to random initialization).
+    - We give evidence that the pre-training-then-fine-tuning paradigm is robust to overfitting.
+    - We show that the lower layers of BERT are more invariant across tasks. We verify the point by visualizing the loss landscape with respect to different groups of layers.
+    - IMO, when comparing the width of optima, we need to measure width in absolute and nor relative (percents of the full plot) numbers. I have found nothing about this in the paper (sec. 5.1).
+
 Lee, C., Cho, K., & Kang, W. (2019). Mixout: Effective Regularization to Finetune Large-scale Pretrained Language Models. arXiv, 1909.11299. Retrieved from https://arxiv.org/abs/1909.11299v2
 
     - Finetuning pre-trained LM on a small dataset is prone to degenerate performance.
@@ -3493,6 +3501,15 @@ Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). 
     - The only intervention that slightly improves the effective robustness to multiple natural distribution shifts is training with a more diverse dataset. At the same time, we find some models that are trained on 100X more data than the standard ImageNet but do not provide any robustness.
     - There is an earlier version of this paper called "When Robustness Doesn’t Promote Robustness: Synthetic vs. Natural Distribution Shifts on ImageNet". Some of the text above is from this version.
 
+Zhang, T., Wu, F., Katiyar, A., Weinberger, K. Q., & Artzi, Y. (2020). Revisiting Few-sample BERT Fine-tuning. arXiv, 2006.05987. Retrieved from https://arxiv.org/abs/2006.05987v3
+
+    - It is known that fine-tuning of BERT-large on small datasets is unstable. Identical fine-tunings with different random seeds often result in significantly different and sometimes degenerate models. As a result, practitioners resort to multiple random trials for model selection.
+    - We show that:
+    - 1) The most commonly used optimizer for fine-tuning BERT is BERT-ADAM, a modified version of the ADAM that omits a bias correction step. This non-standard implementation is widely used in both industry and research, however, it introduces bias in the gradient estimation.
+    - 2) The top layers of the pre-trained BERT provide a detrimental initialization for fine-tuning and delay learning. Simply re-initializing these layers not only speeds up learning but also leads to better model performance.
+    - 3) The common three-epochs practice for BERT fine-tuning is sub-optimal for small datasets, and allocating more training time can stabilize fine-tuning.
+    - We construct a baseline with all these modifications. Comparing to this baseline, the recently proposed methods (Mixout, Weight decay towards the pre-trained model and Transferring via an Intermediate Task) still perform favorably, but their benefits are less pronounced. This indicates that these methods potentially ease the optimization difficulty brought by the debiasing omission in BERT-ADAM, and when we add the debiasing, the positive effects are reduced.
+
 Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of Out-of-Distribution Robustness Throughout Fine-Tuning. arXiv, 2106.15831. Retrieved from https://arxiv.org/abs/2106.15831v1
 
     - It was shown across a wide range of models that there is a clear linear relationship between a model’s final performance on ID and OOD data (see "Do ImageNet Classifiers Generalize to ImageNet?"). However, even the highest-performing models will still have a gap between ID and OOD accuracy. Models which lie above the linear fit are said to exhibit effective robustness (ER), which measures the model’s OOD accuracy relative to the fit. Models with high ER (>1%) are exceedingly rare.
@@ -3500,6 +3517,13 @@ Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of
     - We find that throughout fine-tuning, pre-trained models exhibit ER that vanishes at convergence (fig. 1c, orange), while randomly initialized models do not (fig. 1c, red). So, when approaching convergence during fine-tuning, pre-trained models gradually lose their ER, even as both the ID and OOD accuracies of the model simultaneously increase.
     - We try several solutions to mitigate this problem, but none of them were able to maintain high ER at high ID accuracy.
     - We find that effectively robust models make remarkably dissimilar predictions compared to standard models, and are able to correctly classify 10% of the examples that no other model gets correct.
+
+Hua, H., Li, X., Dou, D., Xu, C.-Z., & Luo, J. (2021). Noise Stability Regularization for Improving BERT Fine-tuning. arXiv, 2107.04835. Retrieved from https://arxiv.org/abs/2107.04835v1
+
+    - It was shown that noise injected at the lower layers has very little effect on the higher layers for neural networks with good generalizability. However, for a well pre-trained BERT, we find that the higher layers are still very sensitive to the lower layer’s perturbation (by injecting a scaled Gaussian noise, fig. 1). This phenomenon coincides with the observation that transferring the top pre-trained layers of BERT slows down learning and hurts performance.
+    - We propose Layer-wise Noise Stability Regularization (LNSR) to improve fine-tuning on NLP tasks, which injects Gaussian noise into some layer (usually at the first layer) and penalize the discrepancy for all subsequent layers.
+    - Theoretically, LNSR encourages the local Lipschitz continuity and/or imposing a Tikhonov regularizer.
+    - Our method also demonstrates advantages over L2-SP, Mixout and SMART.
 
 Summers, C., & Dinneen, M. J. (2021). Nondeterminism and Instability in Neural Network Optimization. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v139/summers21a.html
 
@@ -3516,6 +3540,18 @@ Zaken, E. B., Ravfogel, S., & Goldberg, Y. (2021). BitFit: Simple Parameter-effi
     - Moreover, if we allow a small degradation in performance, we can fine-tune only two bias components (the “query” and “middle-of-MLP” bias terms: in total only 0.04% of all model parameters).
     - This opens the way to trainable hardware implementations in which most of the parameters are fixed.
     - Out work is close to "One for many: Transfer learning for building hvac control" when the authors show that bias-only fine-tuning is effective for adaptation of pre-trained CV models.
+
+Chen, G., Liu, F., Meng, Z., & Liang, S. (2022). Revisiting Parameter-Efficient Tuning: Are We Really There Yet? arXiv, 2202.07962. Retrieved from https://arxiv.org/abs/2202.07962v2
+
+    - We found the problematic validation and testing practice of parameter-efficient fine-tuning methods (PEFT) in current studies (for example, the dev set is used for both early stopping and reporting results, and not reporting statistical significance, not accounting for the results instability). When accompanied by the instability nature of PEFT, this has led to unreliable conclusions.
+    - We conduct the first comprehensive investigation into PEFT under a truly fair evaluation protocol.
+    - We found that:
+    - 1) Fine-tuning cannot be fully replaced so far, since there is no PEFT method that can consistently outperform fine-tuning across all tasks and settings. We conclude that PETuning may be more suitable for low-resource tasks, but struggle on medium-resource tasks and fall behind finetuning across the board on high-resource tasks (fig. 1).
+    - 2) All the PEFT methods unanimously show instability across different random seeds similar to finetuning.
+    - 3) Prompt-tuning lags far behind finetuning, which is a very different conclusion from previous studies. It is highly unstable and cannot consistently re-produce its reported competitive performance.
+    - 4) Within each PEFT method, reducing the size of trainable parameters is likely to yield better stability (but not necessary to yield better or poorer performance).
+    - 5) The stability of PEFT methods is proportional to the scale of training data and the number of training iterations.
+    - IMO, the Appendix A is a good short intro to PEFT methods.
 
 Fu, Z., Yang, H., So, A. M.-C., Lam, W., Bing, L., & Collier, N. (2022). On the Effectiveness of Parameter-Efficient Fine-Tuning. arXiv, 2211.15583. Retrieved from https://arxiv.org/abs/2211.15583v1
 
