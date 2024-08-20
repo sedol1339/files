@@ -3408,6 +3408,18 @@ Huang, Q., Wake, N., Sarkar, B., Durante, Z., Gong, R., Taori, R., ...Gao, J. (2
     - We introduce a concept of delayed robustness, whereby a DNN groks adversarial examples long after interpolation and/or generalization; we make this observation for a number of training settings in CV and NLP
     - We develop an analytical explanation for both delayed generalization and delayed robustness based on a "progress measure": local complexity (the density of so-called “linear regions”) of a DNN’s input-output mapping
 
+Pagliardini, M., Mohtashami, A., Fleuret, F., & Jaggi, M. (2024). DenseFormer: Enhancing Information Flow in Transformers via Depth Weighted Averaging. arXiv, 2402.02622. Retrieved from https://arxiv.org/abs/2402.02622v2
+
+Paolo, G., Gonzalez-Billandon, J., & Kégl, B. (2024). A call for embodied AI. arXiv, 2402.03824. Retrieved from https://arxiv.org/abs/2402.03824v1
+
+Peters, B., DiCarlo, J. J., Gureckis, T., Haefner, R., Isik, L., Tenenbaum, J., ...Kriegeskorte, N. (2024). How does the primate brain combine generative and discriminative computations in vision? arXiv, 2401.06005. Retrieved from https://arxiv.org/abs/2401.06005v1
+
+Sohl-Dickstein, J. (2024). The boundary of neural network trainability is fractal. arXiv, 2402.06184. Retrieved from https://arxiv.org/abs/2402.06184v1
+
+Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (2024). Inferring neural activity before plasticity as a foundation for learning beyond backpropagation. Nat. Neurosci., 27, 348–358. Retrieved from https://www.nature.com/articles/s41593-023-01514-1
+
+## AI scientist
+
 Lu, C., Lu, C., Lange, R. T., Foerster, J., Clune, J., & Ha, D. (2024). The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery. arXiv, 2408.06292. Retrieved from https://arxiv.org/abs/2408.06292v2
 
     - We present The AI Scientist: the first framework for fully automatic scientific discovery, which generates novel research ideas, writes code, executes experiments, visualizes results, describes its findings by writing a full scientific paper.
@@ -3427,16 +3439,6 @@ Lu, C., Lu, C., Lange, R. T., Foerster, J., Clune, J., & Ha, D. (2024). The AI S
     - Overall, we judge the performance of The AI Scientist to be about the level of an early-stage ML researcher who can competently execute an idea but may not have the full background knowledge to fully interpret the reasons behind an algorithm’s success.
     - From manual inspection, we find that Claude Sonnet 3.5 consistently produces the highest quality papers, with GPT-4o coming in second. We provide a link to all papers, run files, and logs in our GitHub repository. For the open-weight models, DeepSeek Coder is significantly cheaper but often fails to correctly call the Aider tools. Llama-3.1 405b performed the worst overall but was the most convenient to work with, as we were frequently rate-limited by other providers. Both DeepSeek Coder and Llama-3.1 405b often had missing sections and results in their generated papers.
     - Shortcomings are the following. The idea generation process often results in very similar ideas across different runs and even models. Aider fails to implement a significant fraction of the proposed ideas. The AI Scientist may incorrectly implement an idea, which can be difficult to catch. The AI Scientist ofren make deceptive or inaccurate conclusions and sometimes struggles to find and cite the most relevant papers. Importantly, The AI Scientist occasionally makes critical errors when writing and evaluating results. For example, it struggles to compare the magnitude of two numbers, which is a known pathology with LLMs. Rarely, The AI Scientist can hallucinate entire results.
-
-Pagliardini, M., Mohtashami, A., Fleuret, F., & Jaggi, M. (2024). DenseFormer: Enhancing Information Flow in Transformers via Depth Weighted Averaging. arXiv, 2402.02622. Retrieved from https://arxiv.org/abs/2402.02622v2
-
-Paolo, G., Gonzalez-Billandon, J., & Kégl, B. (2024). A call for embodied AI. arXiv, 2402.03824. Retrieved from https://arxiv.org/abs/2402.03824v1
-
-Peters, B., DiCarlo, J. J., Gureckis, T., Haefner, R., Isik, L., Tenenbaum, J., ...Kriegeskorte, N. (2024). How does the primate brain combine generative and discriminative computations in vision? arXiv, 2401.06005. Retrieved from https://arxiv.org/abs/2401.06005v1
-
-Sohl-Dickstein, J. (2024). The boundary of neural network trainability is fractal. arXiv, 2402.06184. Retrieved from https://arxiv.org/abs/2402.06184v1
-
-Song, Y., Millidge, B., Salvatori, T., Lukasiewicz, T., Xu, Z., & Bogacz, R. (2024). Inferring neural activity before plasticity as a foundation for learning beyond backpropagation. Nat. Neurosci., 27, 348–358. Retrieved from https://www.nature.com/articles/s41593-023-01514-1
 
 ## Fine-tuning
 
