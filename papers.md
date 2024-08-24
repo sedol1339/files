@@ -3511,6 +3511,16 @@ Lee, C., Cho, K., & Kang, W. (2019). Mixout: Effective Regularization to Finetun
     - IMO, this paper is a good introduction to dropout variants.
     - IMO, it is not clearly stated how are the gradients applied in mixout. Probably, the gradients over the pre-trained weights are calculated, used on further backprop, but not applied.
 
+Aghajanyan, A., Zettlemoyer, L., & Gupta, S. (2020). Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning. arXiv, 2012.13255. Retrieved from https://arxiv.org/abs/2012.13255v1
+
+    - For pre-trained LMs, intrinsic dimensionality means how many free parameters are required to closely approximate the fine-tuning optimization problem.
+    - We show that the process of pre-training itself implicitly minimizes the intrinsic dimension of later tuning for different NLP tasks. Common NLP tasks within the context of pre-trained representations have an intrinsic dimension several orders of magnitudes less than the full parameterization. For example, 200 parameters (randomly projected back into the full parameter space) are enough to represent the problem of tuning a RoBERTa model to within 90% of the performance of the full model.
+    - We show that number of parameters strongly inversely correlates with intrinsic dimensionality, across a large set of recently developed pre-training methods.
+    - We propose a new interpretation of intrinsic dimension as the downstream fine-tuning task’s minimal description length within the framework of the pre-trained model. The process of pre-training implicitly optimizes the description length over the average of NLP tasks, without having direct access to those same tasks.
+    - We show that compression based generalization bounds can be applied to our intrinsic dimension framework to provide generalization bounds for large pre-trained models independent of the pre-trained model parameter count.
+    - IMO needed ablations to check if pre-training on random noise also reduces the intrinsic dimension (of later tuning for different NLP tasks).
+    - TODO read
+
 Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. arXiv, 2002.06305. Retrieved from https://arxiv.org/abs/2002.06305v1
 
     - It is known that fine-tuning performance can vary substantially across different training episodes, even with fixed hyperparameter values.
@@ -3537,7 +3547,7 @@ Radiya-Dixit, E., & Wang, X. (2020). How fine can fine-tuning be? Learning effic
     - We then show that it suffices to finetune only the most critical layers.
     - We also attempt to learn a task by sparsifying the pre-trained weights. We find that a specific task can be learned by simply masking anywhere between 1% to 40% of the pretrained weights to zero. To do this, we reparemetrize a binary mask as continous sigmoid mask with bernoulli sampling. Control over the final sparsity is exerted by initialization of sigmoid mask for fine-tuning.
 
-Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). Measuring Robustness to Natural Distribution Shifts in Image Classification. Advances in Neural Information Processing Systems, 33, 18583–18599. Retrieved from https://proceedings.neurips.cc/paper/2020/hash/d8330f857a17c53d217014ee776bfd50-Abstract.html
+Taori, R., Dave, A., Shankar, V., Carlini, N., Recht, B., & Schmidt, L. (2020). Measuring Robustness to Natural Distribution Shifts in Image Classification. arXiv, 2007.00644. Retrieved from https://arxiv.org/abs/2007.00644v2
 
     - Some studies implicitly assume that hat robustness to synthetic distribution shifts (l_p-adversarial examples, noise corruptions, etc.) will lead to models that also perform more reliably on natural distribution shifts.
     - Our paper is a meta-study of current robustness research.
@@ -3566,12 +3576,49 @@ Andreassen, A., Bahri, Y., Neyshabur, B., & Roelofs, R. (2021). The Evolution of
     - We try several solutions to mitigate this problem, but none of them were able to maintain high ER at high ID accuracy.
     - We find that effectively robust models make remarkably dissimilar predictions compared to standard models, and are able to correctly classify 10% of the examples that no other model gets correct.
 
+He, J., Zhou, C., Ma, X., Berg-Kirkpatrick, T., & Neubig, G. (2021). Towards a Unified View of Parameter-Efficient Transfer Learning. arXiv, 2110.04366. Retrieved from https://arxiv.org/abs/2110.04366v3
+
+    - It was show that besides parameter savings, parameter-efficient tuning (PEFT) makes it possible to quickly adapt to new tasks without catastrophic forgetting and often exhibits superior robustness in out-of-distribution evaluation.
+    - We show that existing PEFT methods (adapters, prefix-tuning, LoRA, BitFit) still lag behind full fine-tuning in text summarization, machine translation, text classification, and general language understanding (fig. 2).
+    - We derive an alternative form of prefix tuning that reveals its close connections with adapters. Prefix tuning essentially applies a position-wise modification to the original head attention output through linear interpolation.
+    - We devise a unified framework that frames the PEFT methods as different ways to modify the hidden representations of frozen PLMs.
+    - This framework allows us to transfer design choices across approaches to propose new variants: parallel adapter and scaled parallel adapter (fig. 3). The proposed variant uses less parameters than existing methods while being more effective, matching full fine-tuning results on all four aforementioned tasks (fig. 2).
+
 Hua, H., Li, X., Dou, D., Xu, C.-Z., & Luo, J. (2021). Noise Stability Regularization for Improving BERT Fine-tuning. arXiv, 2107.04835. Retrieved from https://arxiv.org/abs/2107.04835v1
 
     - It was shown that noise injected at the lower layers has very little effect on the higher layers for neural networks with good generalizability. However, for a well pre-trained BERT, we find that the higher layers are still very sensitive to the lower layer’s perturbation (by injecting a scaled Gaussian noise, fig. 1). This phenomenon coincides with the observation that transferring the top pre-trained layers of BERT slows down learning and hurts performance.
     - We propose Layer-wise Noise Stability Regularization (LNSR) to improve fine-tuning on NLP tasks, which injects Gaussian noise into some layer (usually at the first layer) and penalize the discrepancy for all subsequent layers.
     - Theoretically, LNSR encourages the local Lipschitz continuity and/or imposing a Tikhonov regularizer.
     - Our method also demonstrates advantages over L2-SP, Mixout and SMART.
+
+Lester, B., Al-Rfou, R., & Constant, N. (2021). The Power of Scale for Parameter-Efficient Prompt Tuning. arXiv, 2104.08691. Retrieved from https://arxiv.org/abs/2104.08691v2
+
+    - We explore “prompt tuning”, a simple yet effective mechanism for learning “soft prompts” to condition frozen LMs to perform specific downstream tasks. We freeze the entire pre-trained model and only allow an additional k tunable tokens per downstream task to be prepended to the input text.
+    - We show that prompt tuning alone (with no intermediate-layer prefixes or task-specific output layers) is sufficient to be competitive with model tuning, in contrast to what's shown in "Prefix-Tuning: Optimizing Continuous Prompts for Generation". They used GPT-2 and BART, and we use T5, which is larger. They also rely on a reparameterization of the prefix to stabilize learning, which adds a large number of parameters during training, whereas our configuration does not require this reparameterization.
+    - Prompt tuning becomes more competitive with scale: as models exceed billions of parameters, our method “closes the gap” and matches the strong performance of fill parameter tuning.
+    - We show that “prompt ensembling”, learning multiple prompts for the same task, can boost quality and is more efficient than classic model ensembling. To process one example, rather than computing forward passes of N different models, we can execute a single forward pass with a batch size of N , replicating the example across the batch and varying the prompt.
+    - For most model sizes, increasing prompt length beyond a single token is critical to achieve good performance. Across all models, increasing beyond 20 tokens only yields marginal gains. Going past 100 tokens appears mildly detrimental for larger models.
+    - Prompt tuning outperforms model tuning on the majority of out-of-domain datasets.
+
+Li, X. L., & Liang, P. (2021). Prefix-Tuning: Optimizing Continuous Prompts for Generation. arXiv, 2101.00190. Retrieved from https://arxiv.org/abs/2101.00190v1
+
+    - We propose prefix-tuning, a lightweight alternative to fine-tuning for NLG tasks, inspired by prompting. It keeps LM parameters frozen, but optimizes a small continuous task-specific vector (called the prefix). Unlike prompting, the prefix consists entirely of free parameters which do not correspond to real tokens.
+    - Prefix-tuning optimizes all layers of the prefix. We also tried to optimize only the continuous embeddings of the “virtual tokens” (embedding-only ablation), and the performance drops significantly, suggesting that tuning only the embedding layer is not sufficiently expressive.
+    - In the context of personalization, we could have a separate prefix for each user trained only on that user’s data. Moreover, the prefix-based architecture enables us to even process examples from multiple users/tasks in a single batch. In contrast, we can’t batch across different users in adapter-tuning, which has personalized adapters between shared Transformer layers. (IMO maybe we can?)
+    - In our experiments, with full datasets, prefix-tuning and fine-tuning are comparable for table-to-text, while prefix-tuning suffers a small degradation for summarization. In low-data settings, prefix-tuning on average outperforms fine-tuning on both tasks. Prefix-tuning also extrapolates better to tables (for table-to-text) and articles (for summarization) with unseen topics (we split the existing datasets so that training and test cover different topics).
+    - Performance increases as the prefix length increases up to a threshold (200 for summarization, 10 for table-to-text) and then a slight performance drop occurs (fig. 4). Empirically, longer prefixes have a negligible impact on inference speed.
+    - We can also place the trainable activations between x and y (i.e. [x; INFIX; y]) and call this infix-tuning. It slightly underperforms prefix-tuning. We believe this is because prefix-tuning can affect the activations of x and y whereas infix-tuning can only influence the activations of y.
+    - We find that how the prefix is initialized has a large impact in low-data settings. Random initialization leads to low performance with high variance. Initializing with task relevant words such as “summarization” and “table-to-text” obtains slightly better performance than task irrelevant words such as “elephant” and “divide”, but using real words is still better than random.
+    - There is a concurrent work "The Power of Scale for Parameter-Efficient Prompt Tuning".
+    
+
+Qin, Y., Wang, X., Su, Y., Lin, Y., Ding, N., Yi, J., ...Zhou, J. (2021). Exploring Universal Intrinsic Task Subspace via Prompt Tuning. arXiv, 2110.07867. Retrieved from https://arxiv.org/abs/2110.07867v3
+
+    - We show that the adaptations of PLMs to various few-shot tasks can be reparameterized as optimizing only a few free parameters in a unified low-dimensional intrinsic task subspace.
+    - We propose intrinsic prompt tuning (IPT) to find such a subspace, which consists of two phases: multitask subspace finding (MSF) and intrinsic subspace tuning (IST) (fig. 2). During MSF, we first obtain trained soft prompts for multiple tasks via prompt (prefix) tuning, and then learn an auto-encoder by first projecting them into the desired low-dimensional subspace and then reconstructing them with a back-projection. During IST, to adapt the PLM to unseen data and tasks, we only train the few free parameters in the lowdimensional subspace found by MSF through a fixed back-projection.
+    - We find that in a 250-dimensional subspace found with 100 tasks, by only tuning 250 free parameters, we can recover 97% of the full prompt tuning performance for 100 seen tasks (using different training data) and 83% of the full prompt tuning performance for 20 unseen tasks.
+    - We analyze the effect of training task types, the number of training tasks, and training data scales for IPT.
+    - From this perspective, the PLMs serve as general compression frameworks, which compress the learning complexity of various tasks from very high dimensionalities to low dimensionalities.
 
 Summers, C., & Dinneen, M. J. (2021). Nondeterminism and Instability in Neural Network Optimization. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v139/summers21a.html
 
@@ -3600,6 +3647,16 @@ Chen, G., Liu, F., Meng, Z., & Liang, S. (2022). Revisiting Parameter-Efficient 
     - 4) Within each PEFT method, reducing the size of trainable parameters is likely to yield better stability (but not necessary to yield better or poorer performance).
     - 5) The stability of PEFT methods is proportional to the scale of training data and the number of training iterations.
     - IMO, the Appendix A is a good short intro to PEFT methods.
+
+Ding, N., Qin, Y., Yang, G., Wei, F., Yang, Z., Su, Y., ...Sun, M. (2022). Delta Tuning: A Comprehensive Study of Parameter Efficient Methods for Pre-trained Language Models. arXiv, 2203.06904. Retrieved from https://arxiv.org/abs/2203.06904v2
+
+    - We propose the term "delta tuning" for parameter efficient tuning, since it only fine-tunes a small portion of the model parameters. We review and divide existing delta tuning methods into three groups: addition-based (introduce extra trainable paramters), specification-based (specify certain parameters become trainable, including learnable specifications), and reparameterization-based methods (reparameterize existing parameters to a parameter-efficient form by transformation) (fig. 4).
+    - Based on the intrinsic low dimension in a large pre-trained language model, we show that delta tuning is essentially a subspace optimization method with respect to the solution space or functional space. We also interpret delta tuning as seeking optimal controllers for PLMs, and propose an optimal control framework that unifies different delta tuning approaches.
+    - We develop OpenDelta toolkit to efficiently and flexibly implement delta tuning on pre-trained LMs.
+    - We perform comprehensive performance comparison of existing delta tuning methods on 100 NLP tasks.
+    - We find that existing delta tuning methods are still no match for the conventional fine-tuning either in performance or convergence. Among delta tuning methods, no single algorithm predominantly outperforms the others. Combining multiple delta tuning methods is more effective than a single method under most cases, despite that the optimal combination may vary for different PLM backbones, downstream tasks, and data scales.
+    - We discuss the applications of delta tuning: fast training and shareable checkpoints, multi-task learning, catastrophic forgetting mitigation, and in-batch parallel computing.
+    - TODO read
 
 Fu, Z., Yang, H., So, A. M.-C., Lam, W., Bing, L., & Collier, N. (2022). On the Effectiveness of Parameter-Efficient Fine-Tuning. arXiv, 2211.15583. Retrieved from https://arxiv.org/abs/2211.15583v1
 
@@ -3671,6 +3728,25 @@ Gueta, A., Venezian, E., Raffel, C., Slonim, N., Katz, Y., & Choshen, L. (2023).
     - For each target dataset, we choose the centroid of all models excluding ones finetuned on this dataset, and use this point as initialization for fine-tuning on the target dataset, using BitFit method. This results in a better performing model than starting from a pretrained model in 9 cases, performs on par in 2 cases, and underperforming in 1 case. In a few-shot scenario limiting the training examples to 1K, this effect is even stronger.
     - IMO, this is also very similar to DiWA ("Diverse Weight Averaging for Out-of-Distribution Generalization").
     - IMO, the another dimension should be the number of training data, what is not covered here. The models trained on 1) small data, 2) large data, 3) infinite data should have different properties.
+
+Lv, K., Yang, Y., Liu, T., Gao, Q., Guo, Q., & Qiu, X. (2023). Full Parameter Fine-tuning for Large Language Models with Limited Resources. arXiv, 2306.09782. Retrieved from https://arxiv.org/abs/2306.09782v2
+
+    - Can we use SGD (less memory consuming) instead of Adam to optimize LLMs? How to further reduce memory usage?
+    - Prior works often discuss three challenges of SGD: 1) large curvature loss surface, 2) local optimum, and 3) saddle points. However, there are empirical results and theoretical analyses supporting that the parameter space of large LMs is quite smooth. Also, a local optimum is often a good enough solution for fine-tuning, because we do not want to push the model to a global optimum, which may be far away from pre-trained weights. Also we argue that the initial point of LLMs should be in a valley, not a saddle point. We show theoretically that utilizing SGD optimizer over a smooth loss surface could imply a larger batch size. A larger batch size indicates stronger training stability, so we believe that finetuning process of LLMs with the SGD optimizer is stable. This also explains why SGD failed on small models but worked for large models.
+    - We propose a new optimizer, LOw-Memory Optimization (LOMO), which fuses the gradient computation and the parameter update in one step (fig. 1). The key idea is to update the parameter immediately when its gradient is computed so that we do not store gradient tensor in memory. The parameter update process is still equivalent to SGD.
+    - LOMO optimizer leads to a substantial reduction in memory footprint from 102.20GB to 14.58GB, when compared to the AdamW optimizer, and from 51.99GB to 14.58GB, when compared to SGD, when training the LLaMA-7B model.
+    - The training of a 7B model with 512×8 tokens in one batch demands a substantial amount of memory for activations. LOMO is compatible with activation checkpointing: the memory footprint can be reduced from 45.61GB to 1.79GB.
+    - Our approach cannot directly compute the gradient norm because we update parameters along with the backpropagation. Instead, we propose to clipp gradient tensors by its values rather than the norm. The main concern of clipping by values is that truncating some gradient elements could change the direction of the gradient tensor. We show that clipping by values performs well for medium and small LRs (less than 1e-3).
+    - If we still want to clip by gradient norm, then we may perform an additional pass to compute and accumulate each parameter’s gradient norm. The memory usage leaves unchanged but sacrifices the speed.
+    - To mitigate the degradation in precision in mixed-precision training, we utilize dynamic loss scaling and transition certain computations to full precision. This is crucial in preventing underflows during FP16 training, magnifying the loss with a specific factor prior to the backward pass and diminishing the gradients by the same factor. LOMO dynamically adjusts this scaling factor.
+    - LOMO generally outperforms LoRA in most experiments. However, in some cases, LOMO performs worse than LoRA. One possible reason is the relatively small training set we use, which may not be sufficient for full-parameter fine-tuning of large models. Actually, these two methods are not conflicting or mutually exclusive. We find that LOMO consistently enhances the performance of LoRA on subset of the SuperGLUE benchmark.
+
+Lv, K., Yan, H., Guo, Q., Lv, H., & Qiu, X. (2023). AdaLomo: Low-memory Optimization with Adaptive Learning Rate. arXiv, 2310.10195. Retrieved from https://arxiv.org/abs/2310.10195v3
+
+    - While the recently proposed LOMO reduces memory footprint, it is sensitive to hyper-parameters and fails to match AdamW in fine-tuning LLMs.
+    - We found that, compared to momentum, the adaptive LR is more critical for bridging the gap. Through experiments we found that second-order moment estimation has a significantly greater impact on convergence than the first-order moment estimation (fig. 1, when "variance" is the second-order moment). It is particularly effective for handling sparse data, allowing parameters that are infrequently updated to receive larger update steps. So, we decided to incorporate a second-order moment estimation and discard the first-order moment. Furthermore, the second-order moment in the optimizer’s state has been proven to be decomposable or compressible to reduce memory usage (in Adafactor optimizer).
+    - We introduce AdaLomo: the low-memory optimization with adaptive LR, that achieves results on par with AdamW. For memory efficiency, we applied non-negative matrix factorization to the second-order moment, inspired by Adafactor.
+    - We use a grouped gradient normalization instead of global gradient normalization, which nearly doubles the training speed of AdaLomo (since it no more requires two backward passes) while maintaining its performance.
 
 Pecher, B., Srba, I., & Bielikova, M. (2023). On the Effects of Randomness on Stability of Learning with Limited Labelled Data: A Systematic Literature Review. arXiv, 2312.01082. Retrieved from https://arxiv.org/abs/2312.01082v1
 
