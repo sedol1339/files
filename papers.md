@@ -4100,7 +4100,16 @@ Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist t
 
     - We propose a method called Connectionist Temporal Classification (CTC) for training RNNs on tasks where real-valued unsegmented input streams are annotated with strings of discrete labels (e.g. handwriting recognition, speech recognition, gesture recognition)
     - Terminology: we refer to the task of labelling unsegmented data sequences as temporal classification, and independent labelling of each time-step, or frame, of the input sequence as framewise classification
-    - Method: while framewise networks receive an error for misaligning the segment boundaries (fig. 1), our CTC network predicts only the sequence of phonemes separated by "blank" tokens, which mean no label at the current frame. From probabilistic perspective, we interpret the network outputs as a probability distribution over all possible label sequence, and the output of the classifier should be the most probable labelling (argmax in probability). Taking this argmax is non-trivial in CTC, we refer to this task as decoding. We propose two approximate methods that give good results in practice (sec. 3.2). We alsoe describe how to perform backward pass (sec. 4).
+	- Let V be a vocabulary of N classes (for ASR, classes may be letters, including a class for "space").
+	- Let E be the extended vocabulary of N+1 classes, including "blank" class that means no prediction at the current frame (not the same as space character).
+    - CTC network performs per-frame classification to these N+1 classes. So, given K frames, model outputs probabilities of shape (K, N+1). This allows to calculate the probability of any sequence from E^T.
+	- We then define a many-to-one mapping B from E^T to to the set of any-length (up to length T) sequences of vocabulary V (denote as V^star).
+	- The mapping B: E^T -> V^star works like this: we first remove all repetitions, and then remove all blank tokens (not vice versa).
+	- Let the probability of any sequence S from V^star be the sum  probabilities of all X in E^T such that B(X) = S. The probability of X is the product of probabilities of all its tokens.
+	- Given predicted probabilities of shape (K, N+1), during inference we want to find the most probable sequence from V^star, and during training we want to calculate the probability of the target sequence from V^star. Both tasks are intractable.
+    - We can approximate inference with greedy ("best path") search (taking argmax and then applying B mapping), or, better, by our proposed Prefix search decoding (fig. 2). It relies on the observation that the outputs of a trained CTC network tend to form a series of spikes separated by strongly predicted blanks (fig. 1), and hence we choose boundary points where the probability of observing a blank label is above a certain threshold. We then calculate the most probable labelling for each section individually. In practice, prefix search generally outperforms greedy search.
+	- ...TODO
+	- TODO https://pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html
     - On TIMIT dataset, CTC outperformed both a baseline HMM (hidden Markov Model) recogniser and an HMM-RNN hybrid with the same RNN architecture.
     - A key difference between CTC and HMM is that CTC does not explicitly segment its input sequences. Determining the segmentation is a waste of modelling. For tasks where segmentation is required it would seem problematic to use CTC (however, CTC is suitable where approximate segmentation is sufficient).
     - Further we intend to pursue an hierarchy of temporal classifiers, where the labellings at one level (e.g. letters) become inputs for the labellings at the next (e.g. words).
@@ -4225,7 +4234,7 @@ Watanabe, S., Hori, T., Kim, S., Hershey, J. R., & Hayashi, T. (2017). Hybrid CT
 
     - We propose MOL: a hybrid CTC/attention end-to-end ASR. During training, we propose a multi-objective learning method by attaching a CTC objective to an attention-based encoder network as a regularization. This greatly reduces the number of irregularly aligned utterances. During decoding, we propose a joint decoding approach, which combines both attention-based and CTC scores in a rescoring/one-pass beam search algorithm to eliminate the irregular alignments.
     - Comparing with attention-only ASR, our model learned the desired alignment in an early training stage. This result indicates that the CTC loss guided the alignment to be monotonic.
-    - This paper is a combination of two previous papers from the same authors "Joint CTC-Attention based End-to-End Speech Recognition using Multi-task Learning" and "Joint CTC/attention decoding for end-to-end speech recognition" and extends them by providing more details and experimental discussions.
+    - This paper is a combination of two previous papers from the same authors "Joint CTC-Attention based End-to-End Speech Recognition using Multi-task Learning" and "Joint CTC/attention decoding for end-to-end speech recognition" and extends them by providing more details and experimental discussions.
 
 Chung, Y.-A., & Glass, J. (2018). Speech2Vec: A Sequence-to-Sequence Framework for Learning Word Embeddings from Speech. arXiv, 1803.08976. Retrieved from https://arxiv.org/abs/1803.08976v2
 
@@ -5135,6 +5144,13 @@ Ma, M., Koizumi, Y., Karita, S., Zen, H., Riesa, J., Ishikawa, H., & Bacchiani, 
 	- To identify successfully restored samples, we performed ASR-based filtering.
 
 Meng, L., Kang, J., Wang, Y., Jin, Z., Wu, X., Liu, X., & Meng, H. (2024). Empowering Whisper as a Joint Multi-Talker and Target-Talker Speech Recognition System. arXiv, 2407.09817. Retrieved from https://arxiv.org/abs/2407.09817v1
+
+Mittal, A., Prabhu, D., Sarawagi, S., & Jyothi, P. (2024). SALSA: Speedy ASR-LLM Synchronous Aggregation. arXiv, 2408.16542. Retrieved from https://arxiv.org/abs/2408.16542v1
+
+    - The current methods to enhance ASR models with LMs suffer either from the exiensive training requirements, or from high decoding latencies due to second-pass rescoring in ASR error correction. Also, many current methods rely on the n-best predictions and will not fare well on low-resource languages owing to large errors in the n-best predictions.
+	- We propose SALSA, a lightweight method to integrate LM model with ASR model (we use Whisper and LLama-2). It keeps both backbones frozen and only train projection layers. It can be used to integrate any pretrained decoder-only LM with a pretrained encoder-decoder ASR model using small amounts of labeled speech in the target languages.
+	- We are also the first to apply utilize LMs for ASR of a diverse set of low-resource languages (not only English ASR).
+	- We select N different ASR decoder layers and N different LM decoder layers and connect them one-to-one: for each pair, a trainable mapping R^m -> R^m processes an ASR hidden state, and the result is added to the LM hidden state (fig. 1). The LM keeps generating tokens until a valid text piece recognizable by ASR’s tokenizer is formed (often for low resource languages the tokenizers for LM and ASR can use different multi-token sequences to encode a single character in the target language). Then the just generated text is re-tokenized with the ASR’s tokenizer. Thus, in SALSA both decoders (ASR and LM) move forward in tandem albeit having different tokenizations.
 
 Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
 
