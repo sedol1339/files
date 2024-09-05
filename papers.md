@@ -350,7 +350,7 @@ Glorot, X., & Bengio, Y. (2010). Understanding the difficulty of training deep f
 
 Gutmann, M., & Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics. JMLR Workshop and Conference Proceedings. Retrieved from https://proceedings.mlr.press/v9/gutmann10a.html
 
-	- We consider a task of learning unnormalized generative models of data (e.g. energy-based models or Markov random fields). Such a model outputs an unnormalized probability density given a data sample, that is, the density function does not integrate to one. Such models are easier to learn that normalized ones, since the normalization coefficient is often intractable.
+    - We consider a task of learning unnormalized generative models of data (e.g. energy-based models or Markov random fields). Such a model outputs an unnormalized probability density given a data sample, that is, the density function does not integrate to one. Such models are easier to learn that normalized ones, since the normalization coefficient is often intractable.
     - We present noise-contrastive estimation (NCE) for unnormalized models which shows advantages over score matching, contrastive divergence, and maximum-likelihood where the normalization constant is estimated with importance sampling.
     - In NCE, the model is trained to discern between the real data and a predefined noise distribution
     - Our model offers the best trade-off between computational and statistical efficiency
@@ -1825,12 +1825,12 @@ Parmar, N., Vaswani, A., Uszkoreit, J., Kaiser, Ł., Shazeer, N., Ku, A., & Tran
 Perez, E., Strub, F., de Vries, H., Dumoulin, V., & Courville, A. (2018). FiLM: Visual Reasoning with a General Conditioning Layer. AAAI, 32(1). doi: 10.1609/aaai.v32i1.11671
 
     - We propose FiLM (Feature-wise Linear Modulation), a general-purpose conditioning method for NNs.
-	- In the case of visual reasoning, FiLM layers enable a RNN over an input question to influence CNN computation over an image (fig. 3). This process alters the CNN’s behavior as a function of the input question, allowing to carry out a variety of reasoning tasks, from counting to comparing. FiLM also enables the CNN to localize question-referenced objects.
-	- FiLM can be thought of as a generalization of Conditional Normalization (which has proven highly successful for image stylization, ASR and VQA).
-	- FiLM applies an affine transformation to the network’s intermediate features, based on some input (fig. 2). For CNNs, input modulates the per-feature-map distribution of activations, agnostic to spatial location.
-	- FiLM models achieve SOTA across a variety of visual reasoning tasks, and many FiLM model ablations still outperform prior SOTA.
-	- FiLM models learn from little data to generalize to more complex and/or substantially different data than seen during training. We also introduce a novel FiLM-based zeroshot generalization method.
-	- This is an extended version of short report "Learning Visual Reasoning Without Strong Priors".
+    - In the case of visual reasoning, FiLM layers enable a RNN over an input question to influence CNN computation over an image (fig. 3). This process alters the CNN’s behavior as a function of the input question, allowing to carry out a variety of reasoning tasks, from counting to comparing. FiLM also enables the CNN to localize question-referenced objects.
+    - FiLM can be thought of as a generalization of Conditional Normalization (which has proven highly successful for image stylization, ASR and VQA).
+    - FiLM applies an affine transformation to the network’s intermediate features, based on some input (fig. 2). For CNNs, input modulates the per-feature-map distribution of activations, agnostic to spatial location.
+    - FiLM models achieve SOTA across a variety of visual reasoning tasks, and many FiLM model ablations still outperform prior SOTA.
+    - FiLM models learn from little data to generalize to more complex and/or substantially different data than seen during training. We also introduce a novel FiLM-based zeroshot generalization method.
+    - This is an extended version of short report "Learning Visual Reasoning Without Strong Priors".
 
 #nlp_evaluation Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. arXiv, 1804.08771. Retrieved from https://arxiv.org/abs/1804.08771v2
 
@@ -4100,16 +4100,16 @@ Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist t
 
     - We propose a method called Connectionist Temporal Classification (CTC) for training RNNs on tasks where real-valued unsegmented input streams are annotated with strings of discrete labels (e.g. handwriting recognition, speech recognition, gesture recognition)
     - Terminology: we refer to the task of labelling unsegmented data sequences as temporal classification, and independent labelling of each time-step, or frame, of the input sequence as framewise classification
-	- Let V be a vocabulary of N classes (for ASR, classes may be letters, including a class for "space").
-	- Let E be the extended vocabulary of N+1 classes, including "blank" class that means no prediction at the current frame (not the same as space character).
+    - Let V be a vocabulary of N classes (for ASR, classes may be letters, including a class for "space").
+    - Let E be the extended vocabulary of N+1 classes, including "blank" class that means no prediction at the current frame (not the same as space character).
     - CTC network performs per-frame classification to these N+1 classes. So, given K frames, model outputs probabilities of shape (K, N+1). This allows to calculate the probability of any sequence from E^T.
-	- We then define a many-to-one mapping B from E^T to to the set of any-length (up to length T) sequences of vocabulary V (denote as V^star).
-	- The mapping B: E^T -> V^star works like this: we first remove all repetitions, and then remove all blank tokens (not vice versa).
-	- Let the probability of any sequence S from V^star be the sum  probabilities of all X in E^T such that B(X) = S. The probability of X is the product of probabilities of all its tokens.
-	- Given predicted probabilities of shape (K, N+1), during inference we want to find the most probable sequence from V^star, and during training we want to calculate the probability of the target sequence from V^star. Both tasks are intractable.
+    - We then define a many-to-one mapping B from E^T to to the set of any-length (up to length T) sequences of vocabulary V (denote as V^star).
+    - The mapping B: E^T -> V^star works like this: we first remove all repetitions, and then remove all blank tokens (not vice versa).
+    - Let the probability of any sequence S from V^star be the sum  probabilities of all X in E^T such that B(X) = S. The probability of X is the product of probabilities of all its tokens.
+    - Given predicted probabilities of shape (K, N+1), during inference we want to find the most probable sequence from V^star, and during training we want to calculate the probability of the target sequence from V^star. Both tasks are intractable.
     - We can approximate inference with greedy ("best path") search (taking argmax and then applying B mapping), or, better, by our proposed Prefix search decoding (fig. 2). It relies on the observation that the outputs of a trained CTC network tend to form a series of spikes separated by strongly predicted blanks (fig. 1), and hence we choose boundary points where the probability of observing a blank label is above a certain threshold. We then calculate the most probable labelling for each section individually. In practice, prefix search generally outperforms greedy search.
-	- ...TODO
-	- TODO https://pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html
+    - ...TODO
+    - TODO https://pytorch.org/audio/stable/tutorials/ctc_forced_alignment_api_tutorial.html
     - On TIMIT dataset, CTC outperformed both a baseline HMM (hidden Markov Model) recogniser and an HMM-RNN hybrid with the same RNN architecture.
     - A key difference between CTC and HMM is that CTC does not explicitly segment its input sequences. Determining the segmentation is a waste of modelling. For tasks where segmentation is required it would seem problematic to use CTC (however, CTC is suitable where approximate segmentation is sufficient).
     - Further we intend to pursue an hierarchy of temporal classifiers, where the labellings at one level (e.g. letters) become inputs for the labellings at the next (e.g. words).
@@ -4578,9 +4578,9 @@ Hsu, W.-N., Sriram, A., Baevski, A., Likhomanenko, T., Xu, Q., Pratap, V., ...Au
 Koizumi, Y., Karita, S., Wisdom, S., Erdogan, H., Hershey, J. R., Jones, L., & Bacchiani, M. (2021). DF-Conformer: Integrated architecture of Conv-TasNet and Conformer using linear complexity self-attention for speech enhancement. arXiv, 2106.15813. Retrieved from https://arxiv.org/abs/2106.15813v2
 
     - We focus on Single-channel speech enhancement (SE), the task of recovering target speech from a noisy signal (which does not include interference speech signals). Conv-TasNet is a powerful model for SE. One of the main research topics in SE is improving the mask prediction architecture ("M" in eq. 1). For example, the improved time-dilated convolution network (TDCN++) extended Conv-TasNet to improve SE performance. A promising candidate for improving mask prediction networks is the Conformer architecture.
-	- We propose DF-Conformer (dilated FAVOR Conformer). We combine Conformer layers with the dilated convolution layers of the TDCN++ architecture. To make the model computationally feasible, we use a linear-complexity variant of self-attention in the Conformer, known as fast attention via positive orthogonal random features (FAVOR+), as used in Performer.
-	- To train the model, we use speech from LibriVox and non-speech sounds from freesound.org.
-	- Examples of spectrograms and attention matrices in DF-Conformer-8 are shown in fig. 2.
+    - We propose DF-Conformer (dilated FAVOR Conformer). We combine Conformer layers with the dilated convolution layers of the TDCN++ architecture. To make the model computationally feasible, we use a linear-complexity variant of self-attention in the Conformer, known as fast attention via positive orthogonal random features (FAVOR+), as used in Performer.
+    - To train the model, we use speech from LibriVox and non-speech sounds from freesound.org.
+    - Examples of spectrograms and attention matrices in DF-Conformer-8 are shown in fig. 2.
 
 Lai, C.-I. J., Zhang, Y., Liu, A. H., Chang, S., Liao, Y.-L., Chuang, Y.-S., ...Glass, J. (2021). PARP: Prune, Adjust and Re-Prune for Self-Supervised Speech Recognition. arXiv, 2106.05933. Retrieved from https://arxiv.org/abs/2106.05933v2
 
@@ -4982,11 +4982,11 @@ Jain, R., Barcovschi, A., Yiwere, M., Corcoran, P., & Cucu, H. (2023). Adaptatio
 Koizumi, Y., Zen, H., Karita, S., Ding, Y., Yatabe, K., Morioka, N., ...Bacchiani, M. (2023). Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations. arXiv, 2303.01664. Retrieved from https://arxiv.org/abs/2303.01664v2
 
     - We propose Miipher (multiple features integrated speech restoration), a robust speech restoration (SR) model, that convers degraded speech signals into high-quality ones. The enhanced speech can be further used to train text-to-speech (TTS) models, because the quality of speech generation is directly affected by that of the training samples.
-	- We especially focus on the following two difficult degradations where SR frequently fails: phoneme masking by noise and/or reverberation, and phoneme deletion due to codecs and/or down-sampling. If a noisy sample lacks a phoneme, it introduces an unrecoverable error. To solve these issues, we 1) use a speech representation extracted from w2v-BERT, instead of a log-mel spectrogram, 2) we consider the deleted phoneme reconstruction problem as a text-conditioned speech inpainting, and use a text representation extracted from PnG-BERT (fig. 1).
-	- Since SSL features often lose speaker information, we also use a speaker embedding extracted from audio with a streaming Conformer-based speaker encoding model. The model was trained on the dataset described in "Parameter-free attentive scoring for speaker verification" while minimizing the generalized end-to-end extended-set softmax (GE2E-XS) loss. Speaker embedding is combined to PnG-BERT features using a CNN-based simple feature-wise linear modulation (FiLM) layer.
-	- Then a DF-Conformer-based feature cleaner predicts clean w2v-BERT features. We also apply the 5-layer CNN Post-Net proposed in Tacotron2. We iterate twice the entire feature cleaning process consisting of the feature cleaner and the Post-Net, where the parameters of the layers are shared. We used a combined loss function of MAE, MSE, and a spectral convergence loss. This loss is calculated before and after the Post-Net, and calculated for both iterations.
+    - We especially focus on the following two difficult degradations where SR frequently fails: phoneme masking by noise and/or reverberation, and phoneme deletion due to codecs and/or down-sampling. If a noisy sample lacks a phoneme, it introduces an unrecoverable error. To solve these issues, we 1) use a speech representation extracted from w2v-BERT, instead of a log-mel spectrogram, 2) we consider the deleted phoneme reconstruction problem as a text-conditioned speech inpainting, and use a text representation extracted from PnG-BERT (fig. 1).
+    - Since SSL features often lose speaker information, we also use a speaker embedding extracted from audio with a streaming Conformer-based speaker encoding model. The model was trained on the dataset described in "Parameter-free attentive scoring for speaker verification" while minimizing the generalized end-to-end extended-set softmax (GE2E-XS) loss. Speaker embedding is combined to PnG-BERT features using a CNN-based simple feature-wise linear modulation (FiLM) layer.
+    - Then a DF-Conformer-based feature cleaner predicts clean w2v-BERT features. We also apply the 5-layer CNN Post-Net proposed in Tacotron2. We iterate twice the entire feature cleaning process consisting of the feature cleaner and the Post-Net, where the parameters of the layers are shared. We used a combined loss function of MAE, MSE, and a spectral convergence loss. This loss is calculated before and after the Post-Net, and calculated for both iterations.
     - Then, a WaveFit neural vocoder synthesizes a restored waveform from cleaned w2v-BERT features. In addition to the original adversarial loss function proposed in WaveFit, we used the multi-period discriminator (MPD).
-	- We trained the proposed model with a proprietary dataset that contains 2,680 hours of noisy and studio-quality speech pairs. To apply the noise, we used the TAU Urban Audio-Visual Scenes 2021 dataset, internally collected noise snippets that simulate conditions like cafe, kitchen, and cars, and noise and music sources. The noisy utterances were generated by mixing randomly selected speech and noise samples from these datasets with signal-to-noise ratio (SNR) from 5 dB to 30 dB. In addition, we augmented the noisy dataset with 4 patterns depending on the presence or absence of reverberation and codec artifacts.
+    - We trained the proposed model with a proprietary dataset that contains 2,680 hours of noisy and studio-quality speech pairs. To apply the noise, we used the TAU Urban Audio-Visual Scenes 2021 dataset, internally collected noise snippets that simulate conditions like cafe, kitchen, and cars, and noise and music sources. The noisy utterances were generated by mixing randomly selected speech and noise samples from these datasets with signal-to-noise ratio (SNR) from 5 dB to 30 dB. In addition, we augmented the noisy dataset with 4 patterns depending on the presence or absence of reverberation and codec artifacts.
 
 Liu, O., Tang, H., & Goldwater, S. (2023). Self-supervised Predictive Coding Models Encode Speaker and Phonetic Information in Orthogonal Subspaces. arXiv, 2305.12464. Retrieved from https://arxiv.org/abs/2305.12464v3
 
@@ -5139,19 +5139,19 @@ Li, X., Takamichi, S., Saeki, T., Chen, W., Shiota, S., & Watanabe, S. (2024). Y
 Ma, M., Koizumi, Y., Karita, S., Zen, H., Riesa, J., Ishikawa, H., & Bacchiani, M. (2024). FLEURS-R: A Restored Multilingual Speech Corpus for Generation Tasks. arXiv, 2408.06227. Retrieved from https://arxiv.org/abs/2408.06227v1
 
     - We introduce FLEURS-R speech-text dataset. It maintains an N-way parallel speech corpus in 102 languages as FLEURS, with improved audio quality and fidelity by applying the speech restoration model Miipher.
-	- The goal of the dataset is to catalyze speech generation research in low-resource languages, since in the original FLEURS dataset all recordings are kept as they-are, either from quiet or noisy environment, while speech generation models are requested to produce high quality speech.
-	- Since Miipher supports only English, we replaced the acoustic feature extractor from w2v-BERT to the 2-billion parameter non-fine-tuned Universal Speech Model (USM). It is known that deeper layers tend to lose detailed and local acoustic information; therefore, we used the intermediate feature from the 13th of 32th layers based on preliminary experiments. Also, neither text nor speaker conditioning improved the reconstruction accuracy. Consequently, both speaker encoder and PnG-BERT text encoder were removed from the new Miipher network architecture.
-	- To identify successfully restored samples, we performed ASR-based filtering.
+    - The goal of the dataset is to catalyze speech generation research in low-resource languages, since in the original FLEURS dataset all recordings are kept as they-are, either from quiet or noisy environment, while speech generation models are requested to produce high quality speech.
+    - Since Miipher supports only English, we replaced the acoustic feature extractor from w2v-BERT to the 2-billion parameter non-fine-tuned Universal Speech Model (USM). It is known that deeper layers tend to lose detailed and local acoustic information; therefore, we used the intermediate feature from the 13th of 32th layers based on preliminary experiments. Also, neither text nor speaker conditioning improved the reconstruction accuracy. Consequently, both speaker encoder and PnG-BERT text encoder were removed from the new Miipher network architecture.
+    - To identify successfully restored samples, we performed ASR-based filtering.
 
 Meng, L., Kang, J., Wang, Y., Jin, Z., Wu, X., Liu, X., & Meng, H. (2024). Empowering Whisper as a Joint Multi-Talker and Target-Talker Speech Recognition System. arXiv, 2407.09817. Retrieved from https://arxiv.org/abs/2407.09817v1
 
 Mittal, A., Prabhu, D., Sarawagi, S., & Jyothi, P. (2024). SALSA: Speedy ASR-LLM Synchronous Aggregation. arXiv, 2408.16542. Retrieved from https://arxiv.org/abs/2408.16542v1
 
     - The current methods to enhance ASR models with LMs suffer either from the exiensive training requirements, or from high decoding latencies due to second-pass rescoring in ASR error correction. Also, many current methods rely on the n-best predictions and will not fare well on low-resource languages owing to large errors in the n-best predictions.
-	- We propose SALSA, a lightweight method to integrate LM model with ASR model (we use Whisper and LLama-2). It keeps both backbones frozen and only train projection layers. It can be used to integrate any pretrained decoder-only LM with a pretrained encoder-decoder ASR model using small amounts of labeled speech in the target languages.
-	- We are also the first to apply utilize LMs for ASR of a diverse set of low-resource languages (not only English ASR).
-	- We select N different ASR decoder layers and N different LM decoder layers and connect them one-to-one: for each pair, a trainable mapping R^m -> R^m processes an ASR hidden state, and the result is added to the LM hidden state (fig. 1). The LM keeps generating tokens until a valid text piece recognizable by ASR’s tokenizer is formed (often for low resource languages the tokenizers for LM and ASR can use different multi-token sequences to encode a single character in the target language). Then the just generated text is re-tokenized with the ASR’s tokenizer. Thus, in SALSA both decoders (ASR and LM) move forward in tandem albeit having different tokenizations.
-	- So, the authors generate with LM until a valid utf-8 character if formed, and then re-tokenize the resulting text with ASR tokenizers.
+    - We propose SALSA, a lightweight method to integrate LM model with ASR model (we use Whisper and LLama-2). It keeps both backbones frozen and only train projection layers. It can be used to integrate any pretrained decoder-only LM with a pretrained encoder-decoder ASR model using small amounts of labeled speech in the target languages.
+    - We are also the first to apply utilize LMs for ASR of a diverse set of low-resource languages (not only English ASR).
+    - We select N different ASR decoder layers and N different LM decoder layers and connect them one-to-one: for each pair, a trainable mapping R^m -> R^m processes an ASR hidden state, and the result is added to the LM hidden state (fig. 1). The LM keeps generating tokens until a valid text piece recognizable by ASR’s tokenizer is formed (often for low resource languages the tokenizers for LM and ASR can use different multi-token sequences to encode a single character in the target language). Then the just generated text is re-tokenized with the ASR’s tokenizer. Thus, in SALSA both decoders (ASR and LM) move forward in tandem albeit having different tokenizations.
+    - So, the authors generate with LM until a valid utf-8 character if formed, and then re-tokenize the resulting text with ASR tokenizers.
 
 Mohamed, M., Liu, O. D., Tang, H., & Goldwater, S. (2024). Orthogonality and isotropy of speaker and phonetic information in self-supervised speech representations. arXiv, 2406.09200. Retrieved from https://arxiv.org/abs/2406.09200v1
 
@@ -5704,7 +5704,7 @@ Ha, David, and Jürgen Schmidhuber. 2018. “World Models.” arXiv [cs.LG]. arX
     
     VAE is trained independently of RNN world model, and so it may encode parts of the observations that are not relevant to a task. By training together with a world model that predicts rewards, the VAE may learn to focus on task-relevant areas of the image, but the tradeoff here is that we may not be able to reuse the VAE effectively for new tasks without retraining.
     
-    Using a gaussian mixture in RNN allows to capture multiple different futures with random discrete events, such as whether a monster decides to shoot a fireball or stay put. "For instance, if we set the temperature parameter to a very low value of 0.1, ... the monsters inside this dream environment fail to shoot fireballs, no matter what the agent does, due to mode collaps. The M model is not able to jump to another mode in the mixture of Gaussian model where fireballs are formed and shot. Whatever policy learned inside of this dream will achieve a perfect score of 2100 most of the time, but will obviously fail when unleashed into the harsh reality of the actual world, underperforming even a random policy."
+    Using a gaussian mixture in RNN allows to capture multiple different futures with random discrete events, such as whether a monster decides to shoot a fireball or stay put. "For instance, if we set the temperature parameter to a very low value of 0.1, ... the monsters inside this dream environment fail to shoot fireballs, no matter what the agent does, due to mode collapse. The M model is not able to jump to another mode in the mixture of Gaussian model where fireballs are formed and shot. Whatever policy learned inside of this dream will achieve a perfect score of 2100 most of the time, but will obviously fail when unleashed into the harsh reality of the actual world, underperforming even a random policy."
 
 ## NLP: interpreting, robustness, uncertainty, shortcuts
 
@@ -5717,3 +5717,44 @@ Kalai, A. T., & Vempala, S. S. (2023). Calibrated Language Models Must Hallucina
     "Arbitrary facts" means that the truthfulness of the facts cannot be valiated by rules (like 572 < 120523 can be valiated by math rules). Examples of these facts are "5W facts" (Who-What-When-Where-Why), for example "Alexa Wilkins had a tuna sandwich at Salumeria for lunch last Tuesday".
     
     The authors note that they only study one statistical source of hallucination, while there are many other types of hallucination and reasons LMs may hallucinate beyond pure statistics.
+
+PR/ROC заметки
+
+    1) TPR = recall = sensitivity = true positive / all really positive
+        доля отобранных позитивных примеров среди всех позитивных примеров
+        монотонно растет от 0 до 1 с ослаблением порога отбора
+        не завсисит от баланса классов
+    2) 1 - FPR = reversed recall = specifity = true negative / all really negative
+        доля отобранных как негативные примеров среди всех негативных примеров
+        монотонно растет от 0 до 1 с ослаблением порога отбора
+        не завсисит от баланса классов
+    3) Precision = true positive / all predicted as positive
+        доля отобранных позитивных примеров среди всех отобранных примеров
+        завсисит от баланса классов
+    4) Accuracy = truly predicted / all
+        завсисит от баланса классов
+        
+    ROC (TPR, FPR) измеряет качество ранжирования в том плане, насколько сильно отличаются распределения для really positive и really negative.
+
+    PR (recision, recall) измеряет насколько часто мы будем ошибаться. Даже если распределения отличаются сильно, но really negative класса в 100 раз больше, то мы все равно будем часто ошибаться.
+
+**Face verification**
+
+Wang, X., Peng, J., Zhang, S., Chen, B., Wang, Y., & Guo, Y. (2022). A Survey of Face Recognition. arXiv, 2212.13038. Retrieved from https://arxiv.org/abs/2212.13038v1
+
+    - A survey paper on face recognition (FR)
+    - In general, FR consists of 1) face images preprocessing, 2) model inference to get face embedding, 3) recognition by matching features between test image and images with known labels. Also, face anti-spoofing is usually added before inference to protect against attacks (print, video replay, 3D mask, etc).
+    - Mtcnn is one of the most famous face detection methods that predict both face and landmark location in a coarse-to-fine manner. Also, other networks are discussed.
+    - For face anti-spoofing, STDN proposed an adversarial learning network to extract the patterns differentiating a spoof and live face. PatchNet rephrased face anti-spoofing as a fine-grained material recognition problem. SSAN extracts content and style features to get a stylized feature space, which is used to distinguish a spoof and live face.
+    - Merely using RGB signals which belong to visible spectrum has a lot of limitations in face anti-spoofing, therefore an increasing numbers of methods tried to adopt multi-channel signals to achieve higher accuracy.
+    - Common way to align face images is using a 2D transformation to calibrate facial landmarks to predefined frontal templates or mean face mode. Deepface employs a 3D alignment method in order to align faces undergoing out-of-plane rotations. As the mainstream FR training sets are becoming larger gradually, some FR methods choose to omit face alignment step and train (or test) with face patches directly from face detection.
+    - After preprocessing, face images with their ground truth IDs can be used to train a FR deep model. Different backbones with similar parameter amount have similar accuracy on FR. As a result, you can use Resnet, ResNext, SEResnet, Inception net, Densenet, etc. to form your FR system. Training FR model is a process to learn a compact euclidean feature space, where distance directly correspond to a measure of face similarity (metric learning). The last part of face inference pipeline can be divided into face verification and face identification.
+    - Different loss functions are discussed: cross entropy, contrastive loss, triplet loss, center loss. Also, face recognition is naturally treated as a classification problem, and thus using softmax as the loss to train a FR model is an intuitive consideration: larger margin loss is derived from softmax. Other modifications are proposed, for example, NormFace normalized both face embeddings and classification weights. Further, ArcFace incorporated margin between classes (eq. 16). However, ArcFace includes sensitive hyperparameters which can make training process unstable. P2SGrad was proposed to address this challenge by directly designing the gradients for training in an adaptive manner. CurricularFace adopted the idea of curriculum learning and weighted the class score of negative samples. In the earlier stage of training CurricularFace, the loss fits easy samples. And at the later training stage, the loss fits hard samples. Many more alternatives are discussed.
+    - Large-scale face datasets usually exhibit a massive number of classes with unbalanced distribution. Features with non-dominate IDs are compressed into a small area in the hypersphere, leading to training problems. It was shown that including all tail data (faces with small number of images) in training can not help to obtained a better FR model by contrastive loss, triplet loss, and center loss. Several modifications are proposed. The second data unbalance phenomenon is shallow data. (IMO not clear what this means).
+    - ...
+
+Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain Generalization via Shuffled Style Assembly for Face Anti-Spoofing. arXiv, 2203.05340. Retrieved from https://arxiv.org/abs/2203.05340v4
+
+    - The previous face anti-spoofing (FAS) methods have achieved promising performance in intra-domain scenarios, but may encounter dramatic degradation under the cross-domain settings. Domain adaptation techniques are used to alleviate the discrepancy between source and target domains, but usually we can't collect sufficient unlabeled target data for training. Thus, we need domain generalization (DG) to generalize well on the unseen target domain.
+	- Style information in FAS tasks can be divided into two parts: domain-specific and liveness-related (is spoofing or not) style information.
+	- We propose shuffled style assembly network (SSAN) for FAS (fig. 2). The feature generator is a shallow embedding network that captures multi-scale low-level information. We adopt adversarial learning to make generated content features indistinguishable for different domains.
