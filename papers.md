@@ -4114,6 +4114,11 @@ Graves, A., Fernández, S., Gomez, F., & Schmidhuber, J. (2006). Connectionist t
     - A key difference between CTC and HMM is that CTC does not explicitly segment its input sequences. Determining the segmentation is a waste of modelling. For tasks where segmentation is required it would seem problematic to use CTC (however, CTC is suitable where approximate segmentation is sufficient).
     - Further we intend to pursue an hierarchy of temporal classifiers, where the labellings at one level (e.g. letters) become inputs for the labellings at the next (e.g. words).
 
+Sak, H., Saraclar, M., & Güngör, T. (2010). On-the-fly lattice rescoring for real-time automatic speech recognition. ResearchGate, 2450–2453. doi: 10.21437/Interspeech.2010-532
+
+    - We propose an algorithmic framework for rescoring lattices (a DAG of transcription hypotheses) on-the-fly.
+	- TODO
+
 Graves, A. (2012). Sequence Transduction with Recurrent Neural Networks. arXiv, 1211.3711. Retrieved from https://arxiv.org/abs/1211.3711v1
 
     - We propose RNN transducer for sequence-to-sequence tasks (such as phoneme recognition).
@@ -4136,6 +4141,11 @@ Huang, J.-T., Li, J., Yu, D., Deng, L., & Gong, Y. . Cross-language knowledge tr
     - Our model outperforms models trained using only the language specific data.
     - Our model effectively transfers to new languages, even from different families of the pre-training languages.
 
+Peng, F., Roy, S., Shahshahani, B., & Beaufays, F. . Search results based N-best hypothesis rescoring with maximum entropy classification. 2013 IEEE Workshop on Automatic Speech Recognition and Understanding. IEEE. doi: 10.1109/ASRU.2013.6707767
+
+    - In our ASR application, misrecognizing part of a movie name or an app name results in a poor user experience (such as "I say" instead of "Ice Age").
+	- We propose to rerank the N-best speech recognition hypotheses using search results. We design custom features obtailable by search results: number of results, top result title match, score for TV show tc. (sec. 3.2). On inference, for each ASR hypothesis we obtain these search features, and they serve as inputs for our trained classifier, that outputs score. Then we rerank the N-best hypotheses based on their scores.
+
 Thomas, S., Seltzer, M. L., Church, K., & Hermansky, H. . Deep neural network features and semi-supervised training for low resource speech recognition. 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. IEEE. doi: 10.1109/ICASSP.2013.6638959
 
 Yu, D., Seltzer, M. L., Li, J., Huang, J.-T., & Seide, F. (2013). Feature Learning in Deep Neural Networks - Studies on Speech Recognition Tasks. arXiv, 1301.3605. Retrieved from https://arxiv.org/abs/1301.3605v3
@@ -4144,6 +4154,14 @@ Graff, D., Walker, K., Strassel, S., Ma, X., Jones, K. S., & Sawyer, A. (2014). 
 
     - We introduce the RATS data collection that was designed to cover a diverse range of radio conditions. In the conditions of interest, the signal-to-noise ratio (SNR) often falls below 10dB.
     - The dataset includes four corpora, one for each of the RATS research tasks (Speech Activity Detection, Language Identification, Speaker Identification and Key Word Spotting), comprising clean source audio, the corresponding sets of 8 transceiver channels, and all channel-aligned annotations.
+
+Graves, A., & Jaitly, N. (2014). Towards End-To-End Speech Recognition with Recurrent Neural Networks. International Conference on Machine Learning. PMLR. Retrieved from https://proceedings.mlr.press/v32/graves14.html
+
+    - In ASR, modelling language separately from sound is perhaps the most justifiable departure from end-to-end learning, since it is easier to learn linguistic dependencies from text than speech. Nonetheless, with the advent of speech corpora containing tens of thousands of hours of labelled data, it may be possible to learn the LM directly from the transcripts.
+	- We present and end-to-end ASR model that consists of the deep bidirectional LSTM and the CTC output layer. Such a model has been applied to character-level speech recognition before, however, the relatively shallow architecture used in that work did not deliver compelling results.
+	- We propose the Expected Transcription Loss to train the network to directly optimise the WER, and, more general, to optimise the expected value of an arbitrary loss function L defined over output transcriptions. To do this, we use Monte-Carlo sampling to approximate both L and its gradient, and prove that the gradient is unbiased. In our sampling, we use the same (sampled) CTC alignment, so that the loss variance largely cancels out (which is crucial when optimising with stochastic gradient estimates).
+	- For example, if the sampled alignment yields the character transcription "WTRD ERROR RATE", the gradient would encourage outputs changing the second output label to "O", discourage outputs making changes to the other two words and be close to zero everywhere else.
+	- The vast majority of alignments drawn from a randomly initialised network will give completely wrong transcriptions, and there will therefore be little chance of altering the loss by modifying a single output. We therefore recommend that expected loss minimisation is used to retrain a network already trained with CTC, rather than applied from the start.
 
 Narayanan, A., & Wang, D. (2014). Investigation of Speech Separation as a Front-End for Noise Robust Speech Recognition. IEEE/ACM Trans. Audio Speech Lang. Process., 22(4), 826–835. doi: 10.1109/TASLP.2014.2305833
 
@@ -4182,6 +4200,11 @@ Collobert, R., Puhrsch, C., & Synnaeve, G. (2016). Wav2Letter: an End-to-End Con
 
 Fraccaro, M., Sønderby, S. K., Paquet, U., & Winther, O. (2016). Sequential Neural Models with Stochastic Layers. Advances in Neural Information Processing Systems, 29. Retrieved from https://proceedings.neurips.cc/paper/2016/hash/208e43f0e45c4c78cafadb83d2888cb6-Abstract.html
 
+Hori, T., Hori, C., Watanabe, S., & Hershey, J. R. . Minimum word error training of long short-term memory recurrent neural network language models for speech recognition. 2016 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE. doi: 10.1109/ICASSP.2016.7472827
+
+    - In RNN language models for ASR error correction, training with cross entropy loss not necessary minimizes WER.
+	- We propose a minimum word error (MWE) criterion. It minimizes the expected WER using a set of N-best lists generated by a speech recognizer. In MWE loss (eq. 10), we have K training samples, each sample consists of N best hypotheses from acoustic model. The left part is edit distance between hypothesis and the true transcription, and the right part is the hypothesis probability from RNN language model. So, minimizing MWE means minimizing probability of hypotheses that are far from the true transcription.
+
 Kim, S., Hori, T., & Watanabe, S. (2016). Joint CTC-Attention based End-to-End Speech Recognition using Multi-task Learning. arXiv, 1609.06773. Retrieved from https://arxiv.org/abs/1609.06773v2
 
     - In ASR, the attention model has often been shown to improve the performance over CTC, mainly because it explicitly uses the history of the target character without any conditional independence assumptions. However, in realenvironment speech recognition tasks, the model shows poor results because the alignment estimated in the attention mechanism is easily corrupted due to the noise. Another issue is that the model is hard to learn from scratch due to the misalignment on longer input sequences, and therefore a windowing technique is commonly used to limit the area explored by the attention mechanism, but several parameters for windowing need to be determined manually depending on the training data.
@@ -4216,6 +4239,14 @@ Hsu, W.-N., Zhang, Y., & Glass, J. (2017). Learning Latent Representations for S
 
 Hsu, W.-N., Zhang, Y., & Glass, J. (2017). Unsupervised Learning of Disentangled and Interpretable Representations from Sequential Data. Advances in Neural Information Processing Systems, 30. Retrieved from https://proceedings.neurips.cc/paper/2017/hash/0a0a0c8aaa00ade50f74a3f0ca981ed7-Abstract.html
 
+Kannan, A., Wu, Y., Nguyen, P., Sainath, T. N., Chen, Z., & Prabhavalkar, R. (2017). An analysis of incorporating an external language model into a sequence-to-sequence model. arXiv, 1712.01996. Retrieved from https://arxiv.org/abs/1712.01996v1
+
+	- Recently the end-to-end LAS (Listen, Attend, and Spell) model was proposed for ASR. It  jointly learns an encoder, which serves as an acoustic model, a decoder, which serves as a language model, and an attention mechanism, which learns alignments.
+	- Our goal is to explore why the performance of LAS still lags behind a SOTA ASR system with separate acoustic, pronunciation and language models. We propose that one reason for the performance degradation could be that the LAS decoder, that is trained only on transcribed audio-text pairs. In comparison, SOTA LMs are typically trained on a billion words or more.
+	- We investigate the impact of training a separate LM on auxiliary text-only data, and incorporating this model as an additional cost term when decoding a LAS model (shallow fusion).
+	- We find that RNN LMs are more effective at reducing error than n-gram LMs.
+    - On Google Voice Search (which has much more training data than WSJ used in previous studies), we demonstrate that the use of shallow fusion with an neural LM with wordpieces yields a large WER reduction, obviating the need for second-pass rescoring, despite being 70 times smallerthan the second pass LM.
+
 Kim, C., Misra, A., Chin, K., Hughes, T., & Bacchiani, M. (2017). Generation of Large-Scale Simulated Utterances in Virtual Rooms to Train Deep-Neural Networks for Far-Field Speech Recognition in Google Home. ResearchGate, 379–383. doi: 10.21437/Interspeech.2017-1510 https://static.googleusercontent.com/media/research.google.com/ru//pubs/archive/46107.pdf
 
     - We develop an acoustic room simulator to generate large-scale simulated data for far-field speech recognition.
@@ -4229,6 +4260,18 @@ Li, J., Ye, G., Zhao, R., Droppo, J., & Gong, Y. (2017). Acoustic-To-Word Model 
     - Problem: the word-based CTC is a very good end-to-end ASR model, but it maps all the unknown words into OOV
     - We propose a hybrid CTC with both word-based CTC and character-based CTC heads that are synchronized
     - Whenever the ASR model emits an OOV token, we rely on character-based CTC
+
+Prabhavalkar, R., Sainath, T. N., Wu, Y., Nguyen, P., Chen, Z., Chiu, C.-C., & Kannan, A. (2017). Minimum Word Error Rate Training for Attention-based Sequence-to-Sequence Models. arXiv, 1712.01818. Retrieved from https://arxiv.org/abs/1712.01818v1
+
+    - We explore training attention-based seq2seq ASR models to directly minimize expected WER, instead of cross-entropy loss.
+	- Our loss function is the expected number of word errors over the training set. We can approximate the expectation using an empirical average over samples drawn from the model. Its gradient can be itself be expressed as an expectation, which allows it to be approximated using samples. So, we approximate the WER expectation using N-best hypotheses decoded from the model using beam-search.
+
+Shannon, M. (2017). Optimizing expected word error rate via sampling for speech recognition. arXiv, 1706.02776. Retrieved from https://arxiv.org/abs/1706.02776v1
+
+    - IN ASR task Minimum Bayes risk (MBR) training have been shown effective in terms of WER. MBR minimizes an expected distance between a reference and a hypothesis. In word-level edit-based MBR, the distance between a reference and a hypothesis is measured as WER (given the prevalence of WER as an evaluation metric). However, this is hard to compute.
+	- We show that the gradient of the expected loss optimized by word-level edit-based MBR training may itself be written as an expectation, allowing the gradient to be approximated by sampling.
+	- The loss computation is shown on fig. 1. Sample_path is a sample from the model, collapse_path is a function that translates sample to output sequence (for CTC head, it removes all duplicates and blank tokens), get_loss computes edit distance (TODO what is gamma)?
+	- IMO, looks similar to "Minimum word error training of long short-term memory recurrent neural network language models for speech recognition" and "Minimum Word Error Rate Training for Attention-based Sequence-to-Sequence Models" and.
 
 Watanabe, S., Hori, T., Kim, S., Hershey, J. R., & Hayashi, T. (2017). Hybrid CTC/Attention Architecture for End-to-End Speech Recognition. IEEE J. Sel. Top. Signal Process., 11(8), 1240–1253. doi: 10.1109/JSTSP.2017.2763455 https://www.merl.com/publications/docs/TR2017-190.pdf
 
@@ -4565,9 +4608,11 @@ Hsu, W.-N., Bolte, B., Tsai, Y.-H. H., Lakhotia, K., Salakhutdinov, R., & Mohame
 
     - Self-supervised pre-training for speech is complex, because the boundaries between sound units are not known, there is no prior lexicon of discrete sound units available, and multiple sounds may be present in each input utterance.
     - We propose the Hidden-Unit BERT (HuBERT) approach for self-supervised speech representation learning.
-    - HuBERT relies on predicting K-means cluster assignments of masked segments of continuous input. An offline clustering step to provide aligned target labels for a BERT-like prediction loss (fig. 1).
-    - The learned representation quality improves dramatically with iteratively refining K-means cluster assignments using learned latent representations for a previous iteration.
+    - HuBERT relies on predicting K-means cluster assignments of masked segments of continuous input. HuBERT utilizes an offline clustering step to provide aligned target labels for a BERT-like prediction loss (fig. 1).
+    - The learned representation quality improves dramatically with iteratively refining K-means cluster assignments using learned latent representations for a previous iteration. Since we expect a pre-trained model to provide better representations than the raw acoustic feature such as MFCCs, we can create a new generation of clusters by training a discrete latent model (such as K-Means or GMM) over the learned latent representations. This idea is similar to iterative pseudo labeling for semi-supervised ASR.
     - HuBERT either matches or improves upon the state-of-theart wav2vec 2.0 performance on all fine-tuning subsets of 10mins, 1h, 10h, 100h, and 960h.
+	- IMO, the refinment stage is not explained clearly. Probably, they run K-Means over the feature vectors obtained on the last layer.
+	- IMO this looks like a denoising and discretizing autoencoder, that will capture not only phonemes, but many irrelevant (for many tasks) details, such as voice identity, pace, white and structured noise and background speech.
 
 Hsu, W.-N., Sriram, A., Baevski, A., Likhomanenko, T., Xu, Q., Pratap, V., ...Auli, M. (2021). Robust wav2vec 2.0: Analyzing Domain Shift in Self-Supervised Pre-Training. arXiv, 2104.01027. Retrieved from https://arxiv.org/abs/2104.01027v2
 
@@ -5107,12 +5152,28 @@ Gupta, A., Saon, G., & Kingsbury, B. (2024). Exploring the limits of decoder-onl
 
 He, H., Shang, Z., Wang, C., Li, X., Gu, Y., Hua, H., ...Wu, Z. (2024). Emilia: An Extensive, Multilingual, and Diverse Speech Dataset for Large-Scale Speech Generation. arXiv, 2407.05361. Retrieved from https://arxiv.org/abs/2407.05361v2
 
+Ji, S., Jiang, Z., Cheng, X., Chen, Y., Fang, M., Zuo, J., ...Zhao, Z. (2024). WavTokenizer: an Efficient Acoustic Discrete Codec Tokenizer for Audio Language Modeling. arXiv, 2408.16532. Retrieved from https://arxiv.org/abs/2408.16532v1
+
+	- Current mainstream discrete speech representations are divided into semantic and acoustic tokens (IMO, probably they mean speech-related tokens as "semantic"; however, HuBERT is their example of semantic tokens, but its design is not specific to speech, it's all about the training data). Semantic tokens often lack acoustic information, necessitating multi-stage cascades in downstream models to generate raw waveforms. Acoustic tokens can uniformly model speech, music, and audio. A robust acoustic tokenizer should at least maintain the encoder-VQ-decoder structure - this indicates that the Codec model should primarily function as a Tokenizer and De-Tokenizer. Additionally, the temporal dimension of codecs matter.
+	- We argue that a single quantizer layer fundamentally differs from multiple quantizers. When the number of quantizers exceeds one, downstream models (that use this quantization to perform various tasks) require additional design efforts, while with a single quantizer, speech modalities can be directly autoregressively embedded into large multimodal models, such as LLama.
+	- We introduce WavTokenizer, a discrete acoustic codec model. Our model is built on the framework of VQ-GANs. WavTokenizer passes the raw audio X through three modules. 1) a CNN+LSTM encoder network that outputs a latent feature representation Z, 2) A single quantizer discretizes Z to generate a discrete representation Z_q, 3) an improved decoder that reconstructs the audio signal ̃X from the compressed latent representation Z_q.
+	- The model is trained end-to-end with 4 losses (eq. 3-6). The quantizer loss penalizes the distance between Z and Z_q. The mel-spectrum reconstruction loss penalizes the distance between Mel(X) and Mel(̃X). We also apply a perceptual loss in the form of discriminators operating at different resolutions, with the adversarial loss (a hinge loss over the logits of these discriminators) and the feature matching loss, penalizes the distance between feature maps in distriminators, obtained from X and from ̃X.
+	- The goal of WavTokenizer is to compress speech representations into the codebook space of a single quantizer. Expanding the codebook space can reduce information loss caused by compressing the hierarchical RVQ structure into a single quantizer. We expanded the codebook space from 2^10 to 2^14. We adjusted the number of cluster centers to 200 to align with the larger codebook space. During training, each input’s selected code is updated using an EMA with a decay of 0.99, and codes unassigned for several batches are replaced with input vectors randomly sampled from the current batch. This forced activation strategy helps ensure effective utilization of the large codebook space.
+	- In decoder, we achieve waveform upsampling through inverse Fourier transform. We also introduced an attention module in the decoder.
+
 Jin, W., Cao, Y., Su, J., Shen, Q., Ye, K., Wang, D., ...Liu, Z. (2024). Towards Evaluating the Robustness of Automatic Speech Recognition Systems via Audio Style Transfer. arXiv, 2405.09470. Retrieved from https://arxiv.org/abs/2405.09470v1
 
 Junczyk, M. (2024). Framework for Curating Speech Datasets and Evaluating ASR Systems: A Case Study for Polish. arXiv, 2408.00005. Retrieved from https://arxiv.org/abs/2408.00005v1
 
     - We collect an open benchmark of 24 openly available datasets for Polish ASR.
     - We perform the most extensive comparison to date of ASR systems for the Polish language. Significant variations across different systems, datasets, and speaker demographics were discovered.
+
+Kang, I. E., Van Gysel, C., & Siu, M.-H. (2024). Transformer-based Model for ASR N-Best Rescoring and Rewriting. arXiv, 2406.08207. Retrieved from https://arxiv.org/abs/2406.08207v1
+
+    - Previos work in ASR error correction  focused exclusively on either reranking the N-best hypotheses, i.e., "rescoring", or overriding the 1-best with its predicted corrections, i.e., "rewriting".
+	- We propose Transformer Rescore Attention (TRA) model capable of both rescoring and rewriting ASR hypotheses. TRA does not require acoustic representations as input and can operate as a standalone model outside of on-device ASR, the acoustic representations never leaves the device hence preserving privacy.
+	- We also propose a new Matching Query Similarity Distribution (MQSD) objective, that can work well with cross-entropy based training to perform both rescore and rewrite tasks.
+	- TODO
 
 Kim, H., Myung, J., Kim, S., Lee, S., Kang, D., & Kim, J. (2024). LearnerVoice: A Dataset of Non-Native English Learners' Spontaneous Speech. arXiv, 2407.04280. Retrieved from https://arxiv.org/abs/2407.04280v1
 
@@ -5173,6 +5234,11 @@ Shah, M. A., Noguero, D. S., Heikkila, M. A., & Kourtellis, N. (2024). Speech Ro
     - On English speech, Whisper is able to withstand more severe corruptions better than other models. However, it is outperformed by other, smaller, models on several perturbations. It is rather surprising that despite being trained on more than ten times the amount of data, wsp-lg is outperformed by both hubt-lg and w2v2-lg-slf on fairly common perturbations such as RIR, resampling, and tempo reduction. Some models (hubt-lg, w2v2-lg-slf, ds) are more stable on Gaussian noise, while others ( wsp-lg, w2v2-bs, w2v2-lgrob) are more stable on environmental noise. Larger models tend to be more robust than smaller models, even if the latter are trained on significantly more data.
     - On non-English (Spanish) speech, it is interesting that despite having more parameters and being trained on 10× more data, wsp-lg is outperformed by w2v2-lg-es, thus indicating that simply scaling the model and training data is not sufficient to achieve robustness, particularly in the multi-lingual setting. So, wsp-lg is not the most robust model on Spanish, and struggles on simple perturbations, particularly on RIR (room impulse response).
     - We observe noticeable disparities in the robustness across various demographic subgroups, for example, RIR and adversarial attacks disproportionately degrade the performance of models for female speakers.
+
+Tur, A. D., Moumen, A., & Ravanelli, M. (2024). ProGRes: Prompted Generative Rescoring on ASR n-Best. arXiv, 2409.00217. Retrieved from https://arxiv.org/abs/2409.00217v1
+
+    - ASRs are not trained on enough data to deeply capture linguistic information, resulting in challenges when transcribing unknown words and named entities. Language models are commonly used to enhance ASR performance by ensuring that transcriptions maintain linguistic plausibility. Rescoring can be performed in two ways: either during the decoding process, where partial hypotheses are rescored, or after decoding, where the n-best alternatives are rescored. Traditionally, rescoring involved using simple language models, such as n-grams and word graphs. However, rescoring provides minimal benefits, even with LLMs, when the correct transcription is not among the top n hypotheses.
+	- We propose PROmpted Generative REScoring (ProGRes). First, for each audio signal, we extract the n-best hypotheses from a pretrained ASR model. We then prompt an LLM to generate a more diverse set of hypotheses. The LLM-generated hypothesis are added to form an extended set of hypotheses. Then we calculate LLM score and ASR score (either log-likelihood or CTC likelihood) for each hypothesis and combine both scores to select the best hypothesis.
 
 Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.-y. (2024). A Large-Scale Evaluation of Speech Foundation Models. arXiv, 2404.09385. Retrieved from https://arxiv.org/abs/2404.09385v2
 
@@ -5751,10 +5817,11 @@ Wang, X., Peng, J., Zhang, S., Chen, B., Wang, Y., & Guo, Y. (2022). A Survey of
     - After preprocessing, face images with their ground truth IDs can be used to train a FR deep model. Different backbones with similar parameter amount have similar accuracy on FR. As a result, you can use Resnet, ResNext, SEResnet, Inception net, Densenet, etc. to form your FR system. Training FR model is a process to learn a compact euclidean feature space, where distance directly correspond to a measure of face similarity (metric learning). The last part of face inference pipeline can be divided into face verification and face identification.
     - Different loss functions are discussed: cross entropy, contrastive loss, triplet loss, center loss. Also, face recognition is naturally treated as a classification problem, and thus using softmax as the loss to train a FR model is an intuitive consideration: larger margin loss is derived from softmax. Other modifications are proposed, for example, NormFace normalized both face embeddings and classification weights. Further, ArcFace incorporated margin between classes (eq. 16). However, ArcFace includes sensitive hyperparameters which can make training process unstable. P2SGrad was proposed to address this challenge by directly designing the gradients for training in an adaptive manner. CurricularFace adopted the idea of curriculum learning and weighted the class score of negative samples. In the earlier stage of training CurricularFace, the loss fits easy samples. And at the later training stage, the loss fits hard samples. Many more alternatives are discussed.
     - Large-scale face datasets usually exhibit a massive number of classes with unbalanced distribution. Features with non-dominate IDs are compressed into a small area in the hypersphere, leading to training problems. It was shown that including all tail data (faces with small number of images) in training can not help to obtained a better FR model by contrastive loss, triplet loss, and center loss. Several modifications are proposed. The second data unbalance phenomenon is shallow data. (IMO not clear what this means).
-    - ...
+    - ... (not finished)
 
 Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain Generalization via Shuffled Style Assembly for Face Anti-Spoofing. arXiv, 2203.05340. Retrieved from https://arxiv.org/abs/2203.05340v4
 
     - The previous face anti-spoofing (FAS) methods have achieved promising performance in intra-domain scenarios, but may encounter dramatic degradation under the cross-domain settings. Domain adaptation techniques are used to alleviate the discrepancy between source and target domains, but usually we can't collect sufficient unlabeled target data for training. Thus, we need domain generalization (DG) to generalize well on the unseen target domain.
 	- Style information in FAS tasks can be divided into two parts: domain-specific and liveness-related (is spoofing or not) style information.
 	- We propose shuffled style assembly network (SSAN) for FAS (fig. 2). The feature generator is a shallow embedding network that captures multi-scale low-level information. We adopt adversarial learning to make generated content features indistinguishable for different domains.
+	- IMO: very complex architecture, not fully understood, requires detailed reading
