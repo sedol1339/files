@@ -2531,7 +2531,7 @@ Nakkiran, P., & Bansal, Y. (2020). Distributional Generalization: A New Kind of 
     - We propose studying the entire distribution of classifier outputs on test samples, beyond just its test error.
     - We propose a notion of "distributional generalization", which is a property of trained classifiers (eq. 2) that is met when the train and test behavior of models are close as distributions. If the model fits its train set exactly (is an "interpolating classifier"), then this means that the output (argmax) distribution of the model on test samples is close to the true distribution. This notion is more fine-grained than classical generalization, since it considers the entire distribution of model outputs instead of just the test error.
     - The "agreement Property", informally, is that the test accuracy of a classifier is close to the probability that it agrees with an identically-trained classifier on a disjoint train set. If this is true, the classifier met distributional generalization.
-    - In our experiments, we train a pair of classifiers on random disjoint subsets of the train set for a given distribution. The Agreement Property approximately holds for all pairs of identical classifiers, and continues to hold even for “weak” classifiers (e.g. when f1, f2 have high test error).
+    - In our experiments, we train a pair of classifiers on random disjoint subsets of the train set for a given distribution. The Agreement Property approximately holds for all pairs of identical classifiers, and continues to hold even for "weak" classifiers (e.g. when f1, f2 have high test error).
     - IMO, for example, distributional generalization means that if in binary classification, given some samples subset X, for which the real class probabilities are 30% and 70%, the model should argmax-classify samples from X as the first class in 30% cases and as the second class in 70% cases. This is different from the optimal Bayes classifier, that will argmax-classify all samples from X as the second class. But maybe I am wrong.
     - IMO, the authors seem to incorrectly define "classical generalization", what they say is acrually a "generalization gap". IMO it means that the model correctly models the data distribution, but the train set performance does not matter, and not only average test error matters (the authors say that "classical generalization considers just the test error").
     - IMO, if model is good at estimating p(y|x) and well-callibrated, then to met "distributional generalization" we just need to sample from p(y|x).
@@ -4718,11 +4718,6 @@ Wang, C., Rivière, M., Lee, A., Wu, A., Talnikar, C., Haziza, D., ...Dupoux, E.
     - We examine the out-of-domain pre-training on VoxPopuli with further few-shot phoneme recognition on CommonVoice. The results suggest the high generality of the speech representations learned from VoxPopuli.
     - Pre-training with in-domain VoxPopuli  unlabeled data substantially improves performance on VoxPopuli ASR data, especially for low-resource languages.
 
-Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
-
-    - We are fine-tuning wav2vec 2.0 to transcribe languages unseen during fine-tuning. We start from self-supervised representations trained on data in many languages (wav2vec 2.0). Next we simultaneously fine-tune the model to perform phoneme recognition on data in multiple training languages, building a global phoneme recognizer by simply considering all possible phonemes of the training languages. At inference time, we test the fine-tuned model on unseen languages using a mapping of the phonemes from the training vocabulary to the ones in the target languages. We decode with a LM to generate the final phoneme sequence.
-    - Our approach performs on par to the recently introduced unsupervised speech recognition work ("Unsupervised speech recognition") which does not use labeled data from related languages and requires training separate models for each target language.
-
 Yang, S.-w., Chi, P.-H., Chuang, Y.-S., Lai, C.-I. J., Lakhotia, K., Lin, Y. Y., ...Lee, H.-y. (2021). SUPERB: Speech processing Universal PERformance Benchmark. arXiv, 2105.01051. Retrieved from https://arxiv.org/abs/2105.01051v4
 
     - We introduce Speech processing Universal PERformance Benchmark (SUPERB) as a challenge with a leaderboard and a benchmark.
@@ -5096,8 +5091,6 @@ Yang, C.-H. H., Li, B., Zhang, Y., Chen, N., Prabhavalkar, R., Sainath, T. N., &
     - CAR is based on The Neural reprogram method (see "Adversarial Reprogramming of Neural Networks") which mainly adds trainable parameters at its input level of a pre-trained model.
     - Our neural reprogramming has three major components (fig. 1): (1) input reprogramming, associated with standard model reprogramming or input-prompting, (2) latent space reprogramming, related to the residual adapters, and (3) multilingual graphemes pre-training which aims to resolve the existing challenges of cross-lingual learning on graphemes mismatching.
     - We only require 11M (4.8% of its full pretrained model) trainable parameters to achieve 11.9% WER cross seven languages in MLS benchmark for ASR task.
-
-Yang, Y., Shen, F., Du, C., Ma, Z., Yu, K., Povey, D., & Chen, X. (2023). Towards Universal Speech Discrete Tokens: A Case Study for ASR and TTS. arXiv, 2309.07377. Retrieved from https://arxiv.org/abs/2309.07377v2
 
 Zaiem, S., Parcollet, T., & Essid, S. (2023). Automatic Data Augmentation for Domain Adapted Fine-Tuning of Self-Supervised Speech Representations. arXiv, 2306.00481. Retrieved from https://arxiv.org/abs/2306.00481v1
 
@@ -5825,3 +5818,39 @@ Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain
 	- Style information in FAS tasks can be divided into two parts: domain-specific and liveness-related (is spoofing or not) style information.
 	- We propose shuffled style assembly network (SSAN) for FAS (fig. 2). The feature generator is a shallow embedding network that captures multi-scale low-level information. We adopt adversarial learning to make generated content features indistinguishable for different domains.
 	- IMO: very complex architecture, not fully understood, requires detailed reading
+	
+**Phonetic level in TTS and ASR**
+	
+Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
+
+    - We are fine-tuning wav2vec 2.0 to transcribe languages unseen during fine-tuning. We start from self-supervised representations trained on data in many languages (wav2vec 2.0). Next we simultaneously fine-tune the model to perform phoneme recognition on data in multiple training languages, building a global phoneme recognizer by simply considering all possible phonemes of the training languages. At inference time, we test the fine-tuned model on unseen languages using a mapping of the phonemes from the training vocabulary to the ones in the target languages. We decode with a LM to generate the final phoneme sequence.
+    - Our approach performs on par to the recently introduced unsupervised speech recognition work ("Unsupervised speech recognition") which does not use labeled data from related languages and requires training separate models for each target language.
+
+Yolchuyeva, S., Németh, G., & Gyires-Tóth, B. (2020). Transformer based Grapheme-to-Phoneme Conversion. arXiv, 2004.06338. Retrieved from https://arxiv.org/abs/2004.06338v2
+
+	- We are first to apply encoder-decoder transformer for Grapheme-to-Phoneme Conversion (G2P). For evaluation, the CMU pronunciation and NetTalk datasets were used (see examples in table 4)
+	
+Zeineldeen, M., Zeyer, A., Zhou, W., Ng, T., Schlüter, R., & Ney, H. (2020). A systematic comparison of grapheme-based vs. phoneme-based label units for encoder-decoder-attention models. arXiv, 2005.09336. Retrieved from https://arxiv.org/abs/2005.09336v3
+
+    - The disadvantage of grapheme-based ASR might be limited scalability to low-resource situations. Phoneme-based modeling on the other hand easily enables adaptation to new pronunciations or inclusion of words with uncommon pronunciations.
+	- We compare grapheme-based and phoneme-based output labels with an encoder-decoder-attention model. We found their performance to be similar.
+	- We also compared single units vs. subword (BPE) units vs. whole words, and found that subword units are best, both for phonemes and graphemes.
+	- The search should be restricted to valid sequences from the lexicon, this is crucial for good performance.
+	- IMO. Looks like the authors map the phonemes to words to make the comparison possible, however а quick glance did not allow me to understand how exactly they do it.
+	
+Fang, A., Filice, S., Limsopatham, N., & Rokhlenko, O. (2020). Using Phoneme Representations to Build Predictive Models Robust to ASR Errors. ACM Conferences. Association for Computing Machinery. doi: 10.1145/3397271.3401050
+
+    - In Amazon Alexa, Apple Siri or Google Home, the Spoken Language Understanding (SLU) is usually performed in two steps: first an Automatic Speech Recognition (ASR) is used to transcribe human speech; then Natural Language Understanding (NLU) models are applied on ASR transcriptions to interpret users’ requests. Different from traditional approaches, where NLU is applied on the original text, applying it on ASR transcriptions poses new challenges, as ASR systems often generate transcriptions with errors that can cause failures in downstream applications of virtual assistants, such as intention classification or slot filling.
+	- ASR errors are just an outcome of a phonetic confusion, causing a phrase in a human speech to be incorrectly transcribed to a "quasi-oronym", i.e., phrases with different meanings that sound very similar. Therefore, classic approaches that operate on word or even character-level representations cannot recover from such errors.
+	- We propose to represent ASR transcriptions as sequences of phonemes. We map phonemes to phoneme embeddings and propose several methods to train phoneme embeddings that are able to capture pronunciation similarities. Finally, we use these pre-trained embeddings as inputs to Neural Network architectures for solving NLU tasks.
+	- We design 4 methods for training phoneme embeddings.
+	- We define a pipeline for contaminating existing datasets with ASR errors, and we use this pipeline to generate noisy versions of four well-known NLP datasets.
+	- We show that models exploiting our phoneme representation can significantly improve classification performance on datasets containing ASR errors compared to models operating only on standard character or word representations.
+	- TODO read in details
+	- IMO, if we convert ground truth transcription to phonemes, then we obtain "ideal" transcription, where all phonemes are well pronounced. This may not match real spoken words. In this case, it is not clear if phonetic NLU inputs are better than letters. Indeed, phoneme input may represent phonetic uncertainty, but text input also can: if we input "A", we mean "all words that sound similar as A". Maybe, text represented as phonetic embeddings is richer than text of letters, since it contains uncertainty, but this is just because this it is not a result of argmax operation. So, this paper needs ablations: if ASR stage outputs letters or BPE tokens (not phonemes), and we pass output token embeddings into NLU stage and train this stage, will it be worse?
+	
+Sundararaman, M. N., Kumar, A., & Vepa, J. (2021). Phoneme-BERT: Joint Language Modelling of Phoneme Sequence and ASR Transcript. arXiv, 2102.00804. Retrieved from https://arxiv.org/abs/2102.00804v2
+
+    - In spoken language understanding (SLU), usually the pipeline consists of ASR and NLU stages. However, ASR errors degrade the performance of the  NLU stage. The approaches tried by scientific community to address the errors: 1) Modelling word confidence in the ASR stage, 2) ASR correction by LM, 3) end-to-end NLU models, 4) Phoneme enhanced representations.
+	- We propose PhonemeBERT that jointly models the phoneme and ASR sequence (fig. 1). We generate phoneme sequence from a separate phonemic listen-attend-spell (LAS) model. The phonemic LAS model is a sequence-to-sequence model with phoneme as its output unit.
+	- IMO, need full reading to understand anything in this paper.
