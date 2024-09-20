@@ -4528,7 +4528,7 @@ Aksënova, A., van Esch, D., Flynn, J., & Golik, P. (2021). How Might We Create 
     - Also, defining and applying a comprehensive set of transcription conventions is critical in building high-quality data sets. For example, should hesitations like "uh" be transcribed? And if a speaker says "wanna", should the transcription reflect that as such, or should the transcriber transcribe that as "want to"? Perhaps the most important choice in such transcription conventions is whether to adopt "spoken-domain" transcriptions, where numbers are spelled out in words (e.g. "three thirty"), or "written-domain" transcriptions, where they are rendered in the typical written form ("3:30").
     - Test sets that are intended to measure how well an ASR system deals with speech with background noise should have a realistic amount of background noise: not too little, but also not too much. Adding noise artificially does not take into account the Lombard effect (speakers tend to increase their vocal effort when speaking in loud noise).
     - The average WER alone, weighted by the number of words, is not sufficient to describe the shape of the distribution over the individual local measurements. Given two ASR systems with identical WERs, we almost always prefer the one with the lower standard deviation, as it reduces the uncertainty w.r.t. the worst case. A more accurate metric that samples the shape of the distribution consists of percentiles (e.g. 90, 95 or 99) that are more suitable to provide an upper bound. Additionally, reporting the standard deviation allows researchers to judge whether an improvement in WER is significant or just a statistical fluctuation. Finally, WER can also be calculated on not just the top machine hypothesis, but also on the full n-best list.
-    - Downstream use cases may require more than just a word-by-word textual transcription. For example, having per-word confidence scores can be helpful in dialog systems.Having accurate timestamps at the word level is essential in many application of the long form domain. Having phonemic transcriptions for every word enables downstream disambiguation.
+    - Downstream use cases may require more than just a word-by-word textual transcription. For example, having per-word confidence scores can be helpful in dialog systems. Having accurate timestamps at the word level is essential in many application of the long form domain. Having phonemic transcriptions for every word enables downstream disambiguation.
     - Speaker diarization is yet another type of of metadata that can be emitted at a per-word or per-phrase level, for which independent benchmarks already exist.
     - Optimizing only for WER, as most current benchmarks imply, does not reflect considerations that are ubiquitous in real-world deployments, such as latency and compute resources. The process of finding the most likely hypothesis in ASR (often referred to as “decoding” for historical reasons) requires an efficient exploration of the search space: a subset of all possible hypotheses. A small search space allows for quick decoding, but often comes at the cost of higher WER. It is common to report an RTF vs WER curve which shows all possible operating points, allowing for mutual trade off. It is common to normalize the RTF by the number of CPU cores and hardware accelerators.
     - For ASR systems that stream output to the user while recognition is ongoing, additional metrics will be useful. A streaming system that emits highly inaccurate intermediate hypotheses can yield a jarring user experience, even if the final hypothesis achieves an acceptable WER. Yet another factor is streaming latency, e.g. how quickly partials are emitted.
@@ -4723,7 +4723,7 @@ Yang, S.-w., Chi, P.-H., Chuang, Y.-S., Lai, C.-I. J., Lakhotia, K., Lin, Y. Y.,
     - We introduce Speech processing Universal PERformance Benchmark (SUPERB) as a challenge with a leaderboard and a benchmark.
     - SUPERB targets at the direct usability of pretrained models on various popular tasks through any usage. We focus on investigating a simple framework solving all SUPERB tasks with a frozen, shared pretrained model, and lightweight prediction heads finetuned for each task. The framework puts an explicit constraint on downstream models to be as lightweight as possible for all tasks.
     - SSL models explored in this paper are summarized in Table 1. They include wav2vec 2.0, HuBERT and many other models.
-    - Tasks from ASR: Phoneme Recognition, Automatic Speech Recognitio, Keyword Spotting (detects preregistered keywords), Query by Example Spoken Term Detection (detects a spoken term (query) in an audio database (documents) by binary discriminating a given pair of query and document into a match or not).
+    - Tasks from ASR: Phoneme Recognition, Automatic Speech Recognition, Keyword Spotting (detects preregistered keywords), Query by Example Spoken Term Detection (detects a spoken term (query) in an audio database (documents) by binary discriminating a given pair of query and document into a match or not).
     - Tasks to analyze speaker modeling: Speaker Identification (classifies each utterance for its speaker identity, where speakers are in the same predefined set for both training and testing), Automatic Speaker Verification (verifies whether the speakers of a pair of utterances match as a binary classification) and Speaker Diarization (predicts who is speaking when for each timestamp, and multiple speakers can speak simultaneously).
     - Tasks from Spoken Language Understanding: Intent Classification (classifies utterances into predefined classes to determine the intent of speakers) and Slot Filling (predicts a sequence of semantic slot-types from an utterance, like a slot-type FromLocation for a spoken word Taipei, which is known as a slot-value).
     - Task from paralinguistics: Emotion Recognition (predicts an emotion class for each utterance).
@@ -5820,6 +5820,37 @@ Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain
 	- IMO: very complex architecture, not fully understood, requires detailed reading
 	
 **Phonetic level in TTS and ASR**
+
+Yao, K., & Zweig, G. (2015). Sequence-to-Sequence Neural Net Models for Grapheme-to-Phoneme Conversion. arXiv, 1506.00196. Retrieved from https://arxiv.org/abs/1506.00196v3
+
+    - We use bidirectional encoder-decoder LSTM (fig. 3) to improve SOTA on Grapheme-to-Phoneme Conversion.
+	- We experiment on the CMUDict, NetTalk, and Pronlex datasets.
+
+Novak, J. R., Minematsu, N., & Hirose, K. (2015). Phonetisaurus: Exploring grapheme-to-phoneme conversion with joint n-gram models in the WFST framework. Nat. Lang. Eng., -1(06), 1–32. doi: 10.1017/S1351324915000315
+
+    - Grapheme-to-Phoneme (G2P) conversion is an important problem in both the areas of ASR and TTS. In the case of ASR, the true vocabulary is often dynamic in nature. This means that new words, or new pronunciation candidates for existing words may need to be added to the system on a regular basis. Analogous problems arise in the case of TTS (IMO not a clear explanation why do we need G2P).
+	- We introduce Phonetisaurus, an open-source G2P conversion toolkit. We syntesize the most effective components of previously proposed solutions in the literature, with a clear focus on achieving a balance between speed, accuracy and flexibility.
+	
+Deri, A., & Knight, K. (2016). Grapheme-to-Phoneme Models for (Almost) Any Language. ResearchGate, 399–408. doi: 10.18653/v1/P16-1038
+
+    - Grapheme-to-phoneme (G2P) models are typically language-specific. They are trained on a pronunciation dictionary consisting of word-pronunciation pairs. Building such a dictionary for a new language is both time-consuming and expensive, because it requires expertise in both the language and a notation system like the International Phonetic Alphabet.
+    - Using data scraped from Wiktionary, we clean and normalize pronunciation dictionaries for 531 languages.
+	- We develop a language-independent distance metric between IPA (International Phonetic Alphabet) phonemes.
+	- We create two sets of g2p models for "high resource" languages and adapt them to low-resource languages through output mapping and training data mapping.
+	
+Peters, B., Dehdari, J., & van Genabith, J. (2017). Massively Multilingual Neural Grapheme-to-Phoneme Conversion. arXiv, 1708.01464. Retrieved from https://arxiv.org/abs/1708.01464v1
+
+    - Accurate grapheme-to-phoneme conversion (g2p) is important for any application that depends on the sometimes inconsistent relationship between spoken and written language. Most prominently,this includes text-to-speech and automatic speech recognition (IMO not a clear explanation why do we need G2P for ASR).
+	- We present a neural seq-to-seq approach to g2p which is trained on spelling–pronunciation pairs in hundreds of languages. The system shares a single encoder and decoder across all languages, allowing it to utilize the intrinsic similarities between different writing systems.
+	- For our model, the source sequences are words in the standard orthography in any language, and the target sequences are the corresponding representation in the International Phonetic Alphabet (IPA).
+	
+Milde, B., Schmidt, C., & Köhler, J. (2017). Multitask Sequence-to-Sequence Models for Grapheme-to-Phoneme Conversion. doi: 10.21437/Interspeech.2017-1436
+
+    - A crucial component of most ASR systems is the phoneme lexicon, mapping words to their phonetic representation (e.g. Thursday → TH ER Z D EY). Training and using a G2P model is often directly integrated into the ASR training procedure, as phonetic out-of-vacabulary (OOV) words in the training set hamper the alignment of training data to its transcriptions.
+	- we investigate how multitask learning can improve the performance of Seq2Seq G2P models. A single Seq2Seq model is trained on multiple phoneme lexicon datasets containing multiple languages and phonetic alphabets.
+	- Multi-language learning does not show improved error rates.
+	- Combining standard datasets and crawled data with different phonetic alphabets of the same language shows promising error reductions on English and German Seq2Seq G2P conversion.
+	- Combining Seq2seq G2P models with standard n-grams based models yields significant improvements.
 	
 Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
 
@@ -5854,3 +5885,11 @@ Sundararaman, M. N., Kumar, A., & Vepa, J. (2021). Phoneme-BERT: Joint Language 
     - In spoken language understanding (SLU), usually the pipeline consists of ASR and NLU stages. However, ASR errors degrade the performance of the  NLU stage. The approaches tried by scientific community to address the errors: 1) Modelling word confidence in the ASR stage, 2) ASR correction by LM, 3) end-to-end NLU models, 4) Phoneme enhanced representations.
 	- We propose PhonemeBERT that jointly models the phoneme and ASR sequence (fig. 1). We generate phoneme sequence from a separate phonemic listen-attend-spell (LAS) model. The phonemic LAS model is a sequence-to-sequence model with phoneme as its output unit.
 	- IMO, need full reading to understand anything in this paper.
+	
+Zhu, J., Zhang, C., & Jurgens, D. (2022). ByT5 model for massively multilingual grapheme-to-phoneme conversion. arXiv, 2204.03067. Retrieved from https://arxiv.org/abs/2204.03067v2
+
+    - G2P (grapheme-to-phoneme conversion) is a fundamental to the pipeline for a variety of speech processing tasks that depend on phonemic inputs, including speech synthesis and speech recognition (IMO, why so?).
+	- To create a training dataset, we aggregated pronunciation dictionaries previously published or made available in around 100 languages.
+    - We have curated a G2P dataset from various sources that covers around 100 languages and trained large-scale multilingual G2P models based on ByT5. It significantly outperformed the token-based mT5 model.
+	- Multilingual models can perform zero-shot G2P on unseen low-resource languages with seen writing systems (IMO not clear how to)
+	- See examples in https://github.com/lingjzhu/CharsiuG2P
