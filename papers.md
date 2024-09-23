@@ -5870,12 +5870,33 @@ Novak, J. R., Minematsu, N., & Hirose, K. (2015). Phonetisaurus: Exploring graph
     - Grapheme-to-Phoneme (G2P) conversion is an important problem in both the areas of ASR and TTS. In the case of ASR, the true vocabulary is often dynamic in nature. This means that new words, or new pronunciation candidates for existing words may need to be added to the system on a regular basis. Analogous problems arise in the case of TTS (IMO not a clear explanation why do we need G2P).
 	- We introduce Phonetisaurus, an open-source G2P conversion toolkit. We syntesize the most effective components of previously proposed solutions in the literature, with a clear focus on achieving a balance between speed, accuracy and flexibility.
 	
+Zhang, Y., Chan, W., & Jaitly, N. (2016). Very Deep Convolutional Networks for End-to-End Speech Recognition. arXiv, 1610.03022. Retrieved from https://arxiv.org/abs/1610.03022v1
+
+    - The seq2seq model with attention sidesteps the complicated machinery developed for classical ASR, because it is not restricted by the classical independence assumptions of HMM and CTC models.
+	- While very deep CNNs have been successfully applied to ASR, recently there have been several advancements in the CV community on very deep CNNs hat have not been explored in the speech community.
+	- In our deep CNN speech model based on Listen, Attend and Spell (LAS) we use 1x1 convolutions (Network-in-Network), BN, ResNets, and Convolutional LSTM that use convolutions to replace the inner products within the LSTM unit. The model learns to transcribe an audio sequence to a word sequence, one character at a time.
+	- We experiment with the WSJ ASR task and achieve 10.5% WER without any dictionary or language.
+	
+Chorowski, J., & Jaitly, N. (2016). Towards better decoding and language model integration in sequence to sequence models. arXiv, 1612.02695. Retrieved from https://arxiv.org/abs/1612.02695v1
+
+	- Seq2seq ASR  networks can typically be decomposed into modules that implement stages of a data processing pipeline: an encoding module that transforms its inputs into a hidden representation, a decoding (spelling) module which emits target sequences and an attention module that computes a soft alignment between the hidden representation and the targets. This discriminative training mode is fundamentally different from the generative "noisy channel" formulation used to build classical SOTA ASR systems. Discriminative training allows seq2seq models to focus on the most informative features. However, it also increases the risk of overfitting to those few distinguishing characteristics.
+	- We analyse an attention-based seq2seq ASR system that directly transcribes recordings into characters.
+	- We observe two shortcomings: overconfidence in its predictions (that reduces the diversity of transcripts obtained using beam search) and a tendency to produce incomplete transcriptions when LMs are used (model skips some words and jump to another place in the recording). The problem of incomplete transcripts is especially apparent when external LMs are used.
+	- TODO
+	
 Deri, A., & Knight, K. (2016). Grapheme-to-Phoneme Models for (Almost) Any Language. ResearchGate, 399–408. doi: 10.18653/v1/P16-1038
 
     - Grapheme-to-phoneme (G2P) models are typically language-specific. They are trained on a pronunciation dictionary consisting of word-pronunciation pairs. Building such a dictionary for a new language is both time-consuming and expensive, because it requires expertise in both the language and a notation system like the International Phonetic Alphabet.
     - Using data scraped from Wiktionary, we clean and normalize pronunciation dictionaries for 531 languages.
 	- We develop a language-independent distance metric between IPA (International Phonetic Alphabet) phonemes.
 	- We create two sets of g2p models for "high resource" languages and adapt them to low-resource languages through output mapping and training data mapping.
+
+Toshniwal, S., Tang, H., Lu, L., & Livescu, K. (2017). Multitask Learning with Low-Level Auxiliary Tasks for Encoder-Decoder Based Speech Recognition. arXiv, 1704.01631. Retrieved from https://arxiv.org/abs/1704.01631v2
+
+	- Traditional ASR systems include components like frame classifiers, phonetic acoustic models, lexicons (which may or may not be learned from data), and LMs. Recently, completely integrated end-to-end training approaches, where all parameters are learned jointly using a loss at the final output level, have become viable and popular. Typical end-to-end models are based on RNN encoder-decoders or CTC-based models. However, end-to-end training is less interpretable and ignores potentially useful domain-specific information about intermediate representations, as well as existing intermediate levels of supervision.
+	- We use a multitask learning approach that combines the final task loss (log loss on the output labels) with losses corresponding to lower-level tasks applied on lower layers. We demonstrate this approach on an attention-based encoder-decoder LSTM character-level ASR model (fig. 1).
+	- We use phoneme-level supervision obtained from the word-level transcriptions and pronunciation dictionary. Also, we apply sub-phonetic type of supervision at the frame level, as shown in Figure 1, using state alignments obtained from a standard HMM-based system.
+	- Results on Switchboard and CallHome show consistent improvements over baseline attention-based models. We obtain the best performance with a combination of 2 tasks: a phoneme decoder and frame-level state loss. Analysis of model training and performance suggests that the addition of auxiliary tasks can help in either optimization or generalization.
 	
 Peters, B., Dehdari, J., & van Genabith, J. (2017). Massively Multilingual Neural Grapheme-to-Phoneme Conversion. arXiv, 1708.01464. Retrieved from https://arxiv.org/abs/1708.01464v1
 
@@ -5890,6 +5911,24 @@ Milde, B., Schmidt, C., & Köhler, J. (2017). Multitask Sequence-to-Sequence Mod
 	- Multi-language learning does not show improved error rates.
 	- Combining standard datasets and crawled data with different phonetic alphabets of the same language shows promising error reductions on English and German Seq2Seq G2P conversion.
 	- Combining Seq2seq G2P models with standard n-grams based models yields significant improvements.
+	
+Sainath, T. N., Prabhavalkar, R., Kumar, S., Lee, S., Kannan, A., Rybach, D., ...Chiu, C.-C. (2017). No Need for a Lexicon? Evaluating the Value of the Pronunciation Lexica in End-to-End Models. arXiv, 1712.01864. Retrieved from https://arxiv.org/abs/1712.01864v1
+
+	- Traditional automatic speech recognition (ASR) systems are comprised of an acoustic model (AM), a language model (LM) and a pronunciation model (PM), all of which are independently trained on different datasets. AMs take acoustic features and predict a set of sub-word units, typically context-dependent or context-independent phonemes. Next, a hand-designed lexicon (i.e., PM) maps a sequence of phonemes produced by the acoustic model to words. Finally, the LM assigns probabilities to word sequences.
+	- How do end-to-end models perform if we incorporate a separate PM and LM into the system? This question can be answered by training an end-to-end model to predict phonemes instead of graphemes. The output of the end-to-end model must then be combined with a separate PM and LM to decode the best hypotheses from the model.
+	- The present work is the first to explore end-to-end systems trained with phonemes for a large vocabulary continuous speech recognition (LVCSR) task, where models are directly decoded in the first-pass.
+	- Our experiments show that the performance of grapheme systems is slightly better than phoneme systems. On a multi-dialect English task we once again confirm the superiority of graphemes.
+	
+Mortensen, D. R., Dalmia, S., & Littell, P. (2018). Epitran: Precision G2P for Many Languages. ACL Anthology. Retrieved from https://aclanthology.org/L18-1429
+
+	- Epitran is a massively multilingual, multiple back-end system for G2P (grapheme-to-phoneme) transduction that takes word tokens in the orthography of a language and outputs a phonemic representation in either IPA or X-SAMPA. Out of the box, it supports 61 languages.
+	
+Zhou, S., Dong, L., Xu, S., & Xu, B. (2018). A Comparison of Modeling Units in Sequence-to-Sequence Speech Recognition with the Transformer on Mandarin Chinese. arXiv, 1805.06239. Retrieved from https://arxiv.org/abs/1805.06239v2
+
+	- Conventional ASR systems consist of three independent components: an acoustic model (AM), a pronunciation model (PM) and a language model (LM), all of which are trained independently. CD-states and CD-phonemes are dominant as their modeling units in such system. However, it has been challenged by seq2seq attention-based models, which integrate an acoustic, pronunciation and language model into a single NN.
+	- On English ASR tasks, previous attempts have already shown that the modeling unit of graphemes can outperform that of phonemes by seq2seq attention-based model (see "No Need for a Lexicon? Evaluating the Value of the Pronunciation Lexica in End-to-End Models"), so a hand-designed lexicon might be removed from ASR systems (as we known, it is very laborious and time-consuming to generate a pronunciation lexicon). Furthermore, the latest work use the word piece models, which are sub-word units ranging from graphemes all the way up to entire words.
+	- We investigate five modeling units for Speech-Transformer model on Mandarin Chinese ASR tasks, including CI-phonemes, syllables (pinyins with tones), words, sub-words and characters.
+	- We confirm that the lexicon free modeling units, i.e. words, sub-words and characters, can outperform lexicon related modeling units, i.e. CI-phonemes and syllables. Character based model achieves the best result and establishes a new SOTA CER on HKUST dataset.
 	
 Xu, Q., Baevski, A., & Auli, M. (2021). Simple and Effective Zero-shot Cross-lingual Phoneme Recognition. arXiv, 2109.11680. Retrieved from https://arxiv.org/abs/2109.11680v1
 
