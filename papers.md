@@ -3539,6 +3539,13 @@ Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., & Smith, N. (
     - Some seeds are consistently better than others in a given dataset for both weight initializations and data orders. Some weight initializations for output layer perform well across all studied tasks (binary classification).
     - Worse performing models can often be distinguished from better ones early in training. We show that better performance can be achieved with the same computational resources by using early stopping algorithms that stop the least promising trials early in training: start many, stop early, continue some.
 
+Gromov, V. A., & Migrina, A. M. (2020). A Language as a Self-organized Critical System. . doi: 10.37247/PACS.1.2020.4
+
+    - The authors hypothesize that a natural language is a self-organized critical system (SOC) (see P. Bak, "How Nature Works: The Science of Self-Organized Criticality"). In SOC, we consider some space space of elements able to be in two states, active and passive, and the “avalanches” are chain reactions of elements’ state changes triggered by changes of other elements. A power-law distribution governing avalanche sizes. SOC-systems usually exhibit long periods of slow evolution as opposed to short periods of fast evolution when the system space is changed drastically; similar phenomenon is reported to take place for evolving language systems.
+	- In natural language, we formalize the space as a cooccurrence graph: vertices correspond to words and an edge is present if and only if the words associated with its incident vertices occur simultaneously in the same text of the sample involved, once or more. An avalanche, in this context, is a text of a language.
+	- The hypothesis that sizes of avalanches obey a power-law distribution forms the subject of the present study. The present work is focused on the study (and comparison) of statistical characteristics of texts sets for English and Russian languages being considered in their synchronic and diachronic aspects.
+	- Poetry distributions appear closest to a canonical power-law and therefore poetry may be treated as a kind of supporting column of a language (fig. 1).
+
 Mosbach, M., Andriushchenko, M., & Klakow, D. (2020). On the Stability of Fine-tuning BERT: Misconceptions, Explanations, and Strong Baselines. arXiv, 2006.04884. Retrieved from https://arxiv.org/abs/2006.04884v3
 
     - The two common hypotheses for fine-tuning instability are catastrophic forgetting and small size of the fine-tuning datasets. We argue that none of them has a causal relationship with fine-tuning instability.
@@ -4167,12 +4174,15 @@ Narayanan, A., & Wang, D. (2014). Investigation of Speech Separation as a Front-
 
 Chan, W., Jaitly, N., Le, Q. V., & Vinyals, O. (2015). Listen, Attend and Spell. arXiv, 1508.01211. Retrieved from https://arxiv.org/abs/1508.01211v2
 
-    - We present Listen, Attend and Spell (LAS): a seq-to-seq model for ASR with two components: a listener and a speller (fig. 1).
-    - The listener is a pyramidal RNN encoder that accepts filter bank spectra as inputs. Using a pyramidal RNN model for the listener reduces the number of time steps that the attention model has to extract relevant information from.
-    - The speller is an attention-based RNN decoder that emits characters as outputs.
+    - We present Listen, Attend and Spell (LAS): a seq-to-seq model for ASR (fig. 1) that consists of an encoder RNN, which is named the listener, and a decoder RNN, which is named the speller.
+	- Key to our approach is the fact that we use a pyramidal RNN model for the listener, which reduces the number of time steps that the attention model has to extract relevant information from.
     - Rare and OOV words are handled automatically, since the model outputs characters (instead of words).
     - The speller produces character sequences without making any independence assumptions between the characters, that is the key improvement of LAS over previous end-to-end CTC models. For example, for the phrase “triple a” the model produces both “triple a” and “aaa” in the top beams. A model like CTC may have trouble producing such diverse transcripts for the same utterance because of conditional independence assumptions between frames.
     - Without the attention mechanism, the model overfits the training data significantly - it memorizes the training transcripts without paying attention to the acoustics.
+	- During infarence, the ground truth is missing and the predictions can suffer because the model was not trained to be resilient to feeding in bad predictions at some time steps. To ameliorate this effect, we use a trick that was proposed in "Scheduled sampling for sequence prediction with recurrent neural networks": during training, instead of always feeding in the ground truth transcript for next step prediction, we sometimes sample from our previous character distribution and use that as the inputs in the next step predictions. We do not use a schedule and simply use a constant sampling rate of 10% right from the start of training.
+	- We attempted to use the phonemes as a joint objective target, but found no improvements. We also attempted to pretrain the Listen function with context independent or context dependent phonemes generated from a conventional GMM-HMM system, but found no improvements.
+	- Decoding is performed with a simple left-to-right beam search. A dictionary can optionally be added to constrain the search space to valid words, however we found that this was not necessary since the model learns to spell real words almost all the time.
+	- We have vast quantities of text data, compared to the amount of transcribed speech utterances. We can use language models trained on text corpora alone similar to conventional speech systems. To do so we can rescore our beams with the LM. We find that our model has a small bias for shorter utterances so we normalize our probabilities by the number of characters in the hypothesis and combine it with a LM probability (eq. 16), where LM weight can be determined by a held-out validation set.
 
 Chung, J., Kastner, K., Dinh, L., Goel, K., Courville, A. C., & Bengio, Y. (2015). A Recurrent Latent Variable Model for Sequential Data. Advances in Neural Information Processing Systems, 28. Retrieved from https://proceedings.neurips.cc/paper/2015/hash/b618c3210e934362ac261db280128c22-Abstract.html
 
