@@ -6063,3 +6063,47 @@ Sun, H., Tan, X., Gan, J.-W., Liu, H., Zhao, S., Qin, T., & Liu, T.-Y. (2019). T
 
     - We propose the token-level ensemble distillation for grapheme-to-phoneme (G2P) conversion task. Specifically, we train a teacher model to generate the phoneme sequence as well as its probability distribution given unlabeled grapheme sequence, and regard the unlabeled grapheme sequence and the generated phoneme sequence as pseudo labeled data, and add them into the original training  data.
 	- We train a variety of models (CNN, RNN and Transformer) for ensemble to get higher accuracy, and transfer the knowledge of the ensemble models to a light-weight model.
+	
+Pundak, G., Sainath, T. N., Prabhavalkar, R., Kannan, A., & Zhao, D. (2018). Deep context: end-to-end contextual speech recognition. arXiv, 1808.02480. Retrieved from https://arxiv.org/abs/1808.02480v1
+
+    - Speech recognition performance can be improved by incorporating information about the speaker’s context, such as the dialog state, the speaker’s location, personalized information about the user.
+	- We propose Contextual-LAS (CLAS) for ASR task, which can leverage a list of contextual phrases to improve recognition performance.
+	- Our technique consists of first embedding each phrase, represented as a sequence of graphemes, into a fixed-dimensional representation, and then employing an attention mechanism to summarize the available context at each step of the model’s output predictions (fig. 1).
+	- Our method does not require careful tuning of rescoring weights, while still being able to incorporate out-of-vocabulary (OOV) terms.
+	
+Chen, Z., Jain, M., Wang, Y., Seltzer, M., & Fuegen, C. (2019). Joint Grapheme and Phoneme Embeddings for Contextual End-to-End ASR. Interspeech. Retrieved from https://www.semanticscholar.org/paper/Joint-Grapheme-and-Phoneme-Embeddings-for-ASR-Chen-Jain/4af08d465168c9b5fffe8cf1de6ee649ca4a8ac9
+
+    - We improve over the CLAS approach for contextual ASR.
+	- In CLAS, because the embeddings are learned from graphemic information only, they do not discriminate well among similar sequences of graphemes, nor do they generalize well to unseen pronunciations of words. (IMO not clear why pronunciations matter here, since context should be used on the language modeling internal stage, not on the acoustic stage).
+	- To overcome these problems, 1) we extract embeddings based on a grapheme-to-phoneme (G2P) encoder-decoder, and 2) we try to leverage the power of the bidirectional LSTM instead of LSTM proposed in CLAS.
+	
+Vesik, K., Abdul-Mageed, M., & Silfverberg, M. (2020). One Model to Pronounce Them All: Multilingual Grapheme-to-Phoneme Conversion With a Transformer Ensemble. arXiv, 2006.13343. Retrieved from https://arxiv.org/abs/2006.13343v1
+
+    - We are participating in the SIGMORPHON 2020 Shared Task, when sequences of graphemes are mapped to corresponding phonemes. A clear challenge is the limited size of the shared task training data for each of the 15 individual languages.
+	- We build a single transformer model mapping from input to output across all the languages simultaneously. We also use pseudo-labeling on Wikipedia data, selecting sequences of phonemes predicted with our models above a certain confidence threshold.
+	
+Gorman, K., Ashby, L. F. E., Goyzueta, A., McCarthy, A. D., Wu, S., & You, D. (2020). The SIGMORPHON 2020 Shared Task on Multilingual Grapheme-to-Phoneme Conversion. ACL Anthology, 40–50. doi: 10.18653/v1/2020.sigmorphon-1.2
+
+	- ASR requires mappings between written words and their pronunciations, either explicit or implicit (in end-to-end models). For open-vocabulary applications, these mappings must generalize to unseen words, and so must be expressed as mappings between sequences of graphemes and phonemes or phones. We note that the term phoneme is a well-defined object in linguistic theory, which may not be appropriate for a given pronunciation dictionary. Therefore, in what follows we use the term phone to refer to transcriptions symbols.
+	- Rule-based systems require linguistic expertise to develop and maintain, and may be brittle or inaccurate. Therefore, modern speech engines usually treat grapheme-to-phoneme conversion as a machine learning problem (IMO the authors still do not explain why we need this in end-to-end systems).
+	- The vast majority of published research focuses on English or a few other highly-resourced, globally hegemonic languages for which free pronunciation dictionaries are available.
+	- We present SIGMORPHON 2020 shared task: a multilingual grapheme-to-phoneme conversion task with data sets, evaluation metrics, and strong baselines. The task included data from 15 languages and scripts. 9 teams submitted 23 G2P systems and achieved substantial improvements over the provided baselines.
+	
+Omachi, M., Fujita, Y., Watanabe, S., & Wiesner, M. (2021). End-to-end ASR to jointly predict transcriptions and linguistic annotations. ACL Anthology, 1861–1871. doi: 10.18653/v1/2021.naacl-main.149
+
+    - Our primary goal is to provide aligned transcripts (phonemes) and linguistic annotations (graphemes) with minimal degradation in ASR performance. Given these outputs, we can easily combine ASR with downstream NLP tasks and also conduct an intuitive error analysis (e.g., detecting the error caused due to the homonym by checking the word and the corresponding phoneme output).
+    - We consider several existing options to make the ASR system predict both phonemes and graphemes (fig. 1). The options A and B do not align both output sequences. The third option, in contrast, does not require postprocessing to align the label sequences.
+	- We choose the option C and adopt a model to output phonemic transcripts and POS tags, as well as graphemes (fig. 2f).
+	- Our approach predicts linguistic annotations correctly even though corresponding graphemes are wrong. This feature is helpful for the downstream NLP system like slot filling or intent detection.
+	
+Karita, S., Soplin, N. E. Y., Watanabe, S., Delcroix, M., Ogawa, A., & Nakatani, T. (2019). Improving Transformer-Based End-to-End Speech Recognition with Connectionist Temporal Classification and Language Model Integration. doi: 10.21437/Interspeech.2019-1938
+
+    - We address two problems with Transformer end-to-end ASR:
+	- 1) Slower convergence, namely its slower increase in validation accuracy over wall clock time, than RNN-based ASR. Transformer takes less time per iteration, but it takes many more epochs to converge.
+	- 2) The difficulty of LM integration in joint beam search decoding. The scores provided by Transformer and LM had drastically different behaviours that make them difficult to combine.
+	- We implement CTC joint training as a multi-task learning by adding a new branch from Transformer encoder. It can make the convergence of the seq2seq model faster because CTC learns to align the speech feature and transcription explicitly.
+	- We found that the joint decoding with CTC could perform better with LM integration than the one without CTC in our experiments.
+	
+Raissi, T., Zhou, W., Berger, S., Schlüter, R., & Ney, H. (2022). HMM vs. CTC for Automatic Speech Recognition: Comparison Based on Full-Sum Training from Scratch. arXiv, 2210.09951. Retrieved from https://arxiv.org/abs/2210.09951v1
+
+    - 
