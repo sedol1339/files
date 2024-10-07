@@ -6106,4 +6106,15 @@ Karita, S., Soplin, N. E. Y., Watanabe, S., Delcroix, M., Ogawa, A., & Nakatani,
 	
 Raissi, T., Zhou, W., Berger, S., Schlüter, R., & Ney, H. (2022). HMM vs. CTC for Automatic Speech Recognition: Comparison Based on Full-Sum Training from Scratch. arXiv, 2210.09951. Retrieved from https://arxiv.org/abs/2210.09951v1
 
-    - 
+	- We pursue the goal of a simple from-scratch trainable ASR system producing both good WER and alignment.
+    - In CTC, the peaky behavior caused by the limited label emissions can affect the quality of the alignment, which can shift with respect to the evidence in the input.
+	- We compare the CTC and HMM topologies for from-scratch full-sum training. In addition to the standard hybrid HMM, we propose a discriminative HMM modeling as a more direct contrast to CTC models.
+	- We then address the convergence issue from point of view of difficulty of alignment modeling. To this end, we propose minimum label duration and prior knowledge-based probability approximation. These approaches benefit both HMM and CTC models.
+	
+Nguyen, L. T., Pham, T., & Nguyen, D. Q. (2023). XPhoneBERT: A Pre-trained Multilingual Model for Phoneme Representations for Text-to-Speech. arXiv, 2305.19709. Retrieved from https://arxiv.org/abs/2305.19709v1
+
+	- In current TTS systems, the pre-trained BERT is used to provide additional contextual information and helps increase the quality of the output synthesized speech (for example, see "Pre-trained Text Embeddings for Enhanced Text-to-Speech Synthesis"). Therefore, it might be better if the contextualized phoneme representations are directly produced by a pre-trained BERT-type model that is learned from unlabeled phoneme-level data.
+	- Among recent works, these are PnG BERT (takes both phonemes and graphemes as the input), Mixed-Phoneme BERT (takes both phonemes and sup-phoneme tokens as the input), Phoneme-level BERT (only taking phonemes as the input and employs an additional auxiliary task that predicts the corresponding grapheme for each phoneme).
+	- It is worth exploring pre-trained models for phoneme representations in languages other than English.
+    - We present and publicly release XPhoneBERT trained using the RoBERTa pre-training approach on 330M phoneme-level sentences from nearly 100 languages and locales. To convert texts into phonemes, we employ the CharsiuG2P toolkit that supports 90+ languages and locales.
+	- Employing XPhoneBERT as an input phoneme encoder significantly boosts the performance of a strong TTS model in terms of naturalness and prosody.
