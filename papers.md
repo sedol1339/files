@@ -4129,16 +4129,29 @@ Sak, H., Saraclar, M., & Güngör, T. (2010). On-the-fly lattice rescoring for r
 Graves, A. (2012). Sequence Transduction with Recurrent Neural Networks. arXiv, 1211.3711. Retrieved from https://arxiv.org/abs/1211.3711v1
 
     - We propose RNN transducer for sequence-to-sequence tasks (such as phoneme recognition).
-    - The transducer extends CTC (Connectionist Temporal Classification) by defining a distribution over output sequences of all lengths, and by jointly modelling both input-output and output-output dependencies.
-    - The transducer is composed of two RNNs. One RNN, referred to as the transcription network, is a bidirectional RNN that scans the input sequence and outputs vector sequence. The other RNN, referred to as the prediction network, scans the output sequence y and outputs vector sequence. Outputs from the two networks arer combined to predict the next element of the output sequence.
-    - When the transducer is evaluated on test data, it uses a beam search.
-    - Question: why use this instead of seq2seq RNN?
+	- Let we have input vectors X and output vectors Y. In our case, we assume that the output space is discrete, output vectors are one-hot vectors, and the output vocabulary is extended with additional null token (meaning "output nothing"). However the method can be readily extended to continuous output spaces. As in CTC, we assume that the location of the null symbols determines an alignment between the input and output sequences, and we refer to the sequences containing null symbols as "alignments". Given X, the RNN transducer defines a conditional distribution over all possible alighments. This distribution is then collapsed onto the distribution over output tokens by removing null tokens.
+	- The prediction network G (sec. 2.1) is a RNN that accepts and returns one-hot vectors from the extended alphabet with null symbol (the latter is represented as zero vector on input space, and as an additional element in output space, so the input vectors have length K, and the output vectors have length K+1). The prediction RNN can be either a one-layer RNN (eq. 2-3) or LSTM (eq. 4-8). The prediction network attempts to model each element of Y given the previous ones; it is therefore similar to a standard next-step-prediction RNN, only with the added option of making null predictions.
+	- The transcription network F (sec. 2.2) is a bidirectional RNN. Bidirectionality is preferred because each output vector depends on the whole input sequence; however we have not tested to what extent this impacts performance. For a task with K output labels, the output layer of the transcription network is size K + 1, just like the prediction network. So, the transcription network is similar to a CTC RNN.
+	- Let the transcription network outputs T vectors (sec 2.3). Let us consider any single vector from these vectors. Also, consider any single vector from the transcription network outputs. We can add them element-wise and them perform softmax (eq. 12, 13) to yield the output distribution over output alphabet and the null token. The probability of the null token can be interpreted as the need to shift T by 1.
+	- In fig. 1, the set of possible paths from the bottom left to the terminal node in the top right corresponds to the complete set of alignments between x and y. Therefore all possible input-output alignments are assigned a probability, the sum of which is the total probability P(y|x) of the output sequence given the input sequence. A similar lattice could be drawn for any finite y. So, we have defined a distribution over all possible output sequences, given a single input sequence. A naive calculation of P(y|x) from the lattice would be intractable. However an efficient forward-backward algorithm is described in sec. 2.4.
+	- At test time, we employ a fixed-width beam search through the tree of output sequences.
+	- The improved version of RNN Transducer that includes the "output network", is described in "Speech Recognition with Deep Recurrent Neural Networks". An excerpt from this paper is below: CTC defines a distribution over phoneme sequences that depends only on the acoustic input sequence x. It is therefore an acoustic-only model. A recent augmentation, known as an RNN transducer combines a CTC-like network with a separate RNN that predicts each phoneme given the previous ones, thereby yielding a jointly trained acoustic and language model (IMO the authors mean that CTC network does not model the language autoregressively, but i think it models the language in the same way as BERT does). Whereas CTC determines an output distribution at every input timestep, an RNN transducer determines a separate token distribution for every combination of input timestep t and output timestep u, that covers the K phonemes plus null token. Intuitively the network "decides" what to output depending both on where it is in the input sequence and the outputs it has already emitted. For a length U target sequence z, the complete set of TU decisions jointly determines a distribution over all possible alignments between x and z, which can then be integrated out with a forward-backward algorithm to determine log P(z|x).
 
 Hinton, G., Deng, L., Yu, D., Dahl, G. E., Mohamed, A.-r., Jaitly, N., ...Kingsbury, B. (2012). Deep Neural Networks for Acoustic Modeling in Speech Recognition: The Shared Views of Four Research Groups. IEEE Signal Process. Mag., 29(6), 82–97. doi: 10.1109/MSP.2012.2205597
 
 Veselý, K., Karafiát, M., Grézl, F., Janda, M., & Egorova, E. . The language-independent bottleneck features. 2012 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2012.6424246
 
 Yao, K., Yu, D., Seide, F., Su, H., Deng, L., & Gong, Y. . Adaptation of context-dependent deep neural networks for automatic speech recognition. 2012 IEEE Spoken Language Technology Workshop (SLT). IEEE. doi: 10.1109/SLT.2012.6424251
+
+Graves, A., Mohamed, A.-r., & Hinton, G. (2013). Speech Recognition with Deep Recurrent Neural Networks. arXiv, 1303.5778. Retrieved from https://arxiv.org/abs/1303.5778v1
+
+    - We inversigate deep LSTMs for ASR. We also present an enhancement to a recently introduced RNN transducer: an additional "output network".
+	- In the original formulation P(token|audio, prev_tokens) was defined by taking an "acoustic" distribution P(token|audio) from the CTC network, a "linguistic" distribution P(token|prev_tokens) from the prediction network, then multiplying the two together and renormalising.
+	- We propose to instead feed the hidden activations of both networks into a separate feedforward output network, whose outputs are then normalised with a softmax function to yield P(token|audio, prev_tokens). This allows a richer set of possibilities for combining linguistic and acoustic information and appears to lead to better generalisation: the number of deletion errors encountered during decoding is reduced.
+	- RNN transducers appear to work better when initialised with the weights of a pretrained CTC network and a pretrained next-step prediction network.
+	- In this work we pretrain the prediction network on the phonetic transcriptions of the audio training data; however for large-scale applications it would make more sense to pretrain on a separate text corpus.
+	- At test time, we exploit the same beam search as the transducer, with the modification that the output label probabilities P(token|audio, prev_tokens) do not depend on the prev_tokens.
+	- Two regularisers were used in this paper: early stopping and weight noise (the addition of Gaussian noise to the network weights during training).
 
 Heigold, G., Vanhoucke, V., Senior, A., Nguyen, P., Ranzato, M., Devin, M., & Dean, J. . Multilingual acoustic models using distributed deep neural networks. 2013 IEEE International Conference on Acoustics, Speech and Signal Processing. IEEE. doi: 10.1109/ICASSP.2013.6639348
 
@@ -5829,6 +5842,25 @@ Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain
 	- We propose shuffled style assembly network (SSAN) for FAS (fig. 2). The feature generator is a shallow embedding network that captures multi-scale low-level information. We adopt adversarial learning to make generated content features indistinguishable for different domains.
 	- IMO: very complex architecture, not fully understood, requires detailed reading
 	
+**Extractive summarization and input sequence coverage**
+
+Vinyals, O., Fortunato, M., & Jaitly, N. (2015). Pointer Networks. Advances in Neural Information Processing Systems, 28. Retrieved from https://proceedings.neurips.cc/paper_files/paper/2015/hash/29921001f2f04bd3baee84a12e98098f-Abstract.html
+
+    - Seq2seq RNNs still require the size of the output dictionary to be fixed a priori. Because of this constraint we cannot directly apply this framework to combinatorial problems where the size of the output dictionary depends on the length of the input sequence. (IMO not clear what does this mean)
+	- We propose Pointer Networks. We repurpose the attention mechanism to create pointers to input elements (fig. 1b).
+	- We apply the Pointer Net model to three distinct non-trivial algorithmic problems involving geometry.
+
+Tu, Z., Lu, Z., Liu, Y., Liu, X., & Li, H. (2016). Modeling Coverage for Neural Machine Translation. arXiv, 1601.04811. Retrieved from https://arxiv.org/abs/1601.04811v6
+
+    - NMT has a serious problem, namely lack of coverage. Some words are unnecessarily translated for multiple times, and some words are mistakenly untranslated. This happen because of ignoring the "coverage" of source words.
+	- We propose NMT-coverage: we append a coverage vector to the intermediate representations of an NMT model, which are sequentially updated after each decoding step to keep track of the attention history (fig. 2). It significantly improves the overall alignment between the source and target sentences .
+
+See, A., Liu, P. J., & Manning, C. D. (2017). Get To The Point: Summarization with Pointer-Generator Networks. arXiv, 1704.04368. Retrieved from https://arxiv.org/abs/1704.04368v2
+
+    - We propose an architecture for summarization task that augments the standard seq2seq attentional model in two orthogonal ways.
+	- 1) We use a hybrid pointer-generator network that can copy words from the source text via pointing (see "Pointer networks"), which aids accurate reproduction of information, while retaining the ability to produce novel words (fig. 3). For each decoder timestep a generation probability p_gen ∈ [0, 1] is calculated, which weights the probability of generating words from the vocabulary, versus copying words from the source text. This can be viewed as a balance between extractive and abstractive summarization approaches.
+	- 2) We propose a novel variant of the coverage vector from NMT (see "Modeling coverage for neural machine translation"), which we use to track and control coverage of the source document for eliminating repetition.
+	
 **Phonetic level in TTS and ASR**
 
 Bengio, Y., De Mori, R., Flammia, G., & Kompe, R. (1992). Global optimization of a neural network-hidden Markov model hybrid. IEEE Trans. Neural Networks, 3(2), 252–259. doi: 10.1109/72.125866
@@ -5927,7 +5959,9 @@ Sainath, T. N., Prabhavalkar, R., Kumar, S., Lee, S., Kannan, A., Rybach, D., ..
 	- Traditional automatic speech recognition (ASR) systems are comprised of an acoustic model (AM), a language model (LM) and a pronunciation model (PM), all of which are independently trained on different datasets. AMs take acoustic features and predict a set of sub-word units, typically context-dependent or context-independent phonemes. Next, a hand-designed lexicon (i.e., PM) maps a sequence of phonemes produced by the acoustic model to words. Finally, the LM assigns probabilities to word sequences.
 	- How do end-to-end models perform if we incorporate a separate PM and LM into the system? This question can be answered by training an end-to-end model to predict phonemes instead of graphemes. The output of the end-to-end model must then be combined with a separate PM and LM to decode the best hypotheses from the model.
 	- The present work is the first to explore end-to-end systems trained with phonemes for a large vocabulary continuous speech recognition (LVCSR) task, where models are directly decoded in the first-pass.
-	- Our experiments show that the performance of grapheme systems is slightly better than phoneme systems. On a multi-dialect English task we once again confirm the superiority of graphemes.
+	- When predicting phonemes, we train our model to predict a set of 44 CI phonemes, as well as an extra <eow> token, specifying the end of a word, analogous to the <space> token in graphemes. Because it is hard to predict <eow>, we found it is better to make it optional.
+	- Because of the homophone issue with phonemes (e.g., phoneme ey can map to the words ‘I’ or ‘eye’), using a language model, G, is critically important. There are two ways we can incorporate it during decoding. We can either process final phoneme sequences, ir incorporate LM ducing each step of the beam search (eq. 3) with additional "coverage" term to promote longer transcripts. As noted in "Towards better decoding and language model integration in sequence to sequence models", the latter way can become quite challenging if the ASR model becomes over-confident, in which case, the weight from the LM component will be ignored. In experiments we found that the first way (processing final phoneme sequences with LM) is slighly better.
+	- Our experiments show that the performance of grapheme systems is slightly better than phoneme systems. On a multi-dialect English task we once again confirm the superiority of graphemes (see examples in tables 3, 4, 5).
 	
 Mortensen, D. R., Dalmia, S., & Littell, P. (2018). Epitran: Precision G2P for Many Languages. ACL Anthology. Retrieved from https://aclanthology.org/L18-1429
 
@@ -5984,7 +6018,7 @@ Zhu, J., Zhang, C., & Jurgens, D. (2022). ByT5 model for massively multilingual 
 
 Chiu, C.-C., Sainath, T. N., Wu, Y., Prabhavalkar, R., Nguyen, P., Chen, Z., ...Bacchiani, M. (2017). State-of-the-art Speech Recognition With Sequence-to-Sequence Models. arXiv, 1712.01769. Retrieved from https://arxiv.org/abs/1712.01769v6
 
-    - To date, however, none of end-toe-end ASR models (LAS, RNN-T, Neural Transducer, Monotonic Alignments, RNA) has been able to outperform a SOTA conventional systems on a large vocabulary continuous ASR.
+    - To date, however, none of end-to-end ASR models (LAS, RNN-T, Neural Transducer, Monotonic Alignments, RNA) has been able to outperform a SOTA conventional systems on a large vocabulary continuous ASR.
 	- We explore a variety of improvements to the LAS model, since previous work showed that LAS offered improvements over other seq2seq models.
 	- Word piece models can be used instead of graphemes, giving a modest improvement.
 	- Multi-head attention architecture, which allows the model to learn to attend to multiple locations of the encoded features, offers improvements over the single-head attention.
@@ -5998,8 +6032,12 @@ Chiu, C.-C., Sainath, T. N., Wu, Y., Prabhavalkar, R., Nguyen, P., Chen, Z., ...
 	
 Bengio, S., Vinyals, O., Jaitly, N., & Shazeer, N. (2015). Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks. arXiv, 1506.03099. Retrieved from https://arxiv.org/abs/1506.03099v3
 
-    - In seq2seq models, during inference, true previous target tokens are unavailable, and are thus replaced by tokens generated by the model itself, yielding a discrepancy between how the model is used at training and inference. So, mistakes made early in the sequence generation process are fed as input to the model and can be quickly amplified because the model might be in a part of the state space it has never seen at training time.
-	- We propose a curriculum learning approach to gently bridge the gap between training and inference for sequence prediction tasks using RNN. We gradually force the model to deal with its own mistakes.
+    - In seq2seq models, during inference, true previous target tokens are unavailable, and are thus replaced by tokens generated by the model itself, yielding a discrepancy between how the model is used at training and inference. If a wrong decision is taken at time t−1, the model can be in a part of the state space that is very different from those visited from the training distribution and for which it doesn’t know what to do. Worse, it can easily lead to cumulative bad decisions - a classic problem in sequential Gibbs sampling type approaches to sampling, where future samples can have no influence on the past.
+	- So, mistakes made early in the sequence generation process are fed as input to the model and can be quickly amplified.
+	- We propose to flip a coin and use the true previous token with probability E, or an estimate coming from the model itself with probability (1-E). The estimate of the model can be obtained by sampling or argmax.
+	- Intuitively, at the beginning of training, sampling from the model would yield a random token since the model is not well trained, which could lead to very slow convergence.
+	- We propose Scheduled Sampling: a curriculum learning approach to gradually force the model to deal with its own mistakes. We thus propose to use a schedule to decrease E during training.
+	- Future work includes back-propagating the errors through the sampling decisions, as well as exploring better sampling strategies including conditioning on some confidence measure from the model itself.
 	
 Jaitly, N., Le, Q. V., Vinyals, O., Sutskever, I., Sussillo, D., & Bengio, S. (2016). An Online Sequence-to-Sequence Model Using Partial Conditioning. Advances in Neural Information Processing Systems, 29. Retrieved from https://papers.nips.cc/paper_files/paper/2016/hash/312351bff07989769097660a56395065-Abstract.html
 
@@ -6015,8 +6053,11 @@ Raffel, C., Luong, M.-T., Liu, P. J., Weiss, R. J., & Eck, D. (2017). Online and
 
 	- Seq2seq RNN requires the model to effectively compress all important information about the input sequence into a single vector. In practice, this often results in the model having difficulty generalizing to longer sequences than those seen during training. An effective solution to these shortcomings are attention mechanisms. Similar mechanisms have been used as soft addressing schemes in memory-augmented NN architectures. A common criticism of soft attention is that the model must perform a pass over the entire input sequence when producing each element of the output sequence. This gives quadratic time complexity, and also soft attention cannot be used in online prediction, when the input is only partially observed.
     - In seq2seq tasks, the alignment between input and output sequence elements is roughly monotonic in many problems of interest (sentence summarization, NMT, ASR). Also, in neural networks, in many cases the attention is assigned mostly to a single entry.
-	- We develop an interpretation of soft attention as optimizing a stochastic process in expectation and formulate a corresponding stochastic process which allows for online and linear-time decoding by relying on hard monotonic alignments.
-	- We propose an alternative attention mechanism which has linear-time complexity and can be used in online settings.
+	- In standard attention, eqs. (2) and (3) are computing the expected output of a simple stochastic process, when a memory index is sampled from a categorical distribution.
+	- We then formulate a stochastic process which explicitly processes the memory in a left-to-right manner. Our novel process can be computed in an online manner; i.e. we do not need to wait to observe the entire input sequence before we start producing the output sequence. (IMO this means that the encoder should be autoregressive?)
+	- We then propose training with respect to the expected value of the described online sampling process. Out training algorithm still has a quadratic complexity, but it allows linear-time attention process at test time.
+	- We need our mechanism to encouraging discreteness to exhibit similar behavior when training in expectation and when using the hard monotonic attention process at test time. A straightforward way to encourage this behavior is to add noise before the sigmoid. This approach is similar to the recently proposed Gumbel-Softmax trick, except we did not find it necessary to anneal the temperature.
+	- IMO, at test time the information flow is bottlenecked since the decoder can only attend to one encoder state (fig. 3).
 	
 Sak, H., Shannon, M., Rao, K., & Beaufays, F. (2017). Recurrent Neural Aligner: An Encoder-Decoder Neural Network Model for Sequence to Sequence Mapping. doi: 10.21437/Interspeech.2017-1705
 
@@ -6050,9 +6091,10 @@ Wiseman, S., & Rush, A. M. (2016). Sequence-to-Sequence Learning as Beam-Search 
     - There are major, previously known issues with seq2seq models:
 	- 1) Exposure Bias: the model is never exposed to its own errors during training (this was also addressed in "Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks").
 	- 2) Loss-Evaluation Mismatch: training uses a word-level loss, while at test-time we target improving sequence-level evaluation metrics, such as BLEU.
-	- 3) Label bias: word probabilities at each time-step are locally normalized, guaranteeing that successors of incorrect histories receive the same mass as do the successors of the true history (IMO, not clear what this means).
-	- We develop a non-probabilistic variant of the seq2seq model that can assign a score to any possible target sequence. We propose a training procedure, inspired by the learning as search optimization (LaSO) framework, that defines a loss function in terms of errors made during beam search. Furthermore, we provide an efficient algorithm to backpropagate through the beam-search procedure during seq2seq training.
-	- We run experiments on three very different problems: word ordering, syntactic parsing,  and machine translation. The version with beam search optimization shows significant improvements on all three tasks, compared to a highly tuned seq2seq system with attention.
+	- 3) Label bias: word probabilities at each time-step are locally normalized, guaranteeing that successors of incorrect histories receive the same mass as do the successors of the true history (see "Globally Normalized Transition-Based Neural Networks").
+	- We define a loss function in terms of errors made during beam search. We provide an efficient algorithm to backpropagate through the beam-search procedure during seq2seq training.
+	- We learn to produce (non-probabilistic) scores for ranking sequences. We do not use softmax, thereby allowing the model to avoid issues associated with the label bias problem. Ideally we would train by comparing the gold sequence to the highest-scoring complete sequence. However, finding the argmax sequence according to this model is intractable. We propose to adopt a LaSO-like scheme to train, which we will refer to as beam search optimization. We define a loss that penalizes the gold sequence falling off the beam during training (fig. 1).
+	- We run experiments on three very different problems: word ordering, syntactic parsing, and machine translation. The version with beam search optimization shows significant improvements on all three tasks, compared to a highly tuned seq2seq system with attention.
 	
 Ravanelli, M., Parcollet, T., & Bengio, Y. (2018). The PyTorch-Kaldi Speech Recognition Toolkit. arXiv, 1811.07453. Retrieved from https://arxiv.org/abs/1811.07453v2
 
@@ -6118,3 +6160,61 @@ Nguyen, L. T., Pham, T., & Nguyen, D. Q. (2023). XPhoneBERT: A Pre-trained Multi
 	- It is worth exploring pre-trained models for phoneme representations in languages other than English.
     - We present and publicly release XPhoneBERT trained using the RoBERTa pre-training approach on 330M phoneme-level sentences from nearly 100 languages and locales. To convert texts into phonemes, we employ the CharsiuG2P toolkit that supports 90+ languages and locales.
 	- Employing XPhoneBERT as an input phoneme encoder significantly boosts the performance of a strong TTS model in terms of naturalness and prosody.
+	
+Ploujnikov, A., & Ravanelli, M. (2022). SoundChoice: Grapheme-to-Phoneme Models with Semantic Disambiguation. arXiv, 2207.13703. Retrieved from https://arxiv.org/abs/2207.13703v1
+
+    - Popular end-to-end speech synthesis models often fail to perform disambiguation of the homographs - a sequence of graphemes that can yield different pronunciations depending on the context (e.g. "read" - past vs present).
+	- Grapheme-to-Phoneme (G2P) models can improve the system’s performance in these cases. However, these models are typically trained and evaluated on word-level lexicons (e.g., CMUDict), making it impossible to resolve homograph disambiguation.
+	- We propose SoundChoice, a novel G2P model that operates at the sentence level. It enables the model to exploit the context and better resolve homograph disambiguation. SoundChoice models the sentence context using mixed representation composed of characters and BERT word embeddings (fig. 1).
+	- SoundChoice uses CTC loss on top of the encoder and the standard sequence-to-sequence loss computed after the decoder. To further improve disambiguation, we propose a homograph loss that penalizes errors made on homograph words.
+	- SoundChoice gradually switches from word- to sentence-level G2P using a curriculum learning strategy.
+	- We also release the new LibriG2P dataset that combines data from LibriSpeech Alignments and the Wikipedia Homograph.
+	
+Gale, R. C., Salem, A. C., Fergadiotis, G., & Bedrick, S. (2023). Mixed Orthographic/Phonemic Language Modeling: Beyond Orthographically Restricted Transformers (BORT). ACL Anthology, 212–225. doi: 10.18653/v1/2023.repl4nlp-1.18
+
+    - Explicit representation of phonology (such as processing ambiguous and noisy output from ASR systems, or handling of names and neologisms) are under-served by the current pre-training paradigm. LLM support for the international phonetic alphabet (IPA) ranges from poor to absent. The data used to pre-train an LLM incidentally contains little IPA content if any at all. Also, a task like MLM has little to gain from learning the sound relationships between words, so we have no reason to expect these models to adapt to phonetic tasks as well as they do semantic ones.
+	- We propose BORT (Beyond Orthographically Restricted Transformers) by extending the pre-training of an existing LLM, BART. Given a document, we transform some words into IPA, then train the model to restore the orthography.
+	- We evaluate the utility of BORT by fine-tuning to two clinically-motivated tasks. The model learned the task that the human annotators performed in AphasiaBank. In "hard" variant, we train the model to fill in paraphasias (i.e., incorrect pronunciations) with the intended orthographic word (given the surrounding context).
+	
+Vallés-Pérez, I., Beringer, G., Bilinski, P., Cook, G., & Barra-Chicote, R. (2023). SCRAPS: Speech Contrastive Representations of Acoustic and Phonetic Spaces. arXiv, 2307.12445. Retrieved from https://arxiv.org/abs/2307.12445v2
+
+    - On the speech generation side, one of the main difficulties is to build a model that correctly aligns the phonetic and acoustic sequences, leading to a natural prosody with fluent speech and high intelligibility. On the opposite side, ASR systems struggle with long-tail words recognition, and speech vs background disentanglement.
+	- We propose SCRAPS (Speech Contrastive Representation of Acoustic and Phonetic Spaces) (fig. 1).
+	
+Kinoshita, K., Ochiai, T., Delcroix, M., & Nakatani, T. (2020). Improving noise robust automatic speech recognition with single-channel time-domain enhancement network. arXiv, 2003.03998. Retrieved from https://arxiv.org/abs/2003.03998v1
+
+    - There is a need for more research on effective single-channel speech enhancement (SE) front-ends for ASR. Although frequency masking approaches have successfully improved SE evaluation metrics, e.g., signal-todistortion ratio (SDR), this improvement did not lead to better ASR performance. This suggests that most single-channel SE approaches tend to introduce distortions that create a mismatch with the ASR back-end, therefore limiting their effect on ASR. Time-domain approaches have not been sufficiently investigated in the context of noise-robust ASR.
+	- We adapt Conv-TasNet for the noise reduction task and call it Denoising-TasNet. We investigate two variants of Denoising-TasNet, one predicting only the enhanced speech and one with two outputs predicting speech and noise. The latter enables defining a multi-task loss, which can regularize the network training and is shown to achieve better ASR performance.
+	- We perform experiments on CHiME-4 data. Denoising-TasNet significantly reduces WER on real recordings. It can improve ASR performance even without retraining the ASR back-end.
+	- These demonstrates that single-channel noise reduction can still improve ASR performance.
+	
+Lee, W., Lee, G. G., & Kim, Y. (2023). Optimizing Two-Pass Cross-Lingual Transfer Learning: Phoneme Recognition and Phoneme to Grapheme Translation. arXiv, 2312.03312. Retrieved from https://arxiv.org/abs/2312.03312v1
+
+    - We propose two-pass ASR system that first performs phoneme recognition and then translates the recognized phonemes into graphemes. Our methodology aims to advance ASR systems’ effectiveness in low-resource languages.
+	- Rather than relying on grapheme units, which may not leverage the advantages of cross-lingual transfer learning, we choose to utilize phoneme units as the final output of our ASR system. We incorporate a dedicated translation model that converts phoneme outputs into grapheme units.
+	- The IPA phoneme representation may not efficiently capture the shared phonetic characteristics across languages. Moreover, phoneme recognition results can be inaccurate, leading to error propagation during the phoneme-to-grapheme translation step.
+	- We propose a novel approach called Pivot Phoneme Merging (PPM) to address these challenges. It groups phonemes based on shared articulatory features, facilitating improved vocabulary sharing across languages.
+	- We also present a Global Phoneme Noise (GPN) generator that enables the pseudo-labeling of external text corpora, incorporating realistic ASR noise into the training process for P2G translation.
+	
+Futami, H., Tsunoo, E., Kashiwagi, Y., Ogawa, H., Arora, S., & Watanabe, S. (2023). Phoneme-aware Encoding for Prefix-tree-based Contextual ASR. arXiv, 2312.09582. Retrieved from https://arxiv.org/abs/2312.09582v1
+
+    - End-to-end ASR systems have difficulties in recognizing uncommon words. Contextual biasing is a method to incorporate a contextual knowledge. We pass the model a list of words that are likely to appear in the context.
+	- 1) One approach is shallow fusion with a contextual LM, where biasing words are compiled into Weight Finite State Transducer. However, they require some heuristics and careful tuning of an LM weight to avoid under- or over-biasing.
+	- 2) In attention-based deep context approaches, each biasing word is converted into an encoding vector, and an ASR decoder attends to the encodings (word-level biasing). However, they have an issue handling a large number of biasing words.
+	- 3) To efficiently handle them, a prefix tree, or a trie, -based deep biasing methods have been considered (subword-level biasing). 
+	- 4) TCPGen further extends prefix-tree-based biasing. It works with a pre-trained ASR model such as Whisper without modifying their architecture.
+	- Existing prefix-tree-based biasing methods rely solely on their textual representations. As rare biasing words sometimes have pronunciations that are difficult to estimate from text, it is important to provide their pronunciation information as a clue to recognize such words. This is especially common for ideographic characters such as Japanese kanji. For subword-level biasing, phonemes aligned to each subword are required. This is not trivial because pronunciation is typically defined for the entire word.
+	- We propose subword-level phoneme-aware encodings for TCPGen. To obtain alignment from a subword to phonemes, we consider using the attention weights of seq2seq G2P model or EM algorithm-based alignment. It would be preferable for queries to be also explicitly aware of phonemes. To this end, we train the end-to-end ASR model with auxiliary CTC loss whose target is a phoneme sequence, and the CTC predictions are incorporated into the formulation of query in TCPGen.
+
+Yusuyin, S., Ma, T., Huang, H., Zhao, W., & Ou, Z. (2024). Whistle: Data-Efficient Multilingual and Crosslingual Speech Recognition via Weakly Phonetic Supervision. arXiv, 2406.02166. Retrieved from https://arxiv.org/abs/2406.02166v1
+
+    - In multilingual and crosslingual ASR (MCL-ASR), while requiring pronunciation lexicons, pre-training with phonetic supervision is more advantageous for information sharing between different languages. There have been no solid experiments to study which approach is better or if they yields similar results.
+	- Phoneme-based models naturally overcome language imbalance and can be efficiently trained on natural data mixing, while subword-based models need careful tokenization and data mixing in training.
+	- We propose Whistle (Weakly phonetic supervision strategy for multilingual and crosslingual speech recognition) to explore supervised pre-training with weakly phonetic supervision, towards data-efficient MCL-ASR (this is in spirit similar to weakly graphemic supervision in Whisper). We obtain the IPA phonetic transcripts by leveraging the LanguageNet G2P models available for 142 languages with the phoneme error rates (PERs) ranging from 7% to 45%.
+	- Besides the performance advantage of phoneme-based supervision over subword-based supervision, we find that phoneme-based models tend to be more training efficient, i.e., they can converge with fewer optimzation steps, with 24% reduction.
+	
+He, Y., Prabhavalkar, R., Rao, K., Li, W., Bakhtin, A., & McGraw, I. (2017). Streaming Small-Footprint Keyword Spotting using Sequence-to-Sequence Models. arXiv, 1710.09617. Retrieved from https://arxiv.org/abs/1710.09617v1
+
+    - Keyword spotting is the task of detecting specific words or phrases in speech utterances. An example of such technology is speech-enabled assistant “Okay/Hey Google” on Google Home.
+	- We explore RNN-T, to build a streaming keyword spotting system which can be used to detect arbitrary keywords.
+	- We find that RNN-T system trained to predict phonemes, when augmented with an additional "end-of-word" symbol strongly outperforms a strong keyword-filler baseline (fig. 4). The <eow> token is useful, for example, to prevent detection of the keyword "Erica (E r\ @ k @)" inside the word "America (@ m E r\ @ k @)" Additionally, we propose a novel technique to bias the search towards a specific keyword of interest using an attention mechanism (fig. 1c).
