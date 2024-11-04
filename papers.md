@@ -6326,6 +6326,99 @@ Gong, Y., Khurana, S., Karlinsky, L., & Glass, J. (2023). Whisper-AT: Noise-Robu
 McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automatic Speech Recognition. Retrieved from https://www.semanticscholar.org/paper/A-Deep-Generative-Acoustic-Model-for-Compositional-McDermott/0233d263c7798d550249d94f1a3f434864baa44b
 
     - Section 1.1 describes the classical compositional ASR approach, when we model p(audio|text), and then we can combine it with p(text) from LM, using Bayes rule. Gaussian Mixture Models (GMMs) used jointly with 1st-order Hidden Markov Models (HMMs) were well-suited to this modular approach, as they directly provide p(audio|text), see eq. 2-4 (W is text, X is audio, S_w is an alighment of text to audio; IMO the formula 2 is strange because of frame independence assumption). Other probabilistic modules such as a pronunciation dictionary can be introduced into the overall chain, again combining with the other components according to Bayes’ rule.
-	- Section 1.2 describes the adaptation of discriminative DNNs into the above scheme. The popular "hybrid" approach converts p(text|audio) to a scaled p(audio|text) using eq. 5-6 (see "Connectionist speech recognition: a hybrid approach"). The overall construction of a sequence-level training objective, converting local frame-level scores from a discriminative model into "generative" scaled likelihoods, only to then plug those into a discriminative sequence training criterion, may seem like a strange hybrid indeed. Nonetheless, this has been a remarkably effective approach, that still constitutes the SOTA (2018).
-	- Section 1.3 describes end-to-end discriminative sequence-level models, such as LAS. However, combination with LMs is not theoretically justified (sec. 1.4).
-	- ... TODO
+	  - Section 1.2 describes the adaptation of discriminative DNNs into the above scheme. The popular "hybrid" approach converts p(text|audio) to a scaled p(audio|text) using eq. 5-6 (see "Connectionist speech recognition: a hybrid approach"). The overall construction of a sequence-level training objective, converting local frame-level scores from a discriminative model into "generative" scaled likelihoods, only to then plug those into a discriminative sequence training criterion, may seem like a strange hybrid indeed. Nonetheless, this has been a remarkably effective approach, that still constitutes the SOTA (2018).
+	  - Section 1.3 describes end-to-end discriminative sequence-level models, such as LAS. However, combination with LMs is not theoretically justified (sec. 1.4).
+	  - ... TODO
+  
+## Fundametals (various)
+
+@article{Dao2022May,
+	author = {Dao, Tri and Fu, Daniel Y. and Ermon, Stefano and Rudra, Atri and R{\ifmmode\acute{e}\else\'{e}\fi}, Christopher},
+	title = {{FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness}},
+	journal = {arXiv},
+	year = {2022},
+	month = may,
+	eprint = {2205.14135},
+	doi = {10.48550/arXiv.2205.14135}
+}
+  - Many approximate attention methods (sparse-approximation, low-rank approximation, their combinations) focus on FLOP reduction and tend to ignore overheads from memory access (IO).
+  - However, on modern GPUs, compute speed has out-paced memory speed, and most operations in Transformers are bottlenecked by memory accesses.
+  - We propose FlashAttention (see Algorithm 1), an exact attention implementation with far fewer memory accesses. Our main goal is to avoid reading and writing the attention matrix to and from HBM (relatively slow GPU high bandwidth memory, fig. 1, left). This requires:
+  - 1) Computing the softmax reduction without access to the whole input. We restructure the attention computation to split the input into blocks and make several passes over input blocks, thus incrementally performing the softmax reduction (also known as tiling).
+  - 2) Not storing the large intermediate attention matrix for the backward pass. We store the softmax normalization factor from the forward pass to quickly recompute attention on-chip in the backward pass.
+  - Even with the increased FLOPs due to recomputation, our algorithm both runs faster (up to 7.6x on GPT-2) and uses less memory — linear in sequence length — than standard attention, thanks to the massively reduced amount of HBM access.
+  
+@article{Dao2023Jul,
+	author = {Dao, Tri},
+	title = {{FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning}},
+	journal = {arXiv},
+	year = {2023},
+	month = jul,
+	eprint = {2307.08691},
+	doi = {10.48550/arXiv.2307.08691}
+}
+  - With FlashAttention, the forward pass only reaches 30-50% of the theoretical maximum FLOPs/s of the device, while the backward pass reaching only 25-35% of maximum throughput on A100 GPU. In contrast, optimized GEMM (matrix-multiply) can reach up to 80-90% of the theoretical maximum device throughput.
+  - While the non-matmul FLOPs only account for a small fraction of the total FLOPs (in FlashAttention), they take longer to perform.
+  - We propose FlashAttention-2, an exact attention implementation: 1) we reduce number of non-matmul FLOPs, 2) we parallelize both the forward pass and backward pass along the sequence length dimension, in addition to the batch and number of heads dimension, 3) further reduce communication and shared memory reads/writes.
+  - FlashAttention-2 achieves around 2x speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass (with or without causal mask, for different head dimensions).
+  
+@article{Shah2024Jul,
+	author = {Shah, Jay and Bikshandi, Ganesh and Zhang, Ying and Thakkar, Vijay and Ramani, Pradeep and Dao, Tri},
+	title = {{FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision}},
+	journal = {arXiv},
+	year = {2024},
+	month = jul,
+	eprint = {2407.08608},
+	doi = {10.48550/arXiv.2407.08608}
+}
+  - We observe that FlashAttention-2 nonetheless achieves poor utilization on newer GPUs relative to optimized matrix multiplication (GEMM) kernels, such as 35% vs. 80-90% on the Hopper H100 GPU. The technical challenge is to redesign FlashAttention-2 to make use of new hardware features.
+  - We propose FlashAttention-3, which synthesizes three new ideas:
+  - 1) Asynchronous execution of data movement by splitting producers and consumers of data into separate warps.
+  - 2) We rework the FlashAttention-2 algorithm to circumvent certain sequential dependencies between softmax and the GEMMs.
+  - 3) We make use of the FP8 Tensor Cores for GEMM. We use the techniques of block quantization and incoherent processing to mitigate the loss of accuracy that results from moving to FP8 precision. 
+
+@article{Gomez2017Jul,
+	author = {Gomez, Aidan N. and Ren, Mengye and Urtasun, Raquel and Grosse, Roger B.},
+	title = {{The Reversible Residual Network: Backpropagation Without Storing Activations}},
+	journal = {arXiv},
+	year = {2017},
+	month = jul,
+	eprint = {1707.04585},
+	doi = {10.48550/arXiv.1707.04585}
+}
+  - As networks grow wider and deeper, storing the activations imposes an increasing memory burden.
+  - We present Reversible Residual Networks (RevNets), a variant of ResNets where each layer’s activations can be computed from the next layer’s activations. This enables us to perform backpropagation without storing the activations in memory. One can perform backprop on a sequence of reversible blocks if one is given simply the activations and their derivatives for the top layer in the sequence. In general, a practical architecture would likely also include non-reversible layers, such as subsampling layers.
+  - Our proposed method is inspired by nonlinear independent components estimation (NICE) based on learning a non-linear bijective transformation between the data space and a latent space.
+  - We must partition the units in each layer into two groups, denoted x1 and x2; we assume this is done by partitioning the channels, since we found this to work the best in our experiments. Each reversible block takes inputs (x1, x2) and produces outputs (y1, y2) as shown in fig. 2a. Each layer’s activations can be reconstructed from the next layer’s activations (fig. 2b).
+  - Note that unlike residual blocks, reversible blocks must have a stride of 1 because otherwise the layer discards information, and therefore cannot be reversible.
+  - Surprisingly, constraining the architecture to be reversible incurs no noticeable loss in performance (on CIFAR-10, CIFAR-100, and ImageNet) with only a modest increase in the training time.
+
+@article{Kitaev2020Jan,
+	author = {Kitaev, Nikita and Kaiser, {\L}ukasz and Levskaya, Anselm},
+	title = {{Reformer: The Efficient Transformer}},
+	journal = {arXiv},
+	year = {2020},
+	month = jan,
+	eprint = {2001.04451},
+	doi = {10.48550/arXiv.2001.04451}
+}
+  - We introduce the Reformer model, the Transformer modification. In Reformer, the memory we use for activations in the whole network is independent of the number of layers.
+  - 1) We apply the RevNet idea to the Transformer (eq. 9). Now each layer has two input vector sets (x1, x2) and two output vector sets (y1, y2), as done in RevNet. We don't need to store outputs from all layers for backprop, since we can recompute them top-down. We show that it performs the same as the normal Transformer when using the same number of parameters; we achieve this by having both x1 and x2 have size d_model.
+  - 2) In normal Transformer, during forward pass we calculate the whole intermediate FFN activations that occupy a lot of memory, since FFN hidden dimension is ofter high. To avoid this, we split the computation into chunks. For models with large vocabulary, we also chunk the log-probabilities at the output and calculate the loss for sections of the sequence at a time to save memory.
+  - 3) A lot of layers require a lot of parameters. We can swap them to and from CPU memory when this layer is not computing. In a standard Transformer this would be inefficient because memory transfer to CPU is slow. The batch size multiplied by length in Reformer is much larger though (since we use less memory for activations and so can allow for larger batch size) and therefore the amount of compute done with the parameters amortizes the cost of their transfer.
+  - 4) We propose to approximate attention computation based on locality-sensitive hashing (LSH). It replaces the O(L^2) factor in attention layers with O(L log L). We use the same Q and K matrices (shared-QK attention). LSH can quickly find approximate nearest neighbors in high-dimensional spaces. A hashing scheme that assigns each vector X to a hash h(X) is called locality-sensitive if nearby vectors get the same hash with high probability and distant ones do not. After doing LSH, we obtain several hash buckets, and we allow attention only within each hash bucket (fig. 2). With hashing, there is always a small probability that similar items nevertheless fall in different buckets. This probability can be reduced by doing multiple rounds of hashing with distinct hash functions. 
+  - We also describe how to implement masking in LSH attention. Usually causal mask do allow a position to attend to itself. Such behavior is undesirable in a shared-QK formulation because the dot-product of a query vector with itself will almost always be greater than the dot product of a query vector with a vector at another position. We therefore modify the masking to forbid a token from attending to itself, except the first token in a sequence.
+  
+@article{Roy2020Mar,
+	author = {Roy, Aurko and Saffar, Mohammad and Vaswani, Ashish and Grangier, David},
+	title = {{Efficient Content-Based Sparse Attention with Routing Transformers}},
+	journal = {arXiv},
+	year = {2020},
+	month = mar,
+	eprint = {2003.05997},
+	doi = {10.48550/arXiv.2003.05997}
+}
+  - Fixing the sparsity pattern of self-attention (such as local or strided attention) can limit its ability to pool in information from large contexts. "Adaptively sparse transformers", on the other side, does require instantiating a full dense attention matrix prior to sparsification. How to combine both approaches?
+  - We propose Routing Transformer which clusters both keys K and queries Q (both normalized by Layer Normalization with the scale and bias terms disabled) using k-means clustering. Then only queries and keys from the same cluster are considered for attention.
+  - We apply mini-batch k-means to train the cluster centroids. During training, we update each cluster centroid by an EMA of all the keys and queries assigned to it. We also exclude padding tokens from affecting the centroids.
+  - In order to infer balanced routing patterns, for every centroid we sort tokens by distance and cluster membership is determined by top-k. It guarantees that all clusters have the same size, which is extremely important in terms of computational efficiency.
