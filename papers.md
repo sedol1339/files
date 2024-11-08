@@ -6422,3 +6422,31 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - We propose Routing Transformer which clusters both keys K and queries Q (both normalized by Layer Normalization with the scale and bias terms disabled) using k-means clustering. Then only queries and keys from the same cluster are considered for attention.
   - We apply mini-batch k-means to train the cluster centroids. During training, we update each cluster centroid by an EMA of all the keys and queries assigned to it. We also exclude padding tokens from affecting the centroids.
   - In order to infer balanced routing patterns, for every centroid we sort tokens by distance and cluster membership is determined by top-k. It guarantees that all clusters have the same size, which is extremely important in terms of computational efficiency.
+  
+@article{Bukharin2023Nov,
+	author = {Bukharin, Alexander and Zhao, Tuo},
+	title = {{Data Diversity Matters for Robust Instruction Tuning}},
+	journal = {arXiv},
+	year = {2023},
+	month = nov,
+	eprint = {2311.14736},
+	doi = {10.48550/arXiv.2311.14736}
+}
+  - For LM instruction tuning, recent work have identified that the instruction responses should be high quality and the instructions should cover a wide range of tasks (i.e. be diverse). How we can select high quality and diverse dataset without manual curation from human experts?
+  - We propose a new algorithm, QDIT, to measure and optimize the diversity and quality of instruction tuning datasets.
+  - The facility location function measures how well represented each data point in the full dataset is by the data points in the selected subset. With this diversity function and quality functions from prior works, we then define a dataset’s quality-diversity score as a simple linear combination of dataset quality and diversity.
+  - QDIT mploys a greedy strategy, where the data point that will improve the joint quality-diversity score the most is selected at each time step. This easily scales to datasets with millions of instruction.
+  - To demonstrate the connection between facility location function and ataset diversity, we extract the root verb and first direct noun from each instruction in the Alpaca dataset. We then plot the distribution of verb-noun pairs in Figure 1 for random, quality driven, and QDIT data selection. QDIT is able to improve diversity without significantly decreasing data quality.
+  - For training, we use a combined dataset of Alpaca 52K, Dolly 15K , and the OIG-small-chip2 dataset (210K). To measure instruction-response quality, we use the provided ChatGPT quality scores for Alpaca and for all other datasets we use the reward model from Raft which is trained on the Anthropic Helpful Harmless dataset.
+  - With QDIT, we improve worst case performance while maintaining or improving best case and average performance for robust instruction following.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
