@@ -6440,13 +6440,73 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - For training, we use a combined dataset of Alpaca 52K, Dolly 15K , and the OIG-small-chip2 dataset (210K). To measure instruction-response quality, we use the provided ChatGPT quality scores for Alpaca and for all other datasets we use the reward model from Raft which is trained on the Anthropic Helpful Harmless dataset.
   - With QDIT, we improve worst case performance while maintaining or improving best case and average performance for robust instruction following.
   
+@article{Peters2019May,
+	author = {Peters, Ben and Niculae, Vlad and Martins, Andr{\ifmmode\acute{e}\else\'{e}\fi} F. T.},
+	title = {{Sparse Sequence-to-Sequence Models}},
+	journal = {arXiv},
+	year = {2019},
+	month = may,
+	eprint = {1905.05702},
+	doi = {10.48550/arXiv.1905.05702}
+}
+  - We propose neural sparse seq2seq models that replace the softmax (both in the attention and output) by α-entmax.
+  - The recently-introduced α-entmax (see "Learning classifiers with fenchel-young losses: Generalized entropies, margins, and algorithms") is defined in eq. 10: given scores (kind of "logits") z, we need to find such probability vector that maximizes sum of the two terms: (i) dot product between p and z and (ii) the Tsallis entropy of p. This vector will be the output. For α = 1 it exactly recovers the softmax mapping. For α > 1 it permits sparse solutions, and for α = 2, it recovers the sparsemax mapping. To compute the value of α-entmax, one must find the threshold τ such that the r.h.s. in 13. 6 sums to one.
+  - In this work we show how to calculate the α-entmax Jacobian (and the Hessian), enabling to backprop through it.
+  - We derive a novel exact algorithm for the case of 1.5-entmax, achieving processing speed close to softmax on the GPU. For arbitrary α, we investigate a GPU-friendly approximate algorithm.
+  - Our sparse attention is a form of inductive bias that increases focus on relevant source words and makes alignments more interpretable.
+  - Our sparse output probabilities, together with auto-regressive models, can lead to probability distributions that are nonzero only for a finite subset of all possible strings. In certain cases, a short list of plausible outputs can be enumerated without ever exhausting the beam, rendering beam search exact.
   
+@article{Correia2019Aug,
+	author = {Correia, Gon{\ifmmode\mbox{\c{c}}\else\c{c}\fi}alo M. and Niculae, Vlad and Martins, Andr{\ifmmode\acute{e}\else\'{e}\fi} F. T.},
+	title = {{Adaptively Sparse Transformers}},
+	journal = {arXiv},
+	year = {2019},
+	month = aug,
+	eprint = {1909.00015},
+	doi = {10.48550/arXiv.1909.00015}
+}
+  - We propose Adaptively Sparse Transformers wherein we simply replace softmax with α-entmax in the attention heads (see "Sparse Sequence-to-Sequence Models").
+  - Comparing to "Sparse Sequence-to-Sequence Models", our novelty is that we also show how to calculate the derivative of α-entmax w.r.t. α, to make it learnable (the value α = 1.5 is a sensible starting point). This is motivated by the fact that different attention heads learn different sparsity behaviors.
+  - Sparse attention Transformers tend to have slightly higher BLEU in NMT tasks, but their sparsity leads to a better potential for analysis.
+  - The learning trajectories of α values as shown in fig. 2. These plots suggest that softmax-like behavior (α = 1) may be preferable while the model is still very uncertain. After around one thousand steps, some heads change direction and become sparser.
+  - While the encoder self-attention learn to be sparse (fig. 4), the other two modules exhibit more uniform α distributions. This suggests that perhaps entirely sparse Transformers are suboptimal.
+  - In the proposed adaptively sparse Transformer heads can learn to specialize more and with higher confidence (sec. 5.2). Some of the automatically-learned behaviors of our adaptively sparse Transformers – for instance, the near-deterministic positional heads or the subword joining head – may provide new ideas for designing static variations of the Transformer.
   
+@article{Sukhbaatar2019May,
+	author = {Sukhbaatar, Sainbayar and Grave, Edouard and Bojanowski, Piotr and Joulin, Armand},
+	title = {{Adaptive Attention Span in Transformers}},
+	journal = {arXiv},
+	year = {2019},
+	month = may,
+	eprint = {1905.07799},
+	doi = {10.48550/arXiv.1905.07799}
+}
+  - We propose Adaptive Attention Span: an alternative to the self-attention layer that learns its optimal context size to reduce computational and memory cost. For each head, we add a masking function to control for the span (fig. 2). This function has a learnable parameters with L1-penalty. The attention weights are then computed on the masked span.
+  - As an extension, we consider Dynamic attention span where the span parameter is a function of the current input.
+  - We validate our approach on the task of character level language modeling.
+  - We observe that this leads to Transformer with small context in the low level layers and very large ones for the last layers. Even with a limit on span sets to 8192, the average span is only 314.
+  - IMO, such a model should struggle with long context, since the examples with long and important context are either rare, or even abcent in the training set (the length extrapolation problem), so that the L1 penalty will dominate.
   
-  
-  
-  
-  
-  
+@article{Child2019Apr,
+	author = {Child, Rewon and Gray, Scott and Radford, Alec and Sutskever, Ilya},
+	title = {{Generating Long Sequences with Sparse Transformers}},
+	journal = {arXiv},
+	year = {2019},
+	month = apr,
+	eprint = {1904.10509},
+	doi = {10.48550/arXiv.1904.10509}
+}
+
+@article{Deng2018Jul,
+	author = {Deng, Yuntian and Kim, Yoon and Chiu, Justin and Guo, Demi and Rush, Alexander M.},
+	title = {{Latent Alignment and Variational Attention}},
+	journal = {arXiv},
+	year = {2018},
+	month = jul,
+	eprint = {1807.03756},
+	doi = {10.48550/arXiv.1807.03756}
+}
+
+
   
   
