@@ -6496,6 +6496,30 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {1904.10509},
 	doi = {10.48550/arXiv.1904.10509}
 }
+  - We stuty learned attention patterns from a 128-layer Transformer on CIFAR-10 trained with full attention (fig. 2). Many early layers in the network learn locally connected patterns, which resemble convolution. In some layers the network learned to split the attention across a row attention and column attention, effectively factorizing the global attention calculation. Several attention layers showed global, data-dependent access pattern. Higher layers exhibited high sparsity, with positions activating rarely and only for specific input patterns.
+  - We propose Sparse Transformer with sparse attention patterns that have connectivity between all positions over several steps of attention. This still provides global context to any given position. Factorized self-attention has P separate attention heads. Given context size N, each head is attending to the amount of previous indices proportional to N^(1/P), and we want all input positions to be connected to all future output positions across the P steps of attention. This reduces the total effective computation to O(N^(1 + 1/P)).
+  - We explore two factorizations for p = 2:
+  - 1) A natural approach to defining a factorized attention pattern in two dimensions is to have one head attend to the previous L locations, and the other head attend to every L-th location, where L is the stride and chosen to be close to sqrt(N), a method we call strided attention (fig. 3b). This formulation is convenient if the data naturally has a structure that aligns with the stride, like images.
+  - 2) For data without a periodic structure, we propose a fixed attention pattern, where specific cells summarize previous locations and propagate that information to all future cells (fig. 3c). All context is divided into blocks of length L (call it stide). The first head implements a filly-connected causal attention inside each stride. The next head allows an element to attent to the last C elements of each previous blocks. Concretely, if the stride is 128 and c = 8, then all future positions greater than 128 can attend to positions 120-128, all positions greater than 256 can attend to 248-256, and so forth. A fixed-attention pattern with C = 1 limits the expressivity of the network significantly. We found choosing C in {8, 16, 32} for typical values of L in {128, 256} to perform well. Additionally, we found that when using multiple heads, having them attend to distinct subblocks of length C within the block of size L was preferable to having them attend to the same subblock.
+  - We defined two attention patterns, how to combine them in the model? The first approach is to use a single pattern per residual block, and interleave blocks with two different patterns. The second approach is to use the same pattern ijn each block, which is a union of both patterns. A third approach is to use multi-head attention, where attentions with different patterns are calculated in parallel, and the results are concatenated. We typically find this to work well.
+  - Transformers are difficult to train with many layers. We propose a restructured residual block and weight initialization to improve training of very deep networks (fig. 4). We also recompute attention weights during the backwards pass to reduce memory usage.
+  - For images, the Sparse Transformer demonstrates usage of long-term context and generates globally coherent samples (fig. 1).
+
+@article{Al-Rfou2018Aug,
+	author = {Al-Rfou, Rami and Choe, Dokook and Constant, Noah and Guo, Mandy and Jones, Llion},
+	title = {{Character-Level Language Modeling with Deeper Self-Attention}},
+	journal = {arXiv},
+	year = {2018},
+	month = aug,
+	eprint = {1808.04444},
+	doi = {10.48550/arXiv.1808.04444}
+}
+  - Currently character-level language modeling is dominated by RNN approaches.
+  - We train a Transformer for autoregressive character-level language modeling. We add auxilary losses to speed up convergence.
+  - 1) We predict next token at each time step (IMO is this not a standard??)
+  - 2) We predict from the output of each intermediate layer. Lower layers are weighted to contribute less and less to the loss as training progresses. We drop all intermediate losses after half of the training is done.
+  - 3) At each time step we make two (or more) predictions of future characters.
+  - Since our network is deep, we hypothesize that the timing information (from positional embeddings) may get lost during the propagation through the layers. To address this, we add a learned positional embedding to the input sequence before each transformer layer (different for each layer). We are able to safely use learnable positional embeddings for our task, as we don’t require the model to generalize to longer contexts thanthose seen during training.
 
 @article{Deng2018Jul,
 	author = {Deng, Yuntian and Kim, Yoon and Chiu, Justin and Guo, Demi and Rush, Alexander M.},
@@ -6506,7 +6530,7 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {1807.03756},
 	doi = {10.48550/arXiv.1807.03756}
 }
-
+  - 
 
   
   
