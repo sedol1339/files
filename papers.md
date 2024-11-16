@@ -5256,7 +5256,7 @@ Shah, M. A., Noguero, D. S., Heikkila, M. A., & Kourtellis, N. (2024). Speech Ro
 Tur, A. D., Moumen, A., & Ravanelli, M. (2024). ProGRes: Prompted Generative Rescoring on ASR n-Best. arXiv, 2409.00217. Retrieved from https://arxiv.org/abs/2409.00217v1
 
     - ASRs are not trained on enough data to deeply capture linguistic information, resulting in challenges when transcribing unknown words and named entities. Language models are commonly used to enhance ASR performance by ensuring that transcriptions maintain linguistic plausibility. Rescoring can be performed in two ways: either during the decoding process, where partial hypotheses are rescored, or after decoding, where the n-best alternatives are rescored. Traditionally, rescoring involved using simple language models, such as n-grams and word graphs. However, rescoring provides minimal benefits, even with LLMs, when the correct transcription is not among the top n hypotheses.
-	- We propose PROmpted Generative REScoring (ProGRes). First, for each audio signal, we extract the n-best hypotheses from a pretrained ASR model. We then prompt an LLM to generate a more diverse set of hypotheses. The LLM-generated hypothesis are added to form an extended set of hypotheses. Then we calculate LLM score and ASR score (either log-likelihood or CTC likelihood) for each hypothesis and combine both scores to select the best hypothesis.
+	  - We propose PROmpted Generative REScoring (ProGRes). First, for each audio signal, we extract the n-best hypotheses from a pretrained ASR model. We then prompt an LLM to generate a more diverse set of hypotheses. The LLM-generated hypothesis are added to form an extended set of hypotheses. Then we calculate LLM score and ASR score (either log-likelihood or CTC likelihood) for each hypothesis and combine both scores to select the best hypothesis.
 
 Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.-y. (2024). A Large-Scale Evaluation of Speech Foundation Models. arXiv, 2404.09385. Retrieved from https://arxiv.org/abs/2404.09385v2
 
@@ -5266,6 +5266,34 @@ Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.
     - 3) We observe that the learnable weighted-sum over the frozen layers of the SSL model is better than the conventional evaluation protocol: using the frozen last layer. Furthermore, individual single-layer benchmarking can sometimes yield even better results.
     - 4) We confirm that the layer weights learned by the weighted-sum protocol do not reflect the layer performance precisely across SUPERB tasks (as in "Layer-Wise Analysis of a Self-Supervised Speech Representation Model").
     - 5) We suggest to conduct statistical test when comparing to our baseline numbers.
+    
+@article{Chen2024Nov,
+	author = {Chen, William and Zhang, Wangyou and Peng, Yifan and Li, Xinjian and Tian, Jinchuan and Shi, Jiatong and Chang, Xuankai and Maiti, Soumi and Livescu, Karen and Watanabe, Shinji},
+	title = {{Towards Robust Speech Representation Learning for Thousands of Languages}},
+	journal = {ACL Anthology},
+	pages = {10205--10224},
+	year = {2024},
+	month = nov,
+	url = {https://aclanthology.org/2024.emnlp-main.570}
+}
+  - Currently, the best performing models like Whisper, Google USM, w2v-BERT 2.0 v1 and and w2vBERT 2.0 v2 are all trained on fully closed data. Whisper and w2v-BERT 2.0 v1/v2 only report pre-training data quantity and the languages covered. The USM report includes much more information about their data sources, but the model checkpoints remain unreleased. XLSR 53 and XLS-R 128 came with checkpoints and only use publicly accessible datasets but did not release training code. MMS released checkpoints but did not release their training code and crawled data. WavLabLM and MR-HuBERT released code and checkpoints but operated on a smaller scale.
+  - For our work, will publicly release all of our heavily optimized training code, along with the training configurations and checkpoints for XEUS. We use publicly accessible datasets and release all of the additional pre-training data that we crawled. We release 200+ intermediate checkpoints and training logs for further research in the training dynamics.
+  - Robustness to noisy data is relatively unexplored in SSL research. This is important for multilingual models, since the available recordings of low-resource languages tend to be particularly noisy.
+  - We propose XEUS (pronounced Zeus) — a Crosslingual Encoder for Universal Speech. Comparing to Meta’s MMS from "Scaling speech technology to 1,000+ languages", we scale the language coverage, use more powerful model architectures and training objectives.
+  - We curate the data from 37 existing corpora (150+ languages, 1.074 million hours of data in total, see table 2 and table 11 - main sorces are YODAS and VoxPopuli, both around 400K hours). We thus ensure diversity, including but not limited to spontaneous speech, accented speech, code-switching, indigenous languages, and singing voices.
+  - To increase language coverage, we add 3 more data sources:
+  - 1) We reproduce the MMS-unlab dataset, which was not publicly released (see "Scaling speech technology to 1,000+ languages"). Like the original, we crawl religious audiobooks from the Global Recordings Network. Since we use it for SSL instead of language identification, we do not filter out languages with low amounts of data. We also perform VAD with an energy-based detector instead of a neural model, which is more computationally expensive and likely less robust to unseen languages. This leads to a total of 6,700 hours of data across 4,023 languages.
+  - 2) We crawl data from WikiTongues, where each 2-20 minute recording contains 1-2 speakers casually speaking a particular language/dialect.
+  - 3) We collect a Jesus Dramas corpus: the "Story of Jesus" multi-speaker audio drama on many languages, totalling 645 hours.
+  - XEUS is an E-Branchformer encoder consisting of a convolutional feature extractor and 19 E-Branchformer layers. Convolution augmented models achieve superior SSL performance, and we choose the E-Branchformer over the Conformer due to the former’s relative ease of training and superior downstream performance.
+  - Training combines HuBERT’s masked prediction (with cross entropy loss), WavLM’s denoising objective, and a new dereverberation objective (fig. 2). We also conduct ablations at a smaller scale.
+  - To obtain the target phonetic pseudo-labels for HuBERT masked prediction, we first extract encoded representations from a pre-trained WavLabLM MS model. The representations are then clustered using k-means, with k = 2048. The data used for the feature extraction and clustering is a subset of our training data.
+  - We also integrate the acoustic denoising task proposed by WavLM. During training, an input utterance has a probability 0.2 to be augmented with either random noise from the Deep Noise Suppression Challenge, or another utterance in the batch as interference. Target labels are obtained solely from uncorrupted speech.
+  - We also propose a novel SSL objective: with probability 0.3 we simulate reverberant conditions in the input audio while the target pseudo-labels are again left untouched. It is possible to apply both the noise and reverberation. We use a Room Impulse Response (RIR), see sec. 4.2.
+  - XEUS is pre-trained on 64 A100 GPUs using the ESPnet toolkit. We perform a two passes through the training set.
+  - We compare XEUS with 3 SOTA multilingual SSL models: XLS-R 128, MMS, and w2v-BERT 2.0 v2. XEUS is the overall best performing model on ML-SUPERB and is competitive on FLEURS (tables 3, 4).
+  - We benchmark XEUS on the English-only SUPERB, comparing to WavLM, the SOTA model on the SUPERB leaderboard for almost all tasks. XEUS consistently reaches if not surpasses SOTA scores across a variety of tasks, obtaining the highest score in 4 English-only tasks (Keyword Spotting, Speaker Diarization, Emotion Recognition, Speech Recognition), despite its curse of multilinguality.
+  - Also, resynthesized speech from XEUS is higher quality than that from both WavLM and w2v-BERT 2.0 v2 across all metrics (with unit-to-speech HiFiGAN vocoders trained for speech synthesis).
 
 Zhang, L., Jiang, N., Wang, Q., Li, Y., Lu, Q., & Xie, L. (2024). Whisper-SV: Adapting Whisper for Low-data-resource Speaker Verification. arXiv, 2407.10048. Retrieved from https://arxiv.org/abs/2407.10048v1
 
@@ -6329,6 +6357,51 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	  - Section 1.2 describes the adaptation of discriminative DNNs into the above scheme. The popular "hybrid" approach converts p(text|audio) to a scaled p(audio|text) using eq. 5-6 (see "Connectionist speech recognition: a hybrid approach"). The overall construction of a sequence-level training objective, converting local frame-level scores from a discriminative model into "generative" scaled likelihoods, only to then plug those into a discriminative sequence training criterion, may seem like a strange hybrid indeed. Nonetheless, this has been a remarkably effective approach, that still constitutes the SOTA (2018).
 	  - Section 1.3 describes end-to-end discriminative sequence-level models, such as LAS. However, combination with LMs is not theoretically justified (sec. 1.4).
 	  - ... TODO
+
+## Code generation
+
+@incollection{Liu2023Jul,
+	author = {Liu, Kaibo and Han, Yudong and Zhang, Jie M. and Chen, Zhenpeng and Sarro, Federica and Harman, Mark and Huang, Gang and Ma, Yun},
+	title = {{Who Judges the Judge: An Empirical Study on Online Judge Tests}},
+	booktitle = {{TrickyBugs}},
+	pages = {334--346},
+	year = {2023},
+	month = jul,
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	doi = {10.1145/3597926.3598060}
+}
+  - NOTE: This work was extended in "TrickyBugs: A Dataset of Corner-case Bugs in Plausible Programs", see for more detailed review.
+  - Our goal is to assess the reliability of test suites in AtCoder platform. We collect code solutions to coding problems from AtCoder platform, that pass a test suite (a set of input/output pairs).
+  - We use widely studied test assessment metrics:
+  - 1) Line and branch coverage. These metrics measure the percentage of executed lines/branches of the source code against the total lines/branches of code when running the test suite. Bugs in the uncovered code can never be detected by the test suite.
+  - 2) Mutation score. We make minor changes to the source code by using different mutation operators. The modified programs are called mutants. A mutant is called an equivalent mutant if its semantic is equivalent to the original program, despite being syntactically different (IMO, probably within the input constraints). If the test suite is not able to differentiate a mutant and its original program, we call this mutant a survived mutant. Otherwise, we call it a killed mutant. The mutation score is the percentage of killed mutants against the total number of non-equivalent mutants. In practice, mutation score is often calculated as the percentage of killed mutants against the whole set of mutants. Since uncovered mutants cannot be killed, we use both original mutation score and covered mutation score. For survived mutants that are not killed by the test suites, we check whether they are equivalent mutants by manual analysis.
+  - For coverage, for Python solutions, we use Coverage.py; for C++ solutions, we use the source-based code coverage feature of clang; for Java solutions, we use JaCoCo. To conduct mutation testing, we use mutmut for Python, Mull for C++, PITest for Java.
+  - The coverage for Java solutions are relatively low: 78.2% of Java solutions are fully line covered, and 74.2% of Java solutions are fully branch covered. By manual analysis we discover three main types of uncovered code (listing 1): (i) missing branch that yields a false positive solution (which pass tests but is buggy); (ii) the uncovered code from user templates which are dead code (especially in Java code); (iii) debugging code that does not affect the behaviour of the functional code. This pose concerns regarding the effectiveness of coverage criteria in test suite assessment.
+  - Only around 60% of the Python solutions, 40% of the Java solutions, and 35% of the C++ solutions have a full mutation score. So, achieving full mutation coverage is more difficult than achieving full statement or branch coverage. We manually check 381 Python survived mutants in covered code. The majority (95%) of the survived mutants are either fully equivalent (30%) or equivalent under input constraints (65%). Inequivalent mutants, which survived due to inadequate test suites, account for less than 5%.
+  - To identify false positive solutions, we randomly generate additional test inputs. We then manually inspect and categorize false positive solutions in table 7. Most of them (73%) are missing corner cases. Different false positive solutions of the same problem often miss the same corner case.
+  - Among the false positive solutions, 89% have full line coverage, 79% have full branch coverage, and 38% have full mutation scores. So, a large ratio of bugs will be ignored if developers rely only on the coverage and mutation score.
+
+@incollection{Liu2024Apr,
+	author = {Liu, Kaibo and Han, Yudong and Liu, Yiyang and Chen, Zhenpeng and Zhang, Jie M. and Sarro, Federica and Huang, Gang and Ma, Yun},
+	title = {{TrickyBugs: A Dataset of Corner-case Bugs in Plausible Programs}},
+	booktitle = {{ACM Conferences}},
+	pages = {113--117},
+	year = {2024},
+	month = apr,
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	doi = {10.1145/3643991.3644870}
+}
+  - In existing bug datasets like Defects4J, CodeFlaws, QuxixBugs most of the bugs are identified by a simple and ordinary test case and do not necessarily represent corner cases.
+  - We refer to a program that passes existing tests as a plausible program, which may either be correct or buggy. Bugs in plausible programs are typically harder to detect and are often logical corner cases.
+  - Here we extend a TrickyBugs dataset proposed in our prior work "Who Judges the Judge: An Empirical Study on Online Judge Tests". There it was noted that traditional test adequacy metrics such as line/branch coverage and mutation score have limitations when applied to such cases.
+  - TrickyBugs is an evaluation dataset for the following task: how to fix and locate faults, given only source code, program specification and passed test cases? It also can be utilized to study how to better measure and improve test adequacy.
+  - We collect our data from AtCoder, where users are requested to submit their code solutions for different coding tasks, and the backend test cases (input/output pairs) will judge the submitted programs. We only retain the passing programs. At this step, we get approximately 230,000 human-written programs in C++, 140,000 programs in Java, and 169,000 programs in Python from 939 coding tasks. Then we filter out all coding tasks with multiple correct outputs for one input. We also collect the original test cases and difficulty of the coding tasks from an AtCoder’s official post and a third-party website that evaluates the difficulty of coding tasks based on AtCoder’s rating system.
+  - The core step for dataset construction is to find bugs. We then randomly generate 100 additional test inputs for each coding task according to the input constraints. Then we compare the outputs of two or more different implementations. If there is any discrepancy among the outputs, we find bugs. The output that dominates the others in terms of proportion (a dominance ratio) is considered a correct test output. We also perform manuall check if dominance ratio < 0.95. The generated input/output pair is consitered an additional test case.
+  - To broaden the applicability of the dataset, we also employ the gpt-3.5-turbo model to assist us in fixing these buggy plausible programs, and then verify the corrections manually.
+  - In total, TrickyBugs dataset contains 1,405 buggy programs in C++, 792 in Java, and 846 in Python from 324 coding tasks, and additionally 1,361 fixed programs for 224 coding tasks. In table 1, one can see the average lines of code (Average LOC), average difficulty of the coding tasks (Average Diff.) etc.
+  - Are 100 generated test inputs enough? According to fig. 2, the number of discovered buggy plausible programs reaches a plateau when there are around 95 inputs. (IMO the plateau of 5 samples is not enough; there are still bugs to discover; however, the case when we discover more and more bugs with a large amount of random input samples is, probably, typical for a small number of tasks)
   
 ## Fundametals (various)
 
