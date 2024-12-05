@@ -3805,10 +3805,6 @@ Pecher, B., Cegin, J., Belanec, R., Simko, J., Srba, I., & Bielikova, M. (2024).
 
 ## Transformers and RNN
 
-Choromanski, K., Likhosherstov, V., Dohan, D., Song, X., Gane, A., Sarlos, T., ...Weller, A. (2020). Rethinking Attention with Performers. arXiv, 2009.14794. Retrieved from https://arxiv.org/abs/2009.14794v4
-
-    - 
-
 Geva, M., Schuster, R., Berant, J., & Levy, O. (2020). Transformer Feed-Forward Layers Are Key-Value Memories. arXiv, 2012.14913. Retrieved from https://arxiv.org/abs/2012.14913v2
 
     - Feedforward layers in transformer-based language models operate as key-value memories
@@ -6594,16 +6590,38 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 3) At each time step we make two (or more) predictions of future characters.
   - Since our network is deep, we hypothesize that the timing information (from positional embeddings) may get lost during the propagation through the layers. To address this, we add a learned positional embedding to the input sequence before each transformer layer (different for each layer). We are able to safely use learnable positional embeddings for our task, as we don’t require the model to generalize to longer contexts thanthose seen during training.
 
-@article{Deng2018Jul,
-	author = {Deng, Yuntian and Kim, Yoon and Chiu, Justin and Guo, Demi and Rush, Alexander M.},
-	title = {{Latent Alignment and Variational Attention}},
-	journal = {arXiv},
-	year = {2018},
-	month = jul,
-	eprint = {1807.03756},
-	doi = {10.48550/arXiv.1807.03756}
-}
-  - 
 
+  @article{Choromanski2020Sep,
+  author = {Choromanski, Krzysztof and Likhosherstov, Valerii and Dohan, David and Song, Xingyou and Gane, Andreea and Sarlos, Tamas and Hawkins, Peter and Davis, Jared and Mohiuddin, Afroz and Kaiser, Lukasz and Belanger, David and Colwell, Lucy and Weller, Adrian},
+  title = {{Rethinking Attention with Performers}},
+  journal = {arXiv},
+  year = {2020},
+  month = sep,
+  eprint = {2009.14794},
+  doi = {10.48550/arXiv.2009.14794}
+}
+  - Previous solutions to address the issue of quadratic self-attention complexity do not aim to approximate regular attention, but rather propose simpler and more tractable attention mechanisms (Reformer etc.), or by trading regular with sparse attention using more layers (Sparse Transformers). There is a lack of rigorous guarantees for the representation power produced by such methods.
+  - We propose Performers with Fast Attention Via positive Orthogonal Random features (FAVOR+) mechanism, capable of estimation of regular attention, but of only linear space and time complexity and not relying on any priors such as sparsity or low-rankness.
+  - We show that the attention matrix exp(QK^T) can be approximated up to any precision in time O(L d^2 log d), where L is the sequence length, and d is the model dimension. This is even faster w.r.t. L than Locality-Sensitive Hashing (LSH) techniques that have O(L d^2 log L) time complexity.
+  - We propose to approximate the softmax kernel exp(q_i k_j) with a specific random projections kernel (sec. 2.3). There is however a caveat there. The softmax kernel produces non-negative scores, but the approximation may give potentially negative scores leading to unstable behaviours, especially when kernel scores close to 0 (which is the case for many entries of A corresponding to low relevance tokens) are approximated by estimators with large variance in such regions. Empirically this either completely prevents training or leads to sub-optimal models. We theoretically show that the variance of such an approximation is large as approximated values tend to 0. This is one of the main reasons why the robust random feature map mechanism for approximating regular softmax attention was never proposed. Instead of standard trigonometric random features, we propose a robust mechanism in this paper. The variance of our new unbiased positive random feature map estimator tends to 0 as approximated values tend to 0. To further reduce the variance of the estimator, we entangle different random samples ω1, ..., ωm to be exactly orthogonal (sec. 2.4). This leads to the first exponentially small bounds on large deviations probabilities. Our theoretical results are tightly aligned with experiments. We thus drastically improve accuracy of the approximation of the attention matrix.
+  - We implemented our setup on top of pre-existing Transformer training code in Jax. A Performer replaces only the attention component with our method, while all other components are exactly the same as for the regular Transformer.
+  - To further improve overall approximation of attention blocks during training, random samples should be periodically redrawn.
+  - Even if the approximation of the attention mechanism is tight, small errors can easily propagate throughout multiple Transformer layers (e.g. MLPs, multiple heads). In other words, the model’s Lipschitz constant can easily scale up small attention approximation error.
+  - We transferred the original pretrained Transformer’s weights into the Performer, which produces an initial non-zero 0.07 accuracy, but quickly recovers accuracy in a small fraction of the original number of gradient steps. Positive softmax with feature redrawing is necessary to match the Transformer. Ablation studies over many attention kernels show that trigonometric random features lead even to NaN values in training.
+  - In principle, FAVOR+ can also be combined with other techniques, such as reversible layers or cluster-based attention.
+  - IMO, the core of the method is the following. As in eq. 1, regular self-attention can be written in form D^(-1) exp (QK^T / sqrt(d)) V, This form is based on the fact that we can split softmax into exp and L1 norm, and apply the L1 norm after all the operations. The first term D^(-1) is L1 norm, the QK^T are attention logits, and the last term are values. The exp (QK^T) is a matrix operation consisting of kernel operations k(q_i, k_j) = exp(q_i k_j), called the "softmax-kernel". It can be rewritten as k(q_i, k_j) = fi(q_i) fi(k_j), where fi is a projection to an inifinte-dimensional space - for now see "r" as "infinity". To understand this easier we can even drop fi for simplicity and consider a dot product kernel k(q_i, k_j) = q_i k_j. Instead of exp(Q K^T) W we now have only Q K^T W (fig. 1). For a dot product kernel, shapes of Q K^T W are (L,d)(d,L)(L,d) = (L,d). If we first calculate the first multiplication, shapes are (L,L)(L,d). If we first calculate the second multiplication, shapes are (L,d)(d,d) that is much smaller and faster if L >> d. Lets simpify it further and consider only one query and a lot of key-values. Then shapes are (1,d)(d,L)(L,d) = (1,d). Usually we first calculate the first multiplication, i.e. calculate a list of dot products between the query and the keys. But we can first calculate the second multiplication: it represents the fact the the operation Q K^T W is a linear projection of Q with the projection matrix K^T W of size (d,L)(L,d) = (d,d). So, for dot product kernel, for each q we do not need to calculate all the dot products k(q, k_j) over the sequence length j=1..L, but we only need to calculate dot products over d basis vectors. This cancels the L^2 complexity (however, may hurt representation power). In performer, instead of dot product kernel the authors propose to use fi(q_i) fi(k_j), where fi is some function from the function class in eq. 5. In this equation, the second part of the right side is a forming vector from scalars, obtained from random projections. To approximate the softmax kernel, the authors propose their FAVOR+ method.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
