@@ -3815,13 +3815,6 @@ Geva, M., Schuster, R., Berant, J., & Levy, O. (2020). Transformer Feed-Forward 
     - Lower layers tend to capture shallow patterns, while upper layers learn more semantic ones
     - The output of a feed-forward layer is a composition of its memories
 
-Katharopoulos, A., Vyas, A., Pappas, N., & Fleuret, F. (2020). Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention. arXiv, 2006.16236. Retrieved from https://arxiv.org/abs/2006.16236v3
-
-    - We propose linear transformer that scales linearly with respect to the context length
-    - We switch from the traditional softmax attention to a feature map based dot product attention results
-    - Linearized attention approximates standard attention scores exp(q · k) with kernels φ(q) · φ(k), so that autoregressive inference can be rewritten in a recurrent form
-    - However, the modeling capability and performance are worse than Transformers
-
 Peng, H., Pappas, N., Yogatama, D., Schwartz, R., Smith, N. A., & Kong, L. (2021). Random Feature Attention. arXiv, 2103.02143. Retrieved from https://arxiv.org/abs/2103.02143v2
 
 Irie, K., Csordás, R., & Schmidhuber, J. (2022). The Dual Form of Neural Networks Revisited: Connecting Test Time Predictions to Training Patterns via Spotlights of Attention. arXiv, 2202.05798. Retrieved from https://arxiv.org/abs/2202.05798v2
@@ -6609,19 +6602,93 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - Even if the approximation of the attention mechanism is tight, small errors can easily propagate throughout multiple Transformer layers (e.g. MLPs, multiple heads). In other words, the model’s Lipschitz constant can easily scale up small attention approximation error.
   - We transferred the original pretrained Transformer’s weights into the Performer, which produces an initial non-zero 0.07 accuracy, but quickly recovers accuracy in a small fraction of the original number of gradient steps. Positive softmax with feature redrawing is necessary to match the Transformer. Ablation studies over many attention kernels show that trigonometric random features lead even to NaN values in training.
   - In principle, FAVOR+ can also be combined with other techniques, such as reversible layers or cluster-based attention.
-  - IMO, the core of the method is the following. As in eq. 1, regular self-attention can be written in form D^(-1) exp (QK^T / sqrt(d)) V, This form is based on the fact that we can split softmax into exp and L1 norm, and apply the L1 norm after all the operations. The first term D^(-1) is L1 norm, the QK^T are attention logits, and the last term are values. The exp (QK^T) is a matrix operation consisting of kernel operations k(q_i, k_j) = exp(q_i k_j), called the "softmax-kernel". It can be rewritten as k(q_i, k_j) = fi(q_i) fi(k_j), where fi is a projection to an inifinte-dimensional space - for now see "r" as "infinity". To understand this easier we can even drop fi for simplicity and consider a dot product kernel k(q_i, k_j) = q_i k_j. Instead of exp(Q K^T) W we now have only Q K^T W (fig. 1). For a dot product kernel, shapes of Q K^T W are (L,d)(d,L)(L,d) = (L,d). If we first calculate the first multiplication, shapes are (L,L)(L,d). If we first calculate the second multiplication, shapes are (L,d)(d,d) that is much smaller and faster if L >> d. Lets simpify it further and consider only one query and a lot of key-values. Then shapes are (1,d)(d,L)(L,d) = (1,d). Usually we first calculate the first multiplication, i.e. calculate a list of dot products between the query and the keys. But we can first calculate the second multiplication: it represents the fact the the operation Q K^T W is a linear projection of Q with the projection matrix K^T W of size (d,L)(L,d) = (d,d). So, for dot product kernel, for each q we do not need to calculate all the dot products k(q, k_j) over the sequence length j=1..L, but we only need to calculate dot products over d basis vectors. This cancels the L^2 complexity (however, may hurt representation power). In performer, instead of dot product kernel the authors propose to use fi(q_i) fi(k_j), where fi is some function from the function class in eq. 5. In this equation, the second part of the right side is a forming vector from scalars, obtained from random projections. To approximate the softmax kernel, the authors propose their FAVOR+ method.
+  - IMO, the core of the method is the following (see also "Transformer Dissection: A Unified Understanding of Transformer's Attention via the Lens of Kernel"). As in eq. 1, regular self-attention can be written in form D^(-1) exp (QK^T / sqrt(d)) V, This form is based on the fact that we can split softmax into exp and L1 norm, and apply the L1 norm after all the operations. The first term D^(-1) is L1 norm, the QK^T are attention logits, and the last term are values. The exp (QK^T) is a matrix operation consisting of kernel operations k(q_i, k_j) = exp(q_i k_j), called the "softmax-kernel". It can be rewritten as k(q_i, k_j) = fi(q_i) fi(k_j), where fi is a projection to an inifinte-dimensional space - for now see "r" as "infinity". To understand this easier we can even drop fi for simplicity and consider a dot product kernel k(q_i, k_j) = q_i k_j. Instead of exp(Q K^T) W we now have only Q K^T W (fig. 1). For a dot product kernel, shapes of Q K^T W are (L,d)(d,L)(L,d) = (L,d). If we first calculate the first multiplication, shapes are (L,L)(L,d). If we first calculate the second multiplication, shapes are (L,d)(d,d) that is much smaller and faster if L >> d. Lets simpify it further and consider only one query and a lot of key-values. Then shapes are (1,d)(d,L)(L,d) = (1,d). Usually we first calculate the first multiplication, i.e. calculate a list of dot products between the query and the keys. But we can first calculate the second multiplication: it represents the fact the the operation Q K^T W is a linear projection of Q with the projection matrix K^T W of size (d,L)(L,d) = (d,d). So, for dot product kernel, for each q we do not need to calculate all the dot products k(q, k_j) over the sequence length j=1..L, but we only need to calculate dot products over d basis vectors. This cancels the L^2 complexity (however, may hurt representation power). In performer, instead of dot product kernel the authors propose to use fi(q_i) fi(k_j), where fi is some function from the function class in eq. 5. In this equation, the second part of the right side is a forming vector from scalars, obtained from random projections. To approximate the softmax kernel, the authors propose their FAVOR+ method.
   
+@article{Tsai2019Aug,
+	author = {Tsai, Yao-Hung Hubert and Bai, Shaojie and Yamada, Makoto and Morency, Louis-Philippe and Salakhutdinov, Ruslan},
+	title = {{Transformer Dissection: A Unified Understanding of Transformer's Attention via the Lens of Kernel}},
+	journal = {arXiv},
+	year = {2019},
+	month = aug,
+	eprint = {1908.11775},
+	doi = {10.48550/arXiv.1908.11775}
+}
+  - We present a new formulation for Transformer’s attention via the lens of kernel, which measures how similar two different inputs are.
+  - A standard Transformer uses the scaled asymmetric exponential kernel (eq. 3). Asymmetric kernel form can be flexible and even non-valid (i.e., a kernel that is not symmetric and positive semi-definite).
+  - As for integrating the positional information, three forms were proposed (eq. 4, 5, 6), and it was shown (in "Transformer-xl" paper) that eq. 5 words better than eq. 6, which in turn works better than eq. 4. We argue the reason is that if viewing features and positional embeddings as two distinct spaces, and thir direct sum may not be optimal, it's better to use a product of two kernels (eq. 5) to capture the similarities for both temporal and non-temporal components.
+  - We present a new form of attention with a kernel (eq. 9) that is valid, i.e., symmetric and positive semi-definite (IMO seems like just a version of eq. 5 when Wq and Wk are the same). We see no much performance difference when comparing asymmetric to symmetric kernel, but it saves parameters.
+  - We compare different kernel forms for the non-positional features. The linear kernel does not converge for both NMT (De-En) and SP (sequence prediction on WikiText-103). Kernel with infinite feature space (i.e., exponential and RBF kernel) outperforms the kernel with finite feature space (i.e., polynomial kernel). RBF kernel performs the best for NMT and exponential kernel performs the best for SP.
+  - The need of the positional embedding (PE) in the attention mechanism is based on the argument that the attention mechanism is permutation equivariant. However, decoder self-attention is not permutation equivariant. Do we require PE in decoder self-attention? We present the results: for NMT, removing PE only in decoder self-attention results in slight performance drop, however, removing PE in the entire model greatly degrades the performance. On the other hand, for sequence prediction, removing PE from our proposed attention variant dramatically degrades the performance.
+  - We find that there is no much performance difference by considering or not considering the positional embedding in value function in self-attention.
   
+@article{Katharopoulos2020Jun,
+	author = {Katharopoulos, Angelos and Vyas, Apoorv and Pappas, Nikolaos and Fleuret, Fran{\ifmmode\mbox{\c{c}}\else\c{c}\fi}ois},
+	title = {{Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention}},
+	journal = {arXiv},
+	year = {2020},
+	month = jun,
+	eprint = {2006.16236},
+	doi = {10.48550/arXiv.2006.16236}
+}
+  - We propose linear transformer that scales linearly with respect to the context length. It combines the best of both worlds: when it comes to training, the computations can be parallelized; and when it comes to inference, the cost per time and memory for one prediction is constant.
+  - Given a kernel sim(k, q) = fi(k)^T fi(q), we can recombine Q, K, V order of computation in attention, eq. 6 (IMO same as in Performers paper). It reduces time and memory complexity to O(N). We can simply store the fi(Kj) Vj^T matrix as an internal state and update it at every time step like a RNN.
+  - We propose a feature map fi(x) = elu(x) + 1 (we prefer elu over relu to avoid setting the gradients to 0 when x is negative), because the feature function fi that corresponds to the exponential kernel is infinite dimensional. Finite dimensional polynomial kernel has been shown to work equally well with the exponential or RBF kernel. Also, when dealing with very long sequences (when N > D^2), polynomial kernel's is computationally favorable.
+  - This shows that any transformer is a RNN (eq. 16-20), in theory even the ones using softmax attention. (IMO but the dimension of fi(.) is infinite).
+  - We also linearize the causal masked attention in the same way. However, during training, storing all the output values (V) require a lot of memory in order to compute the gradients. We derive the gradients as cumulative sums. This allows us to compute both the forward and backward pass of causal linear attention in linear time and constant memory (algorithm 1).
+  - On a sequence copying task with causal masking and max length 128, our linear transformer reaches the same loss as softmax. In contrast, Reformer with 4 hashing rounds (denoted as lsh-4) converges to a higher loss due to the noise introduced by hashing.
+  - IMO, in the example with sequence copying, on larger sequence lengths a retular transformer should outperform linear transformer, since it does not require to compress all the context into a fixed size representation.
+  - We train causally masked linear transformers to predict images pixel by pixel. Linear transformer achieved performance in terms of bits per dimension is on par with softmax attention while being able to generate images more than 1,000 times faster and with constant memory per image from the first to the last pixel.
+  - In ASR with CTC loss, when training on the 80 hour WSJ dataset, linear transformer outperforms the RNN baseline and Reformer. A regular transformer achieves better metric, but is significantly slower.
+
+@article{Shen2018Dec,
+	author = {Shen, Zhuoran and Zhang, Mingyuan and Zhao, Haiyu and Yi, Shuai and Li, Hongsheng},
+	title = {{Efficient Attention: Attention with Linear Complexities}},
+	journal = {arXiv},
+	year = {2018},
+	month = dec,
+	eprint = {1812.01243},
+	doi = {10.48550/arXiv.1812.01243}
+}
+  - Dot-product attention involves two consecutive matrix multiplications: (Q K^T) V. Switching the order of multiplication to Q(K^T V) results in a substantially more efficient mechanism, which this paper names "efficient attention".
+  - However, dot-product attention is only approximately equivalent to softmax normalization. We show that when the equivalence is approximate, it does not impact accuracies on four distinct tasks, object detection, instance segmentation, and stereo depth estimation.
+  - This work is concurrent to "Transformers are RNNs".
   
+@article{Wang2020Jun,
+	author = {Wang, Sinong and Li, Belinda Z. and Khabsa, Madian and Fang, Han and Ma, Hao},
+	title = {{Linformer: Self-Attention with Linear Complexity}},
+	journal = {arXiv},
+	year = {2020},
+	month = jun,
+	eprint = {2006.04768},
+	doi = {10.48550/arXiv.2006.04768}
+}
+  - How to avoid a quadratic operation in self-attention?
+  - It was shown (in the "BlockBERT" paper) that when each token attend to only a subset of tokens, this suffers from performance drop with limited efficiency gains, i.e., a 2% drop with only 20% speed up. As for Reformer, its efficiency gains only appear on sequences with length > 2048. Furthermore, the Reformer’s multi-round hashing approach actually increases the number of sequential operations, which further undermines their final efficiency gains.
+  - We show both theoretically (theorem 1) and empirically that the context mapping matrix P = softmax(QK^T) formed by self-attention can be approximated by a low-rank matrix. Empirically (fig. 1), in RoBERTa on  Wiki103 and IMDB, SVD decomposition shows a clear long-tail spectrum distribution across each layer and head, and especially for higher layers (see fig. 1c). This implies that most of the information of matrix P can be recovered from the first few largest singular values.
+  - Based on this, we propose a low-rank attention factorization. We project K and V matrices from (n, d) shape into (k, d) shape, when k << n, and then compute a regular attention. We theoretically estimate a possible error in ths case (theorem 2). For this we use two fixed-size matrices, and this requires a fixed n (max context size).
+  - Experiments show that at k = 128 for n = 512 and k = 256 for n = 1024, Linformer’s performance is already nearly on par with the original Transformer. Also,we can use a single projection matrix E across all layers, for all heads, and for both key and value, without sacrificing performance.
+  - Further, we hold k = 256 for n ∈ {512, 1024, 2048, 4096} (this requires 4 different training runs, as the projection matrices have different shape). As sequence length increases, even though our projected dimension is fixed, the final perplexities after convergence remain about the same.
+  - This supports our assertion that the Linformer is linear-time. The performance of Linformer model is mainly determined by the projected dimension k instead of the ratio n/k.
+  - One can also choose different kinds of low-dimensional projection methods instead of a simple linear projection. For example, one can choose mean/max pooling, or convolution where the kernel and stride is set to n/k. (IMO the latter resembles the Sparse Transformer).
+  - IMO, while the results are interesting and useful, mathematically the O(n) statement is incorrect, becase O-notation describes the asymptotic behaviour in infinity, which means operations cannot require a limited context size. However, in practice we are not interested in the asymptotic becavour in infinity, instead we are interested in the efficiency for some large but finite n. So, the results can be seen as a statement that even for very long sequences we need only, say, k = 128, when a context size can be limited to, say, 10^6. However, the projection from 10^6 to k=128 have a lot of trainable weights that can be undertrained, if long sequences are rare. As the authors suggest, some regularization may be needed, for example mean/max pooling or convolutions instead of linear projections.
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+@article{Beltagy2020Apr,
+	author = {Beltagy, Iz and Peters, Matthew E. and Cohan, Arman},
+	title = {{Longformer: The Long-Document Transformer}},
+	journal = {arXiv},
+	year = {2020},
+	month = apr,
+	eprint = {2004.05150},
+	doi = {10.48550/arXiv.2004.05150}
+}
+  - We propose a Longformer, in which the attention mechanism is a combination of a local and global attention. This falls within the general approach that defines some form of sparse attention pattern (like in Sparse Transformer).
+  - For local-context self-attention we use a fixed-size sliding window (fig. 2b) which scales linearly with input sequence length. In a transformer with L layers, the receptive field is L times larger than the window size, given a fized window size for all layers.
+  - The sliding window also can be "dilated" (fig. 2c). We found settings with different dilation configurations per head improves performance.
+  - We add "global attention" on few pre-selected input locations (fig. 2d). It is symmetric: a token with a global attention attends to all tokens across the sequence, and all tokens in the sequence attend to it. The pattern is task specific. For classification, global attention is used for the CLS token while in QA global attention is provided on all question tokens (the number of such tokens is small relative to n and independent of n). The complexity of the combined local and global attention is still O(n).
+  - We use different Q, K, V projections for local and global attention.
+  - The dilated sliding window attention is not supported in existing DL libraries. We develop a custom CUDA kernel for it.
+  - For autregressive language modeling we use small window sizes for the lower layers and increase window sizes as we move to higher layers. (IMO seems like they do not use a global attention pattern) During traning we increase the attention window size and sequence length across multiple training phases. This makes training fast, while keeping the slow part (longest sequences and window sizes) to the end. Longformer outperforms the comparable TransformerXL model, matches the performance of the comparable Sparse Transformer.
+  - For masked language modeling we continue pretraining from the RoBERTa on a corpus of long documents, using a Longformer’s attention mechanism (our attention pattern can be plugged into any pretrained transformer model). We add extra position embeddings to support up to position 4,096.
+  - For long document tasks (including QA, coreference resolution and classification) Longformer consistently outperforms the RoBERTa baseline that breaks the context into the longest possible segment, passes each individually through RoBERTa, and concatenates the activations for further processing. For QA tasks, we also concatenate the question to each segment. For HotpotQA Longformer places second on the published leaderboard, when the top model uses GNN of entities, which seem to encode an important inductive bias for the task.
+  - We also propose Longformer-Encoder-Decoder (LED), using the Longformer local+global attention pattern in the encoder, and full self-attention in the decoder. We initialize LED parameters from the BART and extend position embedding to 16K tokens. On the arXiv summarization task LED achieves SOTA results, slightly outperforming BigBird.
+  - This is a concurrent work with ETC, GMAT and BigBird.
