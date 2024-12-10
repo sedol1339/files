@@ -6867,3 +6867,17 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - The approximation by Scatterbrain is close to the Robust PCA oracle and up to 2.1X lower approximation error than SMYRF and Performer, while requiring up to 12X smaller memory than full attention. Even without training, Scatterbrain can reduce the attention memory of Vision Transformer by 98% at the cost of only 0.8% drop of accuracy.
   - When trained end-to-end, Scatterbrain outperforms baselines (sparse or low-rank attention) on a wide variety of benchmark tasks, including language modeling and classification. Scatterbrain achieves up to 5 points higher average accuracy on the Long-range Arena compared to Performer and Reformer. For language modeling tasks, sparse+low-rank has the smallest approximation error in most of the cases, and sparse has the largest error. It confirms the observation (from the Long range arena paper) that kernel or low-rank based approximations are less effective for hierarchical structured data.
   - As Scatterbrain has sparse attention as a component, it is not yet as hardware friendly (on GPUs and TPUs) as the low-rank component. This is the same limitation suffered by other sparse attention methods.
+  
+@article{Dehghani2018Jul,
+	author = {Dehghani, Mostafa and Gouws, Stephan and Vinyals, Oriol and Uszkoreit, Jakob and Kaiser, {\L}ukasz},
+	title = {{Universal Transformers}},
+	journal = {arXiv},
+	year = {2018},
+	month = jul,
+	eprint = {1807.03819},
+	doi = {10.48550/arXiv.1807.03819}
+}
+  - In sequence processing systems, certain symbols are usually more ambiguous than others. It is therefore reasonable to allocate more processing resources to these more ambiguous symbols.
+  - We introduce the Universal Transformer (UT), a generalization of the Transformer model with the added recurrence.
+  - The UT contains encoder and decoder (fig. 2). In each recurrent time-step, the representation of every position is concurrently (in parallel) revised in two sub-steps. First, using a self-attention mechanism to exchange information across all positions in the sequence. Then, by applying a transition function (either a separable convolution or a FCN, depending on the task) independently at each position (they repeat the same self-attention + transition layer multiple times, fig. 1). We also add a dynamic per-position halting mechanism based on Adaptive Computation Time (ACT), when a model outputs a scalar halting probability at each step. This allows the model to choose the required number of refinement steps for each symbol dynamically (a per-symbol variable depth). Once the per-symbol recurrent block halts, its state is simply copied to the next step until all blocks halt, or we reach a maximum number of steps. The final output of the encoder is then the final layer of representations produced in this way.
+  - IMO, a lot of things are not clear, need to read in more details. What is the difference between state and previous state in the args of function from listing 2? Does the token keep updating with self-attention after halting, or not? Is UT without halting actually a regular transformer when a single layer is applied multiple times? Why not writing a pseudocoode instead these unclear tf.while_loop listings?
