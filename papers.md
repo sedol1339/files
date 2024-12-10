@@ -6692,3 +6692,178 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - For long document tasks (including QA, coreference resolution and classification) Longformer consistently outperforms the RoBERTa baseline that breaks the context into the longest possible segment, passes each individually through RoBERTa, and concatenates the activations for further processing. For QA tasks, we also concatenate the question to each segment. For HotpotQA Longformer places second on the published leaderboard, when the top model uses GNN of entities, which seem to encode an important inductive bias for the task.
   - We also propose Longformer-Encoder-Decoder (LED), using the Longformer local+global attention pattern in the encoder, and full self-attention in the decoder. We initialize LED parameters from the BART and extend position embedding to 16K tokens. On the arXiv summarization task LED achieves SOTA results, slightly outperforming BigBird.
   - This is a concurrent work with ETC, GMAT and BigBird.
+  - IMO, it is important that for decoder-only Transformer choosing global tokens was not proposed, since it is not trivial how to.
+  
+@article{Zaheer2020Jul,
+	author = {Zaheer, Manzil and Guruganesh, Guru and Dubey, Avinava and Ainslie, Joshua and Alberti, Chris and Ontanon, Santiago and Pham, Philip and Ravula, Anirudh and Wang, Qifan and Yang, Li and Ahmed, Amr},
+	title = {{Big Bird: Transformers for Longer Sequences}},
+	journal = {arXiv},
+	year = {2020},
+	month = jul,
+	eprint = {2007.14062},
+	doi = {10.48550/arXiv.2007.14062}
+}
+  - We propose a sparse attention where each query attends over R random number of keys. Thus we obtain a random graph where the shortest path between any two nodes is logarithmic in the number of nodes.
+  - It was shown that in BERT's self-attention the neighboring inner-products are extremely important. Motivated by this, we combine random attention with a sliding window attention.
+  - We found that random blocks and local window were insufficient to reach the performance of BERT. To improve performance we also make some tokens (such as CLS) global: tokens that attend to all tokens in the sequence and to whom all tokens attend to (fig. 1d).
+  - We show that Transformer encoder with sparse attention is a Universal Approximator of sequence to sequence functions (this was also studied in a concurrent work "O(n) connections are expressive enough: Universal approximability of sparse transformers"). We further show that sparse encoder-decoder transformers are Turing Complete.
+  - However, we show a natural task where any sufficiently sparse mechanism will require polynomially more layers: given an input set of unit vectors V = (v_1, ..., v_n), i-th output vector should be a vector from V that is the most distant from v_i.
+  - This is a concurrent work with GMAT and Longformer. See also "ETC: Encoding Long and Structured Inputs in Transformers" from nearly the same authors.
+
+@article{Ainslie2020Apr,
+	author = {Ainslie, Joshua and Ontanon, Santiago and Alberti, Chris and Cvicek, Vaclav and Fisher, Zachary and Pham, Philip and Ravula, Anirudh and Sanghai, Sumit and Wang, Qifan and Yang, Li},
+	title = {{ETC: Encoding Long and Structured Inputs in Transformers}},
+	journal = {arXiv},
+	year = {2020},
+	month = apr,
+	eprint = {2004.08483},
+	doi = {10.48550/arXiv.2004.08483}
+}
+  - We present the Extended Transformer Construction (ETC) with key modifications to tackle long and structured inputs: relative position encoding, global-local attention, and a CPC pre-training task.
+  - ETC receives two separate input sequences: the "long input" contains the input a standard Transformer would receive, while the "global input" contains a much smaller number of auxiliary tokens. Attention is then split into four separate pieces: global-to-global, global-to-long, long-to-global, and long-to-long. The latter is windowed, others are full (unrestricted). So, long input tokens can transfer information to each other through global input tokens. If the window radius is 1, and we have a single global token, we recover exactly the Star Transformer.
+  - To handle long inputs in ETC we place the entire sequence of input tokens in the long input, and then assuming some sort of division into segments (e.g., sentences), place one auxiliary token in the global input per segment in the long input. We then use one relative position label to link the global segment tokens with the word piece tokens that belong to them, and a different label for those that do not. Seeing a Transformer as a graph neural network, the division between long and global input induces a natural structure with a 2-level hierarchy (we could in principle construct a 3-level hierarchy, or beyond).
+  - For structured inputs (beyond sequential order) we can extend the vocabulary of relative position labels to label some edges such as is-a, part-of, or others.
+  - In g2l, asymmetric hard masking in one direction can bring performance gains in some datasets (in fig. 3a different colors indicate different relative position labels).
+  - We employ Contrastive Predictive Coding (CPC) pre-training task, together with MLM with full word masking. The goal of CPC is to predict subsequent inputs in latent space. For ETC, given an input sequence containing n sentences, we mask all the tokens corresponding to a subset of sentences, but leave the sentence summary tokens in the global input. We then train the model to minimize the difference between the hidden representation of the global sentence summary tokens for the masked sentences with respect to that of a global summary token that can see the unmasked sentence and nothing else.
+  - The key differences from Longformer are more possibilities to encode structured inputs in a similar way as graph neural networks do, and global tokens in Longformer are never pre-trained with anything like our CPC loss, and thus their use must be learned during fine-tuning.
+  - In out concurrent work "Big Bird: Transformers for Longer Sequences" we consider a slightly different model a random attention and study its expressive power.
+  - This is a concurrent work with GMAT and Longformer.
+  
+@article{Gupta2020Jun,
+	author = {Gupta, Ankit and Berant, Jonathan},
+	title = {{GMAT: Global Memory Augmentation for Transformers}},
+	journal = {arXiv},
+	year = {2020},
+	month = jun,
+	eprint = {2006.03274},
+	doi = {10.48550/arXiv.2006.03274}
+}
+  - Several previous works (BlockBERT, ReFormer) proposed a chunk-based attention sparsification. However, a position can require many layers to accumulate information from the entire input. We show that ReFormer struggles on our "majority tagging" combinatorial task that requires information from the entire sequence.
+  - We propose Global Memory Augmentation for Transformers (GMAT). We prefix every input sequence with a list of M memory tokens. The sequence is processed using any sparse variant of attention, but attends to the M memory tokens using dense attention, and vice versa.
+  - As a concrete sparcity pattern, we use a chunked self-attention, where blocks interact with each other only via the global memory. More complex sparsification schemes are possible. We use two positional embeddings: one for a chunk index and one for a token index inside a chunk. Memory tokens have a fixed position, and thus positional embeddings are used only for the main sequence.
+  - After encoding an input sequence with N1 GMAT layers, we can discard the vectors corresponding to the main sequence, and keep only the global memory vectors, which are now a compressed representation of the entire input. We then use N2 more layers applied only on the M memory vectors resulting in richer representations. We then concatenate the memory vectors with positional embeddings and use N3 more layers to restore the original sequence, thus decompressing the information packed in the memory.
+  - Using the decompressed representations leads to only a small performance degradation on MLM and reading comprehension.
+  - This is a concurrent work with ETC, Big Bird and Longformer. Comparing to Longformer, the contribution of the global memory component is not evaluated, and global memory is designed on a task-by-task basis. Moreover, in Longformer attention scores for the memory and the main sequence are computed using separate sets of projection matrices, thereby introducing new parameters. (IMO it is not stated if this improves performance).
+  
+@article{Qiu2019Nov,
+	author = {Qiu, Jiezhong and Ma, Hao and Levy, Omer and Yih, Scott Wen-tau and Wang, Sinong and Tang, Jie},
+	title = {{Blockwise Self-Attention for Long Document Understanding}},
+	journal = {arXiv},
+	year = {2019},
+	month = nov,
+	eprint = {1911.02972},
+	doi = {10.48550/arXiv.1911.02972}
+}
+  - We propose BlockBERT with sparse block attention: we split the input sequence into n blocks, make attention mask M consisting of n blocks (all tokens in each block attend to each other), and then make some permutation of the blocks inside the matrix (fig. 2). Permutations allow tokens within the same block attending to tokens in another block.
+  - Different heads use different permutations, which are generated by shifting one position. With 12 attention heads and 2 blocks, we can assign 10 heads to permutation (1, 2) and the other 2 heads to permutation (2, 1). For 3 blocks, we assigns 8, 2 and 2 heads to permutation (1, 2, 3), (2, 3, 1), and (3, 1, 2), respectively.
+  - Long sequence pre-training benefits long sequence fine-tuning.
+  
+@article{Lewis2019Oct,
+	author = {Lewis, Mike and Liu, Yinhan and Goyal, Naman and Ghazvininejad, Marjan and Mohamed, Abdelrahman and Levy, Omer and Stoyanov, Ves and Zettlemoyer, Luke},
+	title = {{BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension}},
+	journal = {arXiv},
+	year = {2019},
+	month = oct,
+	eprint = {1910.13461},
+	doi = {10.48550/arXiv.1910.13461}
+}
+  - We present BART, a seq2seq denoising autoencoder. Text is corrupted with an arbitrary noising function, and a seq2seq model is learned to reconstruct the original text.
+  - BART allows us to apply any type of document corruption, including changing its length. In the extreme case, where all information about the source is lost, BART is equivalent to a language model.
+  - We compare several transformations, training for 1M steps on a combination of books and Wikipedia data (table 1). Performance of pre-training methods varies significantly across tasks. Token masking (or deletion, or self-attention masking) is crucial: pre-training objectives based on rotating documents or permuting sentences perform poorly in isolation. Bidirectional encoders are crucial for SQuAD (comparing to autoregressive LM pre-training). However, pure language models perform best on ELI5 (Long Form QA), suggesting that BART is less effective when the output is only loosely constrained by the input. On other tasks BART models using text-infilling perform well on all tasks. Sentence permutation only shows significant additive gains on the CNN/DM summarization dataset, however we hypothesise that larger pre-trained models may be better able to learn from this task.
+  - We then trained BART using the same scale as the RoBERTa model on 160Gb of news, books, stories, and web text. We use a combination of text infilling and sentence permutation. We mask 30% of tokens in each document, and permute all sentences.
+  - Overall, BART performs similarly to RoBERTa on discriminative SQuAD and GLUE tasks. This suggests that BART’s improvements on generation tasks do not come at the expense of classification performance.
+  - We also experiment with several text generation tasks. BART is fine-tuned as a standard seq2seq model from the input to the output text. BART outperforms all existing work on CNN/DailyMail extractive summarization, XSum abstractive summarization, dialogue response generation on CONVAI2, ELI5 abstractive QA.
+  - Fine-tuning BART recipes:
+  - 1) For sequence classification tasks, the same input is fed into the encoder and decoder, and the final hidden state of the final decoder token is fed into new multi-class linear classifier. (IMO this is unusual and interesting approach) 
+  - 2) For token classification tasks we feed the complete document into the encoder and decoder, and use the top hidden state of the decoder as a representation for each word.
+  - 3) For sequence generation tasks the encoder input is the input sequence, and the decoder generates outputs autoregressively.
+  - 4) For NMT, we replace BART’s encoder embedding layer with a new randomly initialized encoder. The model is trained end-to-end, which trains the new encoder to map foreign words into an input that BART can de-noise to English. The new encoder can use a separate vocabulary from the original BART model. n the first step, we freeze most of BART parameters and only update the randomly initialized source encoder, the BART positional embeddings, and the self-attention input projection matrix of BART’s encoder first layer. In the second step, we train all model parameters for a small number of iterations.
+  
+@article{Ye2019Nov,
+	author = {Ye, Zihao and Guo, Qipeng and Gan, Quan and Qiu, Xipeng and Zhang, Zheng},
+	title = {{BP-Transformer: Modelling Long-Range Context via Binary Partitioning}},
+	journal = {arXiv},
+	year = {2019},
+	month = nov,
+	eprint = {1911.04070},
+	doi = {10.48550/arXiv.1911.04070}
+}
+  - We propose BP-Transformer (BPT for short) which introduces coarse-to-fine connections to approximate the reasonable inductive bias of language.
+  - We partition a sequence into multi-granular spans via binary partitioning (BP). Each partition can be regarded as a node in GNN, and we divide the nodes into two types, token (leaf nodes) and span (non-leaf nodes). Given a span node, we additionally add a directed edge from each of its contained token nodes (fig. 3). These edges shorten the path between a span node and its corresponding token nodes. For a leaf node, we add the incoming edges from the different granularity. We use a hyper-parameter k to determine the connection density of the graph. We add k edges per level (see the longest edges in fig. 3).
+  - We synchronously update representations of all nodes via Graph Self-Attention (GSA). Each node attends to its predecessors. The predecessors of a token node is the multi-scale spans it attending to, while the predecessors of a span node are all its contained token nodes.
+  - We generalize the notion of relative position encoding from sequences to trees.
+  - BPT improves the time/space complexity of Transformer models from O(d n^2) to O(d k n log n/k) in theory, such speedup cannot be achieved by tensor-based attention operators. To address this problem, we designed a set of CUDA kernels for sparse attentions.
+  - On document level tasks, we achieved SOTA on language modeling, NMT and text classification.
+  - IMO, seems like their partitioning method does not respect sentence boundaries, at least have not found anything about this in the work.
+  
+@article{Velickovic2017Oct,
+	author = {Veli{\ifmmode\check{c}\else\v{c}\fi}kovi{\ifmmode\acute{c}\else\'{c}\fi}, Petar and Cucurull, Guillem and Casanova, Arantxa and Romero, Adriana and Li{\ifmmode\grave{o}\else\`{o}\fi}, Pietro and Bengio, Yoshua},
+	title = {{Graph Attention Networks}},
+	journal = {arXiv},
+	year = {2017},
+	month = oct,
+	eprint = {1710.10903},
+	doi = {10.48550/arXiv.1710.10903}
+}
+  - Many interesting tasks can be represented in the form of graphs: 3D meshes, social networks, telecommunication networks, biological networks or brain connectomes.
+  - We introduce an attention-based architecture to perform node classification of graph-structured data. The idea is to compute the hidden representations of each node in the graph, by attending over its neighbors, following a multi-head self-attention strategy.
+  - Our work can also be reformulated as a particular instance of MoNet.
+  - We achieve or match SOTA on on four challenging graph benchmarks.
+  - IMO the related work sections (1 and 2.2) are very informative.
+  
+@article{Guo2019Feb,
+	author = {Guo, Qipeng and Qiu, Xipeng and Liu, Pengfei and Shao, Yunfan and Xue, Xiangyang and Zhang, Zheng},
+	title = {{Star-Transformer}},
+	journal = {arXiv},
+	year = {2019},
+	month = feb,
+	eprint = {1902.09113},
+	doi = {10.48550/arXiv.1902.09113}
+}
+  - We proposed a lightweight StarTransformer with a star-shaped attention pattern with one additional "global" token (fig. 1b) with O(n)computation cost w.r.t. input sequence length.
+  - Local compositionality is a robust inductive bias for modeling the text sequence. However, the Transformer learns this bias from scratch. In contrast, Star-Transformer works for modestly sized datasets and does not rely on heavy pre-training.
+  - We compare the standard Transformer with other models on one toy dataset and 21 real datasets, excluding the factor of unsupervised pre-training. Star-Transformer outperforms the standard Transformer and achieves comparable results with SOTA models.
+  - Remains to be tested is whether one shared relay node is capable of capturing the long-range dependencies (IMO, the GMAT model is a denser vesion of this, with more shared nodes).
+
+@article{Daras2020Oct,
+	author = {Daras, Giannis and Kitaev, Nikita and Odena, Augustus and Dimakis, Alexandros G.},
+	title = {{SMYRF: Efficient Attention using Asymmetric Clustering}},
+	journal = {arXiv},
+	year = {2020},
+	month = oct,
+	eprint = {2010.05315},
+	doi = {10.48550/arXiv.2010.05315}
+}
+  - Despite the progress in sparse attention methods, new SOTA models still use the original dense attention layers because fast-attention mechanisms degrade the performance, while methods such as Longformer or Sparse Transformer require highly specialized GPU-kernels and which prevents usage in several hardware settings (e.g. TPUs), and also methods like Star Transformer prevents the use of causal masking.
+  - We observe that in most real networks, the attention weights are sparse. For example in a pre-trained BigGAN on ImageNet, on average 98% of keys get weight less than 0.01 in softmax.
+  - The matrix Q K^T is going to be of rank at most the dimension of the query and key vectors, therefore it is low rank (if seqnence length is larger than embedding dimension). However, it may become full rank after softmax. Our finding is that this does not happen in practice. Real attention matrices of pretrained models have a sharp decay in their singular values. In a pre-trained BigGAN model and most heads of BERT model, decay of singular values is exponential, which means that the matrix after softmax is effectively low rank. (IMO this is the same observation as in Linformer)
+  - We formulate the assignment of keys and queries into clusters as an optimization problem. We want to compute attention only within each cluster. For fast execution on TPUs/GPUs we require that clusters are balanced: i.e. all clusters contain the same number of keys and queries. We are searching for the cluster assignment that approximates the dense attention matrix as well as possible, in Frobenius norm. We call this problem Attention Biclustering and show that it is NP-hard.
+  - We need an efficient way to find, for any given query vector the set of keys with which it has big inner products. This problem, called Maximum Inner Product Search (MIPS), can be efficiently solved by transforming query and key vectors to convert it to a Nearest Neighbor Search as proposed in the pioneering Asymmetric LSH (Locality Sensitive Hashing) work.
+  - We propose SMYRF algorithm for approximating self-attention, consisting of the following stages:
+  - 1) We use a novel assymetric functions (eq. 4) to map all queries and keys to a (d+2)-dimensional ball where the Euclidean distance of the transformed vectors decreases linearly with the inner product of the original vectors.
+  - 2) We then use a Locality Sensitive Hashing (LSH) function to map transformed vectors in real numbers, so that that vectors that are close in Euclidean distance correspond to numbers that are close on the real line.
+  - 3) We sort vectors based on their LSH value and group them by adapting the thresholds to ensure balanced clusters.
+  - 4) We perform dense attention within each cluster.
+  - SMYRF is an excellent drop-in replacement for pre-trained dense attention it show significant memory benefits for relatively small performance drop, with no training at all. For sequence length 2048, SMYRF-BERT offers ≈ 20% speedup, while for 4096 speedup increases to ≈ 50%. So, SMYRF enables a new tradeoff in the design space.
+  - We also can finetune pre-trained models with SMYRF. Finetuned SMYRF models, with 50% memory reduction, can outperform dense attention. Even with more aggressive memory-shrinking, up to 97%, SMYRF maintains a relatively good performance.
+  - We also include experiments for networks trained from scratch: a non-pretrained model learns with randomly initialized, SMYRF layers. Initially, the random weights produce less sparsity. However, the model quickly learns to create sparse attention maps and learning under our framework is possible. Interestingly, SMYRF-BigGAN outperforms its dense counterpart FID by 3.95%.
+  - The asymmetrical transformations of SMYRF largely outperform all the other LSH schemes, including Reformer. This is expected since by design SMYRF tries to form clusters that maximize the inner products between queries and keys, while E2LSH and Reformer try to minimize euclidean distance and angular distance respectively, which is not the best objective when dealing with queries and keys with different vector representations and arbitrary norms.
+
+@article{Chen2021Oct,
+	author = {Chen, Beidi and Dao, Tri and Winsor, Eric and Song, Zhao and Rudra, Atri and R{\ifmmode\acute{e}\else\'{e}\fi}, Christopher},
+	title = {{Scatterbrain: Unifying Sparse and Low-rank Attention Approximation}},
+	journal = {arXiv},
+	year = {2021},
+	month = oct,
+	eprint = {2110.15343},
+	doi = {10.48550/arXiv.2110.15343}
+}
+  - According to Long range arena and our experiments, low-rank-based attention might be less effective on hierarchically structured data or language modeling tasks, while sparse-based variants do not perform well on classification tasks.
+  - In fig. 1 (more detailed in fig. 7) we present the approximation error of the attention matrices from a Transformer trained on (i) IMDb reviews classification, (ii) WikiText103, and (iii) from BigGAN-ImageNet. Sparse and low-rank approximation are complementary: sparse excels when the softmax has low entropy, and low-rank excels when the softmax has high entropy. Their errors are negatively correlated. An ideal combination of sparse and low-rank, obtained with robust PCA (denoted as orange), achieves lower error than both.
+  - We describe a generative model of how the sparse + low-rank structure in attention matrices could arise when the elements of the input sequence form clusters. The model is paremetrized by the intra-cluster distance (fig. 2 shows different values) and the inverse softmax temperature β, so that unnormalized attention matrix M = exp(β Q Q^T). If β is small, the softmax distribution is diffuse, and we can approximate it with a low-rank matrix. In the middle regime of β, we need the sparse part to cover the intra-cluster attention and the low-rank part to approximate the inter-cluster attention.
+  - How to decompose the attention matrices into sparse and low-rank components? The sparse + low-rank matrix structure has been well studied in statistics and signal processing since the late 2000s. Classical Robust PCA presents a polynomial algorithm to approximate such a structure. However, Robust PCA is orders of magnitude too slow and requires materializing the full attention, which defeats the main purpose of reducing compute and memory requirements. On the other side, straightforward addition of sparse (say, from Reformer) and low-rank (say, from Performer) attention will be inaccurate due to double counting.
+  - To this end, we present a Scatterbrain algorithm. We first construct a low-rank approximation X, then construct a sparse matrix S such that S + X matches A on the support of S, then combine the results (sec. 4.2). So, our approximation is exact for entries on the support of S (which are likely to be large). On other entries our approximation matches the low-rank part.
+  - Scatterbrain can use different kinds of low-rank (from Performer, Linear attention, or global tokens as in BigBird) and sparse (from Reformer, Longformer's local attention, or random block-sparse attention) approximation. As long as the low-rank component is unbiased (e.g., Performer), Scatterbrain retains the unbiasedness but with strictly lower variance.
+  - The approximation by Scatterbrain is close to the Robust PCA oracle and up to 2.1X lower approximation error than SMYRF and Performer, while requiring up to 12X smaller memory than full attention. Even without training, Scatterbrain can reduce the attention memory of Vision Transformer by 98% at the cost of only 0.8% drop of accuracy.
+  - When trained end-to-end, Scatterbrain outperforms baselines (sparse or low-rank attention) on a wide variety of benchmark tasks, including language modeling and classification. Scatterbrain achieves up to 5 points higher average accuracy on the Long-range Arena compared to Performer and Reformer. For language modeling tasks, sparse+low-rank has the smallest approximation error in most of the cases, and sparse has the largest error. It confirms the observation (from the Long range arena paper) that kernel or low-rank based approximations are less effective for hierarchical structured data.
+  - As Scatterbrain has sparse attention as a component, it is not yet as hardware friendly (on GPUs and TPUs) as the low-rank component. This is the same limitation suffered by other sparse attention methods.
