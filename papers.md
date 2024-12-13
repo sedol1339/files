@@ -6880,4 +6880,123 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - In sequence processing systems, certain symbols are usually more ambiguous than others. It is therefore reasonable to allocate more processing resources to these more ambiguous symbols.
   - We introduce the Universal Transformer (UT), a generalization of the Transformer model with the added recurrence.
   - The UT contains encoder and decoder (fig. 2). In each recurrent time-step, the representation of every position is concurrently (in parallel) revised in two sub-steps. First, using a self-attention mechanism to exchange information across all positions in the sequence. Then, by applying a transition function (either a separable convolution or a FCN, depending on the task) independently at each position (they repeat the same self-attention + transition layer multiple times, fig. 1). We also add a dynamic per-position halting mechanism based on Adaptive Computation Time (ACT), when a model outputs a scalar halting probability at each step. This allows the model to choose the required number of refinement steps for each symbol dynamically (a per-symbol variable depth). Once the per-symbol recurrent block halts, its state is simply copied to the next step until all blocks halt, or we reach a maximum number of steps. The final output of the encoder is then the final layer of representations produced in this way.
-  - IMO, a lot of things are not clear, need to read in more details. What is the difference between state and previous state in the args of function from listing 2? Does the token keep updating with self-attention after halting, or not? Is UT without halting actually a regular transformer when a single layer is applied multiple times? Why not writing a pseudocoode instead these unclear tf.while_loop listings?
+  - IMO, a lot of things are not clear, need to read in more details, stupid tf.while_loop listings instead of explanations. What is the difference between state and previous state in the args of function from listing 2? Does the token keep updating with self-attention after halting, or not? Is UT without halting actually a regular transformer when a single layer is applied multiple times?
+  
+@article{Peng2021Mar,
+	author = {Peng, Hao and Pappas, Nikolaos and Yogatama, Dani and Schwartz, Roy and Smith, Noah A. and Kong, Lingpeng},
+	title = {{Random Feature Attention}},
+	journal = {arXiv},
+	year = {2021},
+	month = mar,
+	eprint = {2103.02143},
+	doi = {10.48550/arXiv.2103.02143}
+}
+  - Many existing approaches to improve transformer asymptotic complexity are less well-suited for moderate length sequences: their additional computation steps can overshadow the time and memory they save.
+  - We built on a previous works ("Random features for large-scale kernel machines", 2007; "Orthogonal random features", 2016), where it was shown that a certain stochastic function approximates a gaussian kernel (eq. 2, 3) which is connected to a softmax kernel with eq. 4.
+  - We propose random feature attention (RFA) (see eq. 5) where fi is based on a random linear layer with sin and cos activations (eq. 2). While the linear layer is random, we multiply it by a learnable vector σ (eq. 8). Eq. 5 assumes that q and k are l2-normalized, but we find it has little impact on the performance when σ is set properly or learned from data.
+  - Since attention is kernelized, it is now linear in sequence length. RFA can be used as a drop-in-replacement for softmax-attention and has a causal variant that allows for a recurrent computation (sec. 3.1). (IMO this looks the same as eq. 10, 11 in "Transformers are RNNs", and other kernel-based attention approximations).
+  - The canonical softmax attention does not have any explicit modeling of distance or locality, so transformers heavily rely on positional encodings. In RFA, we can augment the recurrent equations with a learnable gating mechanism (eq. 7). By multiplying the learned scalar gates against the hidden state, history is exponentially decayed, favoring more recent context. This is a benefit of RFA: it would be otherwise more difficult to build similar techniques into the softmax attention, where there is no clear sense of "recurrence". There are interesting connections between gated RFA and fast weights which we leave to future work.
+  - If we use ReLU activation instead of sin and cos (sec. 3.3), it approximates the order-1 arc-cosine kernel (instead of softmax kernel). In practice this achieves similar performance. This supplements the exploration of alternatives to softmax in attention.
+  - If we use elu(x) + 1, as in "Transformers are RNNs", it significantly underperforms both the baseline and RFA, showing the importance of a properly-chosen feature map. Random feature approximation of attention is also explored by a concurrent work "Performers".
+  - On language modeling, machine translation, and long text classification benchmarks, RFA achieves comparable performance to softmax attention. However, when we train with one attention but evaluate with the other, the performance is hardly better than randomly-initialized untrained models. Yet, an RFA model initialized from a pretrained softmax transformer achieves decent training loss after a moderate amount of finetuning steps.
+  - RFA does not achieve any speedup when working with 512-length context, but achieves a 5.3x speedup with 4,000-length context.
+
+@article{Qin2022Feb,
+	author = {Qin, Zhen and Sun, Weixuan and Deng, Hui and Li, Dongxu and Wei, Yunshen and Lv, Baohong and Yan, Junjie and Kong, Lingpeng and Zhong, Yiran},
+	title = {{cosFormer: Rethinking Softmax in Attention}},
+	journal = {arXiv},
+	year = {2022},
+	month = feb,
+	eprint = {2202.08791},
+	doi = {10.48550/arXiv.2202.08791}
+}
+  - The Performer, RFA and Reformer show less satisfactory performance on the GLUE benchmark when compared with the vanilla architecture. Also Linformer (why?) and BigBird are not applicable to casual attentions. See also fig. 1 for the Long-Range Arena benchmark.
+  - The key to the linear attentions is to find a decomposable similarity function S(q, k) = fi(Q) fi(K)^T that generalizes well to different tasks. Most existing linear transformers (RFA, Performer) are trying to find an unbiased estimation of the softmax attention. Another group of works (the linear transformer from "Transformers are RNNs") attempt to directly replace the softmax with a linear operation.
+  - We compare 3 linear attentions with softmax attention (table 1). The superior results of ReLU over φI and LeakyReLU demonstrate the benefit of retaining non-negative values. Our conjecture is that it helps to avoid aggregating irrelevant contextual information. Also, since softmax is better than ReLU, we think that softmax normalization amplifies the correlated pairs, which might be useful to identify useful patterns. (IMO probably they mean amplification of large values with exponent) We also empirically find that the non-linear re-weighting mechanism in softmax attention can punish far-away connections and enforce locality in some cases. (IMO maybe because of the positional encoding dot products between near vectors become larger, and exponent further amplifies this)
+  - We propose CosFormer with a linear attention. It discards entirely the softmax normalization while still features the non-negativity and re-weighting mechanism.
+  - 1) We process K and V with ReLU to ensure a full positive attention matrix (since dot product of non-negative vectors is also non-negative). We then employ a row-wise normalization of the attention matrix.
+  - 2) To introduce recency bias to the attention matrix we propose a cos-based re-weighting mechanism (eq. 10). That is, we multiply each attention weight by a scaled cos(i-j). It can be rewritten in another form (eq. 12) that still has a recurrent formulation.
+  - In autoregressive language modeling, cosFormer outperforms a standard transformer with a clear margin in linear computation complexity and significantly outperforms RFA and a linear transformer (IMOit may remain true in a large scale, since a model may become able to use a distant context, when the cos scaling will hurt)
+  - For bidirectional language modeling CosFormer converges faster than vanilla transformer with a comparable or smaller loss values, despite it only consumes linear space and time computation complexity. In addition, by ablations we show that re-weighting helps.
+  - In fine-tuning CosFormer outperforms the RoBERTa baseline on 3/5 datasets, and achieves secondary place on the remaining 2/5 datasets. Longformer achieves better results on MNLI than CosFormer, but it is slower and requires more memory overhead. Other competing methods based on kernel functions have substantial performance gaps compared with our model.
+  - On Long-range-arena, CosFormer achieves competitive results across all the tasks and achieves the best overall score, being one of the only two models that surpass vanilla transformer architecture (fig. 1). For the Pathfinder task, since the distance between the two points can be very far from each other, our introduced locality bias would have negative impact comparing to SOTA methods, despite that the performance gap between our method and the vanilla transformer is small.
+  - IMO, sections 2.1, 2.2, 4 and fig. 2 are a good introduction to linear transformers.
+  
+@article{Zaremba2014Oct,
+	author = {Zaremba, Wojciech and Sutskever, Ilya},
+	title = {{Learning to Execute}},
+	journal = {arXiv},
+	year = {2014},
+	month = oct,
+	eprint = {1410.4615},
+	doi = {10.48550/arXiv.1410.4615}
+}
+  - We show that seq2seq LSTM can accurately evaluate short simple Python programs by reading the program character-by-character and computing the output (fig. 1).
+  - We consider programs that can be evaluated in linear time and constant memory. We allow the following operations: addition, subtraction, multiplication, variable assignments, if-statements, and for-loops, but we forbid double loops. We also limit multiplication since generic integer multiplication requires superlinear time. Every program ends with a single "print" statement whose output is an integer.
+  - The characters are initially meaningless from the model’s perspective, and scrambling them has no effect on the model’s ability to solve this problem (fig. 2). It helps illustrate the difficulty faced by our neural network.
+  - Initially, we found it difficult to train LSTMs to accurately evaluate programs. We think that the LSTM would learn faster if we first taught it about the individual operators and how to combine them by gradually increasing the "difficulty level" of the examples.
+  - We apply a curriculum learning strategy of Bengio et al. 2009 when we gradually increase compexity (integer size and structural compexity). However, it gives even worse performance than baseline.
+  - We design a novel curriculum procedure which outperforms both conventional training (no curriculum learning). In this procedure we use a balanced mixture of easy and difficult examples. This strategy always exposes the network at least to some difficult examples, in contrast to the naive curriculum strategy.
+  - We also consider the addition task (just to add two integers) and the memorization task (replicating a random sequence of numbers of lengths ranging from 5 to 65). In these tasks our curriculum learning strategy also helps. Also, reversing and doubling the input sequence improves the performance.
+  - The results suggest that a proper curriculum learning strategy is critical for achieving good performance on very hard problems. We hypothesize that the naive curriculum learning strategy fails because in memorization task the best way to accurately memorize a small amount of numbers could be to spread them over the entire hidden state / memory cell. This implies that the harder examples would require a restructuring of its memory patterns. Our strategy prevents the network from utilizing all the memory on the easy examples, thus eliminating the need to restructure its memory patterns.
+  - We do not know how heavily our model relies on memorization and how far the learned algorithm is from the actual, correct algorithm. This could be tested by creating a big discrepancy between the training and test data, but in this work, the training and the test distributions are the same.
+  
+@article{Weston2014Oct,
+	author = {Weston, Jason and Chopra, Sumit and Bordes, Antoine},
+	title = {{Memory Networks}},
+	journal = {arXiv},
+	year = {2014},
+	month = oct,
+	eprint = {1410.3916},
+	doi = {10.48550/arXiv.1410.3916}
+}
+  - RNN memory is typically too small, and is not compartmentalized enough to accurately remember facts from the past (knowledge is compressed into dense vectors). RNNs are known to have difficulty in performing memorization, for example the simple copying task (see "Learning to Execute" paper).
+  - A memory network consists of a memory m (an array of objects, such as vectors or strings, indexed by m_i) and four (potentially learned) components. These components are general and can potentially use any existing ideas from the machine learning literature.
+  - 1) I: input -> input features
+  - 2) G: input features, whole memory, memory cell -> updated memory cell
+  - 3) O: input features + whole memory -> output features
+  - 4) R: output features -> response format desired
+  - TODO
+  
+@article{Rae2016,
+	author = {Rae, Jack and Hunt, Jonathan J. and Danihelka, Ivo and Harley, Timothy and Senior, Andrew W. and Wayne, Gregory and Graves, Alex and Lillicrap, Timothy},
+	title = {{Scaling Memory-Augmented Neural Networks with Sparse Reads and Writes}},
+	journal = {Advances in Neural Information Processing Systems},
+	volume = {29},
+	year = {2016},
+	url = {https://proceedings.neurips.cc/paper/2016/hash/3fab5890d8113d0b5a4178201dc842ad-Abstract.html}
+}
+  - In LSTM the number of parameters grows proportionally to the square of the size of the memory, making them unsuitable for problems requiring large amounts of long-term memory. Recently memory augmented neural networks (MANNs) such as Neural Turing Machines and Memory Networks decoupled the memory capacity from the number of model parameters. Nonetheless, MANNs have had limited success in real world application.
+  - TODO
+  
+@article{Lample2019Jul,
+	author = {Lample, Guillaume and Sablayrolles, Alexandre and Ranzato, Marc'Aurelio and Denoyer, Ludovic and J{\ifmmode\acute{e}\else\'{e}\fi}gou, Herv{\ifmmode\acute{e}\else\'{e}\fi}},
+	title = {{Large Memory Layers with Product Keys}},
+	journal = {arXiv},
+	year = {2019},
+	month = jul,
+	eprint = {1907.05242},
+	doi = {10.48550/arXiv.1907.05242}
+}
+  - TODO
+
+@article{Narang2021Feb,
+	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
+	title = {{Do Transformer Modifications Transfer Across Implementations and Applications?}},
+	journal = {arXiv},
+	year = {2021},
+	month = feb,
+	eprint = {2102.11972},
+	doi = {10.48550/arXiv.2102.11972}
+}
+  - Our goal is to try to determine why most modifications proposed to the Transformer have not seen widespread adoption. Is the original Transformer near-perfect, or the modifications do not generalize across applications?
+  - We reimplement and evaluate a wide variety of Transformer variants on a suite of tasks that Transformers are commonly applied to. We limit our study to the encoder-decoder architecture. We find that many Transformer modifications do not result in improved performance.
+  - 1) We consider various activation functions: ReLU, GeLU, Swish, ELU, SeLU, GLU (sigmoid-GLU, ReGLU, GeGLU, LiGLU), sigmoid and softplus.
+  - 2) We explored RMS norm (2019) as an alternative to Layer Norm, Rezero (2020) and Fixup (2019) initialization schemes, and combining Rezero with Layer Norm and RMS Norm.
+  - 3) We explored the trade-offs between the width and depth of the FFN. In order to ensure fair comparison, we scale FFN dimension and the number of heads in order to keep the total number of parameters constant when changing the depth.
+  - 4) We explore tying only encoder input and decoder input embeddings, tying only decoder input and output embeddings, and untying all the embeddings (2021). We also explored factorizing the embedding matrix into two smaller matrices (d_model, d_inner) x (d_inner, d_vocab) (2019) and Adaptive input embeddings (2019), where clusters of more frequent tokens have a larger embedding dimension.
+  - 5) We explore sharing the parameters of the Transformer layers inspired by the ALBERT model (2020), together with factorized and, optionally, tied embeddings. We also experimented with applying the parameter sharing to the encoder and decoder separately.
+  - 6) For the final probability distribution we experiment with Adaptive softmax (2017) and Mixture of Softmaxes (MoS, 2017).
+  - 7) We experiment with Transparent attention (2018) that creates weighted residual connections along encoder depth to facilitate gradient flow, and additional attention variants.
+  - 8) We try the Evolved Transformer (2019), factorized, dense, and random Synthesizer (2020), Funnel Transformer (2020), Lightweight and Dynamic convolution (2019), MoE Transformer (2018, 2020), Switch Transformer (2021), product key memory(2021), Universal Transformer (2018)
+  - TODO
