@@ -6953,11 +6953,26 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - RNN memory is typically too small, and is not compartmentalized enough to accurately remember facts from the past (knowledge is compressed into dense vectors). RNNs are known to have difficulty in performing memorization, for example the simple copying task (see "Learning to Execute" paper).
   - A memory network consists of a memory m (an array of objects, such as vectors or strings, indexed by m_i) and four (potentially learned) components. These components are general and can potentially use any existing ideas from the machine learning literature.
   - 1) I: input -> input features
-  - 2) G: input features, whole memory, memory cell -> updated memory cell
+  - 2) G: input features, memory cells -> updated memory cells
   - 3) O: input features + whole memory -> output features
   - 4) R: output features -> response format desired
-  - TODO
-  
+  - The simplest form of G is to store I(x) in a "slot" in the memory: For efficiency at scale, G and O can operate on only a retrieved subset of  memory (on memories that are on the right topic). The O component is typically responsible for calculating what are the relevant memories to perform a good response. Our hypothesis is that without conditioning on memories, RNN will perform poorly.
+  - In our basic architecture, the I module takes an input text, and G just keep adding new memory slots. The O module produces output features by finding k=2 supporting memories given x, by taking argmax of some similarity function. We train in a fully supervised setting, when the supporting sentences are also labeled in the training data (but not in the test data).
+  - There are other recent related works: "Neural machine translation by jointly learning to align and translate" and "Generating sequences with recurrent neural networks". One can view these as particular variants of memory networks where in that case the memory only extends back a single sentence or character sequence. (IMO, this means that the authors focus on case when the memory is very large and is extracted from the train set, not from the context)
+
+@article{Sukhbaatar2015,
+	author = {Sukhbaatar, Sainbayar and Szlam, Arthur and Weston, Jason and Fergus, Rob},
+	title = {{End-To-End Memory Networks}},
+	journal = {Advances in Neural Information Processing Systems},
+	volume = {28},
+	year = {2015},
+	url = {https://proceedings.neurips.cc/paper_files/paper/2015/hash/8fb21ee7a2207526da55a679f0332de2-Abstract.html}
+}
+  - Our previously proposed Memory Networks require supervision at each layer of the network. We propose the end-to-end version. It can also be seen as a version of RNNsearch from "Neural machine translation by jointly learning to align and translate" with multiple computational steps per output symbol.
+  - A single layer of our model accepts several memory vectors M_i, the corresponding output vectors C_i (IMO looks like keys and values), and a query vector U. We then compute similarity P_i = softmax(U^T M_i) and calculate the weighted average with a skip connection O = Q + sum P_i C_i. Other recently proposed forms of memory/attention also take this approach.
+  - For multple layers, we explore two types of weight tying within the model: (i) the output embedding for one layer is the input embedding for the one above, and (ii) the input and output embeddings are the same across different layers. Note that if we use the layer-wise weight tying scheme, our model can be cast as a traditional RNN where we divide the outputs of the RNN into internal and external outputs.
+  - IMO, while the authors say that this model is recurrent (the last paragraph of sec. 2.2), this is only recurrent in the same sence as ALBERT is recurrent, since the number of steps is fixed.
+
 @article{Rae2016,
 	author = {Rae, Jack and Hunt, Jonathan J. and Danihelka, Ivo and Harley, Timothy and Senior, Andrew W. and Wayne, Gregory and Graves, Alex and Lillicrap, Timothy},
 	title = {{Scaling Memory-Augmented Neural Networks with Sparse Reads and Writes}},
@@ -6966,8 +6981,9 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	year = {2016},
 	url = {https://proceedings.neurips.cc/paper/2016/hash/3fab5890d8113d0b5a4178201dc842ad-Abstract.html}
 }
-  - In LSTM the number of parameters grows proportionally to the square of the size of the memory, making them unsuitable for problems requiring large amounts of long-term memory. Recently memory augmented neural networks (MANNs) such as Neural Turing Machines and Memory Networks decoupled the memory capacity from the number of model parameters. Nonetheless, MANNs have had limited success in real world application.
-  - TODO
+  - In LSTM the number of parameters grows proportionally to the square of the size of the memory, making them unsuitable for problems requiring large amounts of long-term memory. Recently memory augmented neural networks (we will denote as MANNs) such as Neural Turing Machines and Memory Networks decoupled the memory capacity from the number of model parameters. Nonetheless, MANNs have had limited success in real world application. (IMO, in Memory Networks the memory actually IS the model parameters, since the memory is extracted from the whole train set)
+  - We present SAM (sparse access memory). Comparing to Memory Networks, all writes to and reads from external memory are constrained to a sparse subset of the memory words using approximate nearest neighbor. Secondly, we introduce a sparse memory management scheme that tracks memory usage and finds unused blocks of memory for recording new information.
+  - From "Large Memory Layers with Product Keys": their (SAM's) approach relies on an external indexing structure, which is approximate and needs to be relearned regularly while training the neural network to avoid a catastrophic drift.
   
 @article{Lample2019Jul,
 	author = {Lample, Guillaume and Sablayrolles, Alexandre and Ranzato, Marc'Aurelio and Denoyer, Ludovic and J{\ifmmode\acute{e}\else\'{e}\fi}gou, Herv{\ifmmode\acute{e}\else\'{e}\fi}},
@@ -6978,7 +6994,102 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {1907.05242},
 	doi = {10.48550/arXiv.1907.05242}
 }
-  - TODO
+  - We propose a key-value memory layer  that can scale to very large sizes while keeping exact search on the key space. This is similar to self-attention, but the keys and values do not correspond to input tokens but are free embedding vectors, and the number of values (memory size) is very large. We propose to replace FFN in Transformer with our layer.
+  - We do not build an approximate index, but rather we exploit the idea to represent a large set of key vectors by a drastically smaller number of vectors. We define keys as the concatenation of two sub-keys, in the spirit of product quantization.
+  - 1) The query network maps the input x to a query q(x).
+  - 2) Let we have two vector codebooks C and C' (two lists of keys) of dimension d_q/2. We consider their cartesian product C x C' by concatenating every element from C with every element from C', obtaining |C|x|C'| "long keys" of dimension d_q (usually |C| == |C'|). Each "long key" is associated with a learnable value vector. We exploit this structure to compute the closest keys efficiently. First, we split the query q(x) into two sub-queries q1 and q2. Then we find top-k vectors I from C closest to q1 (by the inner product), and top-k vectors I' from C' closest to q2. After selecting top-k, we perform a softmax normalization of the selected k vectors. Now we have found k^2 keys from C x C' (fig. 2). It is guaranteed that top-k "long" keys from C x C' closest to the "long" query q(x) are inside our selected subset of k^2 keys, while performing only O(sqrt(N)) operations, where N is the number of "long leys" and values. Finally, we average the selected values with their scores.
+  - We make the model more expressive with a multi-head mechanism, where each head independently computes a query used to select k keys from the memory. In practice, for the same input we observe very little overlap between the keys selected by two different heads. This increases key usage and generally improves performance.
+  - All the parameters of the memory are trainable, yet only selected memory slots are updated for each input. The sparse selection and parameter update make both training and inference very efficient.
+  - Key-value memory layer provides important gains on large-scale language modeling, reaching with 12 layers the performance of a 24-layer BERT-large model with half the running time.
+  - We find that adding a batch normalization layer on the top of the query network helps increasing key coverage during training.
+
+@article{Shazeer2017Jan,
+	author = {Shazeer, Noam and Mirhoseini, Azalia and Maziarz, Krzysztof and Davis, Andy and Le, Quoc and Hinton, Geoffrey and Dean, Jeff},
+	title = {{Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer}},
+	journal = {arXiv},
+	year = {2017},
+	month = jan,
+	eprint = {1701.06538},
+	doi = {10.48550/arXiv.1701.06538}
+}
+  - Mixture-of-experts approach was introduced more than two decades ago. To increase the network capacity, various forms of conditional computation have been proposed, when large parts of a network are active or inactive on a per-example basis. The gating decisions may be binary or sparse and continuous, stochastic or deterministic. However, no work to date has yet demonstrated massive improvements in model capacity, training time, or model quality, since GPUs are much faster at arithmetic than at branching etc. (several reasons are listed but IMO not clearly understandable)
+  - We propose a Sparsely-Gated Mixture-of-Experts Layer (MoE). It consists of a set of n "expert networks" E_i, ..., E_n (usually FFN), and a "gating network" G whose output is a sparse n-dimensional vector. The output y of the MoE module can be written as sum_i G(x)_i E_i(x). We save computation based on the sparsity of G(x). We use G in form of a linear layer with softmax, equipped by learnable gaussian noise and selecting only top-k (eq. 3).
+  - From "Switch transformers" paper: the MoE authors conjectured that routing to k > 1 experts was necessary in order to have non-trivial gradients to the routing functions. The authors intuited that learning to route would not work without the ability to compare at least two experts.
+  - To perform load balancing we define two additional losses. Let I(X) = sum_x G(x) be an vector of inportance values for all experts, calculated on a dataset. Firstly, we penalize the square of the coefficient of variation of this vector. This ensures equal importance. However, experts may still receive very different numbers of examples. For example, one expert may receive a few examples with large weights, and another may receive many examples with small weights. To solve this problem, we introduce a second loss function. Since gaussian noise in G introduces stochastity, we can calculate the probability of each element of G(x) to be non-zero, given x (eq. 8-9). An additional loss based on this value ensures balanced loads.
+  - If the number of experts is very large, we could use hierarchical MoE, a MoE of MoE-s.
+  - We apply a MoE between stacked LSTM layers (fig. 1). The MoE is called once for each position in the text, selecting a potentially different combination of experts at each position.
+  - We train on 1-Billion-Word Language-Modeling Benchmark with a vocabulary of 793,471 words. We trained models with 4, 32, and 256 experts, and models with hierarchical MoEs containing 256, 1024, and 4096 experts (all with roughly equal computational costs). The largest of the models (4096 experts) achieved an impressive 24% lower perplexity on the test set.
+  - We also train on a 100 billion word corpus. Even at 65536 experts (99.994% layer sparsity), computational efficiency for the model stays fine. After 131072 experts (137 billion parameters) the model performance starts to degrade (fig. 3), possibly a result of too much sparsity.
+  - We also experiment with NMT and obtain gains over the strong baselines.
+
+@article{Fedus2021Jan,
+	author = {Fedus, William and Zoph, Barret and Shazeer, Noam},
+	title = {{Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity}},
+	journal = {arXiv},
+	year = {2021},
+	month = jan,
+	eprint = {2101.03961},
+	doi = {10.48550/arXiv.2101.03961}
+}
+  - Widespread adoption of MoE is hindered by complexity, communication costs, and training instabilities.
+  - In this work a guiding design principle is to maximize the parameter count. "Scaling laws for neural language models" uncovered powerlaw scaling with model size, data set size and computational budget, and we investigate a fourth axis: increase the parameter count while keeping the FLOPs per example constant. Is it a separately important axis on which to scale?
+  - We propose The Switch Transformer, which simplifies and improves over Mixture of Experts. We replace the dense FFN layer with a sparse Switch FFN layer. Contrary to MoE, we route to only a single expert: this k=1 routing strategy is later referred to as a Switch layer (the gate value still permits differentiability of the router).
+  - Experts are splitted across devices. Each token is routed to the expert with the highest router probability, but each expert has a fixed batch size of (total tokens / num experts) × capacity factor (we design our model with TPUs in mind, which require statically declared sizes). If the tokens are unevenly dispatched then certain experts will overflow (red lines in fig. 3), resulting in these tokens not being processed by this layer, and the token representation is passed directly to the next layer through the residual connection. Higher expert capacity helps to mitigate token overflow, and empirically we find ensuring lower rates of dropped tokens are important for the scaling of sparse expert-models.
+  - We simplify a load balancing comparing to MoE. The loss is the dot-product between (i) the fractions of tokens dispatched to experts and (ii) the fractions of the router probability allocated for experts, averaged by a batch (eq. 4-6). We desire both vectors to have values of 1/N, and the described loss is minimized under a uniform distribution. It can be differentiated as the probabilities are differentiable.
+  - We consider several approaches to encourage exploration across experts. Multiplicative jitter noise on the incoming representation is slightly better than argmax baseline, while input dropout or sampling from the softmax distribution is worse than baseline (table 11).
+  - Switch transformer outperform dense models on the speed-accuracy Pareto curve. When training T5 architecture on C4 corpus with MLM task, across different models sizes, it outperforms dense models per step and on wall clock time.
+  - To compare Switch Transformer and MoE, the first has a smaller computational footprint (because of k=1), and for a fixed amount of computation and wall-clock time, it achieves better result. If we increase its size to match the training speed of the MoE Transformer, it outperforms MoE on a per step basis as well.
+  - Sparse expert models may introduce instability. For this reason, in Gshard float32 was used when training MoEs. We only cast the router input to float32 precision, and no expensive float32 tensors are broadcast through all-to-all communication operation.
+  - We reduce the default Transformer initialization scale s = 1.0 by a factor of 10. This both improves quality and reduces the likelihood of destabilized training in our experiments.
+  - Switch Transformers have a lot of parameters, which can lead to severe overfitting on smaller downstream tasks. Simply increasing the dropout across all layers leads to worse performance. We propose expert dropout: setting a smaller dropout rate (0.1) at non-expert layers and a much larger dropout rate (0.4) at expert layers leads to performance improvements on four smaller downstream tasks.
+  - Scaling properties are the following. When keeping the FLOPS per token fixed, having more parameters (experts) speeds up training on a step basis (fig. 4), as well as on a wall-clock basis (fig. 5). Interestingly, sparse T5-base trains even faster than a larger dense T5-large (fig. 6). We confirmed that parameters, independent of the total FLOPs used, are a useful axis to scale neural LMs. The Switch Transformer is beneficial even with only a few computational cores.
+  - As in "Scaling laws for neural language models", we find that larger models are also more sample efficient — learning more quickly for a fixed number of observed tokens.
+  - Switch Transformer is also an effective architecture at small scales: training Switch Transformers with 2, 4, or 8 experts results in solid improvements over T5-Base dense baselines (fig. 12).
+  - In fine-tuning, we observe significant improvements spanning both reasoning and knowledge-heavy tasks. This validates our architecture, not just as one that pre-trains well, but can translate quality improvements to downstream tasks via fine-tuning.
+  - Deploying massive neural networks is inconvenient, so we study distilling large sparse models into small dense models. Initializing T5-Base with the non-expert weights from Switch-Base and using a loss from a mixture of teacher and ground-truth labels obtains the best performance, preserving 30% of the quality gains of the large sparse teacher (table 6).
+  - We also distil Switch-Base fine-tuned on the SuperGLUE task, into a FLOP matched dense 223M T5-Base. Similarly, we are able to preserve 30% of the gains of the sparse model. Potentially we may examine the specific experts being used for fine-tuning tasks and extracting them to achieve better model compression.
+  - We discuss data-, model-, and expert-parallelism in sec. 5. We design 395 billion parameters, 64 experts, 6.3T FLOPS model (Switch XXL) and 1.6 trillion parameters, 2048 experts, 890B FLOPS model (Switch-C). Switch-C model exhibits no training instability at all, but Switch XXL with nearly 10x larger FLOPs per sequence, is sometimes unstable.
+  - Fig. 13 presents the correlation of the C4 pre-training loss and SuperGLUE (model’s reasoning) and TriviaQA (factual knowledge) score. We found different scaling relationships for dense and switch models: switch models seem to better translate pretraining loss gains into factual knowledge fine-tuning score, but further statistics would be necessary to confirm these observations.
+  - Besides FFN, in Appendix A, we report quality improvement adding switch experts inside self-attention layers, where our layer replaces the weight matrices which produce Q, K, V (fig. 10). Though we find improvements, we also found these layers to be more unstable when using bfloat16 precision.
+
+@misc{BibEntry2022Feb,
+	title = {{The Bitter Lesson}},
+	year = {2022},
+	month = feb,
+	note = {[Online; accessed 16. Dec. 2024]},
+	url = {https://www.cs.utexas.edu/~eunsol/courses/data/bitter_lesson.pdf}
+}
+  - The biggest lesson from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin.
+  - Researchers seek to leverage their human knowledge of the domain. This always helps in the short term, and is personally satisfying to the researcher. But in the long run it plateaus and even inhibits further progress. Breakthrough progress eventually arrives by an opposing approach based on scaling computation by search and learning - the two methods that seem to scale arbitrarily. The human-knowledge approach tends to complicate methods in ways that make them less suited to taking advantage of general methods leveraging computation.
+  - In game Go engine, initial efforts went into avoiding search by taking advantage of human knowledge, or of the special features of the game, but all those efforts proved irrelevant, or worse, once search was applied effectively at scale. We have to learn the bitter lesson that building in how we think we think (?) does not work in the long run.
+  - In speech recognition, there was an early competition, sponsored by DARPA, in the 1970s. The statistical methods won out over the human-knowledge-based methods. Deep learning methods rely even less on human knowledge, and use even more computation, together with learning on huge training sets. Putting human knowledge in their systems proved ultimately counterproductive, and a colossal waste of researcher's time. The same in computer vision.
+  - The second general point to be learned from the bitter lesson is that the actual contents of minds are tremendously, irredeemably complex; we should stop trying to find simple ways to think about the contents of minds, such as simple ways to think about space, objects, multiple agents, or symmetries. All these are part of the arbitrary, intrinsically-complex, outside world.
+  - We should build in only the meta-methods that can find and capture arbitrary complexity. They can find good approximations, but the search for them should be by our methods, not by us. We want AI agents that can discover like we can, not which contain what we have discovered. Building in our discoveries only makes it harder to see how the discovering process can be done.
+
+@article{Kaplan2020Jan,
+	author = {Kaplan, Jared and McCandlish, Sam and Henighan, Tom and Brown, Tom B. and Chess, Benjamin and Child, Rewon and Gray, Scott and Radford, Alec and Wu, Jeffrey and Amodei, Dario},
+	title = {{Scaling Laws for Neural Language Models}},
+	journal = {arXiv},
+	year = {2020},
+	month = jan,
+	eprint = {2001.08361},
+	doi = {10.48550/arXiv.2001.08361}
+}
+  - To study scaling laws we train decoder-only Transformer on WebText2. We also train LSTM models and Universal Transformers for comparison. We used Adam with learning rate schedule with a 3000 step linear warmup followed by a cosine decay to zero.
+  - Transformer LM performance (on the cross-entropy loss) depends most strongly on scale: the number of model parameters N (excluding embeddings, otherwise the trend is somewhat obscured), the size of the dataset D, the amount of compute C used for training. Empirical performance has a power-law relationship with each individual factor when not bottlenecked by the other two (fig. 1, 11). For optimal performance all three factors must be scaled up in tandem.
+  - Larger models reach the same level of performance with fewer optimization steps (fig. 2) and using fewer data points, i.e. are more sample efficient.
+  - The critical batch size, which determines the speed/efficiency tradeoff for data parallelism, also roughly obeys a power law in L, when the loss L is a function of N, D, C.
+  - The results in fig. 1 involved training at a fixed batch size B, whereas we could train more efficiently by training at the critical batch size.
+  - As more compute becomes available, most of the increase should go towards increased model size. Optimal model size increases by 5x for each 10x increase in compute (fig. 14a). The optimal number of data grows relatively modestly by only 2x. The optimal number of optimization steps grows very slowly, if at all (fig. 14b), meaning that most of the growth in data examples processed can be used for increased batch sizes. Models between 0.6x and 2.2x the optimal size can be trained with a 20% larger compute budget (fig. 12a)
+  - Convergence is inefficient: we attain optimal performance by training very large models and stopping significantly short of convergence (fig. 3).
+  - Fig. 4 (left) shows the early-stopped test loss L as a function of N, D.
+  - Universality of overfitting: performance improves predictably as long as we scale up N and D in tandem, but enters a regime of diminishing returns if either N or D is held fixed while the other increases. Every time we increase the model size 8x, we need to increase the data by roughly 5x to avoid a penalty.
+  - When testing on additional text data distributions (Books, Wikipedia etc.), loss depends almost exclusively on the in-distribution validation loss (fig. 8), and does not depend on the duration of training, proximity to convergence or model depth.
+  - Results at convergence were largely independent of learning rate schedule.
+  - Performance depends very mildly on model shape such as depth vs. width (fig. 5). The loss varies only a few percent.
+  - When varying non-embedding parameter count, Transformers asymptotically outperform LSTMs. When measuring per-token test loss, LSTMs perform as well as Transformers for tokens appearing early in the context, but cannot match the Transformer performance for later tokens (fig. 7).
+  - Recurrent (universal) transformers from Dehghani et. al, 2018 perform slightly better when comparing models with equal parameter count due to reusing parameters, but slightly worse when comparing per FLOP (fig. 17).
+  - Our trends must eventually level off, since natural language has non-zero entropy. Far beyond the model sizes we study empirically, we find a contradiction between our equations: the amount of data used by compute-efficient training grows slowly with the compute budget, the performance predicted by L(C_min) eventually hits a lower bound set by the L(D) power law (fig. 15). There is a maximum rate at which the dataset size can productively grow with compute (when we are only training for a single epoch, eq. 6.7), but it grows the dataset much more slowly than in eq. 6.6 (the optimal dataset size to keep overfitting under control). It appears to imply that compute-efficient training will eventually run into a problem with overfitting, even if the training process never re-uses any data! This point occurs nearly at 10^4 petaflop-days, 10^12 parameters, 10^12 tokens and loss 1.7 nats/token (though the numerical values are highly uncertain, varying by an order or magnitude). The most obvious interpretation is that our scaling laws break down at or before we reach this point. If we reach this point, perhaps this means that we have extracted all of the reliable information available in natural language data. We conjecture that this point provides an estimate of the point at which Transformer language models reach maximal performance.
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
