@@ -5284,6 +5284,63 @@ Yang, S.-w., Chang, H.-J., Huang, Z., Liu, A. T., Lai, C.-I., Wu, H., ...Lee, H.
   - We benchmark XEUS on the English-only SUPERB, comparing to WavLM, the SOTA model on the SUPERB leaderboard for almost all tasks. XEUS consistently reaches if not surpasses SOTA scores across a variety of tasks, obtaining the highest score in 4 English-only tasks (Keyword Spotting, Speaker Diarization, Emotion Recognition, Speech Recognition), despite its curse of multilinguality.
   - Also, resynthesized speech from XEUS is higher quality than that from both WavLM and w2v-BERT 2.0 v2 across all metrics (with unit-to-speech HiFiGAN vocoders trained for speech synthesis).
 
+@article{Zelasko2021Oct,
+	author = {{\ifmmode\dot{Z}\else\.{Z}\fi}elasko, Piotr and Povey, Daniel and Trmal, Jan "Yenda" and Khudanpur, Sanjeev},
+	title = {{Lhotse: a speech data representation library for the modern deep learning ecosystem}},
+	journal = {arXiv},
+	year = {2021},
+	month = oct,
+	eprint = {2110.12561},
+	doi = {10.48550/arXiv.2110.12561}
+}
+  - Speech data is notoriously difficult to work. Recordings come in many flavors, audio is encoded with a variety of codecs, the meta-data comes with a different schema for each dataset. Kaldi introduced a standard representation for all datasets, however its learning curve is steep.
+  - We present Lhotse, a speech data representation library. It is one of the three libraries that constitute the next-generation Kaldi framework (the remaining two are k2 for differentiable, GPU-accelerated weighted finite state automata (WFSA) algorithms; and Icefall that contains simple, reproducible recipes for training and evaluating speech models).
+  - Lhotse provides standard data preparation recipes for publicly available corpora (over 30 at the time of writing).
+  - Lhotse defines several types of speeech manifests:
+  - 1) `Recording` abstracts away from the physical location of the audio data. It allows reading audios stored on a local disk, remote URL or a cloud storage service, possibly encoded in different format, with `Recording.load_audio()`.
+  - 2) `SupervisionSegment` denotes a time span in the Recording that has some associated meta-data usable for supervised training (start, duration, speaker ID, gender, age, transcript, etc).
+  - 3) `Features` helps to work with pre-computed features for model training or inference. It contains tensor shape, frame shift, `Recording` ID etc. Similarly to `Recording`, it abstracts away from the storage mechanism and allows to read/write to a local file-system, a cloud storage, and more. Lhotse supports both on-the-fly and pre-computed feature extraction and leverages lilcom, a feature compression engine which lossily compresses floating-point NumPy arrays into byte strings.
+  - 4) `Cut` manifests are the core contribution of Lhotse. They may be viewed as "windows" with a certain offset and duration in a `Recording` that have zero or more `SupervisionSegments`. Most operations performed on cuts are lazy - whether it’s mixing, truncation, padding, or augmentation. `Cut` provides greater data preparation flexibility than was possible with Kaldi - it allows to construct training examples with additional acoustic context for each utterance (e.g., background noises in a telephone conversation that could help the network adapt) or even additional speech context (e.g., modelling contextual dependencies between utterances in a podcast).
+  - 5) `CutSet` is a collection of cuts. All speech corpora are represented as CutSets. It has over 30 methods that simplify padding, sub-setting, truncating, extracting features, or visualizing and listening to in Jupyter notebooks. `CutSet` also supports data augmentation that correctly adjusts the relevant meta-data, such as speech segments duration. `CutSet` has a few methods for converting long recordings into shorter cuts (fig. 1).
+  - Note that Lhotse is not a feature extraction or augmentation library (it leverages external implementations for these tasks), and is not a framework for training, it just provides a set of tools.
+  - Lhotse implementы the PyTorch data API: `Dataset`, `Sampler`, and `DataLoader`. Very large datasets (tens of thousands of hours) are seamlessly handled with minimal memory usage. In our implementation `Sampler` not only provides indices, it "owns" the CutSets with training data, determines the batch size dynamically, based on constraints such as the maximum total speech duration in a mini-batch, and `Dataset` simply acts as a function that transforms a mini-batch `CutSet` into a mini-batch tensor. Lhotse implements several CutSamplers. `SingleCutSampler` is used where the model works with single utterances, `CutPairsSampler` uses two CutSets with matching cut IDs (for example, for voice conversion or speech translation), `BucketingSampler`augments sampler types by stratifying the data into similar-duration buckets to minimize the padding. `ZipSampler` draws batches from multiple samplers and combines them together, which is useful in diversifying the data from multiple sources (domains) during the training.
+
+@incollection{Gemmeke,
+	author = {Gemmeke, Jort F. and Ellis, Daniel P. W. and Freedman, Dylan and Jansen, Aren and Lawrence, Wade and Moore, R. Channing},
+	title = {{Audio Set: An ontology and human-labeled dataset for audio events}},
+	booktitle = {{2017 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}},
+	journal = {Published in: 2017 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+	pages = {05--09},
+	issn = {2379-190X},
+	publisher = {IEEE},
+	doi = {10.1109/ICASSP.2017.7952261}
+}
+  - We present Audio Set, a dataset and ontology of audio events that endeavors to provides comprehensive coverage of real-world sounds at ImageNet-like scale.
+  - Our final list contains 632 audio event categories, arranged in a hierarchy with a maximum depth of 6 levels; an example from among the eight level-6 nodes is "Sounds of things" → "Vehicle" → "Motor vehicle" → "Emergency vehicle" → "Siren" → "Ambulance (siren)".
+  - For each class we provide a description, typically one or two sentences, and examples. Of the 632 categories, 56 are "blacklisted" because they have turned out to be obscure or confusing (e.g., "Sounds of things").
+  - Another 22 nodes are marked "Abstract" (e.g., "Onomatopoeia"), meaning that they exist purely as intermediate nodes to help structure the ontology, and are not expected to ever be used directly as labels.
+  - The Audio Set YouTube Corpus consists of labeled YouTube segments with one or more ontology class labels. It includes 1,789,621 segments (4,971 hours). Single segments can have multiple labels (on average 2.7 labels per segment).
+  - Human raters were presented with both the video and audio components (audio-only presentation was found to be more difficult) and asked to independently rate the presence of one or more labels. Each segment was rated by three raters and a majority vote was required to record an overall rating. For speed, a segment’s third rating was not collected if the first two ratings agreed for all labels. The raters were unanimous in 76.2% of votes. The "unsure" answer was rare.
+  - We provide maximally-balanced train and test subsets (from disjoint videos), chosen to provide at least 50 positive examples (in both subsets) for as many classes as possible.
+  - There were some categories for which we were unable to find enough positive examples to fully populate the dataset, but this proportion is now very small (and shrinking).
+  - We have trained a simple baseline system.
+  
+@article{Gong2021Apr,
+	author = {Gong, Yuan and Chung, Yu-An and Glass, James},
+	title = {{AST: Audio Spectrogram Transformer}},
+	journal = {arXiv},
+	year = {2021},
+	month = apr,
+	eprint = {2104.01778},
+	doi = {10.48550/arXiv.2104.01778}
+}
+  - Motivated by the success of purely attention-based models in the vision domain, it is reasonable to ask whether a CNN is still essential for audio classification.
+  - We introduce the Audio Spectrogram Transformer (AST), a convolution-free, purely attention-based model (fig. 1). It is applied to an audio spectrogram, which is split into a sequence of 16×16 patches with overlap, and then linearly projected to a sequence of 1-D patch embeddings with learnable positional embeddings. An additional CLS token is prepended to the sequence. The resulting sequence is then input to the Transformer encoder. The output of the CLS token is used for classification with a linear layer with sigmoid activation maps. (IMO, sigmoid is probably used because AudioSet is a multi-label classification dataset; but what about other tasks?)
+  - Strictly speaking, the patch embedding layer can be viewed as a single convolution layer with a large kernel and stride size, and the projection layer in each Transformer block is equivalent to 1×1 convolution. However, the design is different from conventional CNNs, and these Transformer models are usually referred to as convolution-free.
+  - Transformer needs more data to train than CNNs. We are able to transfer the 2D spatial knowledge from a pretrained ViT (slightly modified for compatibility) to the AST. mageNet pretrained AST noticeably outperforms randomly initialized AST, especially when the training data volume is smaller. We initialize AST with DeiT weights, and further perform ImageNet distillation.
+  - Using 128×2 rectangle patches leads to better performance than using 16×16 square patches when both models are trained from scratch. However, there is no 128×2 patch based ImageNet pretrained models, so using 16×16 patches is the optimal solution. Also smaller size patches lead to better performance.
+  - AST naturally supports variable-length inputs and can be applied to different tasks.
+
 Zhang, L., Jiang, N., Wang, Q., Li, Y., Lu, Q., & Xie, L. (2024). Whisper-SV: Adapting Whisper for Low-data-resource Speaker Verification. arXiv, 2407.10048. Retrieved from https://arxiv.org/abs/2407.10048v1
 
 ## CV: localization (detection, segmentation)
@@ -7075,21 +7132,49 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {2001.08361},
 	doi = {10.48550/arXiv.2001.08361}
 }
-  - To study scaling laws we train decoder-only Transformer on WebText2. We also train LSTM models and Universal Transformers for comparison. We used Adam with learning rate schedule with a 3000 step linear warmup followed by a cosine decay to zero.
-  - Transformer LM performance (on the cross-entropy loss) depends most strongly on scale: the number of model parameters N (excluding embeddings, otherwise the trend is somewhat obscured), the size of the dataset D, the amount of compute C used for training. Empirical performance has a power-law relationship with each individual factor when not bottlenecked by the other two (fig. 1, 11). For optimal performance all three factors must be scaled up in tandem.
-  - Larger models reach the same level of performance with fewer optimization steps (fig. 2) and using fewer data points, i.e. are more sample efficient.
-  - The critical batch size, which determines the speed/efficiency tradeoff for data parallelism, also roughly obeys a power law in L, when the loss L is a function of N, D, C.
-  - The results in fig. 1 involved training at a fixed batch size B, whereas we could train more efficiently by training at the critical batch size.
-  - As more compute becomes available, most of the increase should go towards increased model size. Optimal model size increases by 5x for each 10x increase in compute (fig. 14a). The optimal number of data grows relatively modestly by only 2x. The optimal number of optimization steps grows very slowly, if at all (fig. 14b), meaning that most of the growth in data examples processed can be used for increased batch sizes. Models between 0.6x and 2.2x the optimal size can be trained with a 20% larger compute budget (fig. 12a)
-  - Convergence is inefficient: we attain optimal performance by training very large models and stopping significantly short of convergence (fig. 3).
-  - Fig. 4 (left) shows the early-stopped test loss L as a function of N, D.
+  - To study scaling laws we train decoder-only Transformer on WebText2. Context length is 1024 and batch size us 2^19 for most runs, but we also vary it. We also train LSTM models and Universal Transformers for comparison. We used Adam with learning rate schedule with a 3000 step linear warmup followed by a cosine decay to zero.
+  - Transformer LM performance (on the cross-entropy loss) depends most strongly on scale: the number of model parameters N (excluding embeddings, otherwise the trend is somewhat obscured), the size of the dataset D, the amount of compute C used for training. Empirical performance has a power-law relationship with each individual factor when not bottlenecked by the other two (fig. 1, 11).
+  - After an initial transient period, learning curves for all model sizes follow predictable power-laws whose parameters are roughly independent of the model size. This reflects the interplay of optimizer dynamics and the loss landscape. Since the fits are best late in training, when the loss may be approximately quadratic, the powerlaw should provide information about the spectrum of the Hessian of the loss. Its universality suggests that the Hessian eigenvalue density is roughly independent of model size.
+  - Larger models are more sample efficient: they require fewer samples and optimization steps to reach the same performance (fig. 2). The early-stopped test loss varies predictably with the dataset size and model size (fig. 4a). However, convergence is inefficient: we attain optimal performance by training very large models and stopping significantly short of convergence (fig. 2b).
+  - The critical batch size, which determines the speed/efficiency tradeoff for data parallelism, also roughly obeys a power law in L, when the loss L is a function of N, D, C. The results in fig. 1 involved training at a fixed batch size B, whereas we could train more efficiently by training at the critical batch size.
+  - For optimal performance all three factors N, D, C must be scaled up in tandem. As more compute becomes available, most of the increase should go towards increased model size (fig. 3). Optimal model size increases by 5x for each 10x increase in compute (fig. 14a). The optimal number of data grows relatively modestly by only 2x. The optimal number of optimization steps grows very slowly, if at all (fig. 14b), meaning that most of the growth in data examples processed can be used for increased batch sizes. Models between 0.6x and 2.2x the optimal size can be trained with a 20% larger compute budget (fig. 12a).
   - Universality of overfitting: performance improves predictably as long as we scale up N and D in tandem, but enters a regime of diminishing returns if either N or D is held fixed while the other increases. Every time we increase the model size 8x, we need to increase the data by roughly 5x to avoid a penalty.
   - When testing on additional text data distributions (Books, Wikipedia etc.), loss depends almost exclusively on the in-distribution validation loss (fig. 8), and does not depend on the duration of training, proximity to convergence or model depth.
   - Results at convergence were largely independent of learning rate schedule.
-  - Performance depends very mildly on model shape such as depth vs. width (fig. 5). The loss varies only a few percent.
+  - Performance depends very mildly on model shape such as depth vs. width (fig. 5). The loss varies only a few percent. Deep residual models can function as ensembles of shallower models (see "Residual networks behave like ensembles of relatively shallow networks"), which could potentially explain this finding.
   - When varying non-embedding parameter count, Transformers asymptotically outperform LSTMs. When measuring per-token test loss, LSTMs perform as well as Transformers for tokens appearing early in the context, but cannot match the Transformer performance for later tokens (fig. 7).
   - Recurrent (universal) transformers from Dehghani et. al, 2018 perform slightly better when comparing models with equal parameter count due to reusing parameters, but slightly worse when comparing per FLOP (fig. 17).
-  - Our trends must eventually level off, since natural language has non-zero entropy. Far beyond the model sizes we study empirically, we find a contradiction between our equations: the amount of data used by compute-efficient training grows slowly with the compute budget, the performance predicted by L(C_min) eventually hits a lower bound set by the L(D) power law (fig. 15). There is a maximum rate at which the dataset size can productively grow with compute (when we are only training for a single epoch, eq. 6.7), but it grows the dataset much more slowly than in eq. 6.6 (the optimal dataset size to keep overfitting under control). It appears to imply that compute-efficient training will eventually run into a problem with overfitting, even if the training process never re-uses any data! This point occurs nearly at 10^4 petaflop-days, 10^12 parameters, 10^12 tokens and loss 1.7 nats/token (though the numerical values are highly uncertain, varying by an order or magnitude). The most obvious interpretation is that our scaling laws break down at or before we reach this point. If we reach this point, perhaps this means that we have extracted all of the reliable information available in natural language data. We conjecture that this point provides an estimate of the point at which Transformer language models reach maximal performance.
+  - Our trends must eventually level off, since natural language has non-zero entropy. Far beyond the model sizes we study empirically, we find a contradiction between our equations: the amount of data used by compute-efficient training grows slowly with the compute budget, the performance predicted by L(C_min) eventually hits a lower bound set by the L(D) power law (fig. 15). There is a maximum rate at which the dataset size can productively grow with compute (when we are only training for a single epoch, eq. 6.7), but it grows the dataset much more slowly than in eq. 6.6 (the optimal dataset size to keep overfitting under control). It appears to imply that compute-efficient training will eventually run into a problem with overfitting, even if the training process never re-uses any data! This point occurs nearly at 10^4 petaflop-days, 10^12 parameters, 10^12 tokens and loss 1.7 nats/token (though the numerical values are highly uncertain, varying by an order or magnitude). The most obvious interpretation is that our scaling laws break down at or before we reach this point. However, this may have a deeper meaning. If we cannot increase the model size even more without qualitatively different data requirements, perhaps this means that we have extracted all of the reliable information available in natural language data. We conjecture that this point provides an estimate of the point at which Transformer language models reach maximal performance.
+  - This is not the first work which found power-law scalings between performance and dataset size. However, for example, "Deep learning scaling is predictable, empirically" (2017) found super-linear scaling of dataset size with model size, whereas we find a sub-linear scaling.
+
+@article{Rosenfeld2019Sep,
+	author = {Rosenfeld, Jonathan S. and Rosenfeld, Amir and Belinkov, Yonatan and Shavit, Nir},
+	title = {{A Constructive Prediction of the Generalization Error Across Scales}},
+	journal = {arXiv},
+	year = {2019},
+	month = sep,
+	eprint = {1909.12673},
+	doi = {10.48550/arXiv.1909.12673}
+}
+  - What is the functional relation betweeng eneralization error and model and dataset sizes?
+  - We use 6 datasets for image classification and 3 for language modeling.
+  - For a given dataset size, scaling up the model results in an initial power-law decrease in test error, which then saturates to a level determined by the dataset size.
+  - For a given model size, scaling up the dataset results in an initial power-law increase in performance, which then saturates to a level determined by the model size.
+
+@article{Bahri2021Feb,
+	author = {Bahri, Yasaman and Dyer, Ethan and Kaplan, Jared and Lee, Jaehoon and Sharma, Utkarsh},
+	title = {{Explaining Neural Scaling Laws}},
+	journal = {arXiv},
+	year = {2021},
+	month = feb,
+	eprint = {2102.06701},
+	doi = {10.1073/pnas.2311878121}
+}
+  - We are interested in how the average test loss L(D, P) depends on the dataset size D and the number of model parameters P.
+  - We identify variance-limited and resolution-limited scaling behavior for both dataset and model size (for a total of four scaling regimes). They originate from different mechanisms.
+  - The variance-limited scaling follows simply from the existence of a well-behaved infinite data or infinite width limit. We prove (theorem 1) that if we scale the dataset size D, the training loss will approach the population loss, where fluctuations scale as 1/D. Also recent work shows that wide networks have a smooth large P limit, when the predictions approach a limiting distribution equivalent to a linear model with random features (see NTK), and fluctuations scale as 1/width (or 1/√P), i.e. the loss will differ from its infinite width limit by a term proportional to 1/width.
+  - The resolution-limited regime happens in overparameterized models with dataset or underparameterized models with model size. For exmaple, if D ≫ P ≫ 1 (D is infinite, P grows), the model is underparametrized, and this regime can be viewed as the "ideal-world generalization error", where optimizers take steps on the population loss (see "The Deep Bootstrap Framework" paper). We prove (theorem 3) that if we construct a sufficiently smooth estimator for true target function F by interpolating among P randomly chosen points, then the loss will be bounded by O(P^(1/d)), and probably this is not only a bound, but an estimate. Same for P ≫ D ≫ 1 (P is infinite, D grows) in overparameterized model.
+  - TODO
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
