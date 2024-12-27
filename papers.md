@@ -7156,7 +7156,7 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {1909.12673},
 	doi = {10.48550/arXiv.1909.12673}
 }
-  - What is the functional relation betweeng eneralization error and model and dataset sizes?
+  - What is the functional relation betweeng generalization error and model and dataset sizes?
   - We use 6 datasets for image classification and 3 for language modeling.
   - For a given dataset size, scaling up the model results in an initial power-law decrease in test error, which then saturates to a level determined by the dataset size.
   - For a given model size, scaling up the dataset results in an initial power-law increase in performance, which then saturates to a level determined by the model size.
@@ -7173,8 +7173,44 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - We are interested in how the average test loss L(D, P) depends on the dataset size D and the number of model parameters P.
   - We identify variance-limited and resolution-limited scaling behavior for both dataset and model size (for a total of four scaling regimes). They originate from different mechanisms.
   - The variance-limited scaling follows simply from the existence of a well-behaved infinite data or infinite width limit. We prove (theorem 1) that if we scale the dataset size D, the training loss will approach the population loss, where fluctuations scale as 1/D. Also recent work shows that wide networks have a smooth large P limit, when the predictions approach a limiting distribution equivalent to a linear model with random features (see NTK), and fluctuations scale as 1/width (or 1/√P), i.e. the loss will differ from its infinite width limit by a term proportional to 1/width.
-  - The resolution-limited regime happens in overparameterized models with dataset or underparameterized models with model size. For exmaple, if D ≫ P ≫ 1 (D is infinite, P grows), the model is underparametrized, and this regime can be viewed as the "ideal-world generalization error", where optimizers take steps on the population loss (see "The Deep Bootstrap Framework" paper). We prove (theorem 3) that if we construct a sufficiently smooth estimator for true target function F by interpolating among P randomly chosen points, then the loss will be bounded by O(P^(1/d)), and probably this is not only a bound, but an estimate. Same for P ≫ D ≫ 1 (P is infinite, D grows) in overparameterized model.
-  - TODO
+  - The resolution-limited regime happens in overparameterized models with dataset size or underparameterized models with model size. For exmaple, if D ≫ P ≫ 1 (D is infinite, P grows), the model is underparametrized, and this regime can be viewed as the "ideal-world generalization error", where optimizers take steps on the population loss (see "The Deep Bootstrap Framework" paper). We prove (theorem 3) that if we construct a sufficiently smooth estimator for true target function F by interpolating among P randomly chosen points, then the loss will be bounded by O(P^(1/d)), and probably this is not only a bound, but an estimate. Same for P ≫ D ≫ 1 (P is infinite, D grows) in overparameterized model.
+  - Linear predictors may serve as a test bed to study training dynamics. Furthermore, linear predictors constructed from random features provide an accurate description of DNNs in the large width limit (see NTK and "Wide neural networks of any depth evolve as linear models under gradient descent". We distil linear teacher with a lot of deep features into a student with much less count of deep featues. In this setting we demonstrate variance-limited scaling and resolution-limited scaling. both theoretically and empirically.
+  - For CIFAR-100 superclassed to N classes, we find that the number of target classes does not have a visible effect on the scaling exponent (power law coefficient) in resolution-limited scaling. This suggests that DNNs may be largely learning properties of the input data manifold – akin to unsupervised learning – rather than significant task-specific structure.
+
+@article{Wu2019Jan,
+	author = {Wu, Felix and Fan, Angela and Baevski, Alexei and Dauphin, Yann N. and Auli, Michael},
+	title = {{Pay Less Attention with Lightweight and Dynamic Convolutions}},
+	journal = {arXiv},
+	year = {2019},
+	month = jan,
+	eprint = {1901.10430},
+	doi = {10.48550/arXiv.1901.10430}
+}
+  - We propose LightConv, that is a depthwise convolution: it works independently over every channel, that is, i-th output channel depends only on i-th input channel. The total number of parameters equals dk, where d is the count of input and ouptut channels, and k is the kernel_size. We also normalize convolutional weights with softmax across the temporal dimension. To further reduce weights, we select a hyperparameter H=16 and tie the parameters of every subsequent number of d/H channels.
+  - For example, if d=1024 and k=7, a regular convolution has kd^2 = 7.3M weights, a depthwise convolution has kd = 7168 weights, and with weith sharing with H=16 it has only kH = 112 weights.
+  - We also propose DynamicConv. It takes the same form as LightConv but uses a time-step dependent kernel, computed as a linear learnable function R^d -> R^(Hk). Our vast reduction in the number of convolution parameters is crucial to make this possible on current hardware memory requirements.
+  - The weights of DynamicConv do not depend on the entire context, they are a function of the current time-step only. The computation scales linearly in the sequence length.
+  - We apply GLU layer before LightConv and linear projection with d x d weight matrix after LightConv. We found DropConnect to be a good regularizer for the LightConv module: we drop every entry of the softmax-normalized weights probability p and divide it by 1 − p during training.
+  - We describe a CUDA implementation of our method.
+  - We experiment with an encoder-decoder architecture for seq2seq learning. In encoder and decoder we replace self-attention with either LightConv or DynamicConv. The cross-attention is the same as in regular transformer. To compare with transformer baseline, we increase the number of blocks to N=7 in LightConv and DynamicConv, since these layers use less parameters. Encoder blocks have kernel sizes 3, 7, 15, 31, 31, 31, 31.
+  - LightConv can outperform a strong self-attention baseline on WMT’17 Chinese-English translation, IWSLT’14 German-English translation and CNNDailyMail summarization. This is surprising because the common belief is that content-based self-attention mechanisms are necessary to obtaining SOTA results in NLP applications. DynamicConv improve further and achieve a new state of the art on the test set of WMT’14 English-German.
+  - Both LightConv and DynamicConv are 20% faster than self-attention.
+  - IMO, if we take H=1, we average every k subsequent vectors with k weights, but this is different to windowed self-attention: the weights are not based on similarity, but are a function of the middle vector. H>1, together with input and output projections, can be seen as H=1 but multiple parallel calculations of (input proj + LightConv + output proj) and summing the results, when input proj projects from dimension d to dimension d/H.
+
+@article{So2019Jan,
+	author = {So, David R. and Liang, Chen and Le, Quoc V.},
+	title = {{The Evolved Transformer}},
+	journal = {arXiv},
+	year = {2019},
+	month = jan,
+	eprint = {1901.11117},
+	doi = {10.48550/arXiv.1901.11117}
+}
+  - We apply neural architecture search to the Transformer.
+  - We use the same tournament selection algorithm as AmoebaNet-A and encourage the reader to view their in-depth description of the method. In Tournament selection, we first define a gene encoding that describes architecture, randomly sample an initial population, evaluate fitness (valiation loss on WMT 2014 En-De), produce subpopulations, perform mutations and so on.
+  - Our encoding search space is inspired by the NASNet search space. We ensure that it can represent the Transformer, so that we could seed the initial population with it. A child model’s genetic encoding is expressed as: (left input, left normalization, left layer, left relative output dimension, left activation, right input, right normalization, right layer, right relative output dimension, right activation, combiner function) × 14 + (number of cells) × 2, with the first 6 blocks allocated to the encoder and the latter 8 allocated to the decoder.
+  - To train a Transformer to peak performance on WMT’14 En-De requires ∼10 hours. In our preliminary experimentation we could not find a proxy task that gave adequate signal for how well each child model would perform on the full WMT’14 En-De task; we investigated using only a fraction of the data set and various forms of aggressive early stopping. To address this problem we formulated a method Progressive Dynamic Hurdles (PDH) which allows well performing models that are consistently performing well to train for more steps.
+  - We obtain the Evolved Transformer (ET) (fig. 3) which demonstrates consistent improvement. The four most notable aspects are 1) wide depth-wise separable convolutions, 2) GLU, 3) branching structures and 4) swish activations. Both the ET encoder and decoder independently developed wide depth-wise separable convolutions in the lower layers. (IMO this resembles LightConv from "Pay Less Attention with Lightweight and Dynamic Convolutions").
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
