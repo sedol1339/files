@@ -7211,6 +7211,94 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - Our encoding search space is inspired by the NASNet search space. We ensure that it can represent the Transformer, so that we could seed the initial population with it. A child model’s genetic encoding is expressed as: (left input, left normalization, left layer, left relative output dimension, left activation, right input, right normalization, right layer, right relative output dimension, right activation, combiner function) × 14 + (number of cells) × 2, with the first 6 blocks allocated to the encoder and the latter 8 allocated to the decoder.
   - To train a Transformer to peak performance on WMT’14 En-De requires ∼10 hours. In our preliminary experimentation we could not find a proxy task that gave adequate signal for how well each child model would perform on the full WMT’14 En-De task; we investigated using only a fraction of the data set and various forms of aggressive early stopping. To address this problem we formulated a method Progressive Dynamic Hurdles (PDH) which allows well performing models that are consistently performing well to train for more steps.
   - We obtain the Evolved Transformer (ET) (fig. 3) which demonstrates consistent improvement. The four most notable aspects are 1) wide depth-wise separable convolutions, 2) GLU, 3) branching structures and 4) swish activations. Both the ET encoder and decoder independently developed wide depth-wise separable convolutions in the lower layers. (IMO this resembles LightConv from "Pay Less Attention with Lightweight and Dynamic Convolutions").
+  
+@article{Wu2020Apr,
+	author = {Wu, Zhanghao and Liu, Zhijian and Lin, Ji and Lin, Yujun and Han, Song},
+	title = {{Lite Transformer with Long-Short Range Attention}},
+	journal = {arXiv},
+	year = {2020},
+	month = apr,
+	eprint = {2004.11886},
+	doi = {10.48550/arXiv.2004.11886}
+}
+  - We focus on the efficient inference for mobile devices, where the total number of Mult-Adds is constrained below 500M. Mult-Adds are dominated by the FFN (given a small sequence length around 20-30 as usual in NMT).
+  - We propose Lite Transformer with Long-Short Range Attention (LSRA). It introduces convolution in a parallel branch to capture local dependencies (fig. 3a). We split input into two parts (for two branches) along the channel dimension, which will be mixed by the following FFN layer, it reduces the overall computation by 2x. In convolutional branch we use LiteConv (see "Pay less attention with lightweight and dynamic convolutions"), consisting of linear layers and depth-wise convolution.
+  - In LSRA, due to convolutional branch, attention is specialized for long-term relationships (fig. 3b, c).
+  - We also flatten the FFN layer (IMO it is not clear what does this mean)
+  - Lite Transformer outperform the basic transformer under the mobile settings (fig. 4) and outperforms Evolved Transformer. It indicates that AutoML is not a panacea.
+  - Combined with pruning and quantization, Lite Transformer can achieve 18.2× model size compression.
+  
+@article{Dai2020Jun,
+	author = {Dai, Zihang and Lai, Guokun and Yang, Yiming and Le, Quoc V.},
+	title = {{Funnel-Transformer: Filtering out Sequential Redundancy for Efficient Language Processing}},
+	journal = {arXiv},
+	year = {2020},
+	month = jun,
+	eprint = {2006.03236},
+	doi = {10.48550/arXiv.2006.03236}
+}
+  - Intuitively, for many sequence-level NLP tasks such as text classification and ranking, the full-length sequence of hidden states may contain significant redundancy (information down to the token-level granularity). Linguistic prior encourages gradually merging nearby tokens (words) into larger semantic units (phrases), which leads to a shorter sequence of representations.
+  - We propose Funnel-Transformer: between some transformer layers we insert strided mean pooling layers that reduce temporal dimension (fig. 1). Importantly, instead of directly feeding the pooled sequence into the first self-attention layer of the new block, we only use pooled sequence to construct the query vector (and the residual signal) of the self-attention, while the unpooled sequence serves that role of key and value vectors. We think that this makes compression operation more expressive. We also do not apply pooling to CLS token.
+  - We also propose a "decoder" if the task requires token-level prediction. We employ a single up-sampling with a large expansion rate by repeating each hidden vector several times, and add the last-layer hidden states from the first block of the encoder (this forms a skip connection). In addition, we stack 2 more Transformer layers to achieve a better deep fusion of the low-level and high-level features.
+  - For tasks like sequence classification, the decoder is discarded after pretraining and only the encoder is finetuned.
+  - The capacity drop of a pooled layer could be well compensated by re-investing the saved FLOPs in stacking more layers or increasing the width of the model.
+  - By ablation studies, we found that the performance of the mean and max pooling operation is similar. But they are significantly better than the idea of utilizing attention score (Top-Attn pooling).
+  - The relative positional embeddings (from Transformer-XL) is key to the performance of Funnel-Transformer. We suspect that the pooling operation could destroy the positional information carried by the absolute position encoding. To achieve good result with Funnel-Transformer based on absolute positional embedding, one may inject the absolute positional embedding into each attention layer.
+  - With comparable or even fewer FLOPs, Funnel-Transformer improves over the standard Transformer on text classification, language understanding, and reading comprehension.
+
+@incollection{Goyal2020Nov,
+	author = {Goyal, Saurabh and Choudhury, Anamitra Roy and Raje, Saurabh and Chakaravarthy, Venkatesan and Sabharwal, Yogish and Verma, Ashish},
+	title = {{PoWER-BERT: Accelerating BERT Inference via Progressive Word-vector Elimination}},
+	booktitle = {{International Conference on Machine Learning}},
+	journal = {PMLR},
+	pages = {3690--3699},
+	year = {2020},
+	month = nov,
+	issn = {2640-3498},
+	publisher = {PMLR},
+	url = {https://proceedings.mlr.press/v119/goyal20a.html}
+}
+  - We study optimizing inference time for BERT.
+  - We demonstrate that, due to the self-attention mechanism, there is diffusion of information: as the word-vectors pass through the transformer block pipeline, they start carrying similar information, resulting in redundancy. We demonstrate the phenomenon through cosine similarity measurements (fig. 2). Consequently, a significant fraction of the word-vectors can be eliminated.
+  - We develop PoWER-BERT (Progressive Word-vector Elimination for inference time Reduction of BERT).
+  - We identify a retention configuration: a monotonically decreasing sequence l_1, ..., l_12 that specifies the number of word-vectors l_j to retain at each transformer block j. For example, l = (80, 73, 70, 50, 50, 40, 33, 27, 20, 15, 13, 3).
+  - Our intuition that the significance of a word-vector W can be estimated from the attention normalized scores (after softmax) imposed by W on the other word-vectors. For each W, we sum all the attention scores from it to other vectors. At inference time we retain the word-vectors with the topmost significance scores.
+  - We also design soft-extract layer added in between the self-attention and FFN. It involves N learnable parameters (ranging from 0 to 1) per layer: they represent the extent to which the k-th sorted position in the current layer is retained. It would retain all the word-vectors, but multiplies each word-vector by the retention parameter corresponding to its sorted position. We also add L1 loss over the sum of the soft-extract layer parameters. Since the transformer blocks have varying influence on the classification output, we scale the loss over block index. We obtain the retention configuration from the learned parameters by taking non-zero learned parameters (since L1 loss often yields zero-values learned parameters).
+  - Training a pre-trained PoWER-BERT involves 3 steps: (i) fine-tune on the dataset, (ii) insering soft-extract into the fine-tuned model and train to derive the retention configuration, (iii) fine-tune again (from the pre-trained checkpoint?) with fixed retention configuration found at the previous step.
+  - Real-life examples of  word-vector elimination are shown in fig. 7.
+  - PoWER-BERT achieves large reduction in inference time over BERT-base (fig. 6). We also observe that previously proposed Head-Prune method is not competitive: pruning a large fraction of the heads would obliterate the critical self-attention mechanism of BERT.
+  - IMO, it is important not to use bias in K, V projections, so that multiplying vector by zero acts the same as removing it.
+  - IMO, as for the importance of vectors, a vector may be important if it accumulates imformation from other vectors. In this case, the output attention weights can be small. The another possibility to select important vectors is to train a model to predict gradient norm of each vector by loss, and apply this prediction af inference time.
+
+@article{Wang2017Nov,
+	author = {Wang, Xiaolong and Girshick, Ross and Gupta, Abhinav and He, Kaiming},
+	title = {{Non-local Neural Networks}},
+	journal = {arXiv},
+	year = {2017},
+	month = nov,
+	eprint = {1711.07971},
+	doi = {10.48550/arXiv.1711.07971}
+}
+  - We present non-local operations for capturing long-range dependencies with DNNs.
+  - A generic non-local operation computes the response at a position (in space, time, or spacetime) as a weighted sum of the features at all positions in the input feature maps: y_i = 1/C(x) sum_j f(x_i, x_j) g(x_j). It consists of the pairwise function f, the unary function g and the normalization factor C.
+  - We only consider g in the form of a linear projection. (IMO such g is meaningless, since ot can be can be taken out of the formula and applied as 1x1 convolution after the non-local layer, so it is not related to the layer)
+  - A natural choice of f is the Gaussian function f(x1, x2) = exp(x1^T x2), obtaining the self-attention module (up to the normalization coefficient). Euclidean distance as used in is also applicable.
+  - Despite the relation to self-attention, we show that the attentional behavior (due to softmax) is not essential. To show this, we describe two alternative versions: dot product similarity f(x1, x2) = theta(x1)^T fi(x2), and even concatenation f(x1, x2) = ReLU(w [theta(x1), fi(x2)]), where W projects vector to a scalar (IMO, there are two linear ops in a row here, so this equals summing dot products (x_i, w1) and (x_j, w2), where w1 and w2 are learnable, following a ReLU).
+  - Our nonlocal models are not sensitive to the choices of f and g, indicating that the generic non-local behavior is the main reason for the observed improvements. This indicate that the non-locality of the model, which is orthogonal to the ideas of attention, interaction or relation, is the key to empirical success.  Non-local modeling, a long-time crucial element of image processing, has been largely overlooked in recent NNs for CV.
+  - IMO, non-locality may also promote shortcut learning
+
+@article{Tay2020May,
+	author = {Tay, Yi and Bahri, Dara and Metzler, Donald and Juan, Da-Cheng and Zhao, Zhe and Zheng, Che},
+	title = {{Synthesizer: Rethinking Self-Attention in Transformer Models}},
+	journal = {arXiv},
+	year = {2020},
+	month = may,
+	eprint = {2005.00743},
+	doi = {10.48550/arXiv.2005.00743}
+}
+  - We propose Synthesizer, a new model that learns to synthesize the self-alignment matrix instead of manually computing pairwise dot products.
+  - Dot-product content-based attention can be approximated with simpler variants such as random matrices or dense layers without sacrificing much performance in some cases.
+  - Our relatively simple Synthesizer models also outperform Dynamic Convolutions (see "Pay less attention with lightweight and dynamic convolutions") and Linformers.
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
