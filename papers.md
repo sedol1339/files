@@ -1,4 +1,4 @@
-## 1984
+﻿## 1984
 
 Hinton, G. (1984, January 01). Boltzmann machines: Constraint satisfaction networks that learn. Retrieved from https://www.cs.utoronto.ca/~hinton/absps/bmtr.pdf
 
@@ -2406,8 +2406,6 @@ Domingos, P. (2020). Every Model Learned by Gradient Descent Is Approximately a 
     - This contrasts with the standard view of DL as a method for discovering representations from data
     - Our result also has significant implications for boosting algorithms, probabilistic graphical models and convex optimization
     - Also some discussion here: https://www.reddit.com/r/MachineLearning/comments/k8h01q/r_wide_neural_networks_are_feature_learners_not/?rdt=59640
-
-#image_attention Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., ...Houlsby, N. (2020). An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale. arXiv, 2010.11929. Retrieved from https://arxiv.org/abs/2010.11929v2
 
 #thinking Ellis, K., Wong, C., Nye, M., Sable-Meyer, M., Cary, L., Morales, L., ...Tenenbaum, J. B. (2020). DreamCoder: Growing generalizable, interpretable knowledge with wake-sleep Bayesian program learning. arXiv, 2006.08381. Retrieved from https://arxiv.org/abs/2006.08381v1
 
@@ -5496,7 +5494,7 @@ He, Kaiming, Georgia Gkioxari, Piotr Dollár, and Ross Girshick. 2017. “Mask R
 
 Dai, Jifeng, Haozhi Qi, Yuwen Xiong, Yi Li, Guodong Zhang, Han Hu, and Yichen Wei. 2017. “Deformable Convolutional Networks.” arXiv [cs.CV]. arXiv. http://arxiv.org/abs/1703.06211.
 
-    Authors propose a deformable convolution layer (fig. 2, 5). For simplicity, consider a specific filter size 3x3 and C output channels. In a regular 3x3 convolution we have 9 relative spatial locations: R = {(-1, 1), (-1, 0), ..., (1, 1)}. In contrast, a deformable 3x3 convolution filter is two-stage. At the first stage, we apply a regular convolution with 2*9 output channels and obtain float-point (x, y) offsets for each relative location in R. It worth noting that these offsets are calculated independently for each spatial location.
+    Authors propose a deformable convolution layer (fig. 2, 5). For simplicity, consider a specific filter size 3x3 and C output channels. In a regular 3x3 convolution we have 9 relative spatial locations: R = {(-1, 1), (-1, 0), ..., (1, 1)}. In contrast, a deformable 3x3 convolution filter is two-stage. At the first stage, we apply a regular convolution with 2x9 output channels and obtain float-point (x, y) offsets for each relative location in R. It worth noting that these offsets are calculated independently for each spatial location.
     
     At the second stage, we apply a convolution with C output channels, while adding offset for each relative location in R. This gives us fractional offsets, and to handle them we apply bilinear interpolation to input feature map. This can be seen as sampling positions from feature map with float-point offsets and then applying a regular convolution. Both stages are learnable and differentiable, so are easy to integrate into any CNN architectures
     
@@ -7296,9 +7294,67 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {2005.00743},
 	doi = {10.48550/arXiv.2005.00743}
 }
-  - We propose Synthesizer, a new model that learns to synthesize the self-alignment matrix instead of manually computing pairwise dot products.
-  - Dot-product content-based attention can be approximated with simpler variants such as random matrices or dense layers without sacrificing much performance in some cases.
-  - Our relatively simple Synthesizer models also outperform Dynamic Convolutions (see "Pay less attention with lightweight and dynamic convolutions") and Linformers.
+  - We propose Synthesizer with Synthetic Attention, a new model that learns to synthesize the self-alignment matrix instead of manually computing pairwise dot products. We consider a fixed sequence length N: we define a maximum length and dynamically truncate to the actual length of each batch, in similar spirit to trainable positional encodings. We propose two variants (fig. 1 b, c):
+  - 1) Dense Synthesizer. Let vectors have a dimension d. Each token predicts weights for each token in the input sequence with a two-layer FFN. (IMO, seems like there is incorrect notation in sec 3.1: should be B_{i,h,l} ∊ R^N, and then B_{h, l} ∊ R^(NxN)).
+  - 2) Random Synthesizer. The attention weights are initialized to random values which can then either be trainable or kept fixed. We were not expecting this variation to work at all, but it turns out to be a strong baseline. This is a direct generalization of the recently proposed "Fixed Encoder Self-Attention Patterns in Transformer-Based Machine Translation".
+  - The Dense Synthesizer adds d × N parameters, and the Random Synthesizer adds N × N parameters (in each layer and head?). We propose Factorized Dense Synthesizer based on tiling, and Factorized Random Synthesizer based on NxN matrix factorization to prevent overfitting.
+  - On MLM on the C4 dataset and finetuning on SuperGLUE and GLUE benchmarks, random Synthesizers can outperform/match Lightweight Dynamic convolutions along with outperforming Transformers and Universal Transformers. On two encoding tasks, factorized random Synthesizers outperform low-rank Linformers.
+  - For the LM task, Synthesizers are capable of learning a local window attention pattern.
+  - Although, this work made it’s appearance first in May 2020, a year before the MLP-Mixer was proposed, we show that Random Synthesizers are a form of multi-headed MLP-Mixers, with one difference: we use a softmax normalization on the attention weights.
+
+@article{Ramachandran2019,
+	author = {Ramachandran, Prajit and Parmar, Niki and Vaswani, Ashish and Bello, Irwan and Levskaya, Anselm and Shlens, Jon},
+	title = {{Stand-Alone Self-Attention in Vision Models}},
+	journal = {Advances in Neural Information Processing Systems},
+	volume = {32},
+	year = {2019},
+	url = {https://proceedings.neurips.cc/paper/2019/hash/3416a75f4cea9109507cacd8e2f2aefc-Abstract.html}
+}
+  - We develop a local self-attention layer to build a fully attentional vision model. We use a multi-head windowed convolution with k x k window (i. e. each vector aggregates information only from the k x k window around). While using small k, such as k = 3, has a large negative impact on performance, the improvements of using a larger k plateau around k = 11.
+  - To encode positional information, we use 2D relative position embeddings. We calculate row and column offsets between each pair of vectors, and each offset is associted with a positional embedding (seems like they use the same embeddings for horizontal and vertical distance). We concatenate poth positional embeddings (for row offset and column offset). The attention logits are sum of Q^T K and Q^T R, where R is a matrix of the concatenated positional embeddings (eq. 3). Relative position encodings perform 2% better than absolute encodings.
+  - Interestingly, removing the content-content Q^T K interactions and just using the content-relative Q^T R interactions drops the accuracy by only 0.5%. This suggests that future work may improve attention by exploring different parameterizations and usages of positional information. (IMO, an interesting question: what is the relation between Q^T R self-attention and convolution?)
+  - A common ResNet bottleneck block consists of a 1x1 down-projection convolution, a 3x3 spatial convolution, and a 1x1 up-projection convolution, followed by a residual connection. In this block, we swaps the 3x3 spatial convolution with a self-attention layer. A 2x2 average pooling with stride 2 is applied whenever spatial downsampling is required.
+  - The initial layers (stem) of ResNet is a 7x7 convolution with stride 2 followed by 3x3 max pooling with stride 2. Our experiments show that using self-attention in the stem underperforms compared to using the convolution stem of ResNet. To bridge the gap, we apply spatially-varying linear transformations (see sec. 3.2).
+  - Our model outperforms the convolutional baseline for both image classification and object detection.
+
+@article{Dosovitskiy2020Oct,
+	author = {Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and Uszkoreit, Jakob and Houlsby, Neil},
+	title = {{An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale}},
+	journal = {arXiv},
+	year = {2020},
+	month = oct,
+	eprint = {2010.11929},
+	doi = {10.48550/arXiv.2010.11929}
+}
+  - In CV, some recent work replace the convolutions entirely with self-attention (see "Stand-alone self-attention in vision models" and "Axial-deeplab"). While theoretically efficient, they have not yet been scaled effectively on modern hardware accelerators due to the use of specialized attention patterns. Therefore, in large-scale image recognition, classic ResNet-like architectures are still SOTA.
+  - We propose Vision Transformer (ViT): a standard Transformer applied directly to images, with the fewest possible modifications (fig. 1). We split an image into fixed-size patches, linearly embed each of them, add position embeddings, and feed the resulting sequence of vectors to a standard Transformer encoder. In order to perform classification, we use the standard approach of adding an extra learnable CLS to the sequence. We use standard learnable 1D position embeddings, since we have not observed significant performance gains from using more advanced 2D-aware position embeddings.
+  - We train on image classification in supervised fashion. When trained on mid-sized datasets such as ImageNet without strong regularization, these models yield modest accuracies of a few percentage points below ResNets of comparable size. This may be expected: Transformers lack some of the inductive biases inherent to CNNs, such as translation equivariance and locality. However, if the models are trained on larger datasets (14M-300M images), ViT approaches or beats SOTA on multiple image recognition benchmarks.
+  - It is often beneficial to fine-tune at higher resolution than pre-training. When feeding images of higher resolution, we keep the patch size the same, which results in a larger effective sequence length. In this case, the pre-trained position embeddings may no longer be meaningful. We therefore perform 2D interpolation of the pre-trained position embeddings, according to their location in the original image.
+  - As an alternative to raw image patches, the input sequence for Transformer can be formed from feature maps of a CNN. Such hybrids slightly outperform ViT at small computational budgets, but the difference vanishes for larger models which is somewhat surprising.
+  - Fig. 7a shows the top principal components of the the learned linear patch projection. We also visualize the mean attention distance across images, for all layers and heads (fig. 7c). This is analogous to receptive field size in CNNs. Some heads attend to most of the image already in the lowest layers, showing that the ability to integrate information globally is indeed used by the model. Globally, we find that the model attends to image regions that are semantically relevant for classification (fig. 6).
+
+@article{Cordonnier2019Nov,
+	author = {Cordonnier, Jean-Baptiste and Loukas, Andreas and Jaggi, Martin},
+	title = {{On the Relationship between Self-Attention and Convolutional Layers}},
+	journal = {arXiv},
+	year = {2019},
+	month = nov,
+	eprint = {1911.03584},
+	doi = {10.48550/arXiv.1911.03584}
+}
+  - 
+
+@article{Tolstikhin2021Dec,
+	author = {Tolstikhin, Ilya O. and Houlsby, Neil and Kolesnikov, Alexander and Beyer, Lucas and Zhai, Xiaohua and Unterthiner, Thomas and Yung, Jessica and Steiner, Andreas and Keysers, Daniel and Uszkoreit, Jakob and Lucic, Mario and Dosovitskiy, Alexey},
+	title = {{MLP-Mixer: An all-MLP Architecture for Vision}},
+	journal = {Advances in Neural Information Processing Systems},
+	volume = {34},
+	pages = {24261--24272},
+	year = {2021},
+	month = dec,
+	url = {https://proceedings.neurips.cc/paper/2021/hash/cba0a4ee5ccd02fda0fe3f9a3e7b89fe-Abstract.html}
+}
+  - 
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
