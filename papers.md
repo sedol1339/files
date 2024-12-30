@@ -1074,8 +1074,6 @@ Novikov, A., Trofimov, M., & Oseledets, I. (2016). Exponential Machines. arXiv, 
     - The Tensor Train format regularizes an exponentially large tensor of parameters
     - SOTA performance on synthetic data with high-order interactions
 
-Parikh, A. P., Täckström, O., Das, D., & Uszkoreit, J. (2016). A Decomposable Attention Model for Natural Language Inference. arXiv, 1606.01933. Retrieved from https://arxiv.org/abs/1606.01933v2
-
 Poole, B., Lahiri, S., Raghu, M., Sohl-Dickstein, J., & Ganguli, S. (2016). Exponential expressivity in deep neural networks through transient chaos. arXiv, 1606.05340. Retrieved from https://arxiv.org/abs/1606.05340v2
 
 Rolfe, J. T. (2016). Discrete Variational Autoencoders. arXiv, 1609.02200. Retrieved from https://arxiv.org/abs/1609.02200v2
@@ -7399,6 +7397,73 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - The learned class and distillation tokens converge towards different vectors: the average cosine similarity (cos) between these tokens equal to 0.06. The class and distillation embeddings computed at each layer gradually become more similar through the network, all the way through the last layer at which their similarity is 0.93. The embedding associated with the distillation token gives slightly better results than the class token.
   - We verified that our distillation token adds something to the model, compared to simply adding an additional class token associated with the same target label. Even if we initialize them randomly and independently, during training they converge towards the same vector (cos=0.999), and the output embedding are also quasi-identical. This does not bring anything to the classification performance.
   - At test time, we use the late fusion of these two separate heads, for which we add the softmax output by the two classifiers to make the prediction.
+
+@article{Bapna2018Aug,
+	author = {Bapna, Ankur and Chen, Mia Xu and Firat, Orhan and Cao, Yuan and Wu, Yonghui},
+	title = {{Training Deeper Neural Machine Translation Models with Transparent Attention}},
+	journal = {arXiv},
+	year = {2018},
+	month = aug,
+	eprint = {1808.07561},
+	doi = {10.48550/arXiv.1808.07561}
+}
+  - We train Transformer and RNMT+ on WMT’14 En→De dataset and notice that deeper Transformer encoders completely fail to train.
+  - We keep track of the ratio r_t between gradient norm of the first layer and the gradient norm of the last layer, for each training step t, for two reasons:
+  - 1) It indicates if training is suffering from exploding or vanishing gradients.
+  - 2) When a network is properly trained the lowest layers usually converge quickly. We expect that, for a healthy training process, r_t is relatively large during the early stages of training when updates to lower layers are larger than upper layers. We observe this in most successful Transformer and RNMT+ training runs.
+  - Shallow and deep RNMT+ models show the same r_t dynamics, but in Transformer deeper models show lower r_t (fig. 1).
+  - Also, removing residual connections in encoder leads to disastrous results for the Transformer, but only to a slight degradation in RNMT+ with 6 layers (however, deeper versions of RNMT+ fail to train).
+  - We propose Transparent attention for Transformer encoder-decoder and RNMT+. Let h_1, ..., h_N be the output feature map of i-th encoder layer, and h_0 be the encoder input embeddings. We let the decoder attend not only h_N, but all h_i. For each decoder layer, we add N + 1 additional learnable weights, normalize them with softmax, obtaining w_0, ..., w_N, and calculate the weighted sum h_0 w_0 + ... + h_N w_N. Then we apply a regular cross-attention to the result.
+  - Transparent attention improves the Transformer performance, especially for deeper models. It allows to train encoders with up to 20 layers. The r_t dynamics now resembles what we expect to see. The weights for the top few layers remain comparable at convergence (fig. 4), suggesting that the observed gains in performance might also be partially associated with an ensembling effect of the encoder features.
+
+@article{Britz2017Mar,
+	author = {Britz, Denny and Goldie, Anna and Luong, Minh-Thang and Le, Quoc},
+	title = {{Massive Exploration of Neural Machine Translation Architectures}},
+	journal = {arXiv},
+	year = {2017},
+	month = mar,
+	eprint = {1703.03906},
+	doi = {10.48550/arXiv.1703.03906}
+}
+  - We present the first comprehensive analysis of architectural hyperparameters for NMT models consisting of bi-directional RNN encoder and RNN decoder with attention.
+  - We train on WMT’15 English→German task consisting of 4.5M sentence pairs. To test for generality, we also ran a small number of experiments on English→French translation, and we found that the performance was highly correlated with that of English→German. We use a total of more than 250,000 GPU hours.
+  - Our baseline is a 2-layer bidirectional encoder (1 layer in each direction), and a 2 layer decoder with a multiplicative attention. We use 512 embedding size, 512-unit GRU cells with dropout 0.2, Adam optimizer and 1e-4 lr without decay. In each of the experiments,only one hyperparameter is changed, and we perform additional experiments when we believe hyperparameter interactions are likely to occur.
+  - Large 2048-dimensional embeddings yielded the overall best result, but only by a small margin. Even small 128-dimensional embeddings performed surprisingly well,while converging almost twice as quickly. We also did not observe overfitting with large embeddings.
+  - LSTM cells consistently outperformed GRU cells. Vanilla RNN decoder is unable to learn nearly as well as the gated variant (GRU or LSTM). This suggests that the decoder indeed passes information in its own state throughout multiple time steps instead of relying solely on the attention mechanism and current input. It could also be the case that the gating mechanism is necessary to mask out irrelevant parts of the inputs.
+  - We found no clear evidence that encoder depth beyond two layers is necessary, but found deeper models with residual connections to be significantly more likely to diverge during training. The best deep residual models achieved good results, but only one of four runs converged.
+  - On the decoder side, deeper models outperformed shallower ones by a small margin. Without residual connections, it was impossible for us to train decoders with 8 or more layers. In decoder, dense residual connections (from each layer to each layer, as in DenseNet, but with summation rather than concantenation) consistently outperformed regular residual connections and converged much faster in terms of step count (fig. 2).
+  - Bidirectional encoders generally outperform unidirectional encoders, but not by a large margin. The encoders with reversed source consistently outperform their non-reversed counterpart.
+  - The parameterized additive attention (eq. 1) mechanism slightly but consistently outperformed the multiplicative one (eq. 2), with the attention dimensionality having little effect.
+  - We experiment with using no attention mechanism by initializing the decoder state with the last encoder state (None-State), or concatenating the last decoder (IMO, maybe encoder?) state to each decoder input (None-Input). Both variants without attention perform poorly. Also, attention-based models exhibited significantly larger gradient updates to decoder (IMO, maybe encoder?) states throughout training. This suggests that the attention mechanism acts more like a "weighted skip connection" that optimizes gradient flow than like a "memory" that allows the encoder to access source states, as is commonly stated in the literature.
+  - A well-tuned beam search is crucial to achieving good results. Similar to "Neural machine translation with reconstruction", we found that very large beams yield worse results and that there is a "sweet spot" of optimal beam width.
+  
+@article{Parikh2016Jun,
+	author = {Parikh, Ankur P. and T{\ifmmode\ddot{a}\else\"{a}\fi}ckstr{\ifmmode\ddot{o}\else\"{o}\fi}m, Oscar and Das, Dipanjan and Uszkoreit, Jakob},
+	title = {{A Decomposable Attention Model for Natural Language Inference}},
+	journal = {arXiv},
+	year = {2016},
+	month = jun,
+	eprint = {1606.01933},
+	doi = {10.48550/arXiv.1606.01933}
+}
+  - We propose a simple neural architecture for NLI, based on attention and parallelizable across sentence length.
+  - We consider a task of classifying sentence pairs. We use embedding layer to convert them into vector sequences a and b of lengths l_a and l_b. The core model consists of the following three components:
+  - 1) Attend. Soft-align the elements of both sequences using dot product attention e_ij = F(a_i)^T F(b_j), where F is a FFN, obtaining an attention matrix of shape l_a x l_b (fig. 1, left). For each a_i, we normalize all attention weights using softmax over the second axis, and sum b_j with the normalized weights, giving vector β_i. Analogously, for each b_j, we normalize all attention weights using softmax over the first axis, and sum a_i with the normalized weights, giving vector α_i.
+  - 2) Compare. For each i we concatenate a_i and β_i and process with FFN, obtaining v_{1,i}. Analogously, for each j we concatenate b_j and α_j and process with FFN, obtaining v_{2,i}.
+  - 3) Aggregate. We sum v_{1,i} over i and sum v_{2,i} over i, obtaining v_1 and v_2. Then we concatenate them and feed the result through a final FFN classifier.
+  - We can augment input word embeddings with intra-sentence attention to encode compositional relationships between words within each sentence. For the first sentence, we calculate attention score matrix f_ij = F_intra(a_i)^T F_intra(a_j), where F_intra is a FFN.
+  - TODO
+
+@article{Chen2018Apr,
+	author = {Chen, Mia Xu and Firat, Orhan and Bapna, Ankur and Johnson, Melvin and Macherey, Wolfgang and Foster, George and Jones, Llion and Parmar, Niki and Schuster, Mike and Chen, Zhifeng and Wu, Yonghui and Hughes, Macduff},
+	title = {{The Best of Both Worlds: Combining Recent Advances in Neural Machine Translation}},
+	journal = {arXiv},
+	year = {2018},
+	month = apr,
+	eprint = {1804.09849},
+	doi = {10.48550/arXiv.1804.09849}
+}
+  - 
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
