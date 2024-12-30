@@ -7451,8 +7451,40 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 1) Attend. Soft-align the elements of both sequences using dot product attention e_ij = F(a_i)^T F(b_j), where F is a FFN, obtaining an attention matrix of shape l_a x l_b (fig. 1, left). For each a_i, we normalize all attention weights using softmax over the second axis, and sum b_j with the normalized weights, giving vector β_i. Analogously, for each b_j, we normalize all attention weights using softmax over the first axis, and sum a_i with the normalized weights, giving vector α_i.
   - 2) Compare. For each i we concatenate a_i and β_i and process with FFN, obtaining v_{1,i}. Analogously, for each j we concatenate b_j and α_j and process with FFN, obtaining v_{2,i}.
   - 3) Aggregate. We sum v_{1,i} over i and sum v_{2,i} over i, obtaining v_1 and v_2. Then we concatenate them and feed the result through a final FFN classifier.
-  - We can augment input word embeddings with intra-sentence attention to encode compositional relationships between words within each sentence. For the first sentence, we calculate attention score matrix f_ij = F_intra(a_i)^T F_intra(a_j), where F_intra is a FFN.
-  - TODO
+  - We can augment input word embeddings with intra-sentence attention to encode compositional relationships between words within each sentence. For the first sentence, we calculate attention score matrix f_ij = F_intra(a_i)^T F_intra(a_j), where F_intra is a FFN. Then we add distance-sensitive bias terms f_ij += d_{i-j}. Finally, for each i we softmax-normalize weights f_ij, and use them as weights to calculate weighted sum of a_j, obtaining a'_i. Bias terms provide a minimal amount of sequence information, while remaining parallelizable. Finally, we concatenate a_i and a'_i for each i. Same for b.
+  - The approach outperforms considerably more complex neural methods. Results suggest that, at least for this task, pairwise comparisons are relatively more important than global sentence-level representations.
+  - IMO, intra-sentence attention is actually the self-attention, but with attention weight biases instead of positional encodings. The Transformer paper and many subsequent papers cite this work. For both papers Jakob Uszkoreit is one of the authors, and Transformer paper says that Jakob proposed replacing RNNs with self-attention and started the effort to evaluate this idea. So, the transformer encoder building block, with few differences, was actually first described in this paper.
+
+@article{Bradbury2016Nov,
+	author = {Bradbury, James and Merity, Stephen and Xiong, Caiming and Socher, Richard},
+	title = {{Quasi-Recurrent Neural Networks}},
+	journal = {arXiv},
+	year = {2016},
+	month = nov,
+	eprint = {1611.01576},
+	doi = {10.48550/arXiv.1611.01576}
+}
+  - We present quasi-recurrent neural networks (QRNN). It allows for parallel computation across timestep, and allows the output to depend on the overall order of elements in the sequence. It consists of (fig. 1, right):
+  - 1) Masked convolution: with filters of width k, output as time t depends only on input at times t-k+1, ..., t. This is implemented by padding the input to the left by the convolution’s filter size minus one (see also "Pixel recurrent neural networks"). We perform such a masked convolution 3 times with different weights to obtain 3 output feature maps, and process them with tanh, sigmoid and sigmoid accordingly (eq. 1), obtaining 3 outputs Z, F, O. Note that if the filter width is 2, these equations reduce to the LSTM-like. Larger filters effectively compute higher n-gram features at each timestep.
+  - 2) We propose 3 variants of pooling: f-pooling, fo-pooling, and ifo-pooling (where f defontes forget gate, o denotes output gate and i denotes input gate, eq. 3, 4, 5). These operations act independently on each channel. F-pooling was earlier proposed as "dynamic average pooling" in "Strongly-Typed Recurrent Neural Networks". Although the recurrent parts of these functions must be calculated for each timestep in sequence, evaluating them over even long sequences requires a negligible amount of computation time, since they are simple and parallelizable along channel dimension.
+  - Dropout’s lack efficacy when applied to recurrent connections. Variational inference–based dropout and zoneout were proposed instead. The first is not applicable in our case, because QRNNs lack recurrent weights. Zoneout stochastically chooses a new subset of channels to "zone out" at each timestep; for these channels the network copies states from one timestep to the next without modification. We extend zoneout to the QRNN architecture by modifying the pooling function to keep the previous pooling state for a stochastic subset of channels. We can implement this with a ordinary dropout (eq. 6), but  in this case it is important to remove automatic rescaling functionality from the implementation if it is present. We can also apply ordinary dropout between layers.
+  - We found it helpful to use skip-connections between every QRNN layer, as in DenseNet.
+  - We also design QRNN encoder–decoder architecture (fig. 2).
+  - However, in the subsequent work "Convolutional Sequence to Sequence Learning" it was stated that QRNN did not improve over SOTA on large benchmark datasets.
+  - IMO this is very interesting idea to combine heavy element-wise operations and fast recurrent operations to obtain recurrent but fast model. This seems to be orthogonal to approaches like RetNet or RWKV. However, ablation studies is needed: maybe, just a cumulative max pooling over time axis will be enough?
+
+@article{Gehring2017May,
+	author = {Gehring, Jonas and Auli, Michael and Grangier, David and Yarats, Denis and Dauphin, Yann N.},
+	title = {{Convolutional Sequence to Sequence Learning}},
+	journal = {arXiv},
+	year = {2017},
+	month = may,
+	eprint = {1705.03122},
+	doi = {10.48550/arXiv.1705.03122}
+}
+  - We propose ConvS2S, a seq2seq architecture based entirely on CNN with attention. CNN does not depend on the computations of the previous time step and therefore allow parallelization over every element in a sequence.
+  - We start from embedding layer to convert the input sequence into a sequence of vectors. We also equip our model with a sense of order by using absolute positional embeddings (IMO, this is interesting because this work was done before or concurrently with transformers).
+  - Each block contains a 1D convolution followed by a GLU non-linearity, with residual connection. For decoder, we use causal convolution. Each decoder layer computes a separate dot-product attention by using the current decoder layer output and the final encoder layer outputs.
 
 @article{Chen2018Apr,
 	author = {Chen, Mia Xu and Firat, Orhan and Bapna, Ankur and Johnson, Melvin and Macherey, Wolfgang and Foster, George and Jones, Llion and Parmar, Niki and Schuster, Mike and Chen, Zhifeng and Wu, Yonghui and Hughes, Macduff},
@@ -7463,7 +7495,17 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	eprint = {1804.09849},
 	doi = {10.48550/arXiv.1804.09849}
 }
-  - 
+  - We study which techniques and methods contribute significantly to the success of ConvS2S and Transformer, and how these improvements are applicable to RNMT (encoder-decoder RNN-based model with attentiomn for NMT).
+  - We train on the standard WMT’14 En→Fr and En→De datasets that comprise 36.3M and 4.5M sentence pairs, respectively.
+  - We come up with RNMT+, an enhanced version of RNMT (fig. 1). The encoder network has 6 bidirectional LSTM layers. The decoder network has 8 unidirectional LSTM layers. After the first decoder layer, we apply multi-head cross-attention to tne ehcoder outputs, and feed the result to each of the subsequent decoder layers, via contenation with the previous layer output. It is then fed into the rest of the decoder layers as well as the softmax layer. Residual connections are added to the third layer and above for both the encoder and decoder. Inspired by the Transformer model, in LSTM we apply per-gate layer normalization, which greatly stabilizes training. We apply dropout to both embedding layers and each LSTM layer output. Attention dropout is also applied. We use uniform label smoothing with an uncertainty=0.1. We use the Adam optimizer with β1 = 0.9, β2 = 0.999. Learning rate (fig. 3) is constant until the decay start step, then exponentially decay until the decay end step, and keep it at 5x10^−5 after the decay ends. For the WMT’14 En→De task, as it is smaller, we apply L2 regularization to the weights with λ = 10^−5. We also abort a training step if the norm of the gradient exceeds four standard deviations of the moving average, which is usually an indication of an imminent gradient explosion.
+  - RNMT+ is slightly better than the Transformer Big model in terms of its mean BLEU score, and both these models outperform GNMT and ConvS2S by about 2 BLEU points. RNMT+ also yields a much lower standard deviation, and hence we observed much less fluctuation in the training curve.
+  - We evaluate the importance of four main techniques for both the RNMT+ and the Transformer Big models. We believe that these techniques are universally applicable across different model architectures, and should always be employed by NMT practitioners for best performance.
+  - 1) Label Smoothing improves both models: +0.7 BLEU for RNMT+ and +0.2 BLEU for Transformer Big.
+  - 2) Multiple attention heads result in +0.6 BLEU for RNMT+ and +0.9 BLEU for Transformer Big.
+  - 3) Layer normalization: removing it results in unstable training runs for both models, especially when multi-head attention is used.
+  - 4) Synchronous training (see "Revisiting distributed synchronous SGD"): removing it results in a significant quality drop for RMNT+, while for the Transformer Big model, it causes the model to become unstable. Synchronous training is only successful when coupled with LR warmup. For RNMT+, removing this warmup stage during synchronous training causes the model to become unstable.
+  - We also tried to combine the encoder and decoder from different model families. ConvS2S encoder quality was not on par with the other models, and takes a significant amount of time to converge, so we focused only on Transformer encoder with RNMT+ decoder and RNMT+ encoder with Transform
+  - We also study two mixing schemes in the encoder: Cascaded Encoder and Multi-Column Encoder (fig. 2). With RNMT+ decoder, both variants improves over the Transformer encoder. (IMO it is not clear why in table 6 RNMT+ encoder is better that Transformer encoder, while table 5 shows the opposite results; random seed matters? are the conclusions reliable?)
 
 @article{Narang2021Feb,
 	author = {Narang, Sharan and Chung, Hyung Won and Tay, Yi and Fedus, William and Fevry, Thibault and Matena, Michael and Malkan, Karishma and Fiedel, Noah and Shazeer, Noam and Lan, Zhenzhong and Zhou, Yanqi and Li, Wei and Ding, Nan and Marcus, Jake and Roberts, Adam and Raffel, Colin},
@@ -7484,4 +7526,28 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 6) For the final probability distribution we experiment with Adaptive softmax (2017) and Mixture of Softmaxes (MoS, 2017).
   - 7) We experiment with Transparent attention (2018) that creates weighted residual connections along encoder depth to facilitate gradient flow, and additional attention variants.
   - 8) We try the Evolved Transformer (2019), factorized, dense, and random Synthesizer (2020), Funnel Transformer (2020), Lightweight and Dynamic convolution (2019), MoE Transformer (2018, 2020), Switch Transformer (2021), product key memory(2021), Universal Transformer (2018)
-  - TODO
+  - As our baseline model, we use the original Transformer with 12 layers in the encoder and decoder and 223 million parameters. We use Pre-LayerNorm (this change has been unanimously adopted by all current Transformer implementations) and relative attention with shared biases.
+  - As tasks, we consider (i) "span corruption" MLM objective from T5 on the C4 dataset, after which we first compute the perplexity on a held-out set, and then fine-tune on SuperGLUE, XSum and WebQuestions; (ii) supervised training on the WMT’14 English to German translation task without any pre-training, where we report the BLEU score of the highest-scoring checkpoint on the validation set.
+  - Each considered variant has approximately the same number of parameters or total operations as the baseline, with some reasonable exceptions (see sec. 3.1).
+  - The results for all model variants are shown in table 1. The scores which outperform the vanilla Transformer are highlighted in boldface. Results:
+  - 1) Several activation functions, especially SwiGLU and GeGLU improve performance over the ReLU activation in baseline.
+  - 2) Replacing layer normalization with RMS normalization yields improvements while also improving training speed.
+  - 3) Deeper models tend to outperform shallower ones with a fixed parameter count, but are more compute-intensive and therefore slower.
+  - 4) Sharing of parameters across layers tends to hurt performance.
+  - 5) Untying the encoder/decoder embeddings improve performance with only a modest increase in parameter count.
+  - 6) Using mixture of softmaxes does improve performance but is almost 40% slower than the vanilla Transformer.
+  - 7) Synthesizer improve performance comparing to the baseline, when dot product attention is additively combined with the synthetic attention, and a scalar (learnable?) weighting coefficient (denoted as "plus alpha" variant in table 1). This holds both for random attention pattern (trainable attention scores, as in MLP-mixer) and dense attention pattern (query-dependent attention scores).
+  - 8) Switch Transformer, MoE, and product key memories all improve performance with significantly more parameters than the baseline model, but roughly the same FLOPs.
+  - Overall, the modifications that led to significant improvements tended to fall into one of three buckets: relatively minor changes (i.e., activation functions, normalization and untying embedding matrices); those that increase parameter count (i.e., Switch Transformer, product key memory) or are slower (i.e., mixture of softmaxes, deeper models); or those that were originally invented in the Mesh TensorFlow codebase that we use for our experiments (i.e., mixture of experts, switch Transformer, synthesizer). Surprisingly, some other architecture variants generally performed poorly (Transparent attention, Dynamic convolution, Lightweight convolution, Universal Transformer, Funnel Transformer).
+  - We present a case study of trying to improve one of the model variants by tuning its hyperparameters. We selected Universal Transformers (UT) because it was claimed to achieve better results than the vanilla Transformer, and the UT has a relatively large number of hyperparameters that we can adjust. We swept over 25 model configurations, but only 2 managed to outperform the initial results: reducing the number of recurrent steps (from 16 to 2) and slightly increasing the model size. We were ultimately unable to match the performance of the vanilla Transformer.
+  - We investigate the correlation between perplexity and quality on each task. The performance on SuperGLUE (ρ = 0.87) and XSum (ρ = 0.80) seems to be highly correlated with the pre-training perplexity, whereas the performance on WebQuestions (ρ = 0.69) has a somewhat lower correlation.
+  - There are various possible explanations why so few modifications produced a boost:
+  - 1) The Mesh TensorFlow codebase and implementation are just so different than standard practice that most architectural modifications may not work.
+  - 2) The tasks we consider are non-standard.
+  - 3) Not tuning hyperparameters handicapped other methods. However, we argue that truly useful improvements to the Transformer should be reasonably hyperparameter-agnostic.
+  - 4) Modifications to the Transfomer architecture often do not transfer across implementations and applications. We believe the final option is a plausible explanation.
+  - Suggestions when proposing a new modification:
+  - 1) Try it out in multiple completely disparate codebases.
+  - 2) Apply it to a wide variety of downstream applications, including transfer learning, supervised learning, and language modeling – and, possibly, include domains beyond NLP too, e.g., computer vision.
+  - 3) When evaluating performance in different implementations and on different tasks, keep hyperparameters fixed as much as possible, or at least attempt to measure the robustness of the modifications to changes in hyperparameters.
+  - 4) Report mean and standard deviation across multiple trials, or at least avoid cherry-picking.
