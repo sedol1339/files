@@ -7551,3 +7551,25 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 2) Apply it to a wide variety of downstream applications, including transfer learning, supervised learning, and language modeling – and, possibly, include domains beyond NLP too, e.g., computer vision.
   - 3) When evaluating performance in different implementations and on different tasks, keep hyperparameters fixed as much as possible, or at least attempt to measure the robustness of the modifications to changes in hyperparameters.
   - 4) Report mean and standard deviation across multiple trials, or at least avoid cherry-picking.
+  
+@article{Qin2022Oct,
+	author = {Qin, Zhen and Han, XiaoDong and Sun, Weixuan and Li, Dongxu and Kong, Lingpeng and Barnes, Nick and Zhong, Yiran},
+	title = {{The Devil in Linear Transformer}},
+	journal = {arXiv},
+	year = {2022},
+	month = oct,
+	eprint = {2210.10340},
+	doi = {10.48550/arXiv.2210.10340}
+}
+  - Linear transformers (modifications that adopt kernel functions to decompose softmax attention) show degraded performance than the vanilla model. We identify two reasons for this:
+  - 1) Unbounded gradients. In kernel-based linear attention, the partial derivative of attention probabilities by attention logits can be arbitrarily large in the absolute value, if attention logits are close to zero (eq. 11). In the softmax attention, in contrast, the derivatives are upped-bounded between -1/4 and 1/4. The unbounded gradients lead to less stable optimization and worse convergence results in our preliminary studies.
+  - 2) Attention dilution. We introduce a metric called locally accumulated attention score. For given token position i, sequence length N and ratio r < 1 it is defined as sum of attention probabilities in a window of size rN centered in the position i. A higher score indicates the particular attention layer concentrates on the local neighbourhood, while a lower score tends to indicate the issue of attention dilution, where scores are distributed more evenly to local and distant tokens. Using this score, we provide evidence that the vanilla attention is more concentrated locally, while the linear transformer suffers from the issue of attention dilution (fig. 2a). It is a known property of vanilla attention to emphasize on neighbouring tokens.
+  - We propose TransNormer, a new variant of linear transformer (fig. 3). It uses two types of attention: DiagAttention for the early stage of the model and NormAttention for the later stage.
+  - 1) In DiagAttention, attention is only calculated inside the blocks to enforce neighbouring focus. It addresses the attention dilution issue. By properly reshaping the inputs, the diagonal attention can be efficiently computed in linear space-time.
+  - 2) Directly removing the scaling operation in the linear transformers leads to critical performance drop since the attention map becomes unbounded in the forward pass. We propose NormAttention: we empirically find that we can apply an arbitrary normalization after applying attention weights to values: XNorm(Q(K^T V)), where the XNorm can be Layernorm or RMSNorm etc. (we use RMSNorm). The gradients of NormAttention are bounded.
+  - We train our model for 50k iterations with RoBERTa architecture on the WikiText103. Performer and Linear Transformer (from "Transformers are RNNs") have substantially higher relative standard deviation of gradients compared to vanilla attention. The NormAttention produces more stable gradients.
+
+
+
+
+  - TransNormer shows better performance than vanilla transformer on a wide range of tasks (fig. 1).
