@@ -2242,11 +2242,6 @@ Sohl-Dickstein, J., & Kawaguchi, K. (2019). Eliminating all bad Local Minima fro
     - Pathologies (diverging go infinity) can continue to exist in losses modified in a such fashion
     - We leave it to the reader to judge whether removing local minima in this fashion is trivial, deep, or both
 
-#attention Sukhbaatar, S., Grave, E., Lample, G., Jegou, H., & Joulin, A. (2019). Augmenting Self-attention with Persistent Memory. arXiv, 1907.01470. Retrieved from https://arxiv.org/abs/1907.01470v1
-
-    - We propose a new model that solely consists of attention layers (no FF layers)
-    - We augment the self-attention with persistent memory vectors that play a similar role as the FF layer
-
 #attention #interpretation #see_related_work Tenney, I., Das, D., & Pavlick, E. (2019). BERT Rediscovers the Classical NLP Pipeline. arXiv, 1905.05950. Retrieved from https://arxiv.org/abs/1905.05950v2
 
     - We analyze how individual sentences are processed by the BERT network, layer-by-layer
@@ -7022,9 +7017,10 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
 	url = {https://proceedings.neurips.cc/paper_files/paper/2015/hash/8fb21ee7a2207526da55a679f0332de2-Abstract.html}
 }
   - Our previously proposed Memory Networks require supervision at each layer of the network. We propose the end-to-end version. It can also be seen as a version of RNNsearch from "Neural machine translation by jointly learning to align and translate" with multiple computational steps per output symbol.
-  - A single layer of our model accepts several memory vectors M_i, the corresponding output vectors C_i (IMO looks like keys and values), and a query vector U. We then compute similarity P_i = softmax(U^T M_i) and calculate the weighted average with a skip connection O = Q + sum P_i C_i. Other recently proposed forms of memory/attention also take this approach.
-  - For multple layers, we explore two types of weight tying within the model: (i) the output embedding for one layer is the input embedding for the one above, and (ii) the input and output embeddings are the same across different layers. Note that if we use the layer-wise weight tying scheme, our model can be cast as a traditional RNN where we divide the outputs of the RNN into internal and external outputs.
-  - IMO, while the authors say that this model is recurrent (the last paragraph of sec. 2.2), this is only recurrent in the same sence as ALBERT is recurrent, since the number of steps is fixed.
+  - Suppose we are given an input set x_1, .., x_i to be stored in memory. This set is converted into memory vectors M_i and output vectors C_i using two embedding matrices. The query Q is also embedded. A single layer of our model accepts several memory vectors M_i, the corresponding output vectors C_i (IMO looks like keys and values), and a query vector U. We then compute similarity P_i = softmax(U^T M_i) and calculate the weighted average with a skip connection O = Q + sum P_i C_i. Other recently proposed forms of memory/attention also take this approach.
+  - For multple layers, each layer has its own embedding matrices for x_i. However, they are constrained to ease training and reduce the number of parameters, in one of two ways: (i) the output embedding for one layer is the input embedding for the one above, and (ii) the input and output embeddings are the same across different layers. Note that if we use the layer-wise weight tying scheme, our model can be cast as a traditional RNN where we divide the outputs of the RNN into internal and external outputs.
+  - IMO, while the authors say that this model is recurrent (the last paragraph of sec. 2.2), this is only recurrent in the same sence as ALBERT is recurrent, since the number of steps is fixed. Also, this is not the self-attention, because x_i there is no information exchange between x_i.
+  - Later, it was proposed to augment this model with persistent memory vectors to encode knowledge extracted from training, not from the current context ("Key-Value Memory Networks for Directly Reading Documents"). Then the same technique was proposed to convert transformer FFN modules info attention ("Augmenting Self-attention with Persistent Memory").
 
 @article{Rae2016,
 	author = {Rae, Jack and Hunt, Jonathan J. and Danihelka, Ivo and Harley, Timothy and Senior, Andrew W. and Wayne, Gregory and Graves, Alex and Lillicrap, Timothy},
@@ -7594,5 +7590,112 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - We conduct experiments on 5 NMT datsets (table 1). ReLA-i and ReLA-g perform on par, and slightly degrade BLEU comparing to softmax. However, applying ReLA-g to decoder attention only or to cross-attention only boosts performance. In contrast applying ReLA-g to encoder attention degrades perfomance.
   - We argue that the encoder self-attention requires denser token-wise modeling to induce informative features.
   - We observe that the cross attention has the highest sparsity rate on average, resonating with the fact that word alignment is sparse (fig. 3).
-  - We observe that the null rate (the fraction of query tokens associated with all zero attention scores) increases for sentence pairs of low quality where many target tokens lack relevant source translations. To study this, we created a hallucinated test set with target references randomly shuffled for comparison. ReLA-g cross-attention null rate is clearly higher for such hallucination pairs. We next average the null rate of the cross-attention over layers for WMT14 En-De training corpus. We observe clear quality difference: sentence pairs with a low null rate are predominantly good translations (∼95% correct), whereas sentence pairs with a high null rate are predominantly mistranslations (∼1% correct, wrong output language or semantically mismatched). The null rate metric is sensitive to insertion errors, which are difficult to detect via traditional corpus filtering methods.
+  - We observe that the null rate (the fraction of query tokens associated with all zero attention scores) increases for sentence pairs of low quality where many target tokens lack relevant source translations. To study this, we created a hallucinated test set with target references randomly shuffled for comparison. ReLA-g cross-attention null rate is clearly higher for such hallucination pairs. We then average the null rate of the cross-attention over layers for WMT14 En-De training corpus. We observe clear quality difference: sentence pairs with a low null rate are predominantly good translations (∼95% correct), whereas sentence pairs with a high null rate are predominantly mistranslations (∼1% correct, wrong output language or semantically mismatched). The null rate metric is sensitive to insertion errors, which are difficult to detect via traditional corpus filtering methods.
   - IMO, with ReLU instead of softmax the attention seems to be equal to FFN, but with dymanic weights, obtained from the context.
+  
+@article{Zhao2019Dec,
+	author = {Zhao, Guangxiang and Lin, Junyang and Zhang, Zhiyuan and Ren, Xuancheng and Su, Qi and Sun, Xu},
+	title = {{Explicit Sparse Transformer: Concentrated Attention Through Explicit Selection}},
+	journal = {arXiv},
+	year = {2019},
+	month = dec,
+	eprint = {1912.11637},
+	doi = {10.48550/arXiv.1912.11637}
+}
+  - We propose Explicit Sparse Transformer. It replaces all but top K attention scores for each query by -inf, obtaining zero attention probabilities. This can be used in training and inference time (we backpropagate regulary through non-zero attention probabilities). (IMO this is the same as applying kNN in attention, and have some similarity with sparsemax)
+  - The dependency of quality from the parameter K in non-trivial (fig. 3). Interestingly, k=8 improves performance over k=inf (regular transformer).
+  - We are surprised to find that only adding the sparsification in the training phase (but not in testing phase) can also increase performance. This may serve as a regularization. Our method removes the distraction from irrelevant words and the attention becomes concentrated (fig. 1).
+  - In NMT, we notice that the cross-attention at the top decoder layer of the vanilla Transformer suffers from focusing on the last source token (fig. 4b). Such attention with wrong alignment cannot sufficiently extract enough relevant source-side information for the generation. Explicit Sparse Transformer does not suffer from this problem. (IMO this is not obvious that this is a problem)
+  - IMO, for autoregressive modeling it may be desired to increase k as the context grows.
+
+@article{Gupta2021Jun,
+	author = {Gupta, Ankit and Dar, Guy and Goodman, Shaya and Ciprut, David and Berant, Jonathan},
+	title = {{Memory-efficient Transformers via Top-$k$ Attention}},
+	journal = {arXiv},
+	year = {2021},
+	month = jun,
+	eprint = {2106.06899},
+	doi = {10.48550/arXiv.2106.06899}
+}
+  - We propose top-k attention where, for each query vector, we only keep its k largest similarity scores.
+  - Top-k attention also reduces memory consumption in FFN, by casting it into the query-key-value framework, but with ReLU instead of softmax (see "Augmenting Self-attention with Persistent Memory").
+  - While in "Explicit sparse transformer" top-k was used to improve performance, we use it to reduce the resource usage of MHSA and FFN. (IMO, the Explicit sparse transformer, which uses identical method, is cited only once in the Discussion section and occupies the last number in the bibliography, so I guess the authors found out about that work late)
+  - To reduce peak memory consumption, during inference we partition the queries into chunks and process them sequentially, and during training we use input checkpointing. While these techniques are applicable to the regular transformer, input checkpointing requires an implicit second forward pass to re-compute the intermediate activations, but one can avoid re-computing activations in the case of top-k-Attention (IMO this looks simply like compressing the attention matrix, knowing that only k elements in each row are non-zero).
+  - We show top-k attention can replace vanilla attention in a zero-shot inference setup and at fine-tuning time.
+  
+@article{Wu2022Mar,
+	author = {Wu, Yuhuai and Rabe, Markus N. and Hutchins, DeLesley and Szegedy, Christian},
+	title = {{Memorizing Transformers}},
+	journal = {arXiv},
+	year = {2022},
+	month = mar,
+	eprint = {2203.08913},
+	doi = {10.48550/arXiv.2203.08913}
+}
+  - Attention over long sequences is useful (i) when the context as large, and (ii) as a form of rapid learning. We envision language models that can simply read and memorize new data at inference time, thus acquiring new knowledge immediately without fine-tuning.
+  - We propose approximate kNN lookup to increase the size of the attention context for decoder-only Transformer.
+  - A number of extremely scalable implementations of kNN lookup are available. We employ approximate kNN search (with a recall of about 90%) rather than exact kNN search because it significantly improves the computational speed of our model.
+  - We add kNN lookup only to one layer near the top of the stack. 
+  - Gradients are not backpropagated into the external memory. Thanks to this, we can reuse keys and values that were previously computed on prior training steps (fig. 3). We use a sliding-window causal mask so that each token has a local context that includes the previous 512 tokens, as well as kNN attention over the remaining tokens in memory. The results of kNN-attention and local attention are then combined (values are summed) using a learned gate (eq. 1, 2), with a learnable scalar parameter per-head, which allows each head to choose between local and long-range attention. We observe that most heads learned to attend almost exclusively to external memory.
+  - We use the T5 relative position bias for local context. We don’t use a position bias for the retrieved memories, since experiments have shown that relative position does not appear to matter at long range, and the T5 relative bias puts all long-range tokens in the same bucket anyway.
+  - When the size of external memory grows, model perplexity improves on a variety of language modelling tasks: C4 (long documents only), Github code repositories, PG-19 books, formal proofs in Isabelle, and arXiv math papers. The smaller Memorizing Transformer with just 8k tokens in memory can match the perplexity of a larger vanilla Transformer which has 5X more trainable parameters.
+  - The model parameters that produce the queries change over time, so for very large memories, older records may become "stale".  To reduce this effects, we normalize keys and queries (see "Query-Key Normalization for Transformers"): at least this ensures that older keys and newer keys do not differ in magnitude. However, in some cases, training was unstable when using large memories, possibly due to such a distributional shift. To alleviate this, we first pretrain the model with smaller memory size, and then finetune it with the larger memory. Interestingly, models trained with a small memory show gains from using a much larger memory at inference time. 
+  - We also fine-tune a pretrained Transformer to use external memory. It quickly learns (fig. 6).
+  - We also experiment with adding kNN memory to Transformer-XL. With context size 2048 and 12 layers it already has a large theoretical receptive field  of 25K, but we still saw a substantial gain when adding an external memory. On the other hand, we also saw improvements by adding XL cache to the large-memory (65K) models. It provides additional local short-range context at the start of a sequence, which complements the long-range context provided by external memory.
+  - Interestingly, in a vanilla Transformer, using even a small external memory of size 1536 provides a gain in perplexity which is almost as good as using a local context of size 2048 but no memory. This is surprising, because the external memory is not differentiable and is added only to one layer of the Transformer. We conclude that the lower layers of a Transformer don’t necessarily need long-range context, and having a differentiable memory is not as important as one might suspect.
+  - We show that our models are actually using memory in the way that we had hoped, e.g. by looking up the definitions of lemmas in a theorem proving corpus. The benefit of external memory is somewhat sparse. The improvement in perplexity seems to be mainly driven by a small percentage of tokens that obtain a large improvement in cross-entropy.
+  - IMO the next step could be reformulating FFN as attention with ReLU activation to a learnable memory vectors, and combining both attentions, so that the model has a single memory block (FFN memory = long context memory).
+
+@article{Sukhbaatar2019Jul,
+	author = {Sukhbaatar, Sainbayar and Grave, Edouard and Lample, Guillaume and Jegou, Herve and Joulin, Armand},
+	title = {{Augmenting Self-attention with Persistent Memory}},
+	journal = {arXiv},
+	year = {2019},
+	month = jul,
+	eprint = {1907.01470},
+	doi = {10.48550/arXiv.1907.01470}
+}
+  - We show that a FFN in Transformer can be viewed as an attention layer, but with ReLU instead of softmax, and with biases.
+  - We propose all-attention layer: a new layer that merges the self-attention and FFN into a single attention layer. The additional persistent memory block stores information that does not depend on the context in the form of key-value vectors (persistent vectors), replacing the FFN (fig. 1). Note that persistent vectors are not shared between heads - this is comparable to multiple small FFNs working in parallel.
+  - Our modification dramatically simplifies the structure of the network with no loss of performance.
+  - Note that using attention mechanism to address unconditioned persistent vectors has been previously proposed in the context of QA: "Key-value memory networks for directly reading documents", 2016.
+  - Persistent vectors are crucial for performance, already reaching a good performance at N = 1024. A model without persistent vectors is equivalent to a transformer model without FFN, and it performs poorly.
+  - IMO, the ablation with no persistent vectors and no FFN is interesting. What if the context will be larger? Will this model demonstrate at least some world knowledge? If yes, then the role of self-attention and its interpretation should be studied more.
+  - We perform ablations and found that several options perform worse (fig. 2, right):
+  - 1) Computing attention separately over context and persistent vectors, that is, replacing softmax with two parallel softmax functions, one over context and one over persistent vectors.
+  - 2) Constraining half of the heads to attend only to context vectors, and the other half to attend only to persistent vectors.
+  - 3) 1 + using the same persistent vector for all heads (IMO this is strange, since each piece of world knowledge, stored in the persistent memory, is used rarely, and using it in all the attention heads may improve the supervision signal).
+  - 4) Replacing ReLU with softmax in FFN - this is the same as 3 but persistent vectors are kept as a separate sublayer, that is, operations are sequential rather than parallel. It also performs worse, which means the switch from ReLU to Softmax alone is not sufficient.
+  
+@article{Shazeer2020Feb,
+	author = {Shazeer, Noam},
+	title = {{GLU Variants Improve Transformer}},
+	journal = {arXiv},
+	year = {2020},
+	month = feb,
+	eprint = {2002.05202},
+	doi = {10.48550/arXiv.2002.05202}
+}
+  - We propose to use GLU activations family in Transformer's FFN layer. It is parametrized by the inner activation function, it can be sigmoid, identity, ReLU, GELU, Swish (eq. 6).
+  - We experiment on T5 on the segment-filling task , fine-tune on SQuAD, GLUE, SuperGlue, and observe improvements, especially for GEGLU and SwiGLU for pre-training and ReGLU for fine-tuning.
+  - We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence.
+
+@article{Geva2020Dec,
+	author = {Geva, Mor and Schuster, Roei and Berant, Jonathan and Levy, Omer},
+	title = {{Transformer Feed-Forward Layers Are Key-Value Memories}},
+	journal = {arXiv},
+	year = {2020},
+	month = dec,
+	eprint = {2012.14913},
+	doi = {10.48550/arXiv.2012.14913}
+}
+  - It was previously suggested that transformer FFN and key-value memories (see "Augmenting self-attention with persistent memory"), when the first layer is keys, and the second layer is values. We analyze the "memories" that the feed-forward layers store.
+  - we analyze the keys of a FFN layers of a language model’s trained on WikiText103. We retrieve the training examples most associated with a given key. For almost every key, a small set of well-defined patterns, recognizable by humans, covers most of the examples associated with the key. Table 1 shows example patterns.
+  - The lower layers (1-9) are dominated by shallow patterns, often with prefixes that share the last word. The upper layers (10-16) are characterized by more semantic patterns, with prefixes from similar contexts. Also, in upper layers, removing the last token has less impact on the specific key activation, supporting our conclusion that upper-layer keys are less correlated with shallow patterns. (IMO, or because the upper layers diffuse information, but this is also assicated with semantics).
+  - We convert each value vector into a probability distribution over the vocabulary by multiplying it by the output embedding matrix and applying a softmax. This conversion assumes (naively) that all model’s layers operate in the same embedding space. This distribution is uncalibrated, since the value vector is multiplied by the input-dependent memory coefficient, but we analyze only the top probability. Sometimes it matches the next token in some example that activates the key. This happens not very often, up to 3.5% (fig. 4). Also, distributions with higher maximum probabilities are more likely to agree with their key’s top trigger example.
+  - We then take the 100 values with highest probability across all layers and dimensions (97/100 are in the upper layers), and for each value analyze the top-50 trigger examples for the corresponding key. In 46/100 values, there is at least one trigger example that agrees with the value’s top prediction (table 2).
+  - This suggests that memory cells often store information on how to directly predict the output (the distribution of the next word) from the input (patterns in the prefix). However, the lower layers probably do not operate in the same embedding space.
+  - A typical example triggers hundreds of memories per layer (10%-50% of 4096 dimensions), but the majority of cells remain inactive (fig. 7).
+  - Fig. 8. shows the fraction of examples where the layer’s prediction is different from the prediction of all of its memories. So, the layer-level prediction is typically not the result of a single dominant memory cell.
+  - In contrast, where at least one memory cell agrees with the layer’s prediction, usually the target token is a common stop word in the vocabulary. This suggests that very common patterns in the training data might be "cached" in individual memory cells, and do not require compositionality.
+  - We also measure fraction of examples in each layer, where the residual’s top prediction matches the model’s output. Roughly a third of the model’s predictions are determined in the bottom few layers. This number grows rapidly from layer 10 onwards, implying that the majority of "hard" decisions occur before the final layer.
