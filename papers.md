@@ -7699,3 +7699,35 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - Fig. 8. shows the fraction of examples where the layer’s prediction is different from the prediction of all of its memories. So, the layer-level prediction is typically not the result of a single dominant memory cell. In contrast, where at least one memory cell agrees with the layer’s prediction, usually the target token is a common stop word in the vocabulary. This suggests that very common patterns in the training data might be "cached" in individual memory cells, and do not require compositionality (fig. 1).
   - When the residual’s top prediction ends up being the model’s prediction, the FFN usually predicts something different. When the residual’s top prediction changes after incorporating signal from FFN, it rarely changes to the FFN top prediction, instead it produces a "compromise" prediction, which is equal to neither. A possible conjecture is that the FFN acts as an elimination mechanism to "veto" the top prediction in the residual. FFN sometimes is able to tune the residual predictions even in the last layer, changing the top prediction to something different, e.g. "people" -> "same", or "later" -> "earlier".
   - We also measure fraction of examples in each layer, where the residual’s top prediction matches the model’s output. Roughly a third of the model’s predictions are determined in the bottom few layers. This number grows rapidly from layer 10 onwards, implying that the majority of "hard" decisions occur before the final layer. (IMO this is similar to the idea behind LayerSkip).
+  
+@article{Lan2019Sep,
+	author = {Lan, Zhenzhong and Chen, Mingda and Goodman, Sebastian and Gimpel, Kevin and Sharma, Piyush and Soricut, Radu},
+	title = {{ALBERT: A Lite BERT for Self-supervised Learning of Language Representations}},
+	journal = {arXiv},
+	year = {2019},
+	month = sep,
+	eprint = {1909.11942},
+	doi = {10.48550/arXiv.1909.11942}
+}
+  - We propose A Lite BERT (ALBERT) that incorporates two parameter reduction techniques:
+  - 1) Factorized embedding parameterization. We first project tokens into a lower dimensional embedding space of size E, and then project it to the hidden space H, when H >> E. This allows for parameter reduction. We choose to use the same E size for all word pieces because they are much more evenly distributed across documents compared to whole-word embeddings, where having different embedding size for different words is important (see "Adaptive input representations for neural language modeling" etc).
+  - 2) Cross-layer parameter sharing prevents the parameter from growing with the depth of the network. ALBERT has a connection to the Deep Equilibrium Model (2019): it was shown that it can reach an equilibrium point for which the input embedding and the output embedding of a certain layer stay the same. However, our observations show that our embeddings are oscillating rather than converging (fig. 1). (IMO maybe because the number of layers is fixed, and the model manages to to determine if we are close to the end of the network or not, and behave differently.)
+  - We also introduce a self-supervised sentence-order prediction (SOP) task. It address the ineffectiveness of the next sentence prediction (NSP) loss in BERT. SOP is a more challenging pretraining task, when NSP lacks difficulty. The same idea was proposed independently in a concurrent work "Structbert". The SOP loss uses two consecutive segments from the same document as positive examples, and the same two consecutive segments but with their order swapped as negative examples. We show that NSP cannot solve the SOP task at all, while SOP can solve the NSP task.
+  - Even after training for 1M steps, our largest models still do not overfit to their training data. As a result, we decide to remove dropout to further increase our model capacity.
+  - When sharing layers (keeping the same layer size), most of the performance drop appears to come from sharing the FFN-layer parameters, while sharing the attention parameters results in no drop or a slight drop.
+  - ALBERT-large has about 18x fewer parameters compared to BERT-large, 18M versus 334M. ALBERT-xxlarge configuration with H = 4096 has 233M parameters. For ALBERT-xxlarge, we mainly report results on a 12-layer network, because a 24-layer network obtains similar results but is computationally more expensive. ALBERT-xxlarge achieves significant improvements over BERT-large (being 3 times slower), achieving new SOTA on GLUE, SQuAD, and RACE.
+  
+@article{Bai2019,
+	author = {Bai, Shaojie and Kolter, J. Zico and Koltun, Vladlen},
+	title = {{Deep Equilibrium Models}},
+	journal = {Advances in Neural Information Processing Systems},
+	volume = {32},
+	year = {2019},
+	url = {https://proceedings.neurips.cc/paper/2019/hash/01386bd6d8e091c2ab4c7c7de644d37b-Abstract.html}
+}
+  - Recently, models with weight tying (same weights in each layer) achieve competitive performance (such as Universal Transformers).
+  - We propose the deep equilibirum model (DEQ). In its forward pass, it seeks to find a fixed point z∗ of a single layer applied repeatedly to a hidden state, and input as well: z_{i+1} = f(z_i, z_0).
+  - The equilibrium state z∗ can be solved not only by iterating the model, but also by black-box solvers like Broyden’s method, or Anderson acceleration. With implicit differentiation we can directly backpropagate through the equilibrium state z∗ without storing any intermediate activation values. (this text is from the subsequent work "Deep Equilibrium Approaches to Diffusion Models")
+  - DEQ is compatible with transformers, RNNs, and temporal convolutional networks (TCNs).
+  - DEQs are able to scale to realistic, large-scale sequence tasks, and perform competitively with, or slightly outperform, SOTA methods.
+  - DEQ-Transformer finds the equilibrium in a stable and efficient manner, whereas the deep transformer could oscillate around the fixed point, even when one exists.
