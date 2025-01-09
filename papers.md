@@ -7829,3 +7829,57 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - Finally we finetune a language model on both the original and pseudo-labeled sets, with the described procedure. The fine-tuned model serves as a classifier.
   - As some patterns perform (possibly much) worse than others, the training set for our final model may contain many mislabeled examples. To compensate this, we devise iPET, an iterative variant of PET. In iPET, we train several generations of models on datasets of increasing size.
   - When the initial amount of training data is limited, PET gives large improvements over standard supervised training and strong semi-supervised approaches.
+  
+@article{Mishra2021Apr,
+	author = {Mishra, Swaroop and Khashabi, Daniel and Baral, Chitta and Hajishirzi, Hannaneh},
+	title = {{Cross-Task Generalization via Natural Language Crowdsourcing Instructions}},
+	journal = {arXiv},
+	year = {2021},
+	month = apr,
+	eprint = {2104.08773},
+	doi = {10.48550/arXiv.2104.08773}
+}
+  - We construct the Natural Instructions, a dataset of task instructions for existing NLP datasets. For each task we provide definition, things to avoid, emphasis/caution, prompt, positive and negative examples (see examples in fig. 11).
+  - Our dataset consists of 61 NLP tasks corresponding to 10 datasets and 6 categories (see table 10). We provide up to 6.5k instances for each task.
+  - The task categories are: 13 tasks for question generation, 16 tasks for answer generation, 12 tasks for classification, 8 tasks for incorrect answer generation, 10 tasks for minimal modification, 2 tasks for verification.
+  - Our dataset also contains the intermediate subtasks that are not well-represented in the common benchmarks (table 1).
+  - We compare several types of constructing input data for msodels: (1) only prompt, (2) only positive examples, (3) prompt + definition, (4) prompt + things to avoid, (5) prompt + emphasis, (6) prompt + positive examples, (7) prompt + definition + positive examples, (8) full instruction.
+  - We treat all of our tasks as text generation problems and evaluate them with ROUGE-L. (IMO a weird method for open-ended tasks)
+  - We design 3 evaluation settings: leave one category, leave one dataset, leave one task.
+  - This is the first work to show the benefit of instructions towards improved cross-task generalization.
+  - Encoding more elements of the instructions generally achieves better results than just using prompt or positive examples. Question-generation tasks benefit the most from positive examples, whereas in classification they are of little help.
+  
+@article{Reynolds2021Feb,
+	author = {Reynolds, Laria and McDonell, Kyle},
+	title = {{Prompt Programming for Large Language Models: Beyond the Few-Shot Paradigm}},
+	journal = {arXiv},
+	year = {2021},
+	month = feb,
+	eprint = {2102.07350},
+	doi = {10.48550/arXiv.2102.07350}
+}
+  - We find that few-shot performance can be matched or exceeded by simple zero-shot prompts. The zero-shot accuracy reported in the original GPT-3 paper can be improved substantially with even minor prompt engineering.
+  - Thus, we argue that in few-shot setting the model does not learn a new task, but instead locate the task in the model’s existing space of learned tasks, directing the model to access existing knowledge.
+  - Prompt engineering for a LM whose input and output are in natural language may be conceived as programming in natural language.
+  - We explore the nature of successful zero-shot prompts and propose general methods of prompt programming. (many many empty words didn't read)
+  - We introduce the concept of metaprompt programming, when the job of writing a task-specific prompt is done by the language model itself.
+  - IMO, looks like this one of the first papers about prompt engineering, previously studied in blogs and social media, as the authors say.
+  
+@article{LoganIv2021Jun,
+	author = {Logan Iv, Robert L. and Bala{\ifmmode\check{z}\else\v{z}\fi}evi{\ifmmode\acute{c}\else\'{c}\fi}, Ivana and Wallace, Eric and Petroni, Fabio and Singh, Sameer and Riedel, Sebastian},
+	title = {{Cutting Down on Prompts and Parameters: Simple Few-Shot Learning with Language Models}},
+	journal = {arXiv},
+	year = {2021},
+	month = jun,
+	eprint = {2106.13353},
+	doi = {10.48550/arXiv.2106.13353}
+}
+  - We focus on few-shot learning for masked language models.
+  - Prompt-based fine-tuning (see "Exploiting cloze questions for few shot text classification and natural language inference") requires significant prompt engineering and large memory requirements (if we fine-tune a full model).
+  - We find that the extreme importance of the prompt is only true when models are not finetuned. Prompt-based fine-tuning makes prompt engineering easier: simple concatenations of the inputs and the MASK token ("null prompts", see table A3) achieve comparable accuracy to manually-written patterns, yet have a substantially simpler design space.
+  - There is a concurrent work "How many data points is a prompt worth?" that also shows that different manually written patterns lead to similar accuracy for prompt-based finetuning. We take this a step further and show that writing can be avoided entirely (null prompts). In this case, the only decision is which order to concatenate the mask token and the input fields (can choose on a validation set). We also consider null verbalizer - random tokens instead of "yes", "no" etc.
+  - IMO, the only difference between null prompts and CLS fine-tuning is that we use a verbalizer (such as "yes", "no") instead of CLS token.
+  - Manually-designed prompts still achieve the best accuracy (fig. 3), but null prompts perform competitively without requiring any tuning of the pattern, also outperforming finetuning based on CLS token.
+  - How to avoid finetuning the full model? In contrast to recent work, e find that only tuning the prompt performs substantially worse. We believe these are not contradictions but rather differences in the models and settings. While in "Prefix-tuning" the authors focus on left-to-right LMs for generation tasks, we focus on masked LMs for classification tasks. Also, it was shown that prompt-only tuning becomes less competitive as models get smaller.
+  - We find that BitFit (that only update the bias terms) provides the best accuracy-efficiency tradeoff, even outperforming finetuning all of the parameters.
+  - Overall, we recommend finetuning with null prompts and BitFit.
