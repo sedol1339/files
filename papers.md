@@ -7883,3 +7883,164 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - How to avoid finetuning the full model? In contrast to recent work, e find that only tuning the prompt performs substantially worse. We believe these are not contradictions but rather differences in the models and settings. While in "Prefix-tuning" the authors focus on left-to-right LMs for generation tasks, we focus on masked LMs for classification tasks. Also, it was shown that prompt-only tuning becomes less competitive as models get smaller.
   - We find that BitFit (that only update the bias terms) provides the best accuracy-efficiency tradeoff, even outperforming finetuning all of the parameters.
   - Overall, we recommend finetuning with null prompts and BitFit.
+  
+@article{Webson2021Sep,
+	author = {Webson, Albert and Pavlick, Ellie},
+	title = {{Do Prompt-Based Models Really Understand the Meaning of their Prompts?}},
+	journal = {arXiv},
+	year = {2021},
+	month = sep,
+	eprint = {2109.01247},
+	doi = {10.48550/arXiv.2109.01247}
+}
+  - Our research question is whether models understand prompts as meaningful task instructions.
+  - We experimented with ALBERT, T5 LM-Adapted, T0 and GPT-3 on NLI tasks (note that T0 was not tuned on NLI tasks).
+  - We use "prompt" to mean a unique combination of a template and a predefined LM target word for each class label. For example, {"yes" → entailment, "no" → non-entailment} are the default targets for the template "{premise} Should we assume that {hypothesis}? [prediction]".
+  - We write various prompt templates (instructive, irrelevant, misleading, or null, see examples in table 1) and  and evaluate models’ performance with these templates in zero-shot and few-shot settings. For example, in the entailment task, moderately misleading is "{premise} Can that be paraphrased as "{hypothesis}", and highly misleading is "{premise} Is this a sports news? {hypothesis}".
+  - As statistical Tests we use both ANOVA and its nonparametric equivalent, the Kruskal–Wallis test. After finding a significant difference among multiple categories of templates, we report pairwise significance with the independent two-sample t-test and the Wilcoxon rank-sum test. We set α = 0.05 and apply the Bonferroni correction to account for multiple comparisons.
+  - In few-shot fine-tuning scenario for 4 to 256 shots (see appenddix C for training details), models learn identically as fast when given irrelevant or moderately misleading templates as they do when given instructively good templates. This is in general true for all models and all datasets we experimented. T0 perform better given misleading-moderate (fig. 3), ALBERT and T5 perform better given misleading-extreme. However, it is consistent that each model exhibits significantly better performance on instructive templates compared to at least one category of misleading templates. Interestingly, null templates perform far worse than all other categories of template (see Appendix G).
+  - In zero-shot scenario, all models (including GPT-3 175B) perform only marginally above random, except the instruction-tuned T0. For T0 (fig. 5), there is little difference between instructive and misleading prompts. The performance is arguably too well with pathological prompts.
+  - Models are much more sensitive to the choice of the LM target words as opposed to the meaning of the instruction templates. Models trained with yes-no targets learn a good deal faster than those trained with yes-no-like targets and dramatically faster than those with arbitrary and reversed targets.
+  - IMO, in this paper, authors' conclusions seem to contradict their plots. Looks like there is some difference (see Appendix G), but the sample size is too small to make it statistically significant. Instrictive ~ irrelevant > misleading-moderate > misleading-extreme > null. Maybe, the difference may become statistically significant if we merge results for all models. The authors say that "we acknowledge that a lack of a statistically significant difference does not entail no difference; our argument hinges on the very small effect sizes, not the significance tests, i.e., the two categories  of prompts perform too similarly in absolute terms."
+
+@article{Schick2020Sep,
+	author = {Schick, Timo and Sch{\ifmmode\ddot{u}\else\"{u}\fi}tze, Hinrich},
+	title = {{It's Not Just Size That Matters: Small Language Models Are Also Few-Shot Learners}},
+	journal = {arXiv},
+	year = {2020},
+	month = sep,
+	eprint = {2009.07118},
+	doi = {10.48550/arXiv.2009.07118}
+}
+  - We adapt Pattern-exploiting training (PET, see "Exploiting cloze questions for few shot text classification and natural language inference") for tasks that require predicting multiple tokens. We also do not assume the output space to be identical for each input.
+  - While PET can easily be adapted to generative MLMs (BART, T5), we stick with regular MLMs as they are more lightweight and performed better on simple cloze tasks in preliminary experiments.
+  - Consider binary sentiment classification for restaurant reviews: pattern "{x}. It was _", and options "great" and "terrible", where the last option consists of 2 tokens. To achieve this, we use several consecutive mask tokens. In inference, at first, the token with the highest probability is predicted and placed instead of the mask token, then second and so on (fig. 3). In training, loss is applied simultaneously on all tokens (see the last equations in sec. 3.1). We use multiclass hinge loss.
+  - We have shown that using PET, it is possible to achieve few-shot text classification performance similar to GPT-3 on SuperGLUE with LMs that have three orders of magnitude fewer parameters.
+  
+@article{Wang2022Apr,
+	author = {Wang, Yizhong and Mishra, Swaroop and Alipoormolabashi, Pegah and Kordi, Yeganeh and Mirzaei, Amirreza and Arunkumar, Anjana and Ashok, Arjun and Dhanasekaran, Arut Selvan and Naik, Atharva and Stap, David and Pathak, Eshaan and Karamanolakis, Giannis and Lai, Haizhi Gary and Purohit, Ishan and Mondal, Ishani and Anderson, Jacob and Kuznia, Kirby and Doshi, Krima and Patel, Maitreya and Pal, Kuntal Kumar and Moradshahi, Mehrad and Parmar, Mihir and Purohit, Mirali and Varshney, Neeraj and Kaza, Phani Rohitha and Verma, Pulkit and Puri, Ravsehaj Singh and Karia, Rushang and Sampat, Shailaja Keyur and Doshi, Savan and Mishra, Siddhartha and Reddy, Sujan and Patro, Sumanta and Dixit, Tanay and Shen, Xudong and Baral, Chitta and Choi, Yejin and Smith, Noah A. and Hajishirzi, Hannaneh and Khashabi, Daniel},
+	title = {{Super-NaturalInstructions: Generalization via Declarative Instructions on 1600+ NLP Tasks}},
+	journal = {arXiv},
+	year = {2022},
+	month = apr,
+	eprint = {2204.07705},
+	doi = {10.48550/arXiv.2204.07705}
+}
+  - The role of supervised data in instruction finetuning has remained understudied due to limited data released by the corporate entities behind major models. It is nearly impossible for the research community to extend and re-train these gigantic models.
+  - We construct Super-NaturalInstructions (or Sup-NatInst): a meta-dataset (i.e., dataset of datasets) for instruction finetuning. It contains 76 broad task types spanning 55 different languages (fig. 2, 10, table 1). Each task is paired up with an instruction that consists of the task definition and examples (fig. 1). We limit the number of instances in each task to 6.5K to avoid an imbalance (in total 5M instances). These tasks and their instructions are contributed by 88 NLP practitioners or students, in response to our public call, after several rounds of peer-review and crowdsourced feedback to ensure quality.
+  - A limitation is that the collected tasks are generally still skewed to short responses and biased toward English.
+  - We train models Tk-instruct and mTk-instruct (multilingual) on Super-NaturalInstructions.
+  - In train and test time, we encode task instruction with input as shown in fig. 8: we combine definition, positive and negative examples, and input. We study different combinations of these instruction elements. We show the gains from various instructional elements in table 4. Non-diagonal cells of table 4 show different encodings in train and test time, and we observe that a model trained on a particular encoding can generalize to other encodings. However, definition-only models cannot generalize to example-only test encodings, and vice versa. A model trained with task definition and positive in-context examples remains robust for different encodings. Explanations (for positive and negative examples) decrease performance, which is consistent with the another authors' observations when the model is not large enough. Future work can explore whether more powerful models can benefit from these elements.
+  - We would like to evaluate model M on tasks that are not observed during training. For evaluation tasks, we fix a manually selected a hold-out collection of 12 categories that represent 154 tasks (Appendix G): 119 tasks english tasks and 35 tasks for cross-lingual cross-task generalization. To avoid data leakage, we exclude tasks from the training set if they are sourced from the same dataset as any test task.
+  - Unlike T0 and FLAN, who evaluate their models on classification tasks, we evaluate with ROUGE-L metric in an open-ended generation setting with no task-specific assumptions. We show that the ranking from ROUGE-L correlates well with accuracy for classification tasks in Appendix E.
+  - We also conduct a human evaluation, and its results (fig. 3) align quite well with our automatic metrics.
+  - As a baselines, and to evaluate the possible shortcuts in the data, we evaluate several models and heuristics: (i) copying the output of a random demonstration example, (ii) copying the given instance input, (iii) LM-adapted T5-11B, (iv) GPT-3, (v) InstructGPT, (vi) T0.
+  - Our Tk-instruct 11B outperforms InstructGPT (fig. 3). However, it is not clear if InstructGPT’s training data overlaps with our evaluation tasks since their data is unavailable.
+  - Interestingly, T0 only slightly better than LM-adapted T5. We suspect this is because the style of prompting in T0’s training data is very different from our style of instructions.
+  - We also estimate an upper metric bound by fine-tuning an oracle model on the held-out tasks’ labeled instances. We observe that there is a sizable gap for improvement.
+  - According to human evaluation, Tk-instruct generates responses at least as well as the ground truth for 77% of the testing instances. 11B Tk-instruct outperforming 175B InstructGPT by 9.9 ROUGE-L points on unseen tasks.
+  - We observe the linear growth of model performance with exponential increase in observed tasks and model size. This finding contradicts the claim in ZeroPrompt paper that "model size has little impact on performance with an extremely large number of tasks".
+  - A large number of training instances do not help generalization (fig. 5): the model’s performance saturates when only 64 instances per task are used for training. A large number of training instances would instead lead to the risk overfitting to the training tasks.
+  - IMO, a very high correlation between ROUGE-L and human evaluation looks very strange, since many tasks have a lot of ground truth answers of varying detalisation.
+  - IMO, the idea to evaluate on not observed tasks should lose its importance as the training task count grows. Instead, it is a good idea to evaluate on another prompts for the same tasks. Actually, since tasks can always be split into subtasks, evaluation "on the same task" may pose a different subtask. This is especially true for a wide task definitons.
+  - IMO, in some cases we want to perform instruct tuning of already instruct tuned model to adapt it (to language or domain). This scenario is actual for practioners with their narrow tasks. In this case the conclusions about what works best may differ. Also, we may want not to unlock the ability to answer questions, but to inject new knowledge in the model, and this is the third scenario with another properties.
+  
+@article{Chung2022Oct,
+	author = {Chung, Hyung Won and Hou, Le and Longpre, Shayne and Zoph, Barret and Tay, Yi and Fedus, William and Li, Yunxuan and Wang, Xuezhi and Dehghani, Mostafa and Brahma, Siddhartha and Webson, Albert and Gu, Shixiang Shane and Dai, Zhuyun and Suzgun, Mirac and Chen, Xinyun and Chowdhery, Aakanksha and Castro-Ros, Alex and Pellat, Marie and Robinson, Kevin and Valter, Dasha and Narang, Sharan and Mishra, Gaurav and Yu, Adams and Zhao, Vincent and Huang, Yanping and Dai, Andrew and Yu, Hongkun and Petrov, Slav and Chi, Ed H. and Dean, Jeff and Devlin, Jacob and Roberts, Adam and Zhou, Denny and Le, Quoc V. and Wei, Jason},
+	title = {{Scaling Instruction-Finetuned Language Models}},
+	journal = {arXiv},
+	year = {2022},
+	month = oct,
+	eprint = {2210.11416},
+	doi = {10.48550/arXiv.2210.11416}
+}
+  - We show that instruction finetuning scales well with the number of tasks and the model size.
+  - Prior instruction finetuning methods that do not include chain-of-thought (CoT). It severely degrade performance on evaluations. Adding just 9 CoT datasets into the finetuning mixture enables better performance on all evaluations.
+  - Our finetuning data (fig. 1, 2) comprises 473 datasets, 146 task categories, and 1,836 total tasks by combining four mixtures from prior work (FLAN, T0, Super-NaturalInstructions).
+  - We also include in-context examples and CoT data (fig. 3): a mixture of 9 datasets from prior work for which human raters manually wrote CoT annotations for a training corpus. These tasks include arithmetic reasoning, multi-hop reasoning, NLI. We manually compose ten instruction templates per task (fig. 3).
+  - After finetuning, a single checkpoint was used for all evaluations. The optimal step was chosen on the held-out tasks.
+  - We evaluate both direct prompting and CoT prompting on MMLU (57 tasks), BBH (23 tasks), TyDiQA (8 languages) and MGSM (10 languages, here we only measure CoT prompting accuracy since direct prompting has very low performance). For all benchmarks we use the given few-shot exemplars. Our normalized average metric is the macro-average over six normalized scores: MMLU-Direct, MMLU-CoT, BBH-Direct, BBH-CoT, TyDiQA-Direct, and MGSM-CoT.
+  - We train Flan-PaLM 540B on these tasks. It substantially outperforms PaLM, achieving SOTA on several benchmarks.
+  - We train Flan-T5 models (80M to 11B) and release them. These checkpoints have strong zero-shot, few-shot, and CoT abilities: Flan-T5 11B outperforms T5 11B by double-digit improvements and even outperforms PaLM 62B on some challenging BIG-Bench task.
+  - Increasing  number of tasks and, most notably, model scale improves performance substantially for both finetuned and non-finetuned models (fig. 4).
+  - On CoT held-out benchmarks, finetuning without CoT data substantially degrades reasoning ability, but including just 9 CoT datasets in finetuning data improves performance (fig. 5a). The degradation may be surprising in light of multiple prior studies finding that instruction finetuning improves performance on unseen tasks, however prior models were generally too small for successful CoT reasoning.
+  - On non-CoT held-out benchmarks, fine-tuning with only CoT data does not give neither improve or decrease in performance, but adding non-CoT finetuning data improves performance (fig. 5b). Self-consistency further largely improve performance (table 4).
+  - IMO, from table 4 follows that PaLM with CoT prompting is comparable (somewhere better, somewhere worse) than Flan-PaLM with direct prompting. It is notable because CoT prompting does not require expensive task collection and finetuning.
+  - Together, one might interpret this ablation as the following: instruction finetuning improves unseen tasks when the unseen tasks are in the same prompting paradigm as the finetuning tasks (i.e., non-CoT or CoT).
+  - A final benefit of instruction finetuning on CoT data both with and without exemplars is that the resulting model is able to perform CoT reasoning in a zero-shot setting, activated simply by the phrase "let’s think step-by-step": the model produces its own reasoning skills without few-shot exemplars for CoT (fig. 7). In comparison, PaLM without finetuning does not generate CoT in this case. Although the negative zero-shot CoT result on PaLM may appear to contradict the findings from "Large language models are zero-shot reasoners", the majority of the successful zero-shot CoT experiments in that paper in fact leverage InstructGPT, which was instruction-finetuned (and we hypothesize that this instruction finetuning included some CoT-like data).
+  - We compare the PaLM 540B and Flan-PaLM 540B on open-ended responses to challenging inputs. To do this, we created an evaluation set of 190 questions posed in a zero-shot manner to the model across five challenging categories of 20 questions each: creativity, reasoning over contexts, complex reasoning, planning, and explanation. We include chain-of-thought trigger phrase in 60 questions and few-shot examples in 30 questions. For both models, we use temperature 0.7 to generate 5 responses randomly, and then rank them by log probability score without length normalization. We choose the response with the best score, after a filtering step of removing any generations with scores that were better than half of the median score, which we found successfully removed a large portion of generations with undesirable repetitions. We then present the PaLM and Flan-PaLM outputs to human raters. Across 190 examples, Flan-PaLM generations were preferred 79% of the time, especially for zero-shot setting and for inputs that used a CoT trigger phrase. Inspection of model generations for PaLM reveals how just pre-training on a next-token prediction objective is not enough for good zero-shot usability despite strong performance on NLP benchmarks. Undesired behaviors are (i) continuing to generate related text instead of answering a question, (ii) repeating the input question with minor modifications, (iii) not knowing when to stop generating text (fig. 9). This is likely an artifact of not using end-of-sequence tokens in pre-training.
+  
+@article{Lin2004Jul,
+	author = {Lin, Chin-Yew},
+	title = {{ROUGE: A Package for Automatic Evaluation of Summaries}},
+	journal = {ACL Anthology},
+	pages = {74--81},
+	year = {2004},
+	month = jul,
+	url = {https://aclanthology.org/W04-1013}
+}
+  - We propose ROUGE (Recall-Oriented Understudy for Gisting Evaluation), a set of methods and package for evaluation of summaries.
+  - Let we have one candidate summary and a set of reference summaries (NOT reference texts that we need to summarize). ROUGE-N is an n-gram recall between a candidate summary and a set of reference summaries (eq. 1). This is closely related to BLEU which is a precision-based measure. The denominator increases as we add more references. Also the numerator sums over all reference summaries. This gives more weight to matching n-grams occurring in multiple references. Therefore a candidate summary that contains words shared by more references is favored by the ROUGE-N measure.
+  - Sec 2.1: "So far, we only demonstrated how to compute ROUGE-N using a single reference. When multiple references are used, we ... take the maximum of pairwise summary-level ROUGE-N scores ..."
+  - IMO, not clear what does the section 2.1 mean, since in the previous section we dealt with multiple references. Seems like this is a plain mistake in the paper. There is a Stackoverflow quiestion about this: https://stats.stackexchange.com/questions/558777 This seems related to micro- and macro-averaging. Say, for multi-class precision, macro-average is the average precision over all classes, and micro-average is the sum of TP and FP over all classes, and then calculating precision from the total TP and FP. So, the eq. 1 is a micro-averaging, and sec. 2.1 is a macro-averaging.
+  - We also propose ROUGE-L, an F-measure based on the longest common subsequence (LCS, eq. 2-4). Let T be the length of the reference text, P be the length of the candidate text, and LCS be the length of the LCS between them. Then, we define recall as LCS/T, precision as LCS/P, and calculate F-score between them.
+  - We also propose ROUGE-W: Weighted LCS, ROUGE-S: Skip-Bigram Co-Occurrence Statistics, ROUGE-SU: Extension of ROUGE-S.
+  - We compute the correlation between ROUGE assigned summary scores and human assigned summary scores. Exclusion of stopwords achieved better performance especially in multi-document summaries. Overall, the results are different for different datasets (tables 1, 2, 3).
+  - IMO seems like ROUGE-L performance is the most stable, but the evaluation data diversity is too low. A good idea is to choose between ROUGE-*, as well as BLEU, by using prior knowledge about the task: how important is LCS length, N-gram precision and recall? It is also not explained in the paper why ROUGE-* is proposed instead of BLEU for summarization. For example, ROUGE-N is based on n-gram recall, and BLEU is based on n-gram precision, but replaces recall with min(1, len(candidate)/len(reference)), when ROUGE-N does not account for precision (see https://stackoverflow.com/questions/38045290/ ).
+  
+@article{Post2018Apr,
+	author = {Post, Matt},
+	title = {{A Call for Clarity in Reporting BLEU Scores}},
+	journal = {arXiv},
+	year = {2018},
+	month = apr,
+	eprint = {1804.08771},
+	doi = {10.48550/arXiv.1804.08771}
+}
+  - NMT faces an under-recognized problem because of inconsistency in the reporting BLEU scores. But BLEU is a parameterized metric whose parameters are often not reported in papers (even when they do, it can be hard to discover the details). The main culprit is different tokenization and normalization schemes applied to the reference. Сhanging the reference processing changes the set of n-grams against which system n-gram precision is computed.
+  - This is of course not to claim there are no problems with BLEU. Its weaknesses abound, and much has been written about them.
+  - We suggest the community use only metric-supplied reference tokenization when sharing scores, following the annual Conference on Machine Translation.
+  - We provide a tool SacreBLEU which automatically downloads and stores references for common test sets, thus introducing a "protective layer" between them and the user.
+  
+@article{Reiter2018Sep,
+	author = {Reiter, Ehud},
+	title = {{A Structured Review of the Validity of BLEU}},
+	journal = {Computational Linguistics},
+	volume = {44},
+	number = {3},
+	pages = {393--401},
+	year = {2018},
+	month = sep,
+	doi = {10.1162/coli_a_00322}
+}
+  - We present a structured review of BLEU validation studies: evaluating how well the BLEU metric correlates with the gold-standard human evaluation for various NLP systems.
+  - We use the following classification: "high" for correlation >0.85, "medium" between 0.7 and 0.85, "low" between 0 and 0.7, or "negative" if <0.
+  - One clear finding is that BLEU–human correlations are poor for NLG.
+  - For MT, correlations are poor for text-level correlations, but reasonable (medium or high) for system-level correlations. (what does this mean?)
+  - BLEU should not be the primary evaluation technique in NLP papers. When they publish a paper, evidence should not be based primarily on BLEU, because of the following concerns:
+  - 1) There are a wide range of correlations between BLEU and human evaluations, even in very similar tasks. This suggests that the correlation is dependent on the details of the systems being evaluated, the exact corpus texts used, and the exact protocol used for human evaluations.
+  - 2) None of the surveyed papers used real-world human evaluations (human evaluations only performed in an artificial context). The most common way to measure real-world effectiveness in computing is with A/B testing. I suspect that many commercial providers of online NLP services have carried out a considerable amount of A/B testing, but the results are commercially confidential. I am not suggesting that academic researchers evaluate systems using task/outcome-based real-world A/B testing — this is clearly not feasible. Instead, the results of real-world A/B testing could be used to determine contexts in which BLEU reliably had good correlation with real-world effectiveness.
+  - 3) BLEU has technological biases that we do not understand. It was previously suggested that BLEU is biased against certain technologies, and hence it correlates better with human judgments when it is used to evaluate systems built with similar technologies. Unfortunately, this survey cannot shed light on this question.
+  - New validation studies are necessary if the NLP community wishes to confidently use BLEU for testing scientific hypotheses.
+  
+@article{Novikova2017Jul,
+	author = {Novikova, Jekaterina and Du{\ifmmode\check{s}\else\v{s}\fi}ek, Ond{\ifmmode\check{r}\else\v{r}\fi}ej and Curry, Amanda Cercas and Rieser, Verena},
+	title = {{Why We Need New Evaluation Metrics for NLG}},
+	journal = {arXiv},
+	year = {2017},
+	month = jul,
+	eprint = {1707.06875},
+	doi = {10.18653/v1/D17-1237}
+}
+  - We presents an evaluation study into automatic NLG metrics with the aim to firmly establish the need for new metrics.
+  - NLG evaluation has borrowed a number of automatic word-based metrics from related fields, such as MT. (i) word-overlap metrics are TER, BLEU, ROUGE, NIST, LEPOR, CIDER, METEOR; (ii) Semantic Text Similarity measure is based on distributional similarity. It is further complemented with semantic relations extracted from WordNet.
+  - Grammar-based measures, in contrast to word-overlap metrics, do not rely on ground-truth references. We are the first to consider GBMs for sentence-level NLG evaluation, with focus on readability and grammaticality. We use Stanford parser: lower parser scores indicate less grammatically correct utterances.
+  - We focus on task to convert Meaning Representations (MR) to natural texts. An example MR is "inform(name=X, area=X, pricerange=moderate, type=restaurant)", and the corresponding text is "X is a moderately priced restaurant in X".
+  - To collect human rankings, we presented the MR together with 2 utterances generated by different systems side-by-side to crowdworkers, which were asked to score each utterance for (i) informativeness comparing to the MR, (ii) naturalness, and (iii) overall grammatical correctness and fluency.
+  - At system level (document level?) we observe that Word-based metrics seems to be related to human ratings of informativeness (which reflects content selection), whereas Grammar-based measures seems to be related to quality and naturalness. All word-overlap metrics produce similar results. More complex utterances, as measured in terms of their length, number of words, syllables and polysyllables, have lower quality evaluation. However, average scores can be misleading, as they do not identify worst-case scenarios.
+  - At utterance level, not metric produces an even moderate correlation with human ratings, independently of dataset, system, or aspect of human rating. Earlier similar inconsistencies between document- and sentence-level evaluation results are observed in MT. Again, all word-based metrics are highly correlated with each other. Human ratings for informativeness, naturalness and quality are also highly correlated with each other.
+  - One may say that the prediction of a metric is correct if it orders the sentences in the same way as median human ratings. We evaluate the metrics’ ability to predict relative human ratings. However, most metrics’ performance is not significantly different from that of a random score.
+  - So, metrics can be reliable indicators at system-level (document level or what?), while they perform less reliably at sentence-level. Also, datasets have a significant impact on how well automatic metrics reflect human ratings.
+  - Further, we show that word-based metrics moderately agree with humans on bad quality output, but cannot distinguish output of good or medium quality. (IMO, in other words, correlations between automatic and human judgements may be very distribution-dependent. If we have a distribution of only moderate or good generated sentences, the correlation between informativeness, naturalness and quality, as well as between human and auto score, may be lower than if our distibution covers a wide range of quality)
+  - There is a general trend showing that best performing metrics tend to be the more complex ones, combining word-overlap, semantic similarity and term frequency weighting.
+  - Our paper clearly demonstrates the need for more advanced metric, including: assessing output quality within the dialogue context; extrinsic evaluation metrics, such as NLG’s contribution to task success; building discriminative models; or reference-less quality prediction as used in MT.
