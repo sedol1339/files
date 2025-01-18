@@ -8072,3 +8072,90 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 3) Even when asked to perform a deterministic task, LLMs will be sensitive to the probability of the inputs they are given. We expect this to happen less often since, for many tasks, NNs can generalize across inputs.
   - 3a) When encoding text with rot-13, GPT-4 achieves an accuracy of 21% when the input sentence is high-probability but only 11% when it is low-probability.
   - Another ember of autoregression is sensitivity to wording. GPT-4 performs significantly better at applying the function f (x) = (9/5)x + 32 when the prompt mentions that this function is the Celsius-Fahrenheit conversion than when it does not. When GPT-4 is asked to multiply two numbers, its performance varies widely depending on how the numbers are written: 0.46 for digits, 0.39 for lowercase words, 0.17 when the numbers are written in alternating capitals (tWo HuNdReD).
+  
+@article{Xie2022Jan,
+	author = {Xie, Tianbao and Wu, Chen Henry and Shi, Peng and Zhong, Ruiqi and Scholak, Torsten and Yasunaga, Michihiro and Wu, Chien-Sheng and Zhong, Ming and Yin, Pengcheng and Wang, Sida I. and Zhong, Victor and Wang, Bailin and Li, Chengzu and Boyle, Connor and Ni, Ansong and Yao, Ziyu and Radev, Dragomir and Xiong, Caiming and Kong, Lingpeng and Zhang, Rui and Smith, Noah A. and Zettlemoyer, Luke and Yu, Tao},
+	title = {{UnifiedSKG: Unifying and Multi-Tasking Structured Knowledge Grounding with Text-to-Text Language Models}},
+	journal = {arXiv},
+	year = {2022},
+	month = jan,
+	eprint = {2201.05966},
+	doi = {10.48550/arXiv.2201.05966}
+}
+  - Structured knowledge grounding (SKG) leverages structured knowledge to complete user requests, such as semantic parsing over databases and QA over knowledge bases.
+  - We propose the UnifiedSKG framework that standardizes datasets, models, code, experiments, and evaluation metrics for SKG tasks. It casts user requests, structured knowledge, and outputs into the text-to-text format (fig. 1, 2, table 1).
+  - Finetuning T5 (with constrained decoding or reranking when necessary) on individual tasks achieves near SOTA performance on almost all of the 21 tasks.
+  - Simple multi-task learning on SKG has mixed results, but learning with prefix-tuning benefits most tasks and largely improves the overall performance, on both T5-base and T5-large.
+
+@article{Honovich2022May,
+	author = {Honovich, Or and Shaham, Uri and Bowman, Samuel R. and Levy, Omer},
+	title = {{Instruction Induction: From Few Examples to Natural Language Task Descriptions}},
+	journal = {arXiv},
+	year = {2022},
+	month = may,
+	eprint = {2205.10782},
+	doi = {10.48550/arXiv.2205.10782}
+}
+  - We introduce the task of instruction induction: to explicitly describe an underlying task, in natural language, given a few labeled examples (table 1). We simply prompt the models to explain a small set of given in-context demonstrations. This has the immediate benefit of human interpretability, and might also help alleviate overfitting and other issues associated with spurious correlations.
+  - We collect human annotations and use them as gold-standard references; the generated instructions are then compared to these references using BERTScore. The best-performing model, InstructGPT, achieves an average BERTScore of 44.4, compared to human performance of 60.0.
+  - We also test whether LMs can correctly perform the task in a zero-shot manner by using the generated instruction alone, without any demonstrations. InstructGPT reaches 43.6, with human-written instructions reaching 66.4.
+  - However, this ability is currently unique to InstructGPT. Ablations on smaller versions of InstructGPT as well as the original GPT-3 175B yield dramatically weaker performance.
+  - For some tasks, InstructGPT fails to produce accurate instructions, even if it is able to solve via in-context learning. For example, in Antonyms, InstructGPT predicts "reverse the input", however at execution time model interprets them literally, and reverses the input words’ letters.
+  
+@article{Zhou2022Apr,
+	author = {Zhou, Chunting and He, Junxian and Ma, Xuezhe and Berg-Kirkpatrick, Taylor and Neubig, Graham},
+	title = {{Prompt Consistency for Zero-Shot Task Generalization}},
+	journal = {arXiv},
+	year = {2022},
+	month = apr,
+	eprint = {2205.00049},
+	doi = {10.48550/arXiv.2205.00049}
+}
+  - We aim to impove zero-shot task generalization ability. We are motivated by consistency training methods that regularize model predictions to be invariant to perturbation of the input examples.
+  - We apply multiple synonymous prompts to the unlabeled example, then we regularize the consistency of the predictions from different prompts, through our swarm distillation loss (fig. 1). We do not use even a semi-supervised setting.
+  - Without explicit supervision, the model may suffer from catastrophic forgetting. Our swarm distillation objective is minimized at collapse when the model makes the same predictions for any input. To address this issue, we (i) utilize parameter-efficient tuning to mitigate catastrophic forgetting, (ii) propose an unsupervised criterion to perform early stopping before a collapsed local optimum.
+  - Our swarm distillation method improves the accuracy of the T0 3B on 9 out of 11 datasets from 4 NLP tasks: NLI, coreference resolution, word sense disambiguation, and sentence completion. These gains are often possible with only tens of examples.
+  
+@article{Zhou2023May,
+	author = {Zhou, Chunting and Liu, Pengfei and Xu, Puxin and Iyer, Srini and Sun, Jiao and Mao, Yuning and Ma, Xuezhe and Efrat, Avia and Yu, Ping and Yu, Lili and Zhang, Susan and Ghosh, Gargi and Lewis, Mike and Zettlemoyer, Luke and Levy, Omer},
+	title = {{LIMA: Less Is More for Alignment}},
+	journal = {arXiv},
+	year = {2023},
+	month = may,
+	eprint = {2305.11206},
+	doi = {10.48550/arXiv.2305.11206}
+}
+  - We define the Superficial Alignment Hypothesis: a model’s knowledge and capabilities are learnt almost entirely during pretraining, while alignment teaches it which subdistribution of formats should be used when interacting with users. A corollary is that one could sufficiently tune a pretrained LM with a rather small set of examples.
+  - We demonstrate that, given a strong pretrained LM, remarkably strong performance can be achieved by simply fine-tuning on 1,000 carefully curated training examples. Our findings demonstrate the relative importance of pretraining over large-scale instruction tuning and RL approaches.
+  - We select 750 top questions and answers from community forums, sampling for quality and diversity. In addition, we manually write 250 examples of prompts and responses, while optimizing for task diversity and emphasizing a uniform response style.
+  - We train LIMA (Less Is More for Alignment), a LLaMa 65B fine-tuned on this set of 1,000 demonstrations. To differentiate between each speaker (user and assistant), we introduce a special end-of-turn token (EOT) at the end of each utterance.
+  - Across 300 challenging test prompts, in a human preference study, LIMA outperforms RLHF-trained DaVinci003, as well as 65B-parameter reproduction of Alpaca, which was trained on 52,000 examples. Comparing to GPT-4, Claude, and Bard, LIMA produces equal or preferrable responses in 43%, 46%, and 58% of the cases, respectively (fig. 1). Also, GPT-4 as a judge performs on-par in agreement with human annotators, essentially passing the Turking Test for this task (fig. 2).
+  - IMO, if GPT-4 can evaluate which answers are better (its own or LIMA's), then it probably can re-rank its own answers in the same way to improve quality.
+  - Despite having zero dialogue examples, LIMA can conduct coherent multi-turn dialogue, and this ability can be dramatically improved by adding only 30 hand-crafted dialogue chains to the training set.
+  - Ablations reveal vastly diminishing returns when scaling up data quantity without also scaling up prompt diversity. When training on quality-filtered Stack Exchange data, despite an up to 16-fold increase in data size from 2k to 32k samples, performance as measured by ChatGPT does not increase. (IMO this is weird because if Stack Exchange data size grows, the diversity of questions should also grow). This suggests that the scaling laws of alignment are not necessarily subject to quantity alone, but rather a function of prompt diversity while maintaining high quality responses.
+ 
+@article{Wang2022Dec,
+	author = {Wang, Yizhong and Kordi, Yeganeh and Mishra, Swaroop and Liu, Alisa and Smith, Noah A. and Khashabi, Daniel and Hajishirzi, Hannaneh},
+	title = {{Self-Instruct: Aligning Language Models with Self-Generated Instructions}},
+	journal = {arXiv},
+	year = {2022},
+	month = dec,
+	eprint = {2212.10560},
+	doi = {10.48550/arXiv.2212.10560}
+}
+  - Сollecting instruction data, such as Super-NaturalInstructions, is costly and fails short of covering a true variety of tasks and different ways to describe them.
+  - We propose Self-Instruct, an iterative bootstrapping algorithm which starts off with a limited seed set of manually-written tasks. We initiate the task pool with 175 tasks (1 instruction and 1 instance for each task).
+  - 1) At each step, we sample 8 task instructions from this pool as in-context examples (6 human generated and 2 model-generated from previous steps). The model generates instructions for new tasks. We next identify whether the generated instruction represents a classification task or not, by prompting LM in a few-shot way.
+  - 2) Then LM generates instances for generated instruction. Input-first Approach (first generate input, then output) can generate inputs biased toward one label, especially for classification tasks, so we additionally propose an Output-first Approach for classification tasks, where we first generate the possible class labels, and then condition the input generation on each class label.
+  - 3) To encourage diversity, a new instruction is added to the task pool only when its ROUGE-L similarity with any existing instruction is less than 0.7. We also exclude instructions that contain some specific keywords (e.g., image, picture, graph) that usually can not be processed by LMs. Also, invalid generations are identified based on heuristics.
+  - As a result, we generate and release a large synthetic dataset of over 52K instructions and more than 82K instances.
+  - Some instructions have empty inputs. For example, the instruction with empty input is "write an essay about school safety". This can be a valid instruction that we expect models to respond to directly, while it can also be formulated as "write an essay about the following topic" as the instruction, and "school safety" as an instance input.
+  - For each generated instruction, we compute its highest ROUGE-L overlap with the 175 seed instructions. We observe that a decent number of new instructions were generated, which do not have much overlap with the seeds.
+  - Tos study how diverse the instructions are, we use the Berkeley Neural Parser to parse the instructions and then extract the verb that is closest to the root as well as its first direct noun object. 26,559 out of the 52,445 instructions contain such structure. Others usually contain more complex clauses, such as "classify whether this tweet contains political content or not", or are framed as questions. We plot the top 20 most common root verbs and their top 4 direct noun objects in fig. 3, which account for 14% of the entire set.
+  - To investigate quality, we randomly sample 200 instructions and 1 instance per instruction, and manually evaluate them. Instruction describe a valid task in 92% cases, the input is appropriate in 79% cases, and all fields are valid in 54% cases. Even though the generations may contain errors, most of them are still in the correct format or partially correct, which can provide useful guidance for training models to follow instructions.
+  - We then finetune the original GPT3 on its own instruction data (i.e., Self-Instruct) in a standard supervised way: we concatenate the instruction and instance input as a prompt and train the model to generate the instance output.
+  - GPT3 Self-Instruct achieves better performance than T0 or the GPT3 finetuned on the T0 training set, which takes tremendous human labeling efforts. It also nearly matches the performance of InstructGPT-001, which is trained with private user data and human-annotated labels.
+  - Models trained on the Super-NI (Super-NaturalInstructions) still achieve better performance on its evaluation set, which we attribute to the similar instruction style and formatting. Self-Instruct still brings in additional gains when combined with the Super-NI training set, proving its value as complementary data.
+  - We also curate a new set of instructions motivated by user-oriented applications. We first brainstorm various domains where large LMs may be useful (e.g., email writing, social media, productivity tools, entertainment, programming), then craft instructions related to each domain along with an input-output instance (again, input is optional). In total, we create and release 252 instructions with 1 instance per instruction. It can serve as a testbed for evaluating how instruction-based models handle diverse and unfamiliar instructions.
+  - Human evaluation indicates that GPT3 Self-Instruct outperforms all the other GPT3 variants trained on publicly available instruction dataset (T0, Super-NI) and scores nearly as good as InstructGPT-001 (fig. 6). This InstructGPT version is the closest to our experimental setup: supervised finetuning with human demonstrations. The newer verssions of InstructGPT (002, 003) are more powerful, though they use more data (e.g., code completion or latest user queries) or algorithms (e.g., PPO) that are difficult to compare with.
+  - We use InstructGPT-003 to regenerate the output field of all our instances given the instruction and input, and use this improved version of our data to finetune GPT3, which further improves performance. This suggests using our generation pipeline to get initial data and then improving the data quality with human experts or distillation from better models.
