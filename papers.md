@@ -8159,3 +8159,54 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - We also curate a new set of instructions motivated by user-oriented applications. We first brainstorm various domains where large LMs may be useful (e.g., email writing, social media, productivity tools, entertainment, programming), then craft instructions related to each domain along with an input-output instance (again, input is optional). In total, we create and release 252 instructions with 1 instance per instruction. It can serve as a testbed for evaluating how instruction-based models handle diverse and unfamiliar instructions.
   - Human evaluation indicates that GPT3 Self-Instruct outperforms all the other GPT3 variants trained on publicly available instruction dataset (T0, Super-NI) and scores nearly as good as InstructGPT-001 (fig. 6). This InstructGPT version is the closest to our experimental setup: supervised finetuning with human demonstrations. The newer verssions of InstructGPT (002, 003) are more powerful, though they use more data (e.g., code completion or latest user queries) or algorithms (e.g., PPO) that are difficult to compare with.
   - We use InstructGPT-003 to regenerate the output field of all our instances given the instruction and input, and use this improved version of our data to finetune GPT3, which further improves performance. This suggests using our generation pipeline to get initial data and then improving the data quality with human experts or distillation from better models.
+  
+@article{Peng2023Apr,
+	author = {Peng, Baolin and Li, Chunyuan and He, Pengcheng and Galley, Michel and Gao, Jianfeng},
+	title = {{Instruction Tuning with GPT-4}},
+	journal = {arXiv},
+	year = {2023},
+	month = apr,
+	eprint = {2304.03277},
+	doi = {10.48550/arXiv.2304.03277}
+}
+  - We propose to use GPT-4 as a teacher for self-instruct tuning (as in "Self-instruct: Aligning language models with self-generated instructions").
+  - We reuse 52K unique instructions in the Alpaca dataset, but consider GPT-4 instead of GPT-3.5 (text-davinci-003) for data generation. We release the obtained English instruction-following data.
+  - We also use ChatGPT to translate the 52K instructions into Chinese and ask GPT-4 to answer them in Chinese. This allows us to build a Chinese instruction-following model based on LLaMA.
+  - We train two LLaMA 7B models using SFT on these data.
+  - To evaluate the quality of instruction-tuned LLMs, we use human evaluation on three alignment criteria (Helpfulness, Honesty, Harmlessness), GPT-4 evaluation, and ROUGE-L on "un-natural instructions". The observations are quite consistent over the three criteria: GPT-4-instruction-tuned LLaMA performs similarly to the original GPT-4 on the unseen instructional tasks.
+  - One key component of RLHF is reward modeling. This approach typically requires large-scale data, where two model responses on the same prompt are compared. Existing open-source works such as Alpaca, Vicuna, and Dolly do not involve RLHF due to the high cost of labeling comparison data. We instead have created comparison data using GPT-4. We ask GPT-4 to rate its own response from 1 to 10, and to rate the responses from another three models. This is used to train reward model based on OPT 1.3B. This represents work in progress, and for now the reward model is used only to rank the responses. The ChatGPT and GPT-4 evaluation is consistent with the orders suggested by our reward model, which demonstrate the value of the feedback data and effectiveness of the reward model.
+  
+@article{Zhang2023Mar,
+	author = {Zhang, Renrui and Han, Jiaming and Liu, Chris and Gao, Peng and Zhou, Aojun and Hu, Xiangfei and Yan, Shilin and Lu, Pan and Li, Hongsheng and Qiao, Yu},
+	title = {{LLaMA-Adapter: Efficient Fine-tuning of Language Models with Zero-init Attention}},
+	journal = {arXiv},
+	year = {2023},
+	month = mar,
+	eprint = {2303.16199},
+	doi = {10.48550/arXiv.2303.16199}
+}
+  - Despite Alpaca’s effectiveness, a complete fine-tuning of large-scale LLaMA is still time-consuming and computation-intensive.
+  - We introduce LLaMA-Adapter, an efficient fine-tuning method that adapts LLaMA into a well-performed instruction-following model. It tunes 1.2M Parameters instead of the full 7B parameters. The training convergence of LLaMA-Adapter costs less than one hour on 8 A100 GPUs. Our approach can also incorporate an image encoder.
+  - Different from LoRA and Adapters, our method is specially designed for instruction tuning and multi-modal reasoning of LLaMA.
+  - We first insert a set of learnable adaption prompts into its topmost L layers. Prompts are additional keys and values to attend (fig. 2).
+  - If the adaption prompts are randomly initialized, they might bring disturbance to the word tokens at the beginning of training, which harms the fine-tuning stability and effectiveness. We adopt a learnable gating factor to adaptively control the importance of prefix tokens in attention: we independently apply the softmax functions to (i) the keys corresponding to learnable prompt, and (ii) to the rest (eq. 7), and multiply the first by a gate. We initialize these gates with zero to eliminate the influence of under-fitted prompts, and then increase its magnitude. We use different learnable gate values per head.
+  - The usage of a pre-trained image encoder is shown in fig. 3. Given an image input, we element-wisely add the image tokens with adaption prompts.
+  - Following Stanford Alpaca, we utilize 52K instruction-following data for training.
+  - On GPT-4 Evaluating Benchmark LLaMA-Adapter obtains more "win" compared to Alpaca and Alpaca-LoRA, respectively.
+  
+@article{Xu2023Apr,
+	author = {Xu, Can and Sun, Qingfeng and Zheng, Kai and Geng, Xiubo and Zhao, Pu and Feng, Jiazhan and Tao, Chongyang and Jiang, Daxin},
+	title = {{WizardLM: Empowering Large Language Models to Follow Complex Instructions}},
+	journal = {arXiv},
+	year = {2023},
+	month = apr,
+	eprint = {2304.12244},
+	doi = {10.48550/arXiv.2304.12244}
+}
+  - The whole annotating process to create open-domain instruction datase is extremely expensive and time-consuming.
+  - We introduce Evol-Instruct, a novel method using LLMs instead of humans to automatically mass-produce open-domain instructions of various difficulty levels. Starting from a simple initial instruction "1+1=?", our method randomly selects In-depth Evolving (add constraints, deepening, concretizing, increase reasoning steps, and complicate input) or In-breadth Evolving (generating a completely new instruction based on the given instruction) (fig. 1) by prompting an LLM with specific prompts. We adopt an instruction eliminator to filter the failed instructions. We execute four epochs of evolution using OpenAI ChatGPT API and finally obtain 250k instructions. We use the same LLM as for evolving to generate the corresponding responses for the evolved instructions.
+  - We validate our Evol-Instruct by fine-tuning open-source LLaMA and name our model WizardLM.
+  - We created a new difficulty-balanced test dataset, named Evol-Instruct testset, due to the low proportion of difficult instructions in the previous instruction-following test dataset.
+  - We hire annotators and leverage GPT-4 to evaluate Alpaca, Vicuna, ChatGPT, and WizardLM on Evol-Instruct testset and Vicuna’s testset.
+  - On Evol-Instruct testset, we find that our model WizardLM significantly outperforms Vicuna. This shows that instructions from Evol-Instruct are superior to the ones from human-created ShareGPT (used in Vicuna).
+  - On Evol-Instruct testset, WizardLM performs worse than ChatGPT, with a win rate 12.8% lower than ChatGPT. However, in the high-difficulty section of Evol-Instruct test set, our WizardLM even outperforms ChatGPT.
