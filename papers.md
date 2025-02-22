@@ -8210,3 +8210,60 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - We hire annotators and leverage GPT-4 to evaluate Alpaca, Vicuna, ChatGPT, and WizardLM on Evol-Instruct testset and Vicuna’s testset.
   - On Evol-Instruct testset, we find that our model WizardLM significantly outperforms Vicuna. This shows that instructions from Evol-Instruct are superior to the ones from human-created ShareGPT (used in Vicuna).
   - On Evol-Instruct testset, WizardLM performs worse than ChatGPT, with a win rate 12.8% lower than ChatGPT. However, in the high-difficulty section of Evol-Instruct test set, our WizardLM even outperforms ChatGPT.
+  
+@article{Longpre2023Jan,
+	author = {Longpre, Shayne and Hou, Le and Vu, Tu and Webson, Albert and Chung, Hyung Won and Tay, Yi and Zhou, Denny and Le, Quoc V. and Zoph, Barret and Wei, Jason and Roberts, Adam},
+	title = {{The Flan Collection: Designing Data and Methods for Effective Instruction Tuning}},
+	journal = {arXiv},
+	year = {2023},
+	month = jan,
+	eprint = {2301.13688},
+	doi = {10.48550/arXiv.2301.13688}
+}
+  - We propose the Flan 2022 Collection: a set of tasks and methods for instruction tuning, high-quality templates, richer formatting patterns, and data augmentations.
+  - Training on a mix of examples templatized with zero-shot, few-shot, and chain-of-thought prompts improves performance in every one of these settings. For instance, adding just 10% few-shot prompts improves zero-shot prompting results by 2%+.
+  - Enriching task diversity by inverting input-output pairs, along with balancing task sources, are both critical to performance.
+  - The resulting Flan-T5 model converges faster and at a higher performance than T5 models in single-task finetuning — suggesting instruction-tuned models offer a more efficient starting checkpoint for downstream applications.
+  
+@article{Gao2023Apr,
+	author = {Gao, Peng and Han, Jiaming and Zhang, Renrui and Lin, Ziyi and Geng, Shijie and Zhou, Aojun and Zhang, Wei and Lu, Pan and He, Conghui and Yue, Xiangyu and Li, Hongsheng and Qiao, Yu},
+	title = {{LLaMA-Adapter V2: Parameter-Efficient Visual Instruction Model}},
+	journal = {arXiv},
+	year = {2023},
+	month = apr,
+	eprint = {2304.15010},
+	doi = {10.48550/arXiv.2304.15010}
+}
+  - Currently, LLaMA-Adapter is still unable to perform more advanced multi-modal instructions, e.g., visual understanding like GPT-4. LLaMA-Adapter lacks multi-modal instruction tuning data: being trained on COCO Caption it can only produce short image captions and cannot adapt to open-ended multi-modal instructions. On the other side, LLaVA and MiniGPT-4 require updating billions of model parameters and a lot of multi-modal training data.
+  - We propose LLaMA-Adapter V2. In LLaMA-Adapter, dynamic visual prompts are incorporated into the static adaptation prompts at the last L layers. However, in LLaMA-Adapter V2, we distribute the dynamic visual prompts to only the first K layers, where K + L is less than total layer count. As a result, image-text alignment no longer disrupts the model’s instruction-following capability (we have observed that the visual features tend to dominate the adaptation prompt in LLaMA-Adapter v1). We futher train with image captioning data and instruction-following data, even in the absence of high quality multi-modal instruction data.
+  - We also unlock more learnable parameters such as normalization, layer bias and scale (~0.04% parameters of the entire model).
+  - Finally, we introduce additional expert models (e.g., captioning, detection, and OCR systems) as additional image-to-text networks (fig. 4).
+  - LLaMA-Adapter V2 surpasses LLaMA-Adapter in terms of language instruction-following performance.
+
+@article{Kopf2023Apr,
+	author = {K{\ifmmode\ddot{o}\else\"{o}\fi}pf, Andreas and Kilcher, Yannic and von R{\ifmmode\ddot{u}\else\"{u}\fi}tte, Dimitri and Anagnostidis, Sotiris and Tam, Zhi-Rui and Stevens, Keith and Barhoum, Abdullah and Duc, Nguyen Minh and Stanley, Oliver and Nagyfi, Rich{\ifmmode\acute{a}\else\'{a}\fi}rd and Es, Shahul and Suri, Sameer and Glushkov, David and Dantuluri, Arnav and Maguire, Andrew and Schuhmann, Christoph and Nguyen, Huu and Mattick, Alexander},
+	title = {{OpenAssistant Conversations -- Democratizing Large Language Model Alignment}},
+	journal = {arXiv},
+	year = {2023},
+	month = apr,
+	eprint = {2304.07327},
+	doi = {10.48550/arXiv.2304.07327}
+}
+  - We release OpenAssistant Conversations dataset that was obtained through a crowd-sourcing effort involving more than 13,000 volunteers. It consists of a list of conversations. The basic data structure is a Conversation Tree, with nodes representing written messages in a conversation. Two main roles are prompter and assistant. Each assistant node (a reply to prompt, either by LLM or by human) has a rank associated which orders it compared to replies of the parent prompt, according to user preferences. 
+  - Users created prompts, replied as an assistant and as a prompter. Also users categorized the message according to three dimensions: spam detection, guideline adherence, and quality. Quality labels require users to rate the message on a five-point Likert scale across dimensions such as quality, creativity, humorousness, politeness, and harmlessness. Finally, users were presented with two or more responses to the same parent message and asked to rank them in order of preference.
+  - Upon the creation of a new tree, it enters the initial prompt review state, where multiple users are tasked with providing labels to assess its quality and suitability. This state plays a crucial role in identifying any potential issues with the initial prompt, and demands special attention, as the entire rest of the tree (potentially several dozens of tasks) is rooted in the initial prompt.
+  - The full dataset consists of 161,443 messages (91,829 prompter and 69,614 assistant messages) distributed across 66,497 conversation trees (52,159 trees  are in the prompt lottery state, meaning they only consist of a single initial prompt), in 35 different languages, annotated with 461,292 quality ratings. This includes 8,576 synthetic messages, leaving 152,867 human-submitted messages.
+  - We train supervised fine-tuned (SFT) models, reward models), and, using the trained reward models, reinforcement-learned models (RLHF). While InstructGPT trained reward models on ranking data of messages generated by their initial SFT model, our reward (ranking) data contains mostly human-generated messages. However, our RLHF models do not deliver the same uniform and significant improvements over SFT models as reported in InstructGPT paper. We plan to collect ranking data based on our own SFT models in the future.
+  
+@article{Luo2023Aug,
+	author = {Luo, Yun and Yang, Zhen and Meng, Fandong and Li, Yafu and Zhou, Jie and Zhang, Yue},
+	title = {{An Empirical Study of Catastrophic Forgetting in Large Language Models During Continual Fine-tuning}},
+	journal = {arXiv},
+	year = {2023},
+	month = aug,
+	eprint = {2308.08747},
+	doi = {10.48550/arXiv.2308.08747}
+}
+  - We demonstrate that the catastrophic forgetting (CF) problem exists in the continual instruction tuning process for BLOOMZ, mT0, LLAMA and ALPACA.
+  - In our experiments, the initial model is continually trained with different instruction tasks (fig. 1, one task per stage) and evaluated from the perspective of general knowledge tasks.
+  - TODO
