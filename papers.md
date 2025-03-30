@@ -8294,3 +8294,36 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - 6) An implementation of vector RAG in which text chunks are retrieved and added to the available context window until the specified token limit is reached.
   - GraphRAG is available as open-source software at https://github.com/microsoft/graphrag. In addition, versions of the GraphRAG approach are also available as extensions to multiple opensource libraries, including LangChain, LlamaIndex, NebulaGraph, and Neo4J.
   - We see potential in hybrid RAG schemes that combine embeddingbased matching with just-in-time community report generation before employing our map-reduce summarization mechanisms
+  
+@article{Lewis2020May,
+	author = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\ifmmode\ddot{u}\else\"{u}\fi}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\ifmmode\ddot{a}\else\"{a}\fi}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
+	title = {{Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}},
+	journal = {arXiv},
+	year = {2020},
+	month = may,
+	eprint = {2005.11401},
+	doi = {10.48550/arXiv.2005.11401}
+}
+  - We explore RAG (retrieval-augmented generation) models, which use the input sequence x to retrieve text documents z and use them as additional context when generating the target sequence y (fig. 1). A retriever p_η(z|x) with parameters η that returns (top-K truncated) distributions over text passages given a query x. A generator generates a current token based on a context of the previous tokens, the original input x and a retrieved passage z.
+  - In one approach, RAG-Sequence, the model uses the same document to predict each target token. The generator produces the output sequence probability for each document. The second approach, RAG-Token, can predict each target token based on a different document (fig. 2). The top K documents are retrieved using the retriever, and then the generator produces a distribution for the next output token for each document, and repeating the process with the following output token. We propose a specific decoding scheme "Thorough Decoding" for For RAG-Sequence. 
+  - RAG can be used for sequence classification tasks by considering the target class as a target sequence of length one, in which case RAG-Sequence and RAG-Token are equivalent.
+  - The retrieval component is based on DPR (see "Dense Passage Retrieval for Open-Domain Question Answering"). It follows a bi-encoder architecture by using dot product between document encoder and query encoder embeddings. Calculating top-k is a Maximum Inner Product Search (MIPS) problem, which can be approximately solved in sub-linear time. We use a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index. We refer to the document index as the non-parametric memory.
+  - We jointly train the retriever and generator components without any direct supervision on what document should be retrieved. To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable (see equations in sec. 2.1). Updating the document encoder (BERT_d) during training is costly as it requires the document index to be periodically updated. We do not find this step necessary for strong performance, and keep the document encoder (and index) fixed, only fine-tuning the query encoder BERT_q and the BART generator.
+  - The non-parametric memory can be replaced to update the models’ knowledge as the world changes.
+  - For all experiments, we use a single Wikipedia dump for our non-parametric knowledge source. Each Wikipedia article is split into disjoint 100-word chunks, to make a total of 21M documents.
+  - Our RAG models achieve SOTA on open Natural Questions, WebQuestions and CuratedTrec and strongly outperform recent approaches that use specialised pre-training objectives on TriviaQA. For knowledge-intensive generation, we experiment with MS-MARCO and Jeopardy question generation, and we find that our models generate responses that are more factual, specific, and diverse than a BART baseline.
+
+@article{Trivedi2022Dec,
+	author = {Trivedi, Harsh and Balasubramanian, Niranjan and Khot, Tushar and Sabharwal, Ashish},
+	title = {{Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions}},
+	journal = {arXiv},
+	year = {2022},
+	month = dec,
+	eprint = {2212.10509},
+	doi = {10.48550/arXiv.2212.10509}
+}
+  - For complex multi-step reasoning questions, one often must retrieve partial knowledge, perform partial reasoning, retrieve additional information based on the outcome of the partial reasoning done so far, and iterate (fig. 1). Without retrieval, a model is likely to generate an incorrect reasoning step due to hallucination.
+  - For propose IRCoT, where we need a retriever, LM with CoT generation capabilities and a small number of annotated questions with reasoning steps. We start by retrieving K documents using the question as they query and repeat two steps alternatingly until termination. (i) reason-step generates next CoT sentence based on the question, so far retrieved paragraphs, and CoT sentences. (ii) retrieve-step retrieves K more paragraphs based on the last CoT sentence. The process terminates when the generated CoT has "answer is" or the number of steps exceeds a threshold. Finally, we use these as the context for answering the question via direct QA prompting or CoT prompting. 
+  - For in-context demonstrations, we use the complete CoT in the above format (where we use ground-truth supporting retrieved paragraphs as well as M randomly sampled paragraphs shuffled). For a test instance, we show the model only the CoT sentences generated thus far and let it complete the rest. Even though the model may output multiple sentences, for each reason-step, we only take the first generated sentence and discard the rest.
+  - We evaluate the efficacy of our system on multi-step reasoning datasets, such as 2WikiMultihopQA. IRCoT retrieval is better than one-step and outperforms NoR and OneR QA. IRCoT is effective on generalization to new datasets (we use prompt demonstrations from one dataset to evaluate on another dataset).
+  - IRCoT is also effective for smaller models.
