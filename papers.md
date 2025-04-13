@@ -8383,3 +8383,56 @@ use of either the focal loss, or the sparse adjacency matrix.
   - In a concurrent work, "Replug: Retrieval-augmented black-box language models" also suggest to augment off-the-shelf LMs with retrieved texts by prepending them to the input. Their results are based on training a retriever, and we use off-the-shelf retrievers.
   - IMO, this could be interesting to study on examples how does the retrieved document change as we continue generating the answer or text continuation.
   - IMO: did no found the comparision between their method and other methods on question answering?
+  
+@article{Chen2023Sep,
+	author = {Chen, Jiawei and Lin, Hongyu and Han, Xianpei and Sun, Le},
+	title = {{Benchmarking Large Language Models in Retrieval-Augmented Generation}},
+	journal = {arXiv},
+	year = {2023},
+	month = sep,
+	eprint = {2309.01431},
+	doi = {10.48550/arXiv.2309.01431}
+}
+  - In RAG, the most common method is to use a search engine as a retriever such as New Bing. However, RAG brings not only positive effects to LLMs. There is a significant amount of noise information even fake news. LLMs can be misled by incorrect information contained in the context and also suffer from hallucination. Currently there lacks of comprehensive understanding on how these factors can influence RAG.
+  - We create a new RAG Benchmark, namely RGB, in both English and Chinese. To ensure that the internal knowledge of LLMs does not introduce bias, we aggregate the latest news information. We use Search API to fetch relevant documents.
+  - We3 divide the benchmark into 4 testbeds:
+  - 1) Noise Robustness. We define noisy documents as those that are relevant to the question but do not contain any information of the answer. For example, the noisy documents related to the question "Who was awarded the 2022 Nobel Prize in Literature" include reports about the 2021 Nobel Prize in Literature. The testbed contains instances with the desired document noise ratio.
+  - 2) Negative Rejection. LLM should reject to answer the question when the required knowledge is not present in any retrieved document. The testbed contains only noisy external documents.
+  - 3) Information Integration. Instances that can only be answered using multiple documents. "When were the ChatGPT app for iOS and ChatGPT api launched?", - LLMs are expected to provide information of the launch dates for both the ChatGPT iOS app and ChatGPT API.
+  - 4) Counterfactual Robustness. The LLMs are given warnings about potential risks in the retrieved information through instruction. The testbed includes instances where the external documents contain factual errors.
+  - For Noise Robustness and Information Integration we use accuracy metric. We employ an exact matching approach where if the generated text contains an exact match to the answer, it is considered as a correct answer.
+  - For Negative Rejection and Counterfactual Robustness, we instruct LLM to output the specific rejection phrase. If the model generates this content, it indicates a successful rejection. Also, in Counterfactual Robustness the model is asked to generate the correct answer after identifying the factual errors.
+  - We evaluate ChatGPT, ChatGLM-6B etc. They suffer from the abovementioned challenges significantly.
+  - ...TODO (прочитано введение и раздел про метрики)
+  
+@article{Ji2022Feb,
+	author = {Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Yejin and Chen, Delong and Dai, Wenliang and Chan, Ho Shu and Madotto, Andrea and Fung, Pascale},
+	title = {{Survey of Hallucination in Natural Language Generation}},
+	journal = {arXiv},
+	year = {2022},
+	month = feb,
+	eprint = {2202.03629},
+	doi = {10.1145/3571730}
+}
+  - Within the context of NLP, the definition of hallucination, the generated content that is nonsensical or unfaithful to the provided source content, is the most inclusive and standard. However, there do exist variations in definition across NLG tasks.
+  - "Faithfulness" is defined as staying consistent and truthful to the provided source – an antonym to "hallucination." "Factuality" refers to the quality of being actual or based on fact. Depending on what serves as the "fact", "factuality" and "faithfulness" may or may not be the same. In "On faithfulness and factuality in abstractive summarization" the term "fact" is defined as the world knowledge. We believe having such a distinction between source knowledge and world knowledge provides a more clear understanding.
+  - Following the categorization from previous works, there are two types of hallucinations:
+  - 1) Intrinsic Hallucinations. The generated output that contradicts the source content (for example, in summarization task). The source in abstractive summarization is the input source text that is being summarized. In the generative question answering, the source may be the world knowledge
+  - 2) Extrinsic Hallucinations. The generated output that cannot be verified from the source content. It is not always erroneous because it could be from factually correct external information. However, it is still treated with caution.
+  - The contributors of hallucination may be: source-reference divergence existing in dataset, imperfect representation learning, erroneous decoding, exposure bias, parametric knowledge bias (models prioritize parametric knowledge over the provided input). However, models can realize they are generating something hallucinated in some way.
+  - Traditional metrics have a poor correlation with human judgment in terms of the hallucination problem. In "Handling divergent reference texts when evaluating table-to-text generation" they propose a metric PARENT (n-gram metric like ROUGE and BLEU) which can measure hallucinations using both the source and target text as references.
+  - Information extraction (IE) model-based metric use models to represent the knowledge in a simpler relational tuple format (e.g., subject, relation, object), then verify against relation tuples extracted from the source/reference. One limitation is the potential error propagation from the IE model.
+  - QA-based metric measures consists of three parts: First, given a generated text, a question generation model generates a set of question-answer pairs. Second, a question answering model answers the generated questions given a groundtruth source text as the reference (containing knowledge). Lastly, the hallucination score is computed based on the similarity of the corresponding answers. Similarly, the limitation is the potential error propagation from both models.
+  - NLI-based metrics define the hallucination/faithfulness score to be the entailment probability between the source and its generated text. They were shown to be more robust to lexical variability than token matching approaches such as IE-based and QA-based metrics. However, off-the-shelf NLI models tend to transfer poorly to the abstractive summarization task.
+  - In LM-based Metrics, unconditional LM is only trained on the targets (ground-truth references) in the dataset, while a conditional language model is trained on both source and target data. It is assumed that the next token is inconsistent with the input if unconditional LM gets a smaller loss than conditional LM.
+  - Human evaluation is still one of the most commonly used approaches.
+  - TODO from sec 5 (посмотреть про датасеты, а не только метрики)
+  
+# абстрактивный RAG датасеты (кратко)
+
+In-Context Retrieval-Augmented Language Models
+  предлагается метод для Retrieval-Augmented генерации
+  оценивается перплексия на language modeling на разных корпусах
+  оценивается на Open-Domain Question Answering (Natural Questions, TriviaQA), в качестве корпуса - Википедия
+Benchmarking Large Language Models in Retrieval-Augmented Generation
+  4 бенчмарка, собранные вручную, метрики качества. Документы даны, их не надо искать в базе.
