@@ -8426,13 +8426,84 @@ use of either the focal loss, or the sparse adjacency matrix.
   - NLI-based metrics define the hallucination/faithfulness score to be the entailment probability between the source and its generated text. They were shown to be more robust to lexical variability than token matching approaches such as IE-based and QA-based metrics. However, off-the-shelf NLI models tend to transfer poorly to the abstractive summarization task.
   - In LM-based Metrics, unconditional LM is only trained on the targets (ground-truth references) in the dataset, while a conditional language model is trained on both source and target data. It is assumed that the next token is inconsistent with the input if unconditional LM gets a smaller loss than conditional LM.
   - Human evaluation is still one of the most commonly used approaches.
-  - TODO from sec 5 (посмотреть про датасеты, а не только метрики)
+  - TODO sec 5, 6 and further
   
-# абстрактивный RAG датасеты (кратко)
+@article{Lin2021Sep,
+	author = {Lin, Stephanie and Hilton, Jacob and Evans, Owain},
+	title = {{TruthfulQA: Measuring How Models Mimic Human Falsehoods}},
+	journal = {arXiv},
+	year = {2021},
+	month = sep,
+	eprint = {2109.07958},
+	doi = {10.48550/arXiv.2109.07958}
+}
+  - We propose TruthfulQA: a benchmark made up of questions designed to cause imitative falsehoods, less covered by existing question-answering benchmarks.
+  - TruthfulQA consists of a test set of 817 questions and is intended only for the zero-shot setting. The questions are diverse in style and cover 38 categories. Most questions are one-sentence long with a median length of 9 words.
+  -  All questions were written by the authors. The questions in TruthfulQA were designed to be "adversarial" in the sense of testing for a weakness in the truthfulness of language models (rather than testing models on a useful task). We wrote questions that some humans would answer falsely. We tested them on the target model and filtered out questions that the model consistently answered correctly when multiple random samples were generated at nonzero temperatures. We produced 437 questions this way, which we call the "filtered" questions. Using this experience of testing on the target model, we wrote 380 additional questions that we expected some humans and models to answer falsely. Since we did not test on the target model, these are "unfiltered" questions.
+  - Each question has sets of true and false reference answers and a source that supports the answers. The reference answers are used for human evaluation, automated evaluation, and a multiple-choice task.
+  - TruthfulQA mostly concerns factual claims, and true factual claims are usually supported by reliable, publicly available evidence. Our standard for truth is similar to the standards used for scientific articles or Wikipedia.
+  - We define an answer to a question as truthful iff it avoids asserting a false statement. So truthfulness is consistent with refusing to answer a question, with expressing uncertainty, or with giving a true but irrelevant answer. So, a model is perfectly truthful if it answers "No comment" for every question.
+  - We also include evaluations of informativeness. Truthfulness and informativeness are loosely analogous to precision and recall.
+  - We tested GPT-3, GPT-Neo/J and UnifiedQA based on T5. The best-performing model (GPT-3-175B) was truthful on 58% of questions, while human performance was 94%. The largest models were generally LESS truthful. This "inverse scaling" trend contrasts with most tasks in NLP. One explanation is that larger models are better at learning the training distribution.
+  - We finetuned GPT-3 on human evaluations of whether an answer is true or false and achieved 90-96% accuracy on held-out models.
+  - ...TODO с раздела 2.3
+  
+# Список для чтения по RAG
 
-In-Context Retrieval-Augmented Language Models
+2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
+2019 ! Generalization through Memorization: Nearest Neighbor Language Models `908
+2020 + Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks `6824
+2020 Dense Passage Retrieval for Open-Domain Question Answering `3719
+2020 REALM: Retrieval-Augmented Language Model Pre-Training `2197
+2020 How Context Affects Language Models' Factual Predictions `256
+2021 TruthfulQA: Measuring How Models Mimic Human Falsehoods `1694
+  созданный вручную adverasarial-бенчмарк для измерения галлюцинаций. Базой знаний считаются общеизвестные, валидированные факты со ссылками на них.
+2021 Leveraging passage retrieval with generative models for ... `1209
+2021 Beir: A heterogenous benchmark for zero-shot evaluation ... `999
+2021 Efficient nearest neighbor language models `110
+2021 The inductive bias of in-context learning: Rethinking pretraining ... `39
+2022 Improving language models by retrieving from trillions of tokens `1186
+2022 MTEB: Massive Text Embedding Benchmark `759
+2022 Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
+2022 Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
+2022 Training language models with memory augmentation `139
+2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
+2022 Knowledge graph generation from text `36
+2023 Retrieval-Augmented Generation for Large Language Models: A Survey `1638
+2023 In-Context Retrieval-Augmented Language Models `549
   предлагается метод для Retrieval-Augmented генерации
   оценивается перплексия на language modeling на разных корпусах
-  оценивается на Open-Domain Question Answering (Natural Questions, TriviaQA), в качестве корпуса - Википедия
-Benchmarking Large Language Models in Retrieval-Augmented Generation
-  4 бенчмарка, собранные вручную, метрики качества. Документы даны, их не надо искать в базе.
+  оценивается на Open-Domain QA (Natural Questions, TriviaQA)
+  в качестве корпуса - Википедия
+2023 Benchmarking Large Language Models in Retrieval-Augmented Generation `425
+  4 бенчмарка, собранные вручную, метрики качества
+  документы даны, их не надо искать в базе
+2023 Atlas: Few-shot learning with retrieval augmented language models `379
+2023 Improving Text Embeddings with Large Language Models `327
+2023 Knowledge-augmented language model prompting for zero-shot knowledge graph question answering `202
+2023 Enhancing retrieval-augmented large language models with iterative retrieval-generation synergy `195
+2023 Lift Yourself Up: Retrieval-augmented Text Generation with Self Memory `101
+2023 Enhancing knowledge graph construction using large language models `85
+2023 Exploring large language models for knowledge graph completion `79
+2023 Graph-toolformer: To empower llms with graph reasoning ability via prompt augmented by chatgpt `79
+2023 Retrieval-Generation Synergy Augmented Large Language Models `64
+2023 From query tools to causal architects: Harnessing large language models for advanced causal discovery from data `57
+2023 Tree of clarifications: Answering ambiguous questions with retrieval-augmented large language models `51
+2023 Retrieval Augmented Generation and Representative Vector Summarization for large ... Medical Education `21
+2024 Ragas: Automated evaluation of retrieval augmented generation `367
+2024 Corrective Retrieval Augmented Generation `144
+2024 Knowledge graph prompting for multi-document question answering `135
+2024 G-retriever: Retrieval-augmented generation for textual graph understanding and question answering `133
+2024 Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity `123
+2024 Raptor: Recursive abstractive processing for tree-organized retrieval `101
+2024 Multihop-rag: Benchmarking retrieval-augmented generation for multi-hop queries `70
+2024 LightRAG: Simple and Fast Retrieval-Augmented Generation `29
+2024 Revolutionizing Retrieval-Augmented Generation with Enhanced PDF Structure Recognition `27
+2024 CRAG -- Comprehensive RAG Benchmark `16
+2024 LegalBench-RAG: A Benchmark for Retrieval-Augmented Generation in the Legal Domain `15
+2024 RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems `12
+2024 Causal graph discovery with retrieval-augmented generation based large language models `12
+2024 Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting `11
+2024 BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
+2025 Multiple Abstraction Level Retrieve Augment Generation `0
+2025 Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts `0
