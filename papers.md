@@ -8448,6 +8448,163 @@ use of either the focal loss, or the sparse adjacency matrix.
   - We finetuned GPT-3 on human evaluations of whether an answer is true or false and achieved 90-96% accuracy on held-out models.
   - ...TODO с раздела 2.3
   
+@article{Liu2025Feb,
+	author = {Liu, Zhenghao and Zhu, Xingsheng and Zhou, Tianshuo and Zhang, Xinyi and Yi, Xiaoyuan and Yan, Yukun and Gu, Yu and Yu, Ge and Sun, Maosong},
+	title = {{Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts}},
+	journal = {arXiv},
+	year = {2025},
+	month = feb,
+	eprint = {2502.17297},
+	doi = {10.48550/arXiv.2502.17297}
+}
+  - We introduce the Multi-Modal RAG (M2RAG) benchmark to assess the effectiveness of MLLMs in leveraging the knowledge from multi-modal contexts. It includes 4 tasks: image captioning, multi-modal QA, multi-modal fact verification, and image reranking. We can retrieve multi-modal documents via multi-modal dense retrievers. They are then used as the input contexts to assist MLLMs during generation.
+  - We also propose the Multi-Modal Retrieval Augmented Instruction Tuning (MMRAIT) method. We fine-tune MLLMs with task-specific prompt templates on the M2RAG benchmark, making MLLMs maintain contextual awareness during generation. This provides gains in both zero-shot and few-shot settings.
+  - TODO from sec 2
+  
+@article{Zheng2025Jan,
+	author = {Zheng, Zheng and Ni, Xinyi and Hong, Pengyu},
+	title = {{Multiple Abstraction Level Retrieve Augment Generation}},
+	journal = {arXiv},
+	year = {2025},
+	month = jan,
+	eprint = {2501.16952},
+	doi = {10.48550/arXiv.2501.16952}
+}
+  - In RAG, chunking can lead to the extraction of fragmented and/or incomplete information. However, to correctly answer a user question, one may need to refer to a whole section rather than a paragraph in a document. One may retrieve multiple chunks to address this problem. However, determining the appropriate number of chunks to retrieve remains an open question. Retrieving an excessive number of chunks can degrade the performance of LLMs by introducing excessive noise, which could mislead LLMs (see "Long-context llms meet rag: Overcoming challenges for long inputs in rag") and cause the "lost in the middle" issue (see "Lost in the middle: How language models use long contexts").
+  - We propose the Multiple Abstraction Level Retrieval Augmented Generation (MAL-RAG) framework, designed to enhance question reasoning in scientific domains. Following the framework, we implemented a pipeline for reading, parsing, indexing, and segmenting domain-specific literature by leveraging the inherent structures of scientific papers, enabling the construction of a high-quality database that indexes scientific papers hierarchically at multiple abstraction levels.
+  - When building indexes, we preprocess each reference document into four level chunks: document-level, section-level, paragraph-level, and multi-sentence-level. For document-level and section-level chunks we employ a map-reduce approach to generate summarized information. We first produce summaries for each paragraph. They are used to generate the section-level summary, which serves as the content for the section-level chunks. Finally, we aggregate these section summaries to create document summaries.
+  - We construct the chunk database, which contains all chunks from four abstraction levels. Retriever utilizes different abstraction-level chunks. We dynamically adjust the number of chunks extracted until the length of the accumulated text reaches a predefined range. To further optimize the retrieval process and minimize noise, we employ a softmax equation to convert similarity scores into probabilities. The chunks are sorted in descending order based on their probabilities. Top chunks, whose cumulative probability does not exceed a pre-defined threshold τ , are selected for generating an answer. The retrieved chunks are concatenated.
+  - When calculating the metrics, we split both the ground truth and the generated answers into sentences. Each sentence is treated as a statement. GPT-4o-mini is introduced to assess whether two statements match. The primary evaluation metric is Answer Correctness, which is measured by the F1, where TP refers to the statements that are present in both the ground truth and the generated answer, etc.
+  - We constructed a set of 7,652 academic articles. We lack human-curated Q/A datasets, so we generated a dataset of 1,118 Q/A pairs using GPT-4o-mini and selected 200 pairs from each granularity level, totaling 800 pairs for the evaluation dataset.
+  
+@article{Sarthi2024Jan,
+	author = {Sarthi, Parth and Abdullah, Salman and Tuli, Aditi and Khanna, Shubh and Goldie, Anna and Manning, Christopher D.},
+	title = {{RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval}},
+	journal = {arXiv},
+	year = {2024},
+	month = jan,
+	eprint = {2401.18059},
+	doi = {10.48550/arXiv.2401.18059}
+}
+  - Retrieval-augmented language models (RALMs) are useful since even long-context models tend to underutilize long-range context and see diminishing performance as context length increases, as shown in "Lost in the middle: How language models use long contexts" and "Do long-range language models actually use long-range context?". Retrieval methods have transitioned from traditional term-based techniques like TF-IDF and BM25 to DL–based strategies.
+  - Existing methods retrieve only a few chunks, which limits their ability to leverage large-scale discourse structure. This is particularly relevant for thematic questions that require integrating knowledge from multiple parts of a text. Consider the fairy tale of Cinderella, and the question "How did Cinderella reach her happy ending?" The top-k retrieved short contiguous texts will not contain enough context to answer the question.
+  - We propose a system called RAPTOR. Construction of the RAPTOR tree begins with segmenting the retrieval corpus into short, contiguous texts of length 100. If a sentence exceeds the 100-token limit, we move the entire sentence to the next chunk. These texts are then embedded using SBERT. Then, to group similar text chunks, we employ a clustering algorithm. Once clustered, a LM is used to summarize the grouped texts. These summarized texts are then re-embedded, and the cycle of embedding, clustering, and summarization continues until further clustering becomes infeasible.
+  - For querying within this tree, we introduce two distinct strategies. 1) The tree traversal method traverses the tree layer-by-layer, pruning and selecting the most relevant nodes at each level. 2) The collapsed tree method evaluates nodes collectively across all layers to find the most relevant ones. We observe that the collapsed tree approach gives greater flexibility and superior performance on the subset of the QASPER dataset. We use the collapsed tree with
+2000 maximum tokens, which approximately equates to retrieving the top-20 nodes.
+  - One of the unique aspects of our clustering approach is the use of soft clustering, where nodes can belong to multiple clusters without requiring a fixed number of clusters. This flexibility is essential because individual text segments often contain information relevant to various topics, thereby warranting their inclusion in multiple summaries. Our clustering algorithm is based on Gaussian Mixture Models (GMMs) that assume that data points are generated from a mixture of several Gaussian distributions (our empirical observations suggest that it offers an effective model for our purpose). Distance metrics may behave poorly when used to measure similarity in high-dimensional spaces, so we employ UMAP for dimensionality reduction. Our algorithm varies n neighbors to create a hierarchical clustering structure: it first identifies global clusters and then performs local clustering within these global clusters. To determine the optimal number of clusters, we employ the Bayesian Information Criterion (BIC). With the optimal number of clusters determined by BIC, the Expectation-Maximization algorithm is then used to estimate the GMM parameters, namely the means, covariances, and mixture weights.
+  - About 4% of the summaries contained minor hallucinations. These did not propagate to parent nodes and had no discernible impact on question-answering tasks.
+  - We measure RAPTOR’s performance across three question-answering datasets: NarrativeQA, QASPER, and QuALITY.
+  - NarrativeQA is a dataset that comprises question-answer pairs based on the full texts of books and movie transcripts, totaling 1,572 documents. The NarrativeQA-Story task requires a comprehensive understanding of the entire narrative in order to accurately answer its questions, thus testing the model’s ability to comprehend longer texts in the literary domain. We evaluate using BLEU, ROUGE, METEOR metrics.
+  - The QASPER dataset includes 5,049 questions across 1,585 NLP papers, with each question probing for information embedded within the full text. The answer types in QASPER are categorized as Answerable/Unanswerable, Yes/No, Abstractive, and Extractive. Accuracy is measured using standard F1.
+  - The QuALITY dataset consists of multiple-choice questions, each accompanied by context passages averaging approximately 5,000 tokens in length. This dataset calls for reasoning over the entire document, enabling us to measure the performance of our retrieval system on medium-length documents.
+  - In the QuALITY dataset, we experiment with limiting the search to different subsets of layers. A full-tree search, utilizing all layers, outperformed retrieval strategies that focused only on specific layers.
+  
+@article{Pang2021Dec,
+	author = {Pang, Richard Yuanzhe and Parrish, Alicia and Joshi, Nitish and Nangia, Nikita and Phang, Jason and Chen, Angelica and Padmakumar, Vishakh and Ma, Johnny and Thompson, Jana and He, He and Bowman, Samuel R.},
+	title = {{QuALITY: Question Answering with Long Input Texts, Yes!}},
+	journal = {arXiv},
+	year = {2021},
+	month = dec,
+	eprint = {2112.08608},
+	doi = {10.48550/arXiv.2112.08608}
+}
+  - NarrativeQA is the most established existing long-text benchmark for language understanding. It is a free-text-response QA dataset built around movie scripts and books, with an average of about 63k tokens of input per question. However, answers are short, and few questions require complex explanation-based reasoning: >60% are what/who questions and <10% are why/reason questions. Further, the sources are usually famous. Additionally, the generation-based format comes with the hurdle of determining how to fairly assess accuracy, as metrics like BLEU, ROUGE, or BERTScore may not accurately convey the quality of generations.
+  - As a source, we used Project Gutenberg fiction stories (mostly science fiction), Slate magazine articles and other nonfiction articles. We set a maximum length for the texts at 6k words. For around 40% of the Gutenberg articles, the full text data is much longer; in these cases, we truncate the texts at a reasonable location.
+  - We opt for a multiple-choice format to evaluate a model’s long-document understanding ability.
+  - We introduce our dataset QuALITY, a multiple-choice QA dataset that uses English source articles of 2k–8k tokens. We collect this dataset using a creative crowdsourcing pipeline that ensures the examples have unambiguous answers but are still challenging.
+  - We instruct example writers to write questions that are unambiguous and require consolidating information from multiple parts of the text. Then, to ensure our questions require readers to understand the larger context, we run speed validation: annotators only have access to the text for 45 seconds, so they can only skim or search for phrases to answer the question. If a question is unanswerable in this setting but unambiguous and answerable in the standard untimed setting, we use it as a signal for question difficulty (QuALITY-HARD subset).
+  - This crowdsourcing process is slow and expensive, but we successfully collect a challenging, high-quality, long document multiple-choice QA dataset.
+  - We test the Longformer (including the LED variant), RoBERTa, DeBERTaV3, and T5 models. Model accuracy is far below human accuracy on QuALITY.
+  - QuALITY contains many questions that require complex responses about "how" and "why" an event happened in a greater proportion of cases than similar datasets such as NarrativeQA. However, we do not observe that our measure of question difficulty varies by question type.
+  - We find that many of the questions rely on (i) reasoning about the best description, (ii) determining the correct explanation for why something happened, or (iii) the reader making an interpretation or using symbolism. All three of these reasoning types are likely to rely on broader context from the passage, compared to questions about who did something or where something happened. Examples of reasoning types:
+  - 1) Reasoning about which description is correct. Often these questions are about describing a character’s feelings (‘How do Lowry and the Exec feel about the Venusians?’), describing an individual (‘Which word least describes Don?’).
+  - 2) Reasoning about the cause or explanation for something in the story. Most of these questions begin with ‘why’ and ask about the cause of an event, causes of characters’ feelings or internal motivations.
+  - 3) Making an interpretation that goes beyond what is explicitly said in the story, or asking about symbolism or themes from the story. Many questions explicitly ask the reader to interpret what message the author was trying to convey or what tone the story takes. Other questions require the reader to predict what will happen next or ask about the use of literary cues like irony.
+  - 4) Reasoning about how something happened or the method that was used. Most of these questions rely on the question word ‘how’ to ask about a process (‘How did Meryl Streep prepare for the role of Roberta?’), the manner in which something happen or a method by which something happens.
+  - 5) Reasoning about an event, or asks for an event as the answer option. The majority of these questions focus on what someone did/plans to do (‘What did Joe and Glmpauszn plan to do?’) or what happened to someone.
+  - 6) Reasoning about which person or people are involved. Most ask about a specific person (‘Who is Owen Fiss and what did he do?’), though many questions of this type still require reasoning about the entire passage to answer (‘Who seems to have the least to hide in the text?’).
+  - 7) Selecting the answer option that least answers the question, flipping the typical way a multiple-choice task is performed (‘Which word least describes McGill?’, ‘What word doesn’t describe the natives from Tunpesh?’).
+  - 8) Reasoning about the relationship between two or more characters, as in ‘Who is Sporr and what is his authority in calling the narrator Yandro?’ or questions that ask about how one character feels about another (‘How does Jakdane feel about Trella?’).
+  - 9) Reasoning about a non-human entity or a group, as in ‘We can assume that Saladin’s army represents which group?’.
+  - 10) Questions that require either a fill-in-the-blank style response or is a partial phrase that must be completed by selecting the correct answer option.
+  - 11) Reasoning about a place, as in ‘What city is TempleTracy in?’.
+  - 12) Finding or computing the correct numeric option, as in ‘How many caves had Garmon and Rolf traveled through before their crash?’.
+  - 13) Reasoning about an object, as in ‘What does Captain Hannah use as an organic processor?’.
+  - 14) Making an inference about what would have been true if some fact from the story were changed, and most of these questions explicitly set up the counterfactual scenario (‘What would have happened if the Peace State had not crash landed?’).
+  - 15) Reasoning about how long something happened for or how much time passed between two events.
+  
+@article{Dasigi2021May,
+	author = {Dasigi, Pradeep and Lo, Kyle and Beltagy, Iz and Cohan, Arman and Smith, Noah A. and Gardner, Matt},
+	title = {{A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers}},
+	journal = {arXiv},
+	year = {2021},
+	month = may,
+	eprint = {2105.03011},
+	doi = {10.48550/arXiv.2105.03011}
+}
+  - Most of information-seeking datasets focus on an “open domain” setting where the questions are not anchored in any particular user context. The result is an emphasis on generic factoid questions.
+  - We present QASPER, an information-seeking question answering (QA) dataset over academic research papers. Each question is written as a followup to the title and abstract of a particular paper, and the answer, if present, is identified in the rest of the paper.
+  - This setup results in questions requiring more complex document-level reasoning than prior datasets. The evidence may be spread across the paper, including tables and figures, often resulting in complex entailment problems. Example Q: "Which retrieval system was used for the baselines?", A: "The dataset comes with a ranked set of relevant documents. Hence the baselines do not use a retrieval system."
+  - QASPER contains 5,049 questions over 1,585 NLP papers. Each paper has an average of 3.2 questions.
+  - In addition to providing answers when the questions are answerable, the annotators were asked to select text, tables, or figures as evidence required for answering the questions. 55.5% of the questions require evidence from multiple paragraphs in the paper and 13% require tables or figures.
+  - Annotators were instructed to only write questions that are not answerable from the title and abstract. Annotators were were asked to first make a binary decision as to whether the question is answerable given the paper, and if yes, select the minimal set of evidence snippets that contains the answer to the question, and provide a concise answer to the question. Annotators were also asked to also indicate whether their concise answer was (i) extracted from the evidence, (ii) “yes” or “no”, or (iii) abstractively written.
+  - We formally define the QASPER tasks as follows: Given a paper, and a question about it, the primary task is to determine if the question is answerable, and output a predicted answer, that is one or more spans in the full-text of the paper, yes, no or other free-form text.
+  - As an automatic proxy for the measure of correctness of all types of answers, we use the span-level F1 measure.
+  - We manually categorized a set of 200 questions. Most of the answers in the dataset are extractive (table 1).
+  - 44% of the questions in QASPER have multiple annotated answers. There is a high level of agreement (90%) regarding answerability of questions.
+ 
+@article{Wu2021Sep,
+	author = {Wu, Jeff and Ouyang, Long and Ziegler, Daniel M. and Stiennon, Nisan and Lowe, Ryan and Leike, Jan and Christiano, Paul},
+	title = {{Recursively Summarizing Books with Human Feedback}},
+	journal = {arXiv},
+	year = {2021},
+	month = sep,
+	eprint = {2109.10862},
+	doi = {10.48550/arXiv.2109.10862}
+}
+  - There are tasks that are difficult for humans to supervise or evaluate. For example, imagine training a model to summarize an entire sub-field of scientific research. Proxy metrics can be easier to obtain, but are usually less aligned with our actual goals, and optimizing them can have unintended consequences. Successfully training ML systems on such tasks will require more scalable means of producing an effective training signal — this problem is known as scalable oversight.
+  - Our approach to scalable oversight is directly inspired by "Supervising strong learners by amplifying weak experts" and "Scalable agent alignment via reward modeling: a research direction" who take a top-level task and decompose it into several smaller subtasks until it is feasible for humans to provide a training signal for a leaf task. 
+  - Abstractive book summarization is a difficult task, where dataset collection is challenging. We first decompose the book text into multiple chunks using a fixed chunking algorithm. We then collect demonstrations from humans summarizing these chunks, and train an ML model on this data using behavior cloning (fig. 1). We can then collect human data comparing different model outputs, and use this data to further train the summarization policy using reward modeling. We then concatenate several height 0 summaries, collect data for summarizing these summaries, and fine-tune our model on this summarization task recursively. Summarization tasks later in the book are conditioned on previous summaries at the same height.
+  - Our main result is a model that can be applied recursively to generate plausible summaries of entire books of arbitrary length. Qualitatively, these summaries contain important events from the book. However, they often leave out important details or fail to grasp the broader context.
+  - our model significantly outperforms our behavioral cloning baseline, and a small number of summaries approach human-level quality. Separately, we perform an ablation comparing RL to BC on summarizing smaller sections of a book, and find that RL has better scaling properties.
+ 
+@article{Rau2024Jul,
+	author = {Rau, David and D{\ifmmode\acute{e}\else\'{e}\fi}jean, Herv{\ifmmode\acute{e}\else\'{e}\fi} and Chirkova, Nadezhda and Formal, Thibault and Wang, Shuai and Nikoulina, Vassilina and Clinchant, St{\ifmmode\acute{e}\else\'{e}\fi}phane},
+	title = {{BERGEN: A Benchmarking Library for Retrieval-Augmented Generation}},
+	journal = {arXiv},
+	year = {2024},
+	month = jul,
+	eprint = {2407.01102},
+	doi = {10.48550/arXiv.2407.01102}
+}
+  - We present examples of experimental setups (Table 1) highlighting the current chaotic state of RAG evaluation that does not allow a systematic comparison across methods or components in the pipeline. New RAG approaches are usually characterized by fragmented and often suboptimal experimental setups, e.g. using outdated retrievers, unreliable metrics or not employing reranking which is a critical aspect for retrieval quality. Alsol, the impact of the retrieval quality as well as its relative impact w.r.t. the size of the LLM remain unclear.
+  - While Wikipedia is the most common external context source, utilizing snapshots with different timestamps causes additional inconsistencies among approaches. Variations in data preprocessing can further complicate comparisons.
+  - The importance of the evaluation metrics is even more important in zero-shot RAG settings, where LLM-generated answers are more verbose compared to standard QA short answers, and surface-matching metrics fail to capture whether the answer is correct. This makes new methods hardly comparable.
+  - We introduce BERGEN – short for BEnchmark on Retrieval augmented-GENeration - a Python library for easy and reproducible end-to-end RAG experiments. Both RAGGED and FlashRAG frameworks have been developed concurrently with this work and as such are most similar to our framework. However, neither LlamaIndex, DSPy, nor RAGGED offer sufficient flexibility for a research environment and focus on a limited selection of retrievers, datasets, and metrics. Additionally, FlashRAG lacks an in-depth analysis of such components. Furthermore, a reranking functionality is often overlooked and none of the works analyze or highlight enough the importance of retrieval quality.
+  - We conduct a comprehensive study benchmarking state-of-the-art retrievers, rerankers, and LLMs. Our main findings are as follows:
+  - 1) It is important to perform more semantic evaluation, e.g. LLM-based evaluation, beyond commonly used surface-matching metrics (e.g. exact match, F1, Rouge-L, etc).
+  - 2) Retrieval quality matters for RAG response generation, hence the importance of usage of SoTA retrievers and rerankers in RAG. (IMO, does this mean that we need SOTA reranker to compare LLMs?)
+  - 3) Some datasets evaluating general knowledge might not be suitable for RAG in the context of modern LLMs which have acquired most of such knowledge from the Web and Wikipedia.
+  - 4) LLMs of any size can benefit from retrieval.
+  - Among the research community, there is a disparity regarding which datasets to use for evaluating RAG. We focus on QA and select the most popular publicly available datasets for BERGEN. We include Natural Questions (NQ), Trivia QA, HotpotQA, Wizard of Wikipedia (WoW), ELI5, WikiQA, TruthfulQA, PopQA, ASQA, SCIQ, MKQA and XOR-TyDi QA –the last two for multilingual RAG.
+  - TODO from sec. 3
+ 
+@article{Yang2018Sep,
+	author = {Yang, Zhilin and Qi, Peng and Zhang, Saizheng and Bengio, Yoshua and Cohen, William W. and Salakhutdinov, Ruslan and Manning, Christopher D.},
+	title = {{HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering}},
+	journal = {arXiv},
+	year = {2018},
+	month = sep,
+	eprint = {1809.09600},
+	doi = {10.48550/arXiv.1809.09600}
+}
+  - In some QA datasets (such as SQuAD, TriviaQA and SearchQA) most of the questions can be answered by matching the question with a few nearby sentences in one single paragraph. Existing datasets that target multi-hop reasoning, such as QAngaroo and ComplexWebQuestions are constructed using existing knowledge bases (KBs), and are constrained by the schema of the KBs they use, and therefore the diversity of questions and answers is inherently limited. Third, usually datasets only provide distant supervision; i.e., the systems only know what the answer is, but do not know what supporting facts lead to it. This makes it difficult for models to learn about the underlying reasoning process.
+  - We present HotpotQA, a large-scale dataset that requires reasoning over multiple documents, and does so in natural language, without constraining itself to an existing knowledge base or knowledge schema.
+  - An example question is “when was the singer and songwriter of Radiohead born?”. One would need to first reason that the “singer and songwriter of Radiohead” is “Thom Yorke”, and then figure out his birthday in the text. We call “Thom Yorke” a bridge entity in this example.
+  - In addition to questions collected using bridge entities, we also collect another type of multi-hop questions - comparison questions. The main idea is that comparing two entities from the same category usually results in interesting multi-hop questions, e.g., "Who has played for more NBA teams, Michael Jordan or Kobe Bryant?". We also introduce a subset of yes/no questions in comparison questions, e.g., “Are Iron Maiden and AC/DC from the same country?”. To the best of our knowledge, these are a novel type of questions.
+  - We use the entire English Wikipedia dump as our corpus. The dataset is collected by crowdsourcing based on Wikipedia articles, where crowd workers are shown multiple supporting context documents and asked to come up with questions requiring reasoning about all of the documents. We also ask the crowd workers to provide the supporting facts they use to answer the question.
+  - TODO from sec. 3
+ 
 # Список для чтения по RAG
 
 2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
@@ -8455,55 +8612,73 @@ use of either the focal loss, or the sparse adjacency matrix.
 2020 + Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks `6824
 2020 Dense Passage Retrieval for Open-Domain Question Answering `3719
 2020 REALM: Retrieval-Augmented Language Model Pre-Training `2197
+2020 Distilling Knowledge from Reader to Retriever for Question Answering `262
 2020 How Context Affects Language Models' Factual Predictions `256
-2021 TruthfulQA: Measuring How Models Mimic Human Falsehoods `1694
-  созданный вручную adverasarial-бенчмарк для измерения галлюцинаций. Базой знаний считаются общеизвестные, валидированные факты со ссылками на них.
+2021 + TruthfulQA: Measuring How Models Mimic Human Falsehoods `1694
 2021 Leveraging passage retrieval with generative models for ... `1209
 2021 Beir: A heterogenous benchmark for zero-shot evaluation ... `999
+2021 + Recursively summarizing books with human feedback `292
+2021 + A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers `290
+2021 + QuALITY: Question Answering with Long Input Texts, Yes! `142
 2021 Efficient nearest neighbor language models `110
+2021 Joint passage ranking for diverse multi-answer retrieval `40
 2021 The inductive bias of in-context learning: Rethinking pretraining ... `39
 2022 Improving language models by retrieving from trillions of tokens `1186
 2022 MTEB: Massive Text Embedding Benchmark `759
 2022 Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
 2022 Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
 2022 Training language models with memory augmentation `139
+2022 Re2G: Retrieve, Rerank, Generate `135
+2022 Nonparametric Masked Language Modeling `72
 2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
 2022 Knowledge graph generation from text `36
 2023 Retrieval-Augmented Generation for Large Language Models: A Survey `1638
-2023 In-Context Retrieval-Augmented Language Models `549
-  предлагается метод для Retrieval-Augmented генерации
-  оценивается перплексия на language modeling на разных корпусах
-  оценивается на Open-Domain QA (Natural Questions, TriviaQA)
-  в качестве корпуса - Википедия
-2023 Benchmarking Large Language Models in Retrieval-Augmented Generation `425
-  4 бенчмарка, собранные вручную, метрики качества
-  документы даны, их не надо искать в базе
+2023 + In-Context Retrieval-Augmented Language Models `549
+2023 + Benchmarking Large Language Models in Retrieval-Augmented Generation `425
 2023 Atlas: Few-shot learning with retrieval augmented language models `379
 2023 Improving Text Embeddings with Large Language Models `327
+2023 Query Rewriting in Retrieval-Augmented Large Language Models `280
+2023 DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines `244
 2023 Knowledge-augmented language model prompting for zero-shot knowledge graph question answering `202
 2023 Enhancing retrieval-augmented large language models with iterative retrieval-generation synergy `195
+2023 Take a Step Back: Evoking Reasoning via Abstraction in Large Language Models `155
 2023 Lift Yourself Up: Retrieval-augmented Text Generation with Self Memory `101
 2023 Enhancing knowledge graph construction using large language models `85
 2023 Exploring large language models for knowledge graph completion `79
 2023 Graph-toolformer: To empower llms with graph reasoning ability via prompt augmented by chatgpt `79
 2023 Retrieval-Generation Synergy Augmented Large Language Models `64
+2023 Dense X Retrieval: What Retrieval Granularity Should We Use? `62
+2023 Shall We Pretrain Autoregressive Language Models with Retrieval? A Comprehensive Study `60
 2023 From query tools to causal architects: Harnessing large language models for advanced causal discovery from data `57
 2023 Tree of clarifications: Answering ambiguous questions with retrieval-augmented large language models `51
+2023 Large Language Model based Long-tail Query Rewriting in Taobao Search `47
 2023 Retrieval Augmented Generation and Representative Vector Summarization for large ... Medical Education `21
+2023 Long-Context LLMs Meet RAG: Overcoming Challenges for Long Inputs in RAG `18 
+2023 Hybrid hierarchical retrieval for open-domain question answering `12
+2024 Lost in the middle: How language models use long contexts `1457
 2024 Ragas: Automated evaluation of retrieval augmented generation `367
 2024 Corrective Retrieval Augmented Generation `144
 2024 Knowledge graph prompting for multi-document question answering `135
 2024 G-retriever: Retrieval-augmented generation for textual graph understanding and question answering `133
 2024 Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity `123
-2024 Raptor: Recursive abstractive processing for tree-organized retrieval `101
+2024 LLM Maybe LongLM: Self-Extend LLM Context Window Without Tuning `122
+2024 + RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval `120
+2024 RQ-RAG: Learning to Refine Queries for Retrieval Augmented Generation `73
 2024 Multihop-rag: Benchmarking retrieval-augmented generation for multi-hop queries `70
+2024 LongAlign: A Recipe for Long Context Alignment of Large Language Models `44
+2024 FlashRAG: A Modular Toolkit for Efficient Retrieval-Augmented Generation Research `38
 2024 LightRAG: Simple and Fast Retrieval-Augmented Generation `29
 2024 Revolutionizing Retrieval-Augmented Generation with Enhanced PDF Structure Recognition `27
+2024 RAGGED: Towards Informed Design of Retrieval Augmented Generation Systems `17
 2024 CRAG -- Comprehensive RAG Benchmark `16
 2024 LegalBench-RAG: A Benchmark for Retrieval-Augmented Generation in the Legal Domain `15
+2024 RaFe: Ranking Feedback Improves Query Rewriting for RAG
 2024 RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems `12
+2024 Long Context Compression with Activation Beacon `12
 2024 Causal graph discovery with retrieval-augmented generation based large language models `12
+2024 LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering `11
 2024 Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting `11
-2024 BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
-2025 Multiple Abstraction Level Retrieve Augment Generation `0
-2025 Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts `0
+2024 Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation `10
+2024 + BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
+2025 + Multiple Abstraction Level Retrieve Augment Generation `0
+2025 + Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts `0
