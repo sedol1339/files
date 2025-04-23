@@ -8607,6 +8607,7 @@ use of either the focal loss, or the sparse adjacency matrix.
  
 # Список для чтения по RAG
 
+2018 HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering `2692
 2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
 2019 ! Generalization through Memorization: Nearest Neighbor Language Models `908
 2020 + Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks `6824
