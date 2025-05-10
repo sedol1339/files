@@ -8586,7 +8586,7 @@ use of either the focal loss, or the sparse adjacency matrix.
   - 2) Retrieval quality matters for RAG response generation, hence the importance of usage of SoTA retrievers and rerankers in RAG. (IMO, does this mean that we need SOTA reranker to compare LLMs?)
   - 3) Some datasets evaluating general knowledge might not be suitable for RAG in the context of modern LLMs which have acquired most of such knowledge from the Web and Wikipedia.
   - 4) LLMs of any size can benefit from retrieval.
-  - Among the research community, there is a disparity regarding which datasets to use for evaluating RAG. We focus on QA and select the most popular publicly available datasets for BERGEN. We include Natural Questions (NQ), Trivia QA, HotpotQA, Wizard of Wikipedia (WoW), ELI5, WikiQA, TruthfulQA, PopQA, ASQA, SCIQ, MKQA and XOR-TyDi QA –the last two for multilingual RAG.
+  - Among the research community, there is a disparity regarding which datasets to use for evaluating RAG. We focus on QA and select the most popular publicly available datasets for BERGEN. We include Natural Questions (NQ), Trivia QA, HotpotQA, Wizard of Wikipedia (WoW), ELI5, WikiQA, TruthfulQA, PopQA, ASQA, SCIQ, MKQA and XOR-TyDi QA – the last two for multilingual RAG.
   - TODO from sec. 3
  
 @article{Yang2018Sep,
@@ -8653,14 +8653,77 @@ use of either the focal loss, or the sparse adjacency matrix.
 	month = sep,
 	doi = {10.18653/v1/D15-1237}
 }
-  - 
+  - In QASent, creation process introduces a strong bias in the types of answers that are included. It is selected by lexical overlap beetween question and answer. This method will probably select easy samples. Also, QA normally assumes that there is a correct answer.
+  - We address a new challenge of "answer triggering", where the goal is to detect whether there exist correct answers in the set of candidate sentences for the question, and return a correct answer if there exists such one.
+  - We present WikiQA, a dataset for open-domain question answering of 3,047 questions originally sampled from Bing query logs. Based on the user clicks, each question is associated with a Wikipedia page presumed to be the topic of the question. We consider all the sentences in the summary paragraph of the page as the candidate answer sentences, with labels on whether the sentence is a correct answer to the question provided by crowdsourcing workers. Among these questions, about one-third of them contain correct answers in the answer sentence set.
+  - We propose to evaluate answer triggering using question-level precision, recall and F1 scores.
+  - Sentence semantic approaches (e.g., CNN) outperform lexical semantic models on WikiQA.
 
+@article{Mallen2022Dec,
+	author = {Mallen, Alex and Asai, Akari and Zhong, Victor and Das, Rajarshi and Khashabi, Daniel and Hajishirzi, Hannaneh},
+	title = {{When Not to Trust Language Models: Investigating Effectiveness of Parametric and Non-Parametric Memories}},
+	journal = {arXiv},
+	year = {2022},
+	month = dec,
+	eprint = {2212.10511},
+	doi = {10.48550/arXiv.2212.10511}
+}
+  - It is unclear whether non-parametric knowledge (i.e., retrieved text chunks) it is strictly superior or complementary to parametric knowledge - knowledge stored in model parameters.
+  - We define factual knowledge as a triplet of (subject, relationship, object), such as (Louisiana, capital of, Baton Rouge). We mark an answer as correct if any substring of the prediction is an exact match of any of the gold answers.
+  - Even given the same combinations of the subject and object entities, model performance can depend on the relationship types; relationship types widely discussed can be easier to be memorized.
+  - We construct PopQA, a large-scale entity centric open-domain QA dataset about entities with a wide variety of popularity. We use Wikipedia page views as a measure of popularity. We randomly sample knowledge triples of 16 diverse relationship types from Wikidata and convert them into natural language questions, using a simple template, such as (Louisiana, capital of, Baton Rouge) -> (What is the capital of Louisiana?), see table 2 for the list of templates.
+  - We evaluate LMs on PopQA (our new dataset) and EntityQuestions, both of which have long-tail distributions.
+  - GPT-3 davinci-003 fails to answer the majority of the long-tail questions.
+  - On both PopQA and EntityQuestions, most of scaling’s positive effect on parametric knowledge comes from questions with high popularity. Performance on questions with lower popularity remains relatively constant. This somewhat dampens prior works’ findings that scaling up models significantly improves their factual knowledge memorization (see "How much knowledge can you pack into the parameters of a language model?", "Large language models struggle to learn long-tail knowledge"). We hypothesize that this is because their evaluations are often conducted on QA datasets with popular entities.
+  - There is a positive correlation between subject entity popularity and models’ accuracy, and the correlations between subject entity popularity and accuracy are stronger for larger LMs.
+  - Models have a higher average performance for some relationship types than for others. Questions of certain relationship types, such as nationalities, can be easily guessed without memorizing the knowledge triple. Relationships with lower correlation between popularity and accuracy (e.g., country, sport) often shows higher accuracy, indicating that on those relationship types, models may exploit surface-level clues.
+  - We try a simple retrieval-augmented LM approach, where we run a retrieval system (BM25 and Contriever) to retrieve context from Wikipedia relevant to a question, and then we concatenate the retrieved context with the original question. We only use the top one retrieved paragraph for simplicity.
+  - Кetrieval-augmented LMs guided by Contriever or BM25 have a clear advantage over unassisted vanilla LMs, especially on less popular entities. A much smaller LM (e.g., GPT-Neo 2.7B) augmented by the Contriever retrieval results outperforms vanilla GPT-3.
+  - Overall, Contriever-guided LMs outperform BM25-based ones on PopQA, while the BM25-based models perform better on the least popular entities, consistent with the findings from "Simple entity-centric questions challenge dense retrievers".
+  - We also experiment with a parametric augmentation method, GenRead, which prompts LMs to generate rather than retrieve a contextual document to answer a question. It shows little-to-no performance improvement over vanilla parametric knowledge for smaller models, while the technique shows sizeable gains for GPT-3, especially davinci-003. Also, GenRead has potentially prohibitive inference time costs.
+  - Surprisingly, retrieval augmentation can hurt the performance of large LMs on questions about popular entities as the retrieved context can be misleading. For 10% of questions, retrievalaugmentation causes the LM to incorrectly answer a question it could otherwise answer correctly.
+  - Can we achieve the best of both worlds? We propose Adaptive Retrieval: we use retrieval for questions whose popularity is lower than a certain popularity threshold, and for more popular entities, do not use retrieval at all. We determine the popularity threshold independently for each relationship type using a development set. This method further improves performance on PopQA by up to 10%.
+  - The performance gain from Adaptive Retrieval is much smaller when we use models smaller than 10B. Smaller LMs almost always retrieve (IMO, seems like they use per-model poplularity threshold). In contrast, large models typically retrieve much less.
+  - Adaptive Retrieval improves efficiency; if we know we do not need to retrieve documents, we can skip retrieval components and the input length becomes shorter.
+  - For running controlled experiments, we have relied on two synthetic datasets, and the extent to which our results apply to naturally occurring factual knowledge has not been firmly established.
+  - IMO, some knowlegde cannot be represented as triples, such as "gnomes use pickaxe to mine diamonds".
+ 
+@article{Stelmakh2022Apr,
+	author = {Stelmakh, Ivan and Luan, Yi and Dhingra, Bhuwan and Chang, Ming-Wei},
+	title = {{ASQA: Factoid Questions Meet Long-Form Answers}},
+	journal = {arXiv},
+	year = {2022},
+	month = apr,
+	eprint = {2204.06092},
+	doi = {10.48550/arXiv.2204.06092}
+}
+  - We address the lack of data sources for the task of long-form QA. In the existing ELI5 dataset, questions are very general (e.g., “How can different animals perceive different colors?”) and can be answered in myriad different ways, making it hard to define objective criteria for a good answer.
+  - Our paper is motivated by the work of "AmbigQA: Answering ambiguous open-domain questions" who observe that more than half of the factoid questions that occur naturally are ambiguous. For example, a seemingly simple question: “Who was the ruler of France in 1830?" is ambiguous because there were two rulers of France in 1830. AmbigQA contains pairs of disambiguated questions and unique short answers to these questions (fig. 1, right).
+  - We argue the importance of generating long-form answers to ambiguous factoid questions. A good answer to an ambiguous question should be sufficient for the user to answer different interpretations of the question.
+  - We present ASQA (Answer Summaries for Questions which are Ambiguous) - a novel dataset that pairs each ambiguous question from AmbigQA with a crowdsourced long-form answer. We collect high quality long-form answers to 6,316 ambiguous factoid questions.
+  - We propose a novel automated evaluation metric (DR) that combines combines ROUGE and Disambiguation-accuracy (that is, correctness). We conduct a small-scale human study that shows a high agreement between our automated metric DR and human judgments.
+  - We establish strong baselines for our task by combining joint passage retrieval (see "Joint passage ranking for diverse multi-answer retrieval") and T5-large.
+ 
+@article{Welbl2017Jul,
+	author = {Welbl, Johannes and Liu, Nelson F. and Gardner, Matt},
+	title = {{Crowdsourcing Multiple Choice Science Questions}},
+	journal = {arXiv},
+	year = {2017},
+	month = jul,
+	eprint = {1707.06209},
+	doi = {10.48550/arXiv.1707.06209}
+}
+  - We propose a general method for mitigating the difficulties of crowdsourcing QA data, with a particular focus on multiple choice science questions. We first use a noisy classifier to find relevant passages and show several options to workers to select from when generating a question. Second, we use a model trained on real science exam questions to predict good answer distractors given a question and a correct answer. We use these predictions to aid crowd workers in transforming the question produced from the first step into a multiple choice question.
+  - We collect SciQ dataset of 13,679 multiple choice science questions (fig. 1).
  
 # Список для чтения по RAG
 
+2016 MS MARCO: A Human Generated MAchine Reading COmprehension Dataset `959
+2017 Crowdsourcing Multiple Choice Science Questions `452
 2018 HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering `2692
 2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
 2019 ! Generalization through Memorization: Nearest Neighbor Language Models `908
+2019 ! ComQA: A Community-sourced Dataset for Complex Factoid Question Answering with Paraphrase Clusters `76
 2020 + Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks `6824
 2020 Dense Passage Retrieval for Open-Domain Question Answering `3719
 2020 REALM: Retrieval-Augmented Language Model Pre-Training `2197
@@ -8669,21 +8732,37 @@ use of either the focal loss, or the sparse adjacency matrix.
 2021 + TruthfulQA: Measuring How Models Mimic Human Falsehoods `1694
 2021 Leveraging passage retrieval with generative models for ... `1209
 2021 Beir: A heterogenous benchmark for zero-shot evaluation ... `999
+2021 Unsupervised Dense Information Retrieval with Contrastive Learning `813
+2021 Retrieval Augmentation Reduces Hallucination in Conversation `780
 2021 + Recursively summarizing books with human feedback `292
 2021 + A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers `290
+2021 Entity-Based Knowledge Conflicts in Question Answering `235
+2021 Hurdles to Progress in Long-form Question Answering `195
+2021 Simple Entity-Centric Questions Challenge Dense Retrievers `168
+2021 XOR QA: Cross-lingual Open-Retrieval Question Answering `158
+2021 MKQA: A Linguistically Diverse Benchmark for Multilingual Open Domain Question Answering `155
+2021 Knowledgeable or Educated Guess? Revisiting Language Models as Knowledge Bases `151
 2021 + QuALITY: Question Answering with Long Input Texts, Yes! `142
 2021 Efficient nearest neighbor language models `110
-2021 Joint passage ranking for diverse multi-answer retrieval `40
+2021 Joint Passage Ranking for Diverse Multi-Answer Retrieval `44
 2021 The inductive bias of in-context learning: Rethinking pretraining ... `39
 2022 Improving language models by retrieving from trillions of tokens `1186
 2022 MTEB: Massive Text Embedding Benchmark `759
+2022 Large Language Models Struggle to Learn Long-Tail Knowledge `522
+2022 Language Models (Mostly) Know What They Know `425
 2022 Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
+2022 Generate rather than Retrieve: Large Language Models are Strong Context Generators `319
 2022 Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
+2022 ASQA: Factoid Questions Meet Long-Form Answers `177
 2022 Training language models with memory augmentation `139
+2022 RealTime QA: What's the Answer Right Now? `138
 2022 Re2G: Retrieve, Rerank, Generate `135
+2022 TemporalWiki: A Lifelong Benchmark for Training and Evaluating Ever-Evolving Language Models `92
+2022 Rich Knowledge Sources Bring Complex Knowledge Conflicts: Recalibrating Models to Reflect ... `85
 2022 Nonparametric Masked Language Modeling `72
 2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
 2022 Knowledge graph generation from text `36
+2022 You can't pick your neighbors, or can you? When and how to rely on retrieval in the kNN-LM `31
 2023 Retrieval-Augmented Generation for Large Language Models: A Survey `1638
 2023 + In-Context Retrieval-Augmented Language Models `549
 2023 + Benchmarking Large Language Models in Retrieval-Augmented Generation `425
@@ -8732,5 +8811,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2024 Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting `11
 2024 Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation `10
 2024 + BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
+2024 SciQAG: A Framework for Auto-Generated Science Question Answering Dataset with Fine-grained Evaluation `3
 2025 + Multiple Abstraction Level Retrieve Augment Generation `0
 2025 + Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts `0
+2025 SuperRAG: Beyond RAG with Layout-Aware Graph Modeling `0
