@@ -8603,7 +8603,11 @@ use of either the focal loss, or the sparse adjacency matrix.
   - An example question is “when was the singer and songwriter of Radiohead born?”. One would need to first reason that the “singer and songwriter of Radiohead” is “Thom Yorke”, and then figure out his birthday in the text. We call “Thom Yorke” a bridge entity in this example.
   - In addition to questions collected using bridge entities, we also collect another type of multi-hop questions - comparison questions. The main idea is that comparing two entities from the same category usually results in interesting multi-hop questions, e.g., "Who has played for more NBA teams, Michael Jordan or Kobe Bryant?". We also introduce a subset of yes/no questions in comparison questions, e.g., “Are Iron Maiden and AC/DC from the same country?”. To the best of our knowledge, these are a novel type of questions.
   - We use the entire English Wikipedia dump as our corpus. The dataset is collected by crowdsourcing based on Wikipedia articles, where crowd workers are shown multiple supporting context documents and asked to come up with questions requiring reasoning about all of the documents. We also ask the crowd workers to provide the supporting facts they use to answer the question.
-  - TODO from sec. 3
+  - We constrain our dev and test sets to be hard examples (SOTA models are not able to answer them with high confidence). We randomly divide the hard examples into 4 subsets: train-hard, dev, test-distractor, and test-fullwiki.
+  - We create two benchmark settings:
+  - Distractor setting: for each example we employ bigram tf-idf to retrieve 8 paragraphs from Wikipedia as distractors, using the question as the query. We mix them with the 2 gold paragraphs (the ones used to collect the question and answer).
+  - Full wiki setting: we give the first paragraphs of all Wikipedia articles without the gold paragraphs specified.
+  - TODO from sec. 4
  
 # Список для чтения по RAG
 
