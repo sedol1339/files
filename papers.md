@@ -8608,6 +8608,53 @@ use of either the focal loss, or the sparse adjacency matrix.
   - Distractor setting: for each example we employ bigram tf-idf to retrieve 8 paragraphs from Wikipedia as distractors, using the question as the query. We mix them with the 2 gold paragraphs (the ones used to collect the question and answer).
   - Full wiki setting: we give the first paragraphs of all Wikipedia articles without the gold paragraphs specified.
   - TODO from sec. 4
+  
+@article{Dinan2018Nov,
+	author = {Dinan, Emily and Roller, Stephen and Shuster, Kurt and Fan, Angela and Auli, Michael and Weston, Jason},
+	title = {{Wizard of Wikipedia: Knowledge-Powered Conversational agents}},
+	journal = {arXiv},
+	year = {2018},
+	month = nov,
+	eprint = {1811.01241},
+	doi = {10.48550/arXiv.1811.01241}
+}
+  - We consider the task of open-domain dialogue. Given an initial starting topic, during the course of the conversation the topic can broaden or focus on related themes.
+  - We build a dataset of human-human conversations using crowd-sourced workers, first crowd-sourcing 1365 diverse discussion topics and then conversations involving 201,999 utterances about them. These include diverse topics such as commuting, Gouda cheese, music festivals, podcasts, bowling, and Arnold Schwarzenegger. The final dialogue dataset we collect consists of 22,311 dialogues with 201,999 turns, which we divide into 166,787 for train, 17,715 for validation, and 17,497 for test.
+  - Each topic is connected to Wikipedia. When the apprentice (human 1) sends the wizard (human 2) a message, the wizard is shown relevant knowledge (described below), and chooses a relevant sentence in order to construct a response, or else chooses the no sentence used option. The Wizard responds to the apprentice basing their response on their chosen sentence.
+  - The test set is split into two subsets, Test Seen and Test Unseen. Test Seen contains 533 overlapping topics with the training set with new dialogues about those topics. Test Unseen consists of 58 topics never seen before in train or validation.
+  - We consider learning dialogue models to replace the "wizard". In this way, we have both a natural way to train a knowledgeable conversation agent, by employing a memory component that can recall and ground on this existing text, and a natural way to evaluate models that we build, by assessing their ability at locating and using such knowledge.
+  - We propose Transformer Memory Network that combine Memory Network and Transformer.
+
+@article{Fan2019Jul,
+	author = {Fan, Angela and Jernite, Yacine and Perez, Ethan and Grangier, David and Weston, Jason and Auli, Michael},
+	title = {{ELI5: Long Form Question Answering}},
+	journal = {ACL Anthology},
+	pages = {3558--3567},
+	year = {2019},
+	month = jul,
+	doi = {10.18653/v1/P19-1346}
+}
+  - We present ELI5: a Long Form Question Answering dataset. Its challenge is the length and diversity of answers that span multiple sentences.
+  - We focus on the subreddit Explain Like I’m Five (ELI5). We select a set of questions and answers from the ELI5 and then filter it based on how users rated these pairs. For each thread, we select the answer with the highest voting score as the reference.
+  - Next, we collect web sources for every question to provide relevant information that a system can draw upon when generating an answer. We use web data provided by Common Crawl, since Wikipedia is insufficient to cover the wide range of topics. We query the index for the 272K questions and gather the 100 most relevant web sources for each question, excluding Reddit. There is a good chance that the supporting text contains the necessary information to answer the question. ...TODO
+  - In contrast to previous datasets where the human written answer could be found with lexical overlap methods (see "Making neural QA as simple as possible but not simpler"), in ELI5 no single sentence or phrase contains the full answer. While there are some datasets that do require multi-sentence supporting knowledge such as TriviaQA, their answers are still short.
+  - The overall answer generation quality is measured with ROUGE and various human evaluation studies.
+  - We develop a strong abstractive baseline by training a Seq2Seq model on multiple tasks over the same data: language modeling, masked word prediction) and answer generation. This approach outperforms conventional Seq2Seq and language modeling. However, our best-performing model is still far from the quality of human written answers, with raters preferring the gold answers 86% of the time.
+  - Model performance is strongly limited by the ability to comprehend long multi-document input and generate long outputs.
+  - TODO from sec. "Creating support documents".
+
+
+@article{Yang2015Sep,
+	author = {Yang, Yi and Yih, Wen-tau and Meek, Christopher},
+	title = {{WikiQA: A Challenge Dataset for Open-Domain Question Answering}},
+	journal = {ACL Anthology},
+	pages = {2013--2018},
+	year = {2015},
+	month = sep,
+	doi = {10.18653/v1/D15-1237}
+}
+  - 
+
  
 # Список для чтения по RAG
 
