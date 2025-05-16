@@ -8759,6 +8759,35 @@ use of either the focal loss, or the sparse adjacency matrix.
   - 3) The passage re-ranking task is an information retrieval (IR) challenge. Given a question and a set of 1000 retrieved passages using BM25, the system must produce a ranking of the said passages based on how likely they are to contain information relevant to answer the question. This task is targeted to provide a large scale dataset for benchmarking emerging neural IR methods.
   - We use accuracy and precision-recall measures for numeric answers and metrics like ROUGE-L (or others) for long textual answers. In addition to improving ML models, the dataset may also prove to be useful for exploring new metrics  e.g., ROUGE-2 and ROUGE-AR.
  
+@article{Liu2023Jul,
+	author = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
+	title = {{Lost in the Middle: How Language Models Use Long Contexts}},
+	journal = {arXiv},
+	year = {2023},
+	month = jul,
+	eprint = {2307.03172},
+	doi = {10.48550/arXiv.2307.03172}
+}
+  - 
+ 
+@article{Zhao2024Oct,
+	author = {Zhao, Qingfei and Wang, Ruobing and Cen, Yukuo and Zha, Daren and Tan, Shicheng and Dong, Yuxiao and Tang, Jie},
+	title = {{LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering}},
+	journal = {arXiv},
+	year = {2024},
+	month = oct,
+	eprint = {2410.18050},
+	doi = {10.48550/arXiv.2410.18050}
+}
+  - We experiment with multi-document QA - this mimics the retrieval-augmented generation setup. We use NaturalQuestions-Open which contains historical Google search queries, coupled with human-annotated answers. We select queries where the annotated long answer is a paragraph. We use passages (chunks of at most 100 tokens) from Wikipedia as documents within our input contexts. For each of the queries, we need a document that contains the answer (we take if from NaturalQuestions annotations) and k − 1 distractor documents that do not contain the answer. To collect k − 1 distractor documents that do not contain the answer, we use a retrieval system fine-tuned on MS-MARCO to retrieve the Wikipedia chunks that are most relevant to the query, but do not contain any of the NaturalQuestions-annotated answers. In the input context, the distractor documents are presented in order of decreasing relevance. We measure accuracy, judging whether any of the correct (annotated) answers appear in the predicted output.
+  - We observe a U-shaped performance curve (fig. 1): LM performance is highest when relevant information is placed in the middle of its input context, GPT-3.5-Turbo’s performance on the multi document question task is lower than its performance when predicting without any documents.
+  - Our result is similar to the needle-in-a-haystack experiments of "Efficient long-text understanding with short-text models", but we study more finer-grained changes in the position of relevant information.
+  - We then give a model a collection of JSON-formatted key-value pairs and ask to return the value associated with a specific key (fig. 6). This is similar to the previous works "A little retrieval test for large language models" and "How long can open-source LLMs truly promise on context length?", but we simplify the task by removing as much natural language semantics as possible (using random UUIDs instead). Although some models perform the task perfectly, other models struggle to simply retrieve matching tokens that occur in the middle of their input context and continue to exhibit a U-shaped performance curve.
+  - Query-aware contextualization (placing the query before and after the documents or key-value pairs) enables near-perfect performance on the synthetic key-value task, but minimally changes trends in multi-document QA.
+  - Encoder-decoder models are relatively robust to changes in the position of relevant information within their input context, but only when evaluated on sequences within its training-time sequence length. We observe a U-shaped performance on longer sequences. We hypothesize that encoder-decoder models may make better use of their context windows because of their bidirectional encoder.
+  - Even base LMs (i.e., without instruction fine-tuning) show a U-shaped performance curve.
+  - We perform a case study with retriever-reader models on open-domain QA, retrieving from Wikipedia to answer queries from NaturalQuestions-Open (none or many of the top k documents may actually contain the answer). We find that model performance saturates long before retriever recall saturates (fig. 11), indicating that current models fail to effectively use additional retrieved documents.
+ 
 # Список для чтения по RAG
 
 2016 MS MARCO: A Human Generated MAchine Reading COmprehension Dataset `959
@@ -8789,6 +8818,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2021 Efficient nearest neighbor language models `110
 2021 Joint Passage Ranking for Diverse Multi-Answer Retrieval `44
 2021 The inductive bias of in-context learning: Rethinking pretraining ... `39
+2021 Long Context Question Answering via Supervised Contrastive Learning `27
 2022 Improving language models by retrieving from trillions of tokens `1186
 2022 MTEB: Massive Text Embedding Benchmark `759
 2022 Large Language Models Struggle to Learn Long-Tail Knowledge `522
@@ -8802,6 +8832,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2022 Re2G: Retrieve, Rerank, Generate `135
 2022 TemporalWiki: A Lifelong Benchmark for Training and Evaluating Ever-Evolving Language Models `92
 2022 Rich Knowledge Sources Bring Complex Knowledge Conflicts: Recalibrating Models to Reflect ... `85
+2022 Efficient Long-Text Understanding with Short-Text Models `84
 2022 Nonparametric Masked Language Modeling `72
 2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
 2022 Knowledge graph generation from text `36
@@ -8829,6 +8860,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2023 Retrieval Augmented Generation and Representative Vector Summarization for large ... Medical Education `21
 2023 Long-Context LLMs Meet RAG: Overcoming Challenges for Long Inputs in RAG `18 
 2023 Hybrid hierarchical retrieval for open-domain question answering `12
+2023 Retrieval-Pretrained Transformer: Long-range Language Modeling with Self-retrieval `1
 2024 Lost in the middle: How language models use long contexts `1457
 2024 Ragas: Automated evaluation of retrieval augmented generation `367
 2024 Corrective Retrieval Augmented Generation `144
