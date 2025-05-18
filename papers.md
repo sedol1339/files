@@ -8395,7 +8395,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 }
   - In RAG, the most common method is to use a search engine as a retriever such as New Bing. However, RAG brings not only positive effects to LLMs. There is a significant amount of noise information even fake news. LLMs can be misled by incorrect information contained in the context and also suffer from hallucination. Currently there lacks of comprehensive understanding on how these factors can influence RAG.
   - We create a new RAG Benchmark, namely RGB, in both English and Chinese. To ensure that the internal knowledge of LLMs does not introduce bias, we aggregate the latest news information. We use Search API to fetch relevant documents.
-  - We3 divide the benchmark into 4 testbeds:
+  - We divide the benchmark into 4 testbeds:
   - 1) Noise Robustness. We define noisy documents as those that are relevant to the question but do not contain any information of the answer. For example, the noisy documents related to the question "Who was awarded the 2022 Nobel Prize in Literature" include reports about the 2021 Nobel Prize in Literature. The testbed contains instances with the desired document noise ratio.
   - 2) Negative Rejection. LLM should reject to answer the question when the required knowledge is not present in any retrieved document. The testbed contains only noisy external documents.
   - 3) Information Integration. Instances that can only be answered using multiple documents. "When were the ChatGPT app for iOS and ChatGPT api launched?", - LLMs are expected to provide information of the launch dates for both the ChatGPT iOS app and ChatGPT API.
@@ -8768,7 +8768,14 @@ use of either the focal loss, or the sparse adjacency matrix.
 	eprint = {2307.03172},
 	doi = {10.48550/arXiv.2307.03172}
 }
-  - 
+  - We experiment with multi-document QA - this mimics the retrieval-augmented generation setup. We use NaturalQuestions-Open which contains historical Google search queries, coupled with human-annotated answers. We select queries where the annotated long answer is a paragraph. We use passages (chunks of at most 100 tokens) from Wikipedia as documents within our input contexts. For each of the queries, we need a document that contains the answer (we take if from NaturalQuestions annotations) and k − 1 distractor documents that do not contain the answer. To collect k − 1 distractor documents that do not contain the answer, we use a retrieval system fine-tuned on MS-MARCO to retrieve the Wikipedia chunks that are most relevant to the query, but do not contain any of the NaturalQuestions annotated answers. In the input context, the distractor documents are presented in order of decreasing relevance. We measure accuracy, judging whether any of the correct (annotated) answers appear in the predicted output.
+  - We observe a U-shaped performance curve (fig. 1): LM performance is highest when relevant information is placed in the middle of its input context, GPT-3.5-Turbo’s performance on the multi document question task is lower than its performance when predicting without any documents.
+  - Our result is similar to the needle-in-a-haystack experiments of "Efficient long-text understanding with short-text models", but we study more finer-grained changes in the position of relevant information.
+  - We then give a model a collection of JSON-formatted key-value pairs and ask to return the value associated with a specific key (fig. 6). This is similar to the previous works "A little retrieval test for large language models" and "How long can open-source LLMs truly promise on context length?", but we simplify the task by removing as much natural language semantics as possible (using random UUIDs instead). Although some models perform the task perfectly, other models struggle to simply retrieve matching tokens that occur in the middle of their input context and continue to exhibit a U-shaped performance curve.
+  - Query-aware contextualization (placing the query before and after the documents or key-value pairs) enables near-perfect performance on the synthetic key-value task, but minimally changes trends in multi-document QA.
+  - Encoder-decoder models are relatively robust to changes in the position of relevant information within their input context, but only when evaluated on sequences within its training-time sequence length. We observe a U-shaped performance on longer sequences. We hypothesize that encoder-decoder models may make better use of their context windows because of their bidirectional encoder.
+  - Even base LMs (i.e., without instruction fine-tuning) show a U-shaped performance curve.
+  - We perform a case study with retriever-reader models on open-domain QA, retrieving from Wikipedia to answer queries from NaturalQuestions-Open (none or many of the top k documents may actually contain the answer). We find that model performance saturates long before retriever recall saturates (fig. 11), indicating that current models fail to effectively use additional retrieved documents.
  
 @article{Zhao2024Oct,
 	author = {Zhao, Qingfei and Wang, Ruobing and Cen, Yukuo and Zha, Daren and Tan, Shicheng and Dong, Yuxiao and Tang, Jie},
@@ -8779,14 +8786,64 @@ use of either the focal loss, or the sparse adjacency matrix.
 	eprint = {2410.18050},
 	doi = {10.48550/arXiv.2410.18050}
 }
-  - We experiment with multi-document QA - this mimics the retrieval-augmented generation setup. We use NaturalQuestions-Open which contains historical Google search queries, coupled with human-annotated answers. We select queries where the annotated long answer is a paragraph. We use passages (chunks of at most 100 tokens) from Wikipedia as documents within our input contexts. For each of the queries, we need a document that contains the answer (we take if from NaturalQuestions annotations) and k − 1 distractor documents that do not contain the answer. To collect k − 1 distractor documents that do not contain the answer, we use a retrieval system fine-tuned on MS-MARCO to retrieve the Wikipedia chunks that are most relevant to the query, but do not contain any of the NaturalQuestions-annotated answers. In the input context, the distractor documents are presented in order of decreasing relevance. We measure accuracy, judging whether any of the correct (annotated) answers appear in the predicted output.
-  - We observe a U-shaped performance curve (fig. 1): LM performance is highest when relevant information is placed in the middle of its input context, GPT-3.5-Turbo’s performance on the multi document question task is lower than its performance when predicting without any documents.
-  - Our result is similar to the needle-in-a-haystack experiments of "Efficient long-text understanding with short-text models", but we study more finer-grained changes in the position of relevant information.
-  - We then give a model a collection of JSON-formatted key-value pairs and ask to return the value associated with a specific key (fig. 6). This is similar to the previous works "A little retrieval test for large language models" and "How long can open-source LLMs truly promise on context length?", but we simplify the task by removing as much natural language semantics as possible (using random UUIDs instead). Although some models perform the task perfectly, other models struggle to simply retrieve matching tokens that occur in the middle of their input context and continue to exhibit a U-shaped performance curve.
-  - Query-aware contextualization (placing the query before and after the documents or key-value pairs) enables near-perfect performance on the synthetic key-value task, but minimally changes trends in multi-document QA.
-  - Encoder-decoder models are relatively robust to changes in the position of relevant information within their input context, but only when evaluated on sequences within its training-time sequence length. We observe a U-shaped performance on longer sequences. We hypothesize that encoder-decoder models may make better use of their context windows because of their bidirectional encoder.
-  - Even base LMs (i.e., without instruction fine-tuning) show a U-shaped performance curve.
-  - We perform a case study with retriever-reader models on open-domain QA, retrieving from Wikipedia to answer queries from NaturalQuestions-Open (none or many of the top k documents may actually contain the answer). We find that model performance saturates long before retriever recall saturates (fig. 11), indicating that current models fail to effectively use additional retrieved documents.
+  - Long-context LLMs frequently encounter the "lost in the middle" issue (see "Lost in the middle: How language models use long contexts"). RAG offers an alternative approach, but this remains insufficient for the long context QA task due to two major limitations:
+  - 1) Chunking disrupts the contextual structure and background information in long documents (global information). Some chunks may contain incomplete information.
+  - 2) In long-context QA with low evidence density, the complete evidence supporting answers is usually scattered across multiple locations. Noise present in long-context documents results in the retrieval of low-quality chunks.
+  - Existing works to solve these issues:
+  - 1) Self-RAG employs self-reflection tokens to facilitate the autonomous exploration of global information in a corpus. However, this may result in the potential deletion of valid retrieval chunks with factual details.
+  - 2) CRAG evaluates the question relevance of each chunk individually, but will fail when valid details span multiple chunks.
+  - We design a pipeline to automatically generate high-quality fine-tuning instruction data (for SFT) from any specific domain. We start with the training sets such as HotpotQA, containing questions, answers and supporting paragraphs. We discard any QA pairs with insufficient context length. Then, we keep all supporting paragraphs of questions and randomly retain a subset of distracting paragraphs. Now each sample consists of a question, an answer, supporting paragraphs and distracting paragraphs. Using zero-shot teacher LLM prompt, we extract the information X needed to answer a question from the supporting paragraphs (table 16, step 1). If the LLM answer is too short, we discard it. Then we validate X by another to the teadher LLM (table 16, step 2). Finally, we form samples where the input is all supporting paragraphs and distracting paragraphs, and the output is the X. We also prepare CoT data, where the teacher LLM should output a thought process (table 17).
+  - Using the pipeline and the training sets of HotpotQA, 2WikiMultiHopQA, MusiQue and QASPER, we craft LRGinstruction, a small but high-quality instruction following dataset, via ChatGLM3-32B-128k as teacher LLM.
+  - We propose LongRAG to mine global long-context information and identify factual details. It consists of 4 components (fig. 2):
+  - 1) A retriever that recalls k chunks. Inspired by Re2G, we utilize a dual-encoder E5-large for rapid retrieval at a coarse-grained level, and a cross-encoder mMiniLM for further retrieval at a fine-grained level.
+  - 2) An LLM-augmented information extractor. We map the short-form chunks back to their source long-context paragraphs. The LLM-augmented information extractor accepts these paragraphs (and was trained on LRGinstruction?)
+  - 3) A CoT-guided filter. It is not always the case that retrieved chunks will assist in answering questions, particularly in multi-hop questions that involve complex reasoning chains and long-context paragraphs with low evidence density. Our CoT-guided filter is a two-stage strategy. First, we ask LLM to generate CoT given the retrieved context. Then we ask LLM to tell if each chunk is useful, given the CoT. (?) Thus we obtain as a set of chunks containing factual details information.
+  - 4) An LLM-augmented generator that accepts information both from pts 2 and 3.
+  - On three multihop datasets from LongBench, LongRAG significantly surpasses long-context LLM (up by 7%), mainstream advanced RAG (up by 6%), and Vanilla RAG (up by 17%).
+  - We implement a novel automated fine-tuning data construction pipeline and a multi-task training strategy with multi-length long-context data.
+  - TODO read papers from the related work sec.
+ 
+@article{Bai2023Aug,
+	author = {Bai, Yushi and Lv, Xin and Zhang, Jiajie and Lyu, Hongchang and Tang, Jiankai and Huang, Zhidian and Du, Zhengxiao and Liu, Xiao and Zeng, Aohan and Hou, Lei and Dong, Yuxiao and Tang, Jie and Li, Juanzi},
+	title = {{LongBench: A Bilingual, Multitask Benchmark for Long Context Understanding}},
+	journal = {arXiv},
+	year = {2023},
+	month = aug,
+	eprint = {2308.14508},
+	doi = {10.48550/arXiv.2308.14508}
+}
+
+@article{Trivedi2021Aug,
+	author = {Trivedi, Harsh and Balasubramanian, Niranjan and Khot, Tushar and Sabharwal, Ashish},
+	title = {{MuSiQue: Multihop Questions via Single-hop Question Composition}},
+	journal = {arXiv},
+	year = {2021},
+	month = aug,
+	eprint = {2108.00573},
+	doi = {10.48550/arXiv.2108.00573}
+}
+
+@article{Asai2023Oct,
+	author = {Asai, Akari and Wu, Zeqiu and Wang, Yizhong and Sil, Avirup and Hajishirzi, Hannaneh},
+	title = {{Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection}},
+	journal = {arXiv},
+	year = {2023},
+	month = oct,
+	eprint = {2310.11511},
+	doi = {10.48550/arXiv.2310.11511}
+}
+
+@article{Yan2024Jan,
+	author = {Yan, Shi-Qi and Gu, Jia-Chen and Zhu, Yun and Ling, Zhen-Hua},
+	title = {{Corrective Retrieval Augmented Generation}},
+	journal = {arXiv},
+	year = {2024},
+	month = jan,
+	eprint = {2401.15884},
+	doi = {10.48550/arXiv.2401.15884}
+}
+
+
  
 # Список для чтения по RAG
 
@@ -8851,6 +8908,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2023 Enhancing knowledge graph construction using large language models `85
 2023 Exploring large language models for knowledge graph completion `79
 2023 Graph-toolformer: To empower llms with graph reasoning ability via prompt augmented by chatgpt `79
+2023 A survey on long text modeling with transformers `65
 2023 Retrieval-Generation Synergy Augmented Large Language Models `64
 2023 Dense X Retrieval: What Retrieval Granularity Should We Use? `62
 2023 Shall We Pretrain Autoregressive Language Models with Retrieval? A Comprehensive Study `60
