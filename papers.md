@@ -8578,17 +8578,75 @@ use of either the focal loss, or the sparse adjacency matrix.
 	doi = {10.48550/arXiv.2407.01102}
 }
   - We present examples of experimental setups (Table 1) highlighting the current chaotic state of RAG evaluation that does not allow a systematic comparison across methods or components in the pipeline. New RAG approaches are usually characterized by fragmented and often suboptimal experimental setups, e.g. using outdated retrievers, unreliable metrics or not employing reranking which is a critical aspect for retrieval quality. Alsol, the impact of the retrieval quality as well as its relative impact w.r.t. the size of the LLM remain unclear.
-  - While Wikipedia is the most common external context source, utilizing snapshots with different timestamps causes additional inconsistencies among approaches. Variations in data preprocessing can further complicate comparisons.
+  - We rely on Hydra to handle complex experiment configurations.
+  - While Wikipedia is the most common external context source, utilizing snapshots with different timestamps causes additional inconsistencies among approaches. Variations in data preprocessing can further complicate comparisons. We utilize publicly available KILT Wikipedia dump3 and split articles into non-overlapping chunks of 100 words, and prepend the article title to each chunk, yielding around 24.8𝑀 passages in total. The resulting collection is in the Hugging Face Arrow dataset format to ensure memory-efficient and performant loading. We also make the addition of new datasets straightforward.
   - The importance of the evaluation metrics is even more important in zero-shot RAG settings, where LLM-generated answers are more verbose compared to standard QA short answers, and surface-matching metrics fail to capture whether the answer is correct. This makes new methods hardly comparable.
   - We introduce BERGEN – short for BEnchmark on Retrieval augmented-GENeration - a Python library for easy and reproducible end-to-end RAG experiments. Both RAGGED and FlashRAG frameworks have been developed concurrently with this work and as such are most similar to our framework. However, neither LlamaIndex, DSPy, nor RAGGED offer sufficient flexibility for a research environment and focus on a limited selection of retrievers, datasets, and metrics. Additionally, FlashRAG lacks an in-depth analysis of such components. Furthermore, a reranking functionality is often overlooked and none of the works analyze or highlight enough the importance of retrieval quality.
-  - We conduct a comprehensive study benchmarking state-of-the-art retrievers, rerankers, and LLMs. Our main findings are as follows:
-  - 1) It is important to perform more semantic evaluation, e.g. LLM-based evaluation, beyond commonly used surface-matching metrics (e.g. exact match, F1, Rouge-L, etc).
-  - 2) Retrieval quality matters for RAG response generation, hence the importance of usage of SoTA retrievers and rerankers in RAG. (IMO, does this mean that we need SOTA reranker to compare LLMs?)
-  - 3) Some datasets evaluating general knowledge might not be suitable for RAG in the context of modern LLMs which have acquired most of such knowledge from the Web and Wikipedia.
-  - 4) LLMs of any size can benefit from retrieval.
+  - We support many retrievers such as: BM25, encoder-only models such CoCondenser, RetroMAE , or BGE, decoder-based retrievers like RepLLaMA, or models like BGE-M3 for multilingual scenarios. Since our library builds on top of the HF hub, including any other dense or sparse model is straightforward.
+  - Rerankers contextualize passages w.r.t. queries and thus produce more effective representations. BERGEN supports Cross-Encoders such as MiniLM, DeBERTa-v3, or BGE(-M3).
+  - The most common metrics can be categorized as surface- (lexical matching) and LLM-based metrics. As a simple LLM-based metric, we leverage SOLAR-10.7B Instruct-v1.0 as a zero-shot answer equivalence evaluator. It provides a good compromise between parameter size (efficiency) and effectiveness. Based on an instruction prompt, we ask the model to judge whether a generated response answers a question compared to a reference answer.
+  - To compare metrics, we select four representative datasets with different reference lengths: NQ (short), TruthfulQA and WoW (medium), and ELI5 (long reference labels). We compare all our metrics against GPT-4-as-a-judge and measure correlation averaged over samples (fig. 2). LLMEval is closest to GPT-4. We observe surface-based metrics and BEM failing to evaluate long answer-reference pairs (in reference to GPT-4). Exact Match fails to evaluate zero-shot responses effectively because LLM responses are more verbose than the short references in NQ, making exact matches difficult. We recommend using LLMeval as the most effective non-commercial metric for (zero-shot) RAG evaluation.
   - Among the research community, there is a disparity regarding which datasets to use for evaluating RAG. We focus on QA and select the most popular publicly available datasets for BERGEN. We include Natural Questions (NQ), Trivia QA, HotpotQA, Wizard of Wikipedia (WoW), ELI5, WikiQA, TruthfulQA, PopQA, ASQA, SCIQ, MKQA and XOR-TyDi QA – the last two for multilingual RAG.
-  - TODO from sec. 3
+  - Which datasets are suitable for RAG? We argue that the more performance can be gained by adding retrieval, the more "suitable" the dataset is for RAG evaluation.
+  - We observe that for some datasets (TruthfulQA, ELI5, and WoW) generation performance deteriorates by adding retrieved context to the LLM. This requires further investigation. Some dataset labels are noisy or incomplete and LLMs answers may actually be better, while some questions and tasks may not require external knowledge. Second, most retrieval systems are not trained for very long questions. The evaluation of longer references is also more challenging. Lastly, Wikipedia is often used in the pre-training collection of LLMs. Therefore, the models might have memorized the answers, rendering retrieval obsolete.
+  - On the other hand, ASQA, HotpotQA, NQ, TriviaQA, and PopQA benefit most from retrieval in zero-shot settings.
+  - We find that with increased retrieval quality, LLM performance improves across LLMs by a large margin. Reranking largely boosts results. We also provide passages that directly contain the answer (Oracle passages) as context to the LLM and demonstrate that improving ranking systems could further boost LLM performance for RAG. Reranking has been often overlooked and should be used to have strong baselines for future research. (IMO, does this mean that we need SOTA reranker to compare LLMs?)
+  - Our experiments show no clear relation between model size and performance gain by adding (perfect) retrieval.
+  - We select NQ to study how much performance can be gained by fine-tuning. We fine-tune the LLMs using QLoRa. Smaller LLMs gain more performance with fine-tuning compared to their bigger counterparts. Fine-tuning significantly reduces the performance gap between the smallest (1.1B) and the largest LLM (70B).
+  - BERGEN supports training the LLM end-to-end in different configurations.
  
+@article{Jin2024May,
+	author = {Jin, Jiajie and Zhu, Yutao and Dong, Guanting and Zhang, Yuyao and Yang, Xinyu and Zhang, Chenghao and Zhao, Tong and Yang, Zhao and Dou, Zhicheng and Wen, Ji-Rong},
+	title = {{FlashRAG: A Modular Toolkit for Efficient Retrieval-Augmented Generation Research}},
+	journal = {arXiv},
+	year = {2024},
+	month = may,
+	eprint = {2405.13576},
+	doi = {10.1145/3701716.3715313.}
+}
+  - Existing RAG toolkits such as LangChain and LlamaIndex are typically complex and cumbersome, restricting researchers from tailoring processes to their specific needs.
+  - We introduce FlashRAG, an open-source library to reproduce, benchmark, and innovate within the RAG domain efficiently.
+  - FlashRAG offers a highly modular setup at both the component and pipeline levels, featuring 5 core modules and 16 diverse RAG subcomponents that can be independently integrated or combined into pipelines.
+  - FlashRAG provides 9 standardized RAG processes and auxiliary scripts for tasks such as downloading and chunking Wikipedia for corpus construction, building retrieval indexes, and preparing retrieval results, resulting in an efficient and user-friendly end-to-end RAG framework.
+  - FlashRAG has provided the most comprehensive implementation of existing work, including 16 advanced RAG algorithms.
+  - FlashRAG supports comprehensive multi-modal RAG deployments.
+  - FlashRAG features an intuitive web interface that visualizes the complete RAG pipeline. Users can inspect intermediate results at each step, from retrieval to answer generation, while performing one-click parameter tuning and automatic benchmark evaluation.
+  - FlashRAG comprises three hierarchical modules:
+  - 1. The environment module provides essential resources such as datasets, hyperparameters and evaluation metrics for experiments.
+  - 2. The component module consists of various RAG components.
+  - 3. The pipeline module integrates components.
+  FlashRAG is organized into five main components:
+  - 1. Judger functions as a preliminary component that determines whether a query needs retrieval. We implement a judger based on SKR (see "Self-knowledge guided retrieval augmentation for large language models").
+  - 2. Retriever and a "retrieval cache" feature, allowing for the reuse of retrieval results.
+  - 3. Reranker aims at refining the order of retrieved results to improve retrieval accuracy. Rerankers can be seamlessly integrated with any retriever.
+  - 4. Refiner processes input text to optimize it for generation by reducing token usage and noise.
+  - 5. Generator. We integrate two advanced LLM acceleration libraries, vLLM and FastChat, supporting a wide range of LLMs. Furthermore, we provide the native interface of the Transformers library to enhance robustness.
+  - Following a recent survey on RAG, we identify four primary types of RAG process flows:
+  - 1. Sequential Pipeline: query → retriever → post-retrieval (reranker, refiner) → generator.
+  - 2. Branching Pipeline. Currently, FlashRAG supports two advanced branching methods. The REPLUG pipeline processes each retrieved passage in parallel and combines the generation probabilities from all passages to produce the final answer. The SuRe pipeline generates a candidate answer from each retrieved passage and then ranks all candidate answers.
+  - 3. Conditional Pipeline utilizes a judger. Queries requiring retrieval follow the standard sequential process, while others bypass retrieval and proceed directly to generation.
+  - 4. Loop Pipeline involves complex interactions between retrieval and generation processes: Iterative, Self-Ask, Self-RAG, and FLARE.
+  - We have collected 38 commonly used datasets and standardized into a unified JSONL format, comprising four fields per item: ID, question, golden answer, and metadata. For multiple-choice datasets such as MMLU, an additional "choices" field is provided as options. Some of these datasets, such as WikiAsp and NarrativeQA, have undergone specific adjustments for RAG scenarios to ensure consistency.
+  - The corpus used for retrieval, also known as the knowledge base, is also crucial for preparing experiments. Typically used are the Wikipedia passages and MS MARCO passages. We provide easy-to-use scripts for automatically downloading and pre-processing any required version of Wikipedia. Our toolkit includes the widely used Wikipedia dump from DPR dated December 20, 2018, as a fundamental resource.
+  - Metrics can be categorized into retrieval metrics and generation metrics. FlashRAG supports four metrics including recall@k, precision@k, F1@k, and mean average precision (MAP) to evaluate retrieval quality. To evaluate the quality of generation, FlashRAG supports five metrics: token-level F1 score, exact match, accuracy, BLEU, and ROUGE-L.
+  - In our main experiment, by default, we employ the latest LLaMA-3-8B-instruct model as the generator and E5-base-v2 as the retriever. We evaluate the performance of all supported RAG methods:
+  - 1. AAR aims at optimizing the retriever.
+  - 2. LongLLMLingua, RECOMP, Selective-Context and Trace focus on refining and compressing the input.
+  - 3. Ret-Robust, Spring and REPLUG aim to enhance the generator and its decoding approaches.
+  - 4. SKR, AdaptiveRAG introduce the judger to decide the necessity of retrieval for a query.
+  - 5. SuRe, SelfRAG, FLARE, Iter-RetGen, RQRAG and ITRG optimize the entire RAG flow, including using multi-round retrieval and generation processes.
+  - Overall, RAG methods significantly outperform the direct generation baseline. Our observations:
+  - 1. Standard RAG, with advanced retrievers and generators, is a strong baseline.
+  - 2. AAR improves retrievers.
+  - 3. All three methods employing refiners exhibit significant improvements, particularly on multi-hop datasets. This is potentially because complex problems result in less accurate passage retrieval, introducing more noise.
+  - 4. Ret-Robust fine-tunes the LLaMA-2-13B model via LoRA, significantly enhancing generator’s capability of understanding retrieved passages and outperforming other training-free approaches.
+  - 5. Adaptive retrieval methods are particularly advantageous for tackling complex problems. On simpler datasets such as NQ and TriviaQA, FLARE and IterRetGen perform comparably to, or slightly below, Standard RAG. In contrast, for more complex datasets requiring multi-step reasoning, such as HotpotQA, these methods demonstrate substantial improvements over the baseline.
+  - The performance gap between using the BM25 and E5 retriever can approach nearly 10%. This gap is likely due to the presence of more noise in the retrieved passages of BM25. Compression methods such as RECOMP show better robustness across various retrievers. This robustness can be further enhanced by fine-tuning the generator: Ret-Robust introduces a generator-specific training strategy that effectively minimizes the impact of irrelevant passages.
+  - Intriguingly, the larger model cannot consistently outperform the smaller one.
+  - The best performance is achieved with ~5 retrieved passages. Both an excessive and insufficient number of passages lead to a significant drop in performance, for both dense and sparse methods. The performance differences among various retrievers tend to diminish when a larger number of passages are used. When only using the top-1 result, the quality of the retriever becomes a more critical factor.
+  - On Wikipedia, we experiment with four different chunk sizes: six sentences, eight sentences, ten sentences, and 100 words, each configuration uses a stride set to half of the chunk size. Additionally, we explore a six-sentence chunk with a full chunk stride (non-overlapping). Optimal performance is typically achieved when each query corresponds to approximately 350-450 words of retrieved results, regardless of the chunk size. This suggests that with larger chunk sizes, a reduced number of passages may be beneficial.
+  - For multimodal RAG, for each question, we retrieve the Top-1 relevant image-text pair and show that multimodal retrieval augmentation effectively supplements MLLMs in the domain of general knowledge reasoning. However, on complex multimodal mathematical reasoning tasks, multimodal retrieval knowledge does not yield performance gains and instead results in noticeable negative effects.
+
 @article{Yang2018Sep,
 	author = {Yang, Zhilin and Qi, Peng and Zhang, Saizheng and Bengio, Yoshua and Cohen, William W. and Salakhutdinov, Ruslan and Manning, Christopher D.},
 	title = {{HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering}},
