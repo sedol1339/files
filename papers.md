@@ -8861,53 +8861,15 @@ use of either the focal loss, or the sparse adjacency matrix.
   - We implement a novel automated fine-tuning data construction pipeline and a multi-task training strategy with multi-length long-context data.
   - TODO read papers from the related work sec.
  
-@article{Bai2023Aug,
-	author = {Bai, Yushi and Lv, Xin and Zhang, Jiajie and Lyu, Hongchang and Tang, Jiankai and Huang, Zhidian and Du, Zhengxiao and Liu, Xiao and Zeng, Aohan and Hou, Lei and Dong, Yuxiao and Tang, Jie and Li, Juanzi},
-	title = {{LongBench: A Bilingual, Multitask Benchmark for Long Context Understanding}},
-	journal = {arXiv},
-	year = {2023},
-	month = aug,
-	eprint = {2308.14508},
-	doi = {10.48550/arXiv.2308.14508}
-}
-
-@article{Trivedi2021Aug,
-	author = {Trivedi, Harsh and Balasubramanian, Niranjan and Khot, Tushar and Sabharwal, Ashish},
-	title = {{MuSiQue: Multihop Questions via Single-hop Question Composition}},
-	journal = {arXiv},
-	year = {2021},
-	month = aug,
-	eprint = {2108.00573},
-	doi = {10.48550/arXiv.2108.00573}
-}
-
-@article{Asai2023Oct,
-	author = {Asai, Akari and Wu, Zeqiu and Wang, Yizhong and Sil, Avirup and Hajishirzi, Hannaneh},
-	title = {{Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection}},
-	journal = {arXiv},
-	year = {2023},
-	month = oct,
-	eprint = {2310.11511},
-	doi = {10.48550/arXiv.2310.11511}
-}
-
-@article{Yan2024Jan,
-	author = {Yan, Shi-Qi and Gu, Jia-Chen and Zhu, Yun and Ling, Zhen-Hua},
-	title = {{Corrective Retrieval Augmented Generation}},
-	journal = {arXiv},
-	year = {2024},
-	month = jan,
-	eprint = {2401.15884},
-	doi = {10.48550/arXiv.2401.15884}
-}
+# Список для чтения по ASR
 
 
  
 # Список для чтения по RAG
 
-2016 MS MARCO: A Human Generated MAchine Reading COmprehension Dataset `959
-2017 Crowdsourcing Multiple Choice Science Questions `452
-2018 HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering `2692
+2016 + MS MARCO: A Human Generated MAchine Reading COmprehension Dataset `959
+2017 + Crowdsourcing Multiple Choice Science Questions `452
+2018 + HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering `2692
 2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
 2019 ! Generalization through Memorization: Nearest Neighbor Language Models `908
 2019 ! ComQA: A Community-sourced Dataset for Complex Factoid Question Answering with Paraphrase Clusters `76
@@ -8927,7 +8889,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2021 Hurdles to Progress in Long-form Question Answering `195
 2021 Simple Entity-Centric Questions Challenge Dense Retrievers `168
 2021 XOR QA: Cross-lingual Open-Retrieval Question Answering `158
-2021 MKQA: A Linguistically Diverse Benchmark for Multilingual Open Domain Question Answering `155
+2021 + MKQA: A Linguistically Diverse Benchmark for Multilingual Open Domain Question Answering `155
 2021 Knowledgeable or Educated Guess? Revisiting Language Models as Knowledge Bases `151
 2021 + QuALITY: Question Answering with Long Input Texts, Yes! `142
 2021 Efficient nearest neighbor language models `110
@@ -8938,10 +8900,10 @@ use of either the focal loss, or the sparse adjacency matrix.
 2022 MTEB: Massive Text Embedding Benchmark `759
 2022 Large Language Models Struggle to Learn Long-Tail Knowledge `522
 2022 Language Models (Mostly) Know What They Know `425
-2022 Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
+2022 + Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
 2022 Generate rather than Retrieve: Large Language Models are Strong Context Generators `319
-2022 Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
-2022 ASQA: Factoid Questions Meet Long-Form Answers `177
+2022 + Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
+2022 + ASQA: Factoid Questions Meet Long-Form Answers `177
 2022 Training language models with memory augmentation `139
 2022 RealTime QA: What's the Answer Right Now? `138
 2022 Re2G: Retrieve, Rerank, Generate `135
@@ -8950,7 +8912,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2022 Efficient Long-Text Understanding with Short-Text Models `84
 2022 Nonparametric Masked Language Modeling `72
 2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
-2022 Knowledge graph generation from text `36
+2022 + Knowledge graph generation from text `36
 2022 You can't pick your neighbors, or can you? When and how to rely on retrieval in the kNN-LM `31
 2023 Retrieval-Augmented Generation for Large Language Models: A Survey `1638
 2023 + In-Context Retrieval-Augmented Language Models `549
@@ -8977,7 +8939,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2023 Long-Context LLMs Meet RAG: Overcoming Challenges for Long Inputs in RAG `18 
 2023 Hybrid hierarchical retrieval for open-domain question answering `12
 2023 Retrieval-Pretrained Transformer: Long-range Language Modeling with Self-retrieval `1
-2024 Lost in the middle: How language models use long contexts `1457
+2024 + Lost in the middle: How language models use long contexts `1457
 2024 Ragas: Automated evaluation of retrieval augmented generation `367
 2024 Corrective Retrieval Augmented Generation `144
 2024 Knowledge graph prompting for multi-document question answering `135
@@ -8988,7 +8950,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2024 RQ-RAG: Learning to Refine Queries for Retrieval Augmented Generation `73
 2024 Multihop-rag: Benchmarking retrieval-augmented generation for multi-hop queries `70
 2024 LongAlign: A Recipe for Long Context Alignment of Large Language Models `44
-2024 FlashRAG: A Modular Toolkit for Efficient Retrieval-Augmented Generation Research `38
+2024 + FlashRAG: A Modular Toolkit for Efficient Retrieval-Augmented Generation Research `38
 2024 LightRAG: Simple and Fast Retrieval-Augmented Generation `29
 2024 Revolutionizing Retrieval-Augmented Generation with Enhanced PDF Structure Recognition `27
 2024 RAGGED: Towards Informed Design of Retrieval Augmented Generation Systems `17
@@ -8998,7 +8960,7 @@ use of either the focal loss, or the sparse adjacency matrix.
 2024 RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems `12
 2024 Long Context Compression with Activation Beacon `12
 2024 Causal graph discovery with retrieval-augmented generation based large language models `12
-2024 LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering `11
+2024 + LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering `11
 2024 Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting `11
 2024 Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation `10
 2024 + BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
