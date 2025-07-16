@@ -3894,23 +3894,23 @@ Li, D., Yang, Y., Song, Y.-Z., & Hospedales, T. (2018). Learning to Generalize: 
     - We then simplify it into the IRMv1, when gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance
     - However, there are many subsequent works that show that IRM not always work as intended
   
-Training data may contain spurious correlations (we do not expect them to hold in the future). he authors assume that the training data is collected into distinct, separate environments, and we want to learn correlations that are stable across training environments. The authors argue that to learn invariances across environments, one need to find a data representation such that the optimal classifier on top of that representation matches for all environments.
-  
-The authors propose an Invariant Risk Minimization (IRM) objective for models consisting of deep feature extractor and shallow classifier (see eq. IRM and definition 3 on page 5). The IRM is an idealistic objective, which is bi-leveled and challenging optimization problem.
-  
-The authors then simplify it into the IRMv1: practical version, when we optimize a feature extractor, and a fixed classifier (or regressor) sits on top of it, and we want this classifier to be optimal in all environments. The gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance. See implementation details in sec. 3.2.
-  
-In the section 3, the authors explain in details how did they come from IRM to IRMv1. For example, if we do not fix the classifier, it will be possible that the classifier's gradient will tend to zero just when we multiply the classifier's weights by a large value, and the deep features by a small value. Thus, IRMv1 objctive will not work in this case (see sec. 3.1.3). If the model is overparametrized, we can choose any W and switch from "classifier matches for all environments" to "classifier is W for all environments", so the optimization only happens over Phi. This suggests that  w = (1, 0, ..., 0) would be a valid choice for our fixed classifier, as noted in 3.1.4. However, in 3.1.5 the authors use w = (1, 1, ..., 1).
-  
-As an "Example 1", the authors consider the following model: X1 <- N(0, sigma^2); Y <- X1 + N(0, sigma^2); X2 <- Y + N(0, 1). Sigma may vary between environments, so the only robust way to predict is Y_pred = X1. The correlation coefficient between X2 and Y is high when sigma is high, so it also varies between environments and is a spurious correlation, that we don't want to rely on. Also, X2 is not a causal predictor. How can we learn the invariant, causal regression? he authors argue that both ERM and robust learning objective fails here, and robust learning turns out to be equivalent to minimizing a weighted average of environment training errors (proposition 2). However, IRM is successful in this task (see fig. 3 for experiments with synthetic structural models).
-  
-Instead of "classifier optimality" objective in ERM, we could enforce a stronger condition that the joint distribution of Phi(x) (see eq. for IRM, IRMv1) matches for all environments (as in Domain-Adversarial Training). However, the authors argue that the distribution of the true causal features can change across environments, so such techniques matching feature distributions sometimes attempt to enforce the wrong type of invariance. So it is better to learn correlations invariant across training environments, which is what IRM does.
-  
-The authors also discuss the connection from invariance to causality and OOD generalization and develop a generalization theory for IRM (sec. 4) based on the assumption that the data from all the environments share the same underlying Structural Equation Model. The authors promote invariance as the main feature of causation, while not being pioneers in doing so.
-  
-IMO, if deep encoder may detect each environment (if each environment has some distinct properties), then the encoder may incorporate "logic gates" to return different features for each environment. For example, Phi(x)[0] may be already the final prediction, and other elements be constant zero, so that w = (1, 1, ..., 1) is optimal. Also, some elements Phi(x)[i] may contain spurious features for some environments and be constant zero for others, so that w[i] = 1 is optimal. This would be possible if the encoder may differentiate between environments, including the case when some spurious feature is present only in one environment (so this environment may be detected by the presence of this feature). The authors do note that given a flexible Phi, it is possible to write any invariant predictor as 1.0 · Φ, however they say this in the context of the question: how restrictive is linear W? So, the above problem is not discussed by the authors. The authors' experiments also do not cover situations when some spurious feature occurs only in one environment, or, more generally, it is easy for model to differentiate between environments.
-  
-IMO, the another problem is that the authors do not describe how in principle they did early stopping: on train, test, or a separate val environments.
+    Training data may contain spurious correlations (we do not expect them to hold in the future). he authors assume that the training data is collected into distinct, separate environments, and we want to learn correlations that are stable across training environments. The authors argue that to learn invariances across environments, one need to find a data representation such that the optimal classifier on top of that representation matches for all environments.
+    
+    The authors propose an Invariant Risk Minimization (IRM) objective for models consisting of deep feature extractor and shallow classifier (see eq. IRM and definition 3 on page 5). The IRM is an idealistic objective, which is bi-leveled and challenging optimization problem.
+    
+    The authors then simplify it into the IRMv1: practical version, when we optimize a feature extractor, and a fixed classifier (or regressor) sits on top of it, and we want this classifier to be optimal in all environments. The gradient norm penalty is used to measure the optimality of the dummy classifier at each environment, and a regularization coefficient is used to balance predictive power (as in ERM) and the invariance. See implementation details in sec. 3.2.
+    
+    In the section 3, the authors explain in details how did they come from IRM to IRMv1. For example, if we do not fix the classifier, it will be possible that the classifier's gradient will tend to zero just when we multiply the classifier's weights by a large value, and the deep features by a small value. Thus, IRMv1 objctive will not work in this case (see sec. 3.1.3). If the model is overparametrized, we can choose any W and switch from "classifier matches for all environments" to "classifier is W for all environments", so the optimization only happens over Phi. This suggests that  w = (1, 0, ..., 0) would be a valid choice for our fixed classifier, as noted in 3.1.4. However, in 3.1.5 the authors use w = (1, 1, ..., 1).
+    
+    As an "Example 1", the authors consider the following model: X1 <- N(0, sigma^2); Y <- X1 + N(0, sigma^2); X2 <- Y + N(0, 1). Sigma may vary between environments, so the only robust way to predict is Y_pred = X1. The correlation coefficient between X2 and Y is high when sigma is high, so it also varies between environments and is a spurious correlation, that we don't want to rely on. Also, X2 is not a causal predictor. How can we learn the invariant, causal regression? he authors argue that both ERM and robust learning objective fails here, and robust learning turns out to be equivalent to minimizing a weighted average of environment training errors (proposition 2). However, IRM is successful in this task (see fig. 3 for experiments with synthetic structural models).
+    
+    Instead of "classifier optimality" objective in ERM, we could enforce a stronger condition that the joint distribution of Phi(x) (see eq. for IRM, IRMv1) matches for all environments (as in Domain-Adversarial Training). However, the authors argue that the distribution of the true causal features can change across environments, so such techniques matching feature distributions sometimes attempt to enforce the wrong type of invariance. So it is better to learn correlations invariant across training environments, which is what IRM does.
+    
+    The authors also discuss the connection from invariance to causality and OOD generalization and develop a generalization theory for IRM (sec. 4) based on the assumption that the data from all the environments share the same underlying Structural Equation Model. The authors promote invariance as the main feature of causation, while not being pioneers in doing so.
+    
+    IMO, if deep encoder may detect each environment (if each environment has some distinct properties), then the encoder may incorporate "logic gates" to return different features for each environment. For example, Phi(x)[0] may be already the final prediction, and other elements be constant zero, so that w = (1, 1, ..., 1) is optimal. Also, some elements Phi(x)[i] may contain spurious features for some environments and be constant zero for others, so that w[i] = 1 is optimal. This would be possible if the encoder may differentiate between environments, including the case when some spurious feature is present only in one environment (so this environment may be detected by the presence of this feature). The authors do note that given a flexible Phi, it is possible to write any invariant predictor as 1.0 · Φ, however they say this in the context of the question: how restrictive is linear W? So, the above problem is not discussed by the authors. The authors' experiments also do not cover situations when some spurious feature occurs only in one environment, or, more generally, it is easy for model to differentiate between environments.
+    
+    IMO, the another problem is that the authors do not describe how in principle they did early stopping: on train, test, or a separate val environments.
 
 #ood_generalization Sagawa, S., Koh, P. W., Hashimoto, T. B., & Liang, P. (2019). Distributionally Robust Neural Networks for Group Shifts: On the Importance of Regularization for Worst-Case Generalization. arXiv, 1911.08731. Retrieved from https://arxiv.org/abs/1911.08731v2
 
@@ -3937,50 +3937,50 @@ Choe, Y. J., Ham, J., & Park, K. (2020). An Empirical Study of Invariant Risk Mi
     - It includes 7 multi-domain datasets, 9 baseline algorithms, and 3 model selection criteria
     - Carefully designed ERM shows SOTA performance across all datasets
 
-Currently domain generalization methods are evaluated under different datasets and model selection criteria. We aim to compare them in realistic settings. The goal of domain generalization is out-of-distribution generalization: learning a predictor able to perform well at some unseen test domain (we characterize each domain by a dataset containing iid examples). Compared to domain adaptation, in domain generalization even unlabeled data from target domain is not accessible. Domain generalization is the best approximation to real prediction problems.
+    Currently domain generalization methods are evaluated under different datasets and model selection criteria. We aim to compare them in realistic settings. The goal of domain generalization is out-of-distribution generalization: learning a predictor able to perform well at some unseen test domain (we characterize each domain by a dataset containing iid examples). Compared to domain adaptation, in domain generalization even unlabeled data from target domain is not accessible. Domain generalization is the best approximation to real prediction problems.
 
-Because we lack access to a validation set identically distributed to the test data, model/hyperparameters selection in domain generalization is not as straightforward as in supervised learning. It is not a part of experimental design, but a learning problem at least as hard as fitting the model. Therefore, a domain generalization algorithm without a strategy to choose its hyperparameters remains incomplete.
+    Because we lack access to a validation set identically distributed to the test data, model/hyperparameters selection in domain generalization is not as straightforward as in supervised learning. It is not a part of experimental design, but a learning problem at least as hard as fitting the model. Therefore, a domain generalization algorithm without a strategy to choose its hyperparameters remains incomplete.
 
-We propose a DomainBed framework for reproducible experimentation in domain generalization. It contains 7 multi-domain datasets, 9 baseline algorithms (with hyperparameter search spaces for all algorithms), and 3 model selection criteria:
+    We propose a DomainBed framework for reproducible experimentation in domain generalization. It contains 7 multi-domain datasets, 9 baseline algorithms (with hyperparameter search spaces for all algorithms), and 3 model selection criteria:
 
-1. Training-domain validation set (random train-val split of training domains)
-2. Leave-one-domain-out cross-validation (each time holding one of the training domains for validation)
-3. Test-domain validation set (oracle).
+    1. Training-domain validation set (random train-val split of training domains)
+    2. Leave-one-domain-out cross-validation (each time holding one of the training domains for validation)
+    3. Test-domain validation set (oracle).
 
-The latter means that we actually can evaluate **incomplete** algorithms by considering an oracle model selection method, where we select hyperparameters on the test domain, but researchers should disclaim any oracle-selection results as such and specify policies to limit access to the test domain, otherwise we could just train on such test domain data using supervised learning. We propose to allow 20 queries per algorithm, one query per choice of hyperparameters in our random search. This means that we do not allow early stopping based on the validation set. Recall
-that we do not consider this a valid benchmarking methodology. Oracle-selection results can be either optimistic, because we access the test distribution, or pessimistic, because the query limit reduces the number of considered hyperparameter combinations. As an alternative to limiting the number of queries, we could borrow tools from differential privacy tools that add Laplace noise to the accuracy statistic of the algorithm.
+    The latter means that we actually can evaluate **incomplete** algorithms by considering an oracle model selection method, where we select hyperparameters on the test domain, but researchers should disclaim any oracle-selection results as such and specify policies to limit access to the test domain, otherwise we could just train on such test domain data using supervised learning. We propose to allow 20 queries per algorithm, one query per choice of hyperparameters in our random search. This means that we do not allow early stopping based on the validation set. Recall
+    that we do not consider this a valid benchmarking methodology. Oracle-selection results can be either optimistic, because we access the test distribution, or pessimistic, because the query limit reduces the number of considered hyperparameter combinations. As an alternative to limiting the number of queries, we could borrow tools from differential privacy tools that add Laplace noise to the accuracy statistic of the algorithm.
 
-The datasets in DomainBed differ in many ways. In Rotated MNIST and Colored MNIST, domains are synthetically constructed such that we know what features will generalize a priori, so using too much prior knowledge (e.g. by augmenting with rotations) is off-limits. Also, in datasets other than Colored MNIST, the domain changes the distribution of images, but likely bears no information about the true image-to-label mapping. On the other hand, in Colored MNIST, the domain influences the true image-to-label mapping, biasing algorithms that try to estimate this function directly.
+    The datasets in DomainBed differ in many ways. In Rotated MNIST and Colored MNIST, domains are synthetically constructed such that we know what features will generalize a priori, so using too much prior knowledge (e.g. by augmenting with rotations) is off-limits. Also, in datasets other than Colored MNIST, the domain changes the distribution of images, but likely bears no information about the true image-to-label mapping. On the other hand, in Colored MNIST, the domain influences the true image-to-label mapping, biasing algorithms that try to estimate this function directly.
 
-The initial release of DOMAINBED includes implementations of the following algorithms:
+    The initial release of DOMAINBED includes implementations of the following algorithms:
 
-1. Empirical Risk Minimization (ERM) minimizes the sum of errors across domains and examples
-2. Group Distributionally Robust Optimization (DRO) performs ERM while increasing the importance of domains with larger errors
-3. Inter-domain Mixup performs ERM on linear interpolations of examples from random pairs of domains and their labels
-4. Meta-Learning for Domain Generalization (MLDG) leverages MAML to meta-learn how to generalize across domains
-5. Domain-Adversarial Neural Networks (DANN) employ an adversarial network to match feature distributions
-6. Class-conditional DANN (C-DANN) is a variant of DANN matching the conditional distributions p(X|y) across domains, for all labels y
-7. CORAL matches the mean and covariance of feature distributions
-8. MMD matches the maximum mean discrepancy of feature distributions
-9. Invariant Risk Minimization (IRM) learns a feature representation such that the optimal linear classifier on top of that representation matches across domains
+    1. Empirical Risk Minimization (ERM) minimizes the sum of errors across domains and examples
+    2. Group Distributionally Robust Optimization (DRO) performs ERM while increasing the importance of domains with larger errors
+    3. Inter-domain Mixup performs ERM on linear interpolations of examples from random pairs of domains and their labels
+    4. Meta-Learning for Domain Generalization (MLDG) leverages MAML to meta-learn how to generalize across domains
+    5. Domain-Adversarial Neural Networks (DANN) employ an adversarial network to match feature distributions
+    6. Class-conditional DANN (C-DANN) is a variant of DANN matching the conditional distributions p(X|y) across domains, for all labels y
+    7. CORAL matches the mean and covariance of feature distributions
+    8. MMD matches the maximum mean discrepancy of feature distributions
+    9. Invariant Risk Minimization (IRM) learns a feature representation such that the optimal linear classifier on top of that representation matches across domains
 
-Our implementation choices:
+    Our implementation choices:
 
-1. We opt to finetune large ResNet-50 models for all datasets except Rotated MNIST and Colored MNIST
-2. In domain generalization augmentations can approximate some of the variations between domains. So, for MNIST datasets, we use no data augmentation. For other datasets we use a standard set of augmentations (see sec. 4.3)
-3. Randomness arising from model selection is often ignored. For instance, does method A outperform method B only because random search for A got lucky? We therefore repeat our entire study three times making every random choice anew: hyperparameters, weight initializations, and dataset splits. Every number we report is a mean over these repetitions.
+    1. We opt to finetune large ResNet-50 models for all datasets except Rotated MNIST and Colored MNIST
+    2. In domain generalization augmentations can approximate some of the variations between domains. So, for MNIST datasets, we use no data augmentation. For other datasets we use a standard set of augmentations (see sec. 4.3)
+    3. Randomness arising from model selection is often ignored. For instance, does method A outperform method B only because random search for A got lucky? We therefore repeat our entire study three times making every random choice anew: hyperparameters, weight initializations, and dataset splits. Every number we report is a mean over these repetitions.
 
-We conclude that ERM (empirical risk minimization) achieves SOTA performance in domain generalization, when equipped with modern NN architectures and data augmentation techniques. Given any model selection criterion, no method improves upon the average performance of ERM in more than one point. Getting substantial domain generalization improvements over ERM on these datasets proved challenging. We suspect this is because a bigger network architecture (ResNet-50), strong data augmentations, careful hyperparameter tuning (and using the full training data to construct our domains in Rotated MNIST). These results suggest standard techniques to improve in-distribution generalization are very effective at improving OOD generalization. Moreover, it was recently shown that strong data augmentation can improve OOD generalization while not impacting in-distribution generalization. We think that if the practitioner is lucky and performs the data augmentations that cancel the spurious correlations varying from domain to domain, then OOD performance should improve.
+    We conclude that ERM (empirical risk minimization) achieves SOTA performance in domain generalization, when equipped with modern NN architectures and data augmentation techniques. Given any model selection criterion, no method improves upon the average performance of ERM in more than one point. Getting substantial domain generalization improvements over ERM on these datasets proved challenging. We suspect this is because a bigger network architecture (ResNet-50), strong data augmentations, careful hyperparameter tuning (and using the full training data to construct our domains in Rotated MNIST). These results suggest standard techniques to improve in-distribution generalization are very effective at improving OOD generalization. Moreover, it was recently shown that strong data augmentation can improve OOD generalization while not impacting in-distribution generalization. We think that if the practitioner is lucky and performs the data augmentations that cancel the spurious correlations varying from domain to domain, then OOD performance should improve.
 
-We also observe that model selection with a training domain validation set outperforms leave-one-domain-out cross-validation across multiple datasets and algorithms. The stronger performance of oracle-selection (+2%) suggests possible headroom for improvement.
+    We also observe that model selection with a training domain validation set outperforms leave-one-domain-out cross-validation across multiple datasets and algorithms. The stronger performance of oracle-selection (+2%) suggests possible headroom for improvement.
 
-Our concerns:
-1. Why do we assume a neural network should be able to classify cartoons, given only photorealistic training data? Is the out-of-distribution performance of modern ERM implementations as good as it gets? Or is it simply as bad as every other alternative? How can we establish upper-bounds on what performance is achievable out-of-distribution via domain generalization techniques?
-2. Some of the datasets do not reflect realistic situations. In reality, if one wanted to classify cartoons, the easiest option would be to collect a small labeled dataset of cartoons. Should we consider more realistic, impactful tasks? Attractive alternatives include medical  imaging in different hospitals and self-driving cars in different cities.
-3. Each algorithm assumes a different (untestable) type of invariance across domains. Therefore, the performance of a domain generalization
-algorithm depends on the problem at hand.
+    Our concerns:
+    1. Why do we assume a neural network should be able to classify cartoons, given only photorealistic training data? Is the out-of-distribution performance of modern ERM implementations as good as it gets? Or is it simply as bad as every other alternative? How can we establish upper-bounds on what performance is achievable out-of-distribution via domain generalization techniques?
+    2. Some of the datasets do not reflect realistic situations. In reality, if one wanted to classify cartoons, the easiest option would be to collect a small labeled dataset of cartoons. Should we consider more realistic, impactful tasks? Attractive alternatives include medical  imaging in different hospitals and self-driving cars in different cities.
+    3. Each algorithm assumes a different (untestable) type of invariance across domains. Therefore, the performance of a domain generalization
+    algorithm depends on the problem at hand.
 
-IMO, in this work there is no discussions about pre-training. It is known that pre-trained models have wide range of abilities, and fine-tuning may reduce OOD robustness. So, all results may differ for different amount of pre-training.
+    IMO, in this work there is no discussions about pre-training. It is known that pre-trained models have wide range of abilities, and fine-tuning may reduce OOD robustness. So, all results may differ for different amount of pre-training.
 
 Krueger, D., Caballero, E., Jacobsen, J.-H., Zhang, A., Binas, J., Zhang, D., ...Courville, A. (2020). Out-of-Distribution Generalization via Risk Extrapolation (REx). arXiv, 2003.00688. Retrieved from https://arxiv.org/abs/2003.00688v5
 
@@ -5867,27 +5867,7 @@ Kalai, A. T., & Vempala, S. S. (2023). Calibrated Language Models Must Hallucina
     
     The authors note that they only study one statistical source of hallucination, while there are many other types of hallucination and reasons LMs may hallucinate beyond pure statistics.
 
-PR/ROC заметки
-
-    1) TPR = recall = sensitivity = true positive / all really positive
-        доля отобранных позитивных примеров среди всех позитивных примеров
-        монотонно растет от 0 до 1 с ослаблением порога отбора
-        не завсисит от баланса классов
-    2) 1 - FPR = reversed recall = specifity = true negative / all really negative
-        доля отобранных как негативные примеров среди всех негативных примеров
-        монотонно растет от 0 до 1 с ослаблением порога отбора
-        не завсисит от баланса классов
-    3) Precision = true positive / all predicted as positive
-        доля отобранных позитивных примеров среди всех отобранных примеров
-        завсисит от баланса классов
-    4) Accuracy = truly predicted / all
-        завсисит от баланса классов
-        
-    ROC (TPR, FPR) измеряет качество ранжирования в том плане, насколько сильно отличаются распределения для really positive и really negative.
-
-    PR (recision, recall) измеряет насколько часто мы будем ошибаться. Даже если распределения отличаются сильно, но really negative класса в 100 раз больше, то мы все равно будем часто ошибаться.
-
-**Face verification**
+## Face verification
 
 Wang, X., Peng, J., Zhang, S., Chen, B., Wang, Y., & Guo, Y. (2022). A Survey of Face Recognition. arXiv, 2212.13038. Retrieved from https://arxiv.org/abs/2212.13038v1
 
@@ -5909,7 +5889,7 @@ Wang, Z., Wang, Z., Yu, Z., Deng, W., Li, J., Gao, T., & Wang, Z. (2022). Domain
 	- We propose shuffled style assembly network (SSAN) for FAS (fig. 2). The feature generator is a shallow embedding network that captures multi-scale low-level information. We adopt adversarial learning to make generated content features indistinguishable for different domains.
 	- IMO: very complex architecture, not fully understood, requires detailed reading
 	
-**Extractive summarization and input sequence coverage**
+## Extractive summarization and input sequence coverage
 
 Vinyals, O., Fortunato, M., & Jaitly, N. (2015). Pointer Networks. Advances in Neural Information Processing Systems, 28. Retrieved from https://proceedings.neurips.cc/paper_files/paper/2015/hash/29921001f2f04bd3baee84a12e98098f-Abstract.html
 
@@ -5928,7 +5908,7 @@ See, A., Liu, P. J., & Manning, C. D. (2017). Get To The Point: Summarization wi
 	- 1) We use a hybrid pointer-generator network that can copy words from the source text via pointing (see "Pointer networks"), which aids accurate reproduction of information, while retaining the ability to produce novel words (fig. 3). For each decoder timestep a generation probability p_gen ∈ [0, 1] is calculated, which weights the probability of generating words from the vocabulary, versus copying words from the source text. This can be viewed as a balance between extractive and abstractive summarization approaches.
 	- 2) We propose a novel variant of the coverage vector from NMT (see "Modeling coverage for neural machine translation"), which we use to track and control coverage of the source document for eliminating repetition.
 	
-**Phonetic level in TTS and ASR**
+## Phonetic level in TTS and ASR
 
 Bengio, Y., De Mori, R., Flammia, G., & Kompe, R. (1992). Global optimization of a neural network-hidden Markov model hybrid. IEEE Trans. Neural Networks, 3(2), 252–259. doi: 10.1109/72.125866
 
@@ -6632,7 +6612,7 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - Since our network is deep, we hypothesize that the timing information (from positional embeddings) may get lost during the propagation through the layers. To address this, we add a learned positional embedding to the input sequence before each transformer layer (different for each layer). We are able to safely use learnable positional embeddings for our task, as we don’t require the model to generalize to longer contexts thanthose seen during training.
 
 
-  @article{Choromanski2020Sep,
+@article{Choromanski2020Sep,
   author = {Choromanski, Krzysztof and Likhosherstov, Valerii and Dohan, David and Song, Xingyou and Gane, Andreea and Sarlos, Tamas and Hawkins, Peter and Davis, Jared and Mohiuddin, Afroz and Kaiser, Lukasz and Belanger, David and Colwell, Lucy and Weller, Adrian},
   title = {{Rethinking Attention with Performers}},
   journal = {arXiv},
@@ -8357,8 +8337,7 @@ McDermott, E. (2018). A Deep Generative Acoustic Model for Compositional Automat
   - The entire system is end-to-end trainable, where the node and edge generation are optimized jointly.
   - In the first stage, LM translate textual input to a sequence of nodes, separated with special tokens: 〈PAD〉 NODE1 〈NODE_SEP〉 NODE2 · · · 〈/S〉. In addition to node generation, this module supplies node features. To obtain features, we greedy-decode the generated string and utilize the separation tokens 〈NODE_SEP〉 to delineate the node boundaries and mean-pool the hidden states of the decoder’s last layer.
   - Since the graph nodes are permutation invariant, we also experiment with the second architecture ("Query Nodes"), inspired by DETR. We also disable causal masking, to ensure that the Transformer is able to attend to all the queries simultaneously. However, this did not perform better during preliminary evaluations.
-  - The node features are then used for the edge generation. Edges can be either generated by a GRU decoding head or selected by a classification head. We also addressed the problem of skewed edge distribution: we proposed to
-use of either the focal loss, or the sparse adjacency matrix.
+  - The node features are then used for the edge generation. Edges can be either generated by a GRU decoding head or selected by a classification head. We also addressed the problem of skewed edge distribution: we proposed to use of either the focal loss, or the sparse adjacency matrix.
   - Grapher matched state-of-the-art performance on smaller WebNLG dataset. For scoring the generated graph, we used the evaluation scripts from WebNLG 2020 Challenge, which computes the Precision, Recall, and F1 scores for the output triples against the ground truth. Also, the metrics based on Named Entity Evaluation were used.
 
 @article{Ram2023Jan,
@@ -8489,8 +8468,7 @@ use of either the focal loss, or the sparse adjacency matrix.
   - Retrieval-augmented language models (RALMs) are useful since even long-context models tend to underutilize long-range context and see diminishing performance as context length increases, as shown in "Lost in the middle: How language models use long contexts" and "Do long-range language models actually use long-range context?". Retrieval methods have transitioned from traditional term-based techniques like TF-IDF and BM25 to DL–based strategies.
   - Existing methods retrieve only a few chunks, which limits their ability to leverage large-scale discourse structure. This is particularly relevant for thematic questions that require integrating knowledge from multiple parts of a text. Consider the fairy tale of Cinderella, and the question "How did Cinderella reach her happy ending?" The top-k retrieved short contiguous texts will not contain enough context to answer the question.
   - We propose a system called RAPTOR. Construction of the RAPTOR tree begins with segmenting the retrieval corpus into short, contiguous texts of length 100. If a sentence exceeds the 100-token limit, we move the entire sentence to the next chunk. These texts are then embedded using SBERT. Then, to group similar text chunks, we employ a clustering algorithm. Once clustered, a LM is used to summarize the grouped texts. These summarized texts are then re-embedded, and the cycle of embedding, clustering, and summarization continues until further clustering becomes infeasible.
-  - For querying within this tree, we introduce two distinct strategies. 1) The tree traversal method traverses the tree layer-by-layer, pruning and selecting the most relevant nodes at each level. 2) The collapsed tree method evaluates nodes collectively across all layers to find the most relevant ones. We observe that the collapsed tree approach gives greater flexibility and superior performance on the subset of the QASPER dataset. We use the collapsed tree with
-2000 maximum tokens, which approximately equates to retrieving the top-20 nodes.
+  - For querying within this tree, we introduce two distinct strategies. 1) The tree traversal method traverses the tree layer-by-layer, pruning and selecting the most relevant nodes at each level. 2) The collapsed tree method evaluates nodes collectively across all layers to find the most relevant ones. We observe that the collapsed tree approach gives greater flexibility and superior performance on the subset of the QASPER dataset. We use the collapsed tree with 2000 maximum tokens, which approximately equates to retrieving the top-20 nodes.
   - One of the unique aspects of our clustering approach is the use of soft clustering, where nodes can belong to multiple clusters without requiring a fixed number of clusters. This flexibility is essential because individual text segments often contain information relevant to various topics, thereby warranting their inclusion in multiple summaries. Our clustering algorithm is based on Gaussian Mixture Models (GMMs) that assume that data points are generated from a mixture of several Gaussian distributions (our empirical observations suggest that it offers an effective model for our purpose). Distance metrics may behave poorly when used to measure similarity in high-dimensional spaces, so we employ UMAP for dimensionality reduction. Our algorithm varies n neighbors to create a hierarchical clustering structure: it first identifies global clusters and then performs local clustering within these global clusters. To determine the optimal number of clusters, we employ the Bayesian Information Criterion (BIC). With the optimal number of clusters determined by BIC, the Expectation-Maximization algorithm is then used to estimate the GMM parameters, namely the means, covariances, and mixture weights.
   - About 4% of the summaries contained minor hallucinations. These did not propagate to parent nodes and had no discernible impact on question-answering tasks.
   - We measure RAPTOR’s performance across three question-answering datasets: NarrativeQA, QASPER, and QuALITY.
@@ -8860,111 +8838,4 @@ use of either the focal loss, or the sparse adjacency matrix.
   - On three multihop datasets from LongBench, LongRAG significantly surpasses long-context LLM (up by 7%), mainstream advanced RAG (up by 6%), and Vanilla RAG (up by 17%).
   - We implement a novel automated fine-tuning data construction pipeline and a multi-task training strategy with multi-length long-context data.
   - TODO read papers from the related work sec.
- 
-# Список для чтения по ASR
 
-
- 
-# Список для чтения по RAG
-
-2016 + MS MARCO: A Human Generated MAchine Reading COmprehension Dataset `959
-2017 + Crowdsourcing Multiple Choice Science Questions `452
-2018 + HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering `2692
-2019 Latent Retrieval for Weakly Supervised Open Domain Question Answering `1105
-2019 ! Generalization through Memorization: Nearest Neighbor Language Models `908
-2019 ! ComQA: A Community-sourced Dataset for Complex Factoid Question Answering with Paraphrase Clusters `76
-2020 + Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks `6824
-2020 Dense Passage Retrieval for Open-Domain Question Answering `3719
-2020 REALM: Retrieval-Augmented Language Model Pre-Training `2197
-2020 Distilling Knowledge from Reader to Retriever for Question Answering `262
-2020 How Context Affects Language Models' Factual Predictions `256
-2021 + TruthfulQA: Measuring How Models Mimic Human Falsehoods `1694
-2021 Leveraging passage retrieval with generative models for ... `1209
-2021 Beir: A heterogenous benchmark for zero-shot evaluation ... `999
-2021 Unsupervised Dense Information Retrieval with Contrastive Learning `813
-2021 Retrieval Augmentation Reduces Hallucination in Conversation `780
-2021 + Recursively summarizing books with human feedback `292
-2021 + A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers `290
-2021 Entity-Based Knowledge Conflicts in Question Answering `235
-2021 Hurdles to Progress in Long-form Question Answering `195
-2021 Simple Entity-Centric Questions Challenge Dense Retrievers `168
-2021 XOR QA: Cross-lingual Open-Retrieval Question Answering `158
-2021 + MKQA: A Linguistically Diverse Benchmark for Multilingual Open Domain Question Answering `155
-2021 Knowledgeable or Educated Guess? Revisiting Language Models as Knowledge Bases `151
-2021 + QuALITY: Question Answering with Long Input Texts, Yes! `142
-2021 Efficient nearest neighbor language models `110
-2021 Joint Passage Ranking for Diverse Multi-Answer Retrieval `44
-2021 The inductive bias of in-context learning: Rethinking pretraining ... `39
-2021 Long Context Question Answering via Supervised Contrastive Learning `27
-2022 Improving language models by retrieving from trillions of tokens `1186
-2022 MTEB: Massive Text Embedding Benchmark `759
-2022 Large Language Models Struggle to Learn Long-Tail Knowledge `522
-2022 Language Models (Mostly) Know What They Know `425
-2022 + Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions `357
-2022 Generate rather than Retrieve: Large Language Models are Strong Context Generators `319
-2022 + Demonstrate-Search-Predict: Composing retrieval and language models for knowledge-intensive NLP `234
-2022 + ASQA: Factoid Questions Meet Long-Form Answers `177
-2022 Training language models with memory augmentation `139
-2022 RealTime QA: What's the Answer Right Now? `138
-2022 Re2G: Retrieve, Rerank, Generate `135
-2022 TemporalWiki: A Lifelong Benchmark for Training and Evaluating Ever-Evolving Language Models `92
-2022 Rich Knowledge Sources Bring Complex Knowledge Conflicts: Recalibrating Models to Reflect ... `85
-2022 Efficient Long-Text Understanding with Short-Text Models `84
-2022 Nonparametric Masked Language Modeling `72
-2022 Neuro-symbolic language modeling with automaton-augmented retrieval `72
-2022 + Knowledge graph generation from text `36
-2022 You can't pick your neighbors, or can you? When and how to rely on retrieval in the kNN-LM `31
-2023 Retrieval-Augmented Generation for Large Language Models: A Survey `1638
-2023 + In-Context Retrieval-Augmented Language Models `549
-2023 + Benchmarking Large Language Models in Retrieval-Augmented Generation `425
-2023 Atlas: Few-shot learning with retrieval augmented language models `379
-2023 Improving Text Embeddings with Large Language Models `327
-2023 Query Rewriting in Retrieval-Augmented Large Language Models `280
-2023 DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines `244
-2023 Knowledge-augmented language model prompting for zero-shot knowledge graph question answering `202
-2023 Enhancing retrieval-augmented large language models with iterative retrieval-generation synergy `195
-2023 Take a Step Back: Evoking Reasoning via Abstraction in Large Language Models `155
-2023 Lift Yourself Up: Retrieval-augmented Text Generation with Self Memory `101
-2023 Enhancing knowledge graph construction using large language models `85
-2023 Exploring large language models for knowledge graph completion `79
-2023 Graph-toolformer: To empower llms with graph reasoning ability via prompt augmented by chatgpt `79
-2023 A survey on long text modeling with transformers `65
-2023 Retrieval-Generation Synergy Augmented Large Language Models `64
-2023 Dense X Retrieval: What Retrieval Granularity Should We Use? `62
-2023 Shall We Pretrain Autoregressive Language Models with Retrieval? A Comprehensive Study `60
-2023 From query tools to causal architects: Harnessing large language models for advanced causal discovery from data `57
-2023 Tree of clarifications: Answering ambiguous questions with retrieval-augmented large language models `51
-2023 Large Language Model based Long-tail Query Rewriting in Taobao Search `47
-2023 Retrieval Augmented Generation and Representative Vector Summarization for large ... Medical Education `21
-2023 Long-Context LLMs Meet RAG: Overcoming Challenges for Long Inputs in RAG `18 
-2023 Hybrid hierarchical retrieval for open-domain question answering `12
-2023 Retrieval-Pretrained Transformer: Long-range Language Modeling with Self-retrieval `1
-2024 + Lost in the middle: How language models use long contexts `1457
-2024 Ragas: Automated evaluation of retrieval augmented generation `367
-2024 Corrective Retrieval Augmented Generation `144
-2024 Knowledge graph prompting for multi-document question answering `135
-2024 G-retriever: Retrieval-augmented generation for textual graph understanding and question answering `133
-2024 Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity `123
-2024 LLM Maybe LongLM: Self-Extend LLM Context Window Without Tuning `122
-2024 + RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval `120
-2024 RQ-RAG: Learning to Refine Queries for Retrieval Augmented Generation `73
-2024 Multihop-rag: Benchmarking retrieval-augmented generation for multi-hop queries `70
-2024 LongAlign: A Recipe for Long Context Alignment of Large Language Models `44
-2024 + FlashRAG: A Modular Toolkit for Efficient Retrieval-Augmented Generation Research `38
-2024 LightRAG: Simple and Fast Retrieval-Augmented Generation `29
-2024 Revolutionizing Retrieval-Augmented Generation with Enhanced PDF Structure Recognition `27
-2024 RAGGED: Towards Informed Design of Retrieval Augmented Generation Systems `17
-2024 CRAG -- Comprehensive RAG Benchmark `16
-2024 LegalBench-RAG: A Benchmark for Retrieval-Augmented Generation in the Legal Domain `15
-2024 RaFe: Ranking Feedback Improves Query Rewriting for RAG
-2024 RAGBench: Explainable Benchmark for Retrieval-Augmented Generation Systems `12
-2024 Long Context Compression with Activation Beacon `12
-2024 Causal graph discovery with retrieval-augmented generation based large language models `12
-2024 + LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering `11
-2024 Speculative RAG: Enhancing Retrieval Augmented Generation through Drafting `11
-2024 Mix-of-Granularity: Optimize the Chunking Granularity for Retrieval-Augmented Generation `10
-2024 + BERGEN: A Benchmarking Library for Retrieval-Augmented Generation `9
-2024 SciQAG: A Framework for Auto-Generated Science Question Answering Dataset with Fine-grained Evaluation `3
-2025 + Multiple Abstraction Level Retrieve Augment Generation `0
-2025 + Benchmarking Retrieval-Augmented Generation in Multi-Modal Contexts `0
-2025 SuperRAG: Beyond RAG with Layout-Aware Graph Modeling `0
